@@ -1,0 +1,14 @@
+{
+  "id": "849956",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:17.201Z",
+  "title": "Senior Contract Software Engineer - PLM/CAD Integrations",
+  "link": "https://djinni.co/jobs/849956-senior-contract-software-engineer-plm-cad-int/",
+  "description": "<p>Dalus is building a hardware system design platform to make hardware as fast to build as software. We're hiring a senior contract software engineer to build integrations between Dalus and enterprise engineering tools — starting with PLM (Windchill, Teamcenter, 3DEXPERIENCE, Aras) and extending to CAD (NX, Creo, SolidWorks, Onshape, Fusion) and requirements tools (Jama, Polarion, DOORS, via OSLC where possible).</p><p>This is a hands-on integration-engineering role. You'll write the API clients, the sync logic, and handle auth, revisions, and partial failures against locked-down enterprise systems. Engineering discipline comes first; PLM/CAD domain knowledge second.</p><p>This is a fully remote contract role</p><p>What you'll do</p><ul><li>Build and own production integrations between Dalus and PLM/CAD/requirements tools</li><li>Write API clients and sync logic; handle enterprise auth, revisions, effectivity, and partial failures</li><li>Build against mocks first when sandboxes aren't available in customer environments</li></ul><p>Must have</p><ul><li>4+ years shipping production backend services in a team codebase with CI, code review, and tests</li><li>Strong in TypeScript and/or Python; comfortable wrapping Java or C# vendor SDKs at the edge</li><li>At least one real integration built against a PLM or CAD API — you wrote the client, the sync logic, and handled auth, revisions, and partial failures (not just configuration or workflows)</li><li>Understands engineering data: parts vs revisions, EBOM/MBOM, effectivity, change objects, CAD structure vs product structure</li><li>Experience working in locked-down enterprise environments (VPN-only access, customer IT ticket cycles, no sandbox) and a method for building against mocks first</li></ul><p>Strong signals</p><ul><li>Worked at a hardware-tooling or PLM-adjacent company or on a vendor's own integration/platform team rather than a services practice</li><li>Familiar with OSLC, OData, SOAP, SAML/Kerberos enterprise auth</li><li>Public code on GitHub or open-source contributions in this space</li><li>Any exposure to SysML, MBSE, or the SysML v2 API</li></ul><p>Screen-outs</p><ul><li>\"PLM consultants\" whose experience is configuration, workflow setup, or migration projects with no custom code</li><li>Engineers who can only work in Java or C# end to end</li><li>Agency profiles with no individual engineer named</li></ul>",
+  "pubDate": "Wed, 23 Sep 2026 18:32:11 +0300",
+  "guid": "https://djinni.co/jobs/849956-senior-contract-software-engineer-plm-cad-int/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "847351",
+  "url": "https://djinni.co/jobs/847351-senior-full-stack-developer-python-react/",
+  "title": "Senior Full Stack developer (Python/React)",
+  "description": "Project: Fast-growing SaaS startup transforming the professional services industry with AI-powered software that automates complex workflows across documents, search, and matter management.\n\nResponsibilities:\n• Act as an independent technical owner to deliver complex product and infrastructure features from architectural design to deployment\n• Build and optimize AI-powered workflows, including LLM agents, document processing, and tool calling\n• Design robust backend systems, APIs, data flows, queues, and third-party integrations\n• Debug and resolve complex production issues across the full stack using traces and logs\n• Utilize AI coding tools (Claude Code, Cursor, Codex) as a daily force multiplier to accelerate development velocity\n\nRequirements:\n• 7+ years of professional software engineering experience\n• Strong proficiency in Python with FastAPI (or similar frameworks) and TypeScript with React\n• Advanced SQL expertise and schema design, preferably with PostgreSQL\n• Solid experience with cloud infrastructure (Azure, AWS, or GCP), Docker, and CI/CD pipelines\n• Deep architectural skills for designing highly reliable async systems, APIs, workers, and queues\n• Hands-on technical experience operating production LLM features, agents, prompt workflows, and RAG/search systems\n• Practical experience with observability, metrics, and tracing tools (Datadog, PostHog, Langfuse, OpenTelemetry)\n• Proven track record of autonomous, end-to-end delivery of production-ready systems\n\nFull-time. 6-8 months, start in 2-3 weeks",
+  "publishedAt": "2026-09-08T16:00:36.000Z",
+  "fetchedAt": "2026-10-02T12:34:26.714Z",
+  "query": "Fullstack"
+}

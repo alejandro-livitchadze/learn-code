@@ -1,0 +1,14 @@
+{
+  "id": "849078",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:07.695Z",
+  "title": "Full-Stack Developer (PostgreSQL, інтеграції, n8n)",
+  "link": "https://djinni.co/jobs/849078-full-stack-developer-postgresql-integratsiyi-/",
+  "description": "<p>Шукаємо Full-Stack Developer (PostgreSQL, інтеграції, n8n), який/яка побудує та&nbsp;підтримуватиме централізовану інфраструктуру даних і&nbsp;автоматизацій компанії.</p><p>Основний фокус&nbsp;— <strong>PostgreSQL, n8n, REST API&nbsp;та власна backend-логіка</strong>. Нам потрібен інженерний підхід: не&nbsp;просто збирати workflow з&nbsp;готових блоків, а&nbsp;проєктувати структуру даних, писати код, розуміти роботу API&nbsp;та забезпечувати надійність рішень.</p><p><strong>Що&nbsp;потрібно робити</strong></p><ul><li>Проєктувати та&nbsp;розвивати <strong>PostgreSQL</strong>: структуру&nbsp;БД, зв’язки, індекси, права доступу, міграції.</li><li>Переносити дані з&nbsp;Airtable та&nbsp;інших сервісів у&nbsp;централізовану БД.</li><li>Розробляти та&nbsp;підтримувати автоматизації в&nbsp;<strong>n8n</strong>, включно з&nbsp;кастомною логікою на&nbsp;JavaScript.</li><li>Будувати інтеграції через <strong>REST API&nbsp;та webhooks</strong>, працювати з&nbsp;авторизацією, пагінацією та&nbsp;rate limits.</li><li>За&nbsp;потреби створювати невеликі backend-сервіси та&nbsp;API&nbsp;на <strong>FastAPI&nbsp;/ Node.js</strong>.</li><li>Забезпечувати обробку помилок, логування, моніторинг та&nbsp;стабільність workflow.</li><li>Документувати рішення та&nbsp;взаємодіяти з&nbsp;внутрішніми замовниками й&nbsp;DevOps.</li></ul><p><strong>Що&nbsp;очікуємо</strong></p><ul><li>Практичний досвід з&nbsp;<strong>PostgreSQL&nbsp;та SQL</strong>.</li><li>Розуміння проєктування реляційних БД.</li><li>Досвід роботи з&nbsp;<strong>REST API&nbsp;та інтеграціями</strong>.</li><li>Знання <strong>JavaScript/TypeScript або Python</strong>.</li><li>Досвід автоматизації бізнес-процесів.</li><li>Розуміння Git, Docker та&nbsp;базових принципів CI/CD.</li><li>Здатність самостійно розбиратися в&nbsp;документації та&nbsp;проєктувати технічні рішення.</li></ul><p><strong>Буде плюсом:</strong> досвід з&nbsp;n8n, FastAPI, Node.js, self-hosted рішеннями, Redis/message queues, monitoring та&nbsp;data migration.</p>",
+  "pubDate": "Fri, 18 Sep 2026 15:55:15 +0300",
+  "guid": "https://djinni.co/jobs/849078-full-stack-developer-postgresql-integratsiyi-/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

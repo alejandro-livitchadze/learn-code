@@ -1,0 +1,14 @@
+{
+  "id": "850518",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:20.443Z",
+  "title": "Senior Full Stack Developer (Python, React)",
+  "link": "https://djinni.co/jobs/850518-senior-full-stack-developer-python-react/",
+  "description": "<p>Duration: Minimum 3 months, open-ended (evolving product)<br>Workload: Full-time<br>Start Date: Target October 15 or earlier</p><p>&nbsp;</p><p><strong>Project:</strong><br>The company specializes in AI model compression and is expanding its own model development capabilities. Its Model Serving platform provides developers and external users with access to AI models through APIs. The public developer portal serves as the main platform where users can manage their usage, access tokens and APIs, and explore technical documentation. The product has grown significantly over the past 7–8 months and has become a high-priority area for the company.</p><p>Experience Level: Senior developer who can work independently across stakeholders and drive features from requirements through to completion.<br>&nbsp;</p><p><strong>Core Responsibilities:</strong></p><p>Take features from concept through implementation and delivery<br>Drive end-to-end feature development with cross-team collaboration (DevOps, MLOps, Finance &amp; Legal, etc.)<br>Implement new features and advanced platform capabilities such as RBAC, analytics, monitoring, etc.<br>Set up metrics and monitoring systems for growth tracking</p><p><br><strong>Required Technical Skills:</strong></p><p>Languages &amp; Frameworks: Python, React, PostgreSQL<br>Third-party Integrations: LogTo (authentication), Stripe (payments), and other external APIs<br>Infrastructure: AWS hosting (with DevOps team support)<br>Full Stack Capability: Both backend and frontend development<br>English: B2+</p><p><br><strong>Client Interview Format:</strong><br>30–45-minute technical discussion focused on understanding the product and mutual fit</p>",
+  "pubDate": "Mon, 28 Sep 2026 14:32:25 +0300",
+  "guid": "https://djinni.co/jobs/850518-senior-full-stack-developer-python-react/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

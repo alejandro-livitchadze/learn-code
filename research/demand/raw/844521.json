@@ -1,0 +1,14 @@
+{
+  "id": "844521",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:20.446Z",
+  "title": "Senior Full-Stack Engineer — Web-to-App",
+  "link": "https://djinni.co/jobs/844521-senior-full-stack-engineer-web-to-app/",
+  "description": "<p><strong>Remote | Full-time | Europe-friendly working hours</strong><br>&nbsp;</p><p>Haven is helping Applause hire a Senior Full-Stack Engineer to lead web-to-app engineering across its portfolio of consumer subscription apps.</p><p>You will own the complete journey from landing page to app subscriber and build reusable infrastructure that can be scaled across multiple products.</p><p>&nbsp;</p><p><strong>Responsibilities</strong></p><ul><li>Build and maintain landing pages, web onboarding, checkout flows, and web-to-app routing.</li><li>Own backend endpoints, server-side events, and integrations with growth and analytics tools.</li><li>Implement and troubleshoot RevenueCat, Superwall, Customer.io, MMP, and GA4 integrations.</li><li>Ensure reliable attribution, event tracking, identity handoff, and subscription data across web and mobile.</li><li>Build reusable components and implementation playbooks for the wider app portfolio.</li><li>Partner with growth, product, mobile engineering, and data on funnel experiments and new launches.</li><li>Diagnose and resolve checkout, tracking, routing, and attribution issues.</li><li>Build lightweight dashboards or internal tools when needed, without owning the data warehouse.</li></ul><p>&nbsp;</p><p><strong>Requirements</strong></p><ul><li>Senior full-stack engineering experience with end-to-end ownership of production systems.</li><li>Strong experience with Next.js or a comparable modern full-stack framework.</li><li>Hands-on experience with backend endpoints, checkout or subscription flows, server-side tracking, and SDK integrations.</li><li>Extensive experience building web-to-app funnels for mobile app growth.</li><li>Working knowledge of RevenueCat, Superwall, Customer.io, MMPs, and GA4.</li><li>Strong understanding of attribution and event flows across web and mobile.</li><li>Ability to work autonomously and translate growth requirements into reliable technical solutions.</li></ul><p>&nbsp;</p><p><strong>Nice to Have</strong></p><ul><li>Consumer subscription app or DTC experience.</li><li>Experience with paid acquisition funnels, experimentation, pricing, or paywall testing.</li><li>Experience supporting multiple products or brands through shared infrastructure.</li><li>Experience building lightweight operational dashboards.</li></ul>",
+  "pubDate": "Fri, 11 Sep 2026 15:25:52 +0300",
+  "guid": "https://djinni.co/jobs/844521-senior-full-stack-engineer-web-to-app/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

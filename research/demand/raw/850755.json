@@ -1,0 +1,14 @@
+{
+  "id": "850755",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:20.442Z",
+  "title": "Senior Full-Stack Engineer",
+  "link": "https://djinni.co/jobs/850755-senior-full-stack-engineer/",
+  "description": "<p>A product team that works in short delivery cycles and relies heavily on AI tooling throughout the development process. We need a senior engineer who is comfortable owning a product area end-to-end and who already works this way day to day — not someone who is curious about it.<br>&nbsp;</p><p><strong>Scope of work</strong><br>• Design and ship complete applications: frontend, backend, data layer, APIs, deployment<br>• Make architectural calls and keep them pragmatic<br>• Set engineering conventions and quality standards for the team<br>• Run code reviews and give technical direction<br>• Build product features on top of LLMs: semantic search, document handling, summarisation, process automation, agent-style flows<br>• Apply AI assistants across your own workflow — writing, debugging, testing, refactoring, documenting<br>• Own authentication, authorisation, API security, data protection, and careful review of AI-generated code<br>• Judge correctly when something is a throwaway prototype and when it must be production-grade<br>• Hand over cleanly to the integration team when work moves to production<br>&nbsp;</p><p><strong>Must have</strong><br>• 5+ years building software commercially<br>• Comparable track record in application architecture, setting team conventions, reviewing code, and running projects independently from start to finish<br>• Solid modern web stack: a major JS framework plus Node or Python, relational and non-relational storage, API design, cloud deployment<br>• Practical experience with modern hosting and backend-as-a-service platforms<br>• Strong grounding in secure development<br>• Active daily use of AI coding assistants — this is central to the role, not a bonus<br>• Recent work samples (last 2–3 months) of products built with AI assistance — links, repos, or demos<br>• Clear judgement on prototype vs production quality<br>&nbsp;</p><p><strong>Nice to have</strong><br>• Background in operations-heavy products<br>• Experience moving AI-assisted prototypes into live systems<br>• Hands-on with LLMs, retrieval pipelines, agents, or automation tooling</p>",
+  "pubDate": "Tue, 29 Sep 2026 15:08:14 +0300",
+  "guid": "https://djinni.co/jobs/850755-senior-full-stack-engineer/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}
