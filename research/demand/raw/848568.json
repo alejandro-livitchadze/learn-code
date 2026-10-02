@@ -1,0 +1,14 @@
+{
+  "id": "848568",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:20.446Z",
+  "title": "Middle Full-Stack Developer (Node.js + Python + React)",
+  "link": "https://djinni.co/jobs/848568-middle-full-stack-developer-node-js-python-re/",
+  "description": "<p>Employment: Remote, full-time<br>Engagement length: Long-term, 12 months<br>Start: Mid-October<br>Time zone: CET (candidate location is flexible — EU, Balkans, Ukraine, CIS, Asia, Africa, Middle East)</p><p>Required:</p><p>Backend:</p><ul><li>Node.js — 5+ years of commercial experience, NestJS, TypeScript in production</li><li>Solid understanding of the event loop, streams, and async patterns in Node</li><li>ORM/query builders: TypeORM, MikroORM, or Knex</li><li>BullMQ or similar task queue (retries, idempotency)</li><li>Python — 3+ years of commercial experience</li><li>Django/DRF: REST API design, ORM, migrations, serializers, permissions</li><li>FastAPI or another async framework in production</li><li>asyncio: async/await, concurrent task orchestration</li><li>Celery or similar for background task processing</li><li>MySQL/PostgreSQL: database design, query optimization, migrations</li><li>Message queues: RabbitMQ, Kafka, or similar</li><li>Redis or similar for caching</li><li>WebSockets, real-time event delivery</li><li>Understanding of microservices architecture</li></ul><p>Frontend:</p><ul><li>React — 1.5+ years of commercial experience</li><li>TypeScript in production</li><li>State management: Redux/RTK/MobX</li><li>Data fetching: RTK-Query</li><li>Custom React Hooks</li><li>SASS/Bootstrap/Tailwind</li><li>Understanding of component composition and reusability</li></ul><p>General:</p><ul><li>Git (branching strategies, merge conflict resolution, code review)</li><li>Testing: Jest, Supertest, React Testing Library</li><li>API documentation: Swagger/OpenAPI</li><li>English B2+</li></ul><p>Nice to have:</p><ul><li>CI/CD (GitHub Actions, GitLab CI, Jenkins)</li><li>Elasticsearch/OpenSearch</li><li>Vector databases (Qdrant, pgvector), embedding/RAG pipelines</li><li>Docker</li><li>AWS/GCP/Azure</li></ul>",
+  "pubDate": "Wed, 16 Sep 2026 10:21:17 +0300",
+  "guid": "https://djinni.co/jobs/848568-middle-full-stack-developer-node-js-python-re/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

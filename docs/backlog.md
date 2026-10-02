@@ -5,7 +5,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
 ## R0. Recovery and migration
-- Status: todo
+- Status: done
 - Depends on: none
 - Paths: everything (orchestrator only, no workers)
 - Done when:
@@ -18,7 +18,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
   7. Open the integration pull request from `develop` into `main`.
 
 ## P1. Scaffold and CI
-- Status: todo
+- Status: done
+- Note: merged via PR #3 (scaffold from lane/platform plus tools/*, research/ ignore, esbuild build allowed); CI green on Node 26.
 - Depends on: R0
 - Paths: root, `.github/**`
 - Epic: E01, task 1
@@ -88,14 +89,16 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output.
 
 ## D1. Scanner: fetch, parse, validate
-- Status: todo
+- Status: done
+- Note: merged via PR #4; code and data from lane/demand, tests and CI green.
 - Depends on: P1
 - Paths: `tools/demand-scanner/**`, `research/demand/**`, root
 - Epic: E05, with the notes below
 - Done when: fetches the Djinni RSS feed for `primary_keyword=Fullstack` and `Node.js` across all `exp_level` values; parses into the `Vacancy` schema; caches raw responses; skips cached vacancies; `pnpm demand validate` implements the schema and literal-occurrence guard; tests pass in CI.
 
 ## D2. Synonyms
-- Status: todo
+- Status: done
+- Note: 354 skills, all categories and required ai ids present; merged via PR #4.
 - Depends on: D1
 - Paths: `tools/demand-scanner/**`
 - Done when: at least 150 canonical skills with categories `language`, `runtime`, `framework`, `database`, `orm`, `api`, `auth`, `testing`, `devops`, `cloud`, `queue`, `ai`, `frontend`, `other`; Ukrainian spellings; the `ai` category includes claude-code, copilot, openai-api, rag, mcp, langchain, langgraph, vector-db, embeddings, ai-agents; AWS and Azure services have their own ids.

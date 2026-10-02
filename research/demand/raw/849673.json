@@ -1,0 +1,14 @@
+{
+  "id": "849673",
+  "query": "Node.js",
+  "fetchedAt": "2026-10-02T12:34:54.991Z",
+  "title": "Senior Backend Engineer — Accounting API Integrations + Infra",
+  "link": "https://djinni.co/jobs/849673-senior-backend-engineer-accounting-api-integr/",
+  "description": "<p>We embed senior engineers inside product teams in Europe and the US. This role is for a Belgian fintech building a business valuation platform used by accountants and auditors.</p><p>&nbsp;</p><p>The work has two halves and they belong to one person:<br>1. Integrations with Benelux accounting systems: Silverfin (REST), Yuki (SOAP), Exact (OAuth2). Three protocols, three auth models, each with its own way of breaking.</p><p><br>2. The infrastructure those integrations live on: pipelines, secrets, retries, monitoring, and the deploys that keep it all running.</p><p>&nbsp;</p><p>You are a fit if<br>— 5+ years backend, strong in at least one of Python, Node.js or .NET<br>— You have built third-party API integrations that went to production and stayed there<br>— Comfortable with SOAP as well as REST, and with OAuth2 flows<br>— You own your own infrastructure: Docker, CI/CD, and either Terraform or Kubernetes in real projects<br>— English C1: you talk to the client directly, not through a manager<br>— You can overlap with Central European hours</p><p>&nbsp;</p><p>Nice to have<br>— Accounting, ERP or fintech domain experience<br>— AWS, Azure or GCP at production scale</p><p>Conditions<br>— Full-time, remote from Ukraine<br>— $4,300–5,000 per month depending on experience<br>— Long-term: the integration layer is the first piece, not the whole scope<br>— You interview with the client before anything is signed, and you meet our CTO first</p>",
+  "pubDate": "Tue, 22 Sep 2026 17:22:09 +0300",
+  "guid": "https://djinni.co/jobs/849673-senior-backend-engineer-accounting-api-integr/",
+  "category": [
+    "Node.js",
+    ""
+  ]
+}

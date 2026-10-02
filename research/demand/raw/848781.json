@@ -1,0 +1,14 @@
+{
+  "id": "848781",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:14.044Z",
+  "title": "Fullstack Next.js + NestJS Developer",
+  "link": "https://djinni.co/jobs/848781-fullstack-next-js-nestjs-developer/",
+  "description": "<p>Шукаємо fullstack-розробника з <strong>просунутим досвідом&nbsp;agentic coding з Claude Code</strong>: від context engineering до оркестрації агентів. Нам важливо не просто користуватися AI, а вміти вибудовувати з агентами повноцінний процес розробки - план, ізольовані ролі, enforcement через hooks, review у CI.</p><p>&nbsp;</p><p><strong>Комерційний досвід з обома фреймворками NestJS та Next.js (App Router + Server Actions) - обов'язковий!</strong></p><p>&nbsp;</p><p>Ключовий досвід</p><ul><li>Context engineering: ієрархія&nbsp;`CLAUDE.md`, path-scoped rules, skills, hooks.</li><li>Субагенти з ролями, ізольованим контекстом і своїм набором tools (developer / reviewer / QA).</li><li>Оркестрація: одна сесія на кілька git-репозиторіїв.</li><li>Роутинг задач між агентами та моделями, зокрема Claude Code → v0 для UI, далі порт у реальний код; MCP (Jira, Figma, shadcn тощо).</li><li>Паралельна робота без конфліктів; agent teams.</li><li>Цикли самоперевірки: тести, браузер, review-агент до мерджу, headless Claude Code в CI.</li></ul><p>&nbsp;</p><p><strong>Стек</strong>:&nbsp;Next.js, NestJS, TypeORM, PostgreSQL, TypeScript.<br>&nbsp;</p><p>Буде плюсом:&nbsp;досвід з GraphQL і multi-tenant, графи коду через MCP, власні MCP під внутрішні системи, великий diff → кілька паралельних review-агентів.</p>",
+  "pubDate": "Sat, 26 Sep 2026 14:27:56 +0300",
+  "guid": "https://djinni.co/jobs/848781-fullstack-next-js-nestjs-developer/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}
