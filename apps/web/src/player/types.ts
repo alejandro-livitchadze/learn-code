@@ -1,13 +1,4 @@
-import type { Step } from '@learn-code/lesson-schema';
-
-export type StepResult =
-  | { readonly status: 'viewed' }
-  | {
-      readonly status: 'answered';
-      readonly correct: boolean;
-      readonly attempts: number;
-      readonly payload: unknown;
-    };
+import type { StepResult } from '@learn-code/widgets';
 
 export interface PlayerState {
   readonly lessonId: string;
@@ -20,12 +11,6 @@ export type PlayerAction =
   | { readonly type: 'next' }
   | { readonly type: 'back' }
   | { readonly type: 'restore'; readonly state: PlayerState };
-
-export interface StepComponentProps<TStep extends Step> {
-  readonly step: TStep;
-  readonly restored: StepResult | undefined;
-  readonly onComplete: (result: StepResult) => void;
-}
 
 export interface ProgressStore {
   load(lessonId: string): Promise<PlayerState | null>;

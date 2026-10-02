@@ -1,13 +1,8 @@
 import { codeToTokens } from 'shiki';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
+import type { HighlightedLines, HighlightMap } from '@learn-code/widgets';
 
-export interface HighlightedToken {
-  readonly content: string;
-  readonly style: Readonly<Record<string, string>>;
-}
-export type HighlightedLines = readonly (readonly HighlightedToken[])[];
-/** Highlighted code by `<stepId>:<field>`. JSON-safe, so it crosses the server/client boundary. */
-export type HighlightMap = Readonly<Record<string, HighlightedLines>>;
+export type { HighlightedLines, HighlightedToken, HighlightMap } from '@learn-code/widgets';
 
 interface Block {
   readonly key: string;

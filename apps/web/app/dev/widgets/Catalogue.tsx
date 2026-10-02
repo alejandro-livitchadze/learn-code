@@ -9,9 +9,8 @@ import {
   StepWidget,
   type HighlightMap,
   type StepResult,
-} from '../../../../../packages/widgets/src';
+} from '@learn-code/widgets';
 import { fixtures, type Fixture } from '../../../../../packages/widgets/src/fixtures';
-import '../../../../../packages/widgets/src/widgets.css';
 
 function Widget({
   fixture,

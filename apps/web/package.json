@@ -17,6 +17,7 @@
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource/caveat": "^5.3.0",
     "@learn-code/lesson-schema": "workspace:*",
+    "@learn-code/widgets": "workspace:*",
     "next": "^15.5.27",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

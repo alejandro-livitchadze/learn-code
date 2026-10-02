@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Step } from '@learn-code/lesson-schema';
 import { gateIndex, initialState, isLessonComplete, reduce, sanitize } from './reducer';
-import type { PlayerState, StepResult } from './types';
+import type { StepResult } from '@learn-code/widgets';
+import type { PlayerState } from './types';
 
 const base = { estSeconds: 10, concepts: [] };
 const steps: readonly Step[] = [

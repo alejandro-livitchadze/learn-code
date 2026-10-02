@@ -4,12 +4,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { isActive, type Lesson } from '@learn-code/lesson-schema';
-import type { HighlightMap } from '../lib/highlight';
+import {
+  HighlightsProvider,
+  StepWidget,
+  type HighlightMap,
+  type StepResult,
+} from '@learn-code/widgets';
 import { ConsoleEventSink } from './events';
 import { LocalStorageProgressStore } from './progress';
 import { initialState, isLessonComplete, reduce } from './reducer';
-import { StepPlaceholder } from './StepPlaceholder';
-import type { PlayerAction, PlayerState, StepResult } from './types';
+import type { PlayerAction, PlayerState } from './types';
 
 interface Props {
   readonly lesson: Lesson;
@@ -153,12 +157,9 @@ export function LessonPlayer({ lesson, highlights }: Props) {
               <h2 ref={headingRef} tabIndex={-1} className="step-title" data-testid="step-heading">
                 Step {state.index + 1} of {steps.length}: {step.kind}
               </h2>
-              <StepPlaceholder
-                step={step}
-                restored={current}
-                onComplete={onComplete}
-                highlights={highlights}
-              />
+              <HighlightsProvider value={highlights}>
+                <StepWidget step={step} restored={current} onComplete={onComplete} />
+              </HighlightsProvider>
             </div>
           ) : (
             <p role="status" className="loading">
