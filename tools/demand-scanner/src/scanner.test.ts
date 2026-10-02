@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, writeFileSync, readdirSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readdirSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -92,5 +92,29 @@ describe('validate', () => {
   it('missingSkills collapses whitespace', () => {
     const ex = { vacancyId: '1', required: ['a  b'], niceToHave: [], seniority: 'unknown' as const };
     expect(missingSkills(ex, 'A\nB')).toEqual([]);
+  });
+});
+
+describe('synonyms.json', () => {
+  const file = JSON.parse(
+    readFileSync(new URL('../synonyms.json', import.meta.url), 'utf8'),
+  ) as { categories: string[]; skills: Record<string, { category: string; aliases: string[] }> };
+  const ids = Object.keys(file.skills);
+
+  it('covers at least 150 skills in known categories', () => {
+    expect(ids.length).toBeGreaterThanOrEqual(150);
+    for (const id of ids) expect(file.categories).toContain(file.skills[id]!.category);
+  });
+
+  it('has the required AI ids and no alias claimed by two skills', () => {
+    for (const id of ['claude-code', 'copilot', 'openai-api', 'rag', 'mcp', 'langchain', 'langgraph', 'vector-db', 'embeddings', 'ai-agents'])
+      expect(file.skills[id]?.category).toBe('ai');
+    const owner = new Map<string, string>();
+    for (const id of ids)
+      for (const alias of [id, ...file.skills[id]!.aliases]) {
+        const key = alias.toLowerCase();
+        expect(owner.get(key) ?? id).toBe(id);
+        owner.set(key, id);
+      }
   });
 });

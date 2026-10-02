@@ -1,0 +1,2397 @@
+{
+ "version": 1,
+ "categories": [
+  "language",
+  "runtime",
+  "framework",
+  "database",
+  "orm",
+  "api",
+  "auth",
+  "testing",
+  "devops",
+  "cloud",
+  "queue",
+  "ai",
+  "frontend",
+  "other"
+ ],
+ "skills": {
+  "javascript": {
+   "category": "language",
+   "aliases": [
+    "js",
+    "java script",
+    "ecmascript",
+    "es6",
+    "es2015",
+    "джаваскрипт",
+    "джава скрипт"
+   ]
+  },
+  "typescript": {
+   "category": "language",
+   "aliases": [
+    "ts",
+    "type script",
+    "typscript",
+    "тайпскрипт"
+   ]
+  },
+  "python": {
+   "category": "language",
+   "aliases": [
+    "пайтон",
+    "питон"
+   ]
+  },
+  "java": {
+   "category": "language",
+   "aliases": [
+    "джава"
+   ]
+  },
+  "csharp": {
+   "category": "language",
+   "aliases": [
+    "c#",
+    "c sharp",
+    "сі шарп"
+   ]
+  },
+  "go": {
+   "category": "language",
+   "aliases": [
+    "golang",
+    "голанг"
+   ]
+  },
+  "php": {
+   "category": "language",
+   "aliases": [
+    "пхп"
+   ]
+  },
+  "ruby": {
+   "category": "language",
+   "aliases": [
+    "руби"
+   ]
+  },
+  "rust": {
+   "category": "language",
+   "aliases": [
+    "раст"
+   ]
+  },
+  "kotlin": {
+   "category": "language",
+   "aliases": [
+    "котлін"
+   ]
+  },
+  "swift": {
+   "category": "language",
+   "aliases": []
+  },
+  "cpp": {
+   "category": "language",
+   "aliases": [
+    "c++",
+    "сі плюс плюс"
+   ]
+  },
+  "scala": {
+   "category": "language",
+   "aliases": []
+  },
+  "elixir": {
+   "category": "language",
+   "aliases": []
+  },
+  "sql": {
+   "category": "language",
+   "aliases": [
+    "ти-ск",
+    "ес-кю-ел",
+    "структурована мова запитів"
+   ]
+  },
+  "bash": {
+   "category": "language",
+   "aliases": [
+    "shell",
+    "shell scripting",
+    "sh",
+    "zsh"
+   ]
+  },
+  "html": {
+   "category": "language",
+   "aliases": [
+    "html5",
+    "хтмл"
+   ]
+  },
+  "css": {
+   "category": "language",
+   "aliases": [
+    "css3",
+    "сss",
+    "цсс"
+   ]
+  },
+  "sass": {
+   "category": "language",
+   "aliases": [
+    "scss",
+    "less"
+   ]
+  },
+  "dart": {
+   "category": "language",
+   "aliases": []
+  },
+  "lua": {
+   "category": "language",
+   "aliases": []
+  },
+  "perl": {
+   "category": "language",
+   "aliases": []
+  },
+  "nodejs": {
+   "category": "runtime",
+   "aliases": [
+    "node.js",
+    "node js",
+    "node-js",
+    "node",
+    "нод",
+    "нодже",
+    "нод.джс",
+    "нодджс"
+   ]
+  },
+  "deno": {
+   "category": "runtime",
+   "aliases": []
+  },
+  "bun": {
+   "category": "runtime",
+   "aliases": []
+  },
+  "jvm": {
+   "category": "runtime",
+   "aliases": []
+  },
+  "dotnet": {
+   "category": "runtime",
+   "aliases": [
+    ".net",
+    ".net core",
+    "asp.net core",
+    "dot net",
+    "дот нет"
+   ]
+  },
+  "wasm": {
+   "category": "runtime",
+   "aliases": [
+    "webassembly"
+   ]
+  },
+  "nestjs": {
+   "category": "framework",
+   "aliases": [
+    "nest.js",
+    "nest js",
+    "nest",
+    "нестjs",
+    "нест"
+   ]
+  },
+  "express": {
+   "category": "framework",
+   "aliases": [
+    "express.js",
+    "expressjs",
+    "експрес"
+   ]
+  },
+  "fastify": {
+   "category": "framework",
+   "aliases": [
+    "фастіфай"
+   ]
+  },
+  "koa": {
+   "category": "framework",
+   "aliases": [
+    "koa.js"
+   ]
+  },
+  "hapi": {
+   "category": "framework",
+   "aliases": []
+  },
+  "django": {
+   "category": "framework",
+   "aliases": [
+    "джанго"
+   ]
+  },
+  "flask": {
+   "category": "framework",
+   "aliases": [
+    "фласк"
+   ]
+  },
+  "fastapi": {
+   "category": "framework",
+   "aliases": [
+    "fast api",
+    "фастапі"
+   ]
+  },
+  "spring": {
+   "category": "framework",
+   "aliases": [
+    "spring boot",
+    "spring framework",
+    "спринг"
+   ]
+  },
+  "aspnet": {
+   "category": "framework",
+   "aliases": [
+    "asp.net",
+    "asp.net mvc"
+   ]
+  },
+  "laravel": {
+   "category": "framework",
+   "aliases": [
+    "ларавел"
+   ]
+  },
+  "rails": {
+   "category": "framework",
+   "aliases": [
+    "ruby on rails",
+    "ror"
+   ]
+  },
+  "symfony": {
+   "category": "framework",
+   "aliases": []
+  },
+  "trpc": {
+   "category": "framework",
+   "aliases": []
+  },
+  "socketio": {
+   "category": "framework",
+   "aliases": [
+    "socket.io",
+    "socket io"
+   ]
+  },
+  "hono": {
+   "category": "framework",
+   "aliases": []
+  },
+  "adonisjs": {
+   "category": "framework",
+   "aliases": [
+    "adonis"
+   ]
+  },
+  "strapi": {
+   "category": "framework",
+   "aliases": []
+  },
+  "payload-cms": {
+   "category": "framework",
+   "aliases": [
+    "payload cms"
+   ]
+  },
+  "remix": {
+   "category": "framework",
+   "aliases": []
+  },
+  "nuxt": {
+   "category": "framework",
+   "aliases": [
+    "nuxt.js",
+    "nuxtjs"
+   ]
+  },
+  "react": {
+   "category": "frontend",
+   "aliases": [
+    "react.js",
+    "reactjs",
+    "реакт"
+   ]
+  },
+  "nextjs": {
+   "category": "frontend",
+   "aliases": [
+    "next.js",
+    "next js",
+    "next-js",
+    "некст"
+   ]
+  },
+  "vue": {
+   "category": "frontend",
+   "aliases": [
+    "vue.js",
+    "vuejs",
+    "вью"
+   ]
+  },
+  "angular": {
+   "category": "frontend",
+   "aliases": [
+    "ангуляр",
+    "angularjs"
+   ]
+  },
+  "svelte": {
+   "category": "frontend",
+   "aliases": [
+    "sveltekit"
+   ]
+  },
+  "redux": {
+   "category": "frontend",
+   "aliases": [
+    "redux toolkit",
+    "rtk"
+   ]
+  },
+  "zustand": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "mobx": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "react-query": {
+   "category": "frontend",
+   "aliases": [
+    "tanstack query",
+    "react query"
+   ]
+  },
+  "tailwind": {
+   "category": "frontend",
+   "aliases": [
+    "tailwindcss",
+    "tailwind css"
+   ]
+  },
+  "vite": {
+   "category": "frontend",
+   "aliases": [
+    "vite.js"
+   ]
+  },
+  "webpack": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "storybook": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "mui": {
+   "category": "frontend",
+   "aliases": [
+    "material ui",
+    "material-ui"
+   ]
+  },
+  "shadcn": {
+   "category": "frontend",
+   "aliases": [
+    "shadcn/ui"
+   ]
+  },
+  "react-native": {
+   "category": "frontend",
+   "aliases": [
+    "react native"
+   ]
+  },
+  "html-css-layout": {
+   "category": "frontend",
+   "aliases": [
+    "верстка",
+    "вёрстка"
+   ]
+  },
+  "jquery": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "figma": {
+   "category": "frontend",
+   "aliases": [
+    "фігма"
+   ]
+  },
+  "websockets": {
+   "category": "frontend",
+   "aliases": [
+    "websocket",
+    "web socket",
+    "web sockets",
+    "веб-сокети",
+    "вебсокети"
+   ]
+  },
+  "rxjs": {
+   "category": "frontend",
+   "aliases": []
+  },
+  "graphql-client": {
+   "category": "frontend",
+   "aliases": [
+    "apollo client"
+   ]
+  },
+  "postgresql": {
+   "category": "database",
+   "aliases": [
+    "postgres",
+    "psql",
+    "postgre",
+    "pg",
+    "постгрес",
+    "постгресql",
+    "пострес"
+   ]
+  },
+  "mysql": {
+   "category": "database",
+   "aliases": [
+    "my sql",
+    "мускуль",
+    "майсквл"
+   ]
+  },
+  "mariadb": {
+   "category": "database",
+   "aliases": []
+  },
+  "mongodb": {
+   "category": "database",
+   "aliases": [
+    "mongo",
+    "mongo db",
+    "mongoatlas",
+    "mongo atlas",
+    "монго",
+    "монгодб"
+   ]
+  },
+  "redis": {
+   "category": "database",
+   "aliases": [
+    "редіс",
+    "редис"
+   ]
+  },
+  "sqlite": {
+   "category": "database",
+   "aliases": []
+  },
+  "elasticsearch": {
+   "category": "database",
+   "aliases": [
+    "elastic search",
+    "elastic",
+    "opensearch",
+    "еластік"
+   ]
+  },
+  "clickhouse": {
+   "category": "database",
+   "aliases": []
+  },
+  "cassandra": {
+   "category": "database",
+   "aliases": []
+  },
+  "dynamodb": {
+   "category": "database",
+   "aliases": [
+    "dynamo db",
+    "dynamo"
+   ]
+  },
+  "cosmosdb": {
+   "category": "database",
+   "aliases": [
+    "cosmos db"
+   ]
+  },
+  "oracle": {
+   "category": "database",
+   "aliases": [
+    "oracle db",
+    "oracledb",
+    "oracle database"
+   ]
+  },
+  "mssql": {
+   "category": "database",
+   "aliases": [
+    "ms sql",
+    "sql server",
+    "microsoft sql server"
+   ]
+  },
+  "neo4j": {
+   "category": "database",
+   "aliases": []
+  },
+  "supabase": {
+   "category": "database",
+   "aliases": []
+  },
+  "firebase": {
+   "category": "database",
+   "aliases": [
+    "firestore"
+   ]
+  },
+  "snowflake": {
+   "category": "database",
+   "aliases": []
+  },
+  "bigquery": {
+   "category": "database",
+   "aliases": [
+    "big query"
+   ]
+  },
+  "nosql": {
+   "category": "database",
+   "aliases": [
+    "no-sql",
+    "non-relational"
+   ]
+  },
+  "relational-databases": {
+   "category": "database",
+   "aliases": [
+    "rdbms",
+    "relational databases",
+    "реляційні бази даних",
+    "реляційні бд"
+   ]
+  },
+  "database-design": {
+   "category": "database",
+   "aliases": [
+    "database design",
+    "data modeling",
+    "data modelling",
+    "db design",
+    "проєктування баз даних"
+   ]
+  },
+  "sql-optimization": {
+   "category": "database",
+   "aliases": [
+    "query optimization",
+    "query tuning",
+    "sql tuning",
+    "оптимізація запитів"
+   ]
+  },
+  "migrations": {
+   "category": "database",
+   "aliases": [
+    "database migrations",
+    "db migrations",
+    "міграції"
+   ]
+  },
+  "memcached": {
+   "category": "database",
+   "aliases": []
+  },
+  "timescaledb": {
+   "category": "database",
+   "aliases": [
+    "timescale"
+   ]
+  },
+  "couchbase": {
+   "category": "database",
+   "aliases": []
+  },
+  "prisma": {
+   "category": "orm",
+   "aliases": [
+    "прізма"
+   ]
+  },
+  "typeorm": {
+   "category": "orm",
+   "aliases": [
+    "type orm"
+   ]
+  },
+  "drizzle": {
+   "category": "orm",
+   "aliases": [
+    "drizzle orm"
+   ]
+  },
+  "sequelize": {
+   "category": "orm",
+   "aliases": [
+    "секвалайз"
+   ]
+  },
+  "mongoose": {
+   "category": "orm",
+   "aliases": []
+  },
+  "knex": {
+   "category": "orm",
+   "aliases": [
+    "knex.js",
+    "knexjs"
+   ]
+  },
+  "mikro-orm": {
+   "category": "orm",
+   "aliases": [
+    "mikroorm",
+    "mikro orm"
+   ]
+  },
+  "sqlalchemy": {
+   "category": "orm",
+   "aliases": [
+    "sql alchemy"
+   ]
+  },
+  "hibernate": {
+   "category": "orm",
+   "aliases": [
+    "jpa"
+   ]
+  },
+  "entity-framework": {
+   "category": "orm",
+   "aliases": [
+    "entity framework",
+    "ef core",
+    "efcore"
+   ]
+  },
+  "django-orm": {
+   "category": "orm",
+   "aliases": [
+    "django orm"
+   ]
+  },
+  "kysely": {
+   "category": "orm",
+   "aliases": []
+  },
+  "objection": {
+   "category": "orm",
+   "aliases": [
+    "objection.js"
+   ]
+  },
+  "gorm": {
+   "category": "orm",
+   "aliases": []
+  },
+  "sqlx": {
+   "category": "orm",
+   "aliases": []
+  },
+  "rest": {
+   "category": "api",
+   "aliases": [
+    "rest api",
+    "restful",
+    "restful api",
+    "rest apis",
+    "restful apis",
+    "апі",
+    "rest-api"
+   ]
+  },
+  "graphql": {
+   "category": "api",
+   "aliases": [
+    "graph ql",
+    "граф кл"
+   ]
+  },
+  "grpc": {
+   "category": "api",
+   "aliases": [
+    "g-rpc"
+   ]
+  },
+  "openapi": {
+   "category": "api",
+   "aliases": [
+    "swagger",
+    "open api"
+   ]
+  },
+  "webhooks": {
+   "category": "api",
+   "aliases": [
+    "webhook",
+    "вебхуки"
+   ]
+  },
+  "soap": {
+   "category": "api",
+   "aliases": []
+  },
+  "json-rpc": {
+   "category": "api",
+   "aliases": [
+    "jsonrpc"
+   ]
+  },
+  "api-design": {
+   "category": "api",
+   "aliases": [
+    "api design",
+    "api development",
+    "розробка api",
+    "проєктування api"
+   ]
+  },
+  "sse": {
+   "category": "api",
+   "aliases": [
+    "server-sent events",
+    "server sent events"
+   ]
+  },
+  "http": {
+   "category": "api",
+   "aliases": [
+    "http/https",
+    "https"
+   ]
+  },
+  "postman": {
+   "category": "api",
+   "aliases": []
+  },
+  "json": {
+   "category": "api",
+   "aliases": []
+  },
+  "protobuf": {
+   "category": "api",
+   "aliases": [
+    "protocol buffers"
+   ]
+  },
+  "jwt": {
+   "category": "auth",
+   "aliases": [
+    "json web token",
+    "json web tokens",
+    "jwt tokens"
+   ]
+  },
+  "oauth": {
+   "category": "auth",
+   "aliases": [
+    "oauth2",
+    "oauth 2.0",
+    "oauth2.0",
+    "oauth 2"
+   ]
+  },
+  "sso": {
+   "category": "auth",
+   "aliases": [
+    "single sign-on",
+    "single sign on"
+   ]
+  },
+  "keycloak": {
+   "category": "auth",
+   "aliases": [
+    "кейклок"
+   ]
+  },
+  "auth0": {
+   "category": "auth",
+   "aliases": []
+  },
+  "passport": {
+   "category": "auth",
+   "aliases": [
+    "passport.js",
+    "passportjs"
+   ]
+  },
+  "authentication": {
+   "category": "auth",
+   "aliases": [
+    "authorization",
+    "auth",
+    "authn",
+    "authz",
+    "автентифікація",
+    "авторизація",
+    "rbac",
+    "аутентифікація"
+   ]
+  },
+  "openid-connect": {
+   "category": "auth",
+   "aliases": [
+    "openid connect",
+    "oidc"
+   ]
+  },
+  "saml": {
+   "category": "auth",
+   "aliases": []
+  },
+  "clerk": {
+   "category": "auth",
+   "aliases": []
+  },
+  "nextauth": {
+   "category": "auth",
+   "aliases": [
+    "next-auth",
+    "auth.js",
+    "authjs"
+   ]
+  },
+  "session-management": {
+   "category": "auth",
+   "aliases": [
+    "session management",
+    "cookies-sessions"
+   ]
+  },
+  "2fa": {
+   "category": "auth",
+   "aliases": [
+    "mfa",
+    "two-factor",
+    "multi-factor"
+   ]
+  },
+  "jest": {
+   "category": "testing",
+   "aliases": [
+    "джест"
+   ]
+  },
+  "vitest": {
+   "category": "testing",
+   "aliases": []
+  },
+  "mocha": {
+   "category": "testing",
+   "aliases": []
+  },
+  "cypress": {
+   "category": "testing",
+   "aliases": [
+    "сайпресс"
+   ]
+  },
+  "playwright": {
+   "category": "testing",
+   "aliases": [
+    "плейрайт"
+   ]
+  },
+  "selenium": {
+   "category": "testing",
+   "aliases": []
+  },
+  "junit": {
+   "category": "testing",
+   "aliases": []
+  },
+  "pytest": {
+   "category": "testing",
+   "aliases": [
+    "py.test"
+   ]
+  },
+  "unit-testing": {
+   "category": "testing",
+   "aliases": [
+    "unit tests",
+    "unit testing",
+    "unit test",
+    "юніт тести",
+    "юніт-тести",
+    "юніт тестування"
+   ]
+  },
+  "integration-testing": {
+   "category": "testing",
+   "aliases": [
+    "integration tests",
+    "integration testing",
+    "інтеграційні тести"
+   ]
+  },
+  "e2e-testing": {
+   "category": "testing",
+   "aliases": [
+    "e2e",
+    "end-to-end testing",
+    "end to end tests",
+    "e2e tests"
+   ]
+  },
+  "tdd": {
+   "category": "testing",
+   "aliases": [
+    "test-driven development",
+    "test driven development"
+   ]
+  },
+  "testing-library": {
+   "category": "testing",
+   "aliases": [
+    "react testing library",
+    "rtl"
+   ]
+  },
+  "supertest": {
+   "category": "testing",
+   "aliases": []
+  },
+  "k6": {
+   "category": "testing",
+   "aliases": [
+    "load testing",
+    "jmeter"
+   ]
+  },
+  "sonarqube": {
+   "category": "testing",
+   "aliases": [
+    "sonar"
+   ]
+  },
+  "nunit": {
+   "category": "testing",
+   "aliases": [
+    "xunit"
+   ]
+  },
+  "mocking": {
+   "category": "testing",
+   "aliases": [
+    "mocks"
+   ]
+  },
+  "docker": {
+   "category": "devops",
+   "aliases": [
+    "докер",
+    "dockerfile"
+   ]
+  },
+  "docker-compose": {
+   "category": "devops",
+   "aliases": [
+    "docker compose",
+    "docker-compose.yml"
+   ]
+  },
+  "kubernetes": {
+   "category": "devops",
+   "aliases": [
+    "k8s",
+    "kube",
+    "кубернетес",
+    "кубер",
+    "helm"
+   ]
+  },
+  "ci-cd": {
+   "category": "devops",
+   "aliases": [
+    "ci/cd",
+    "cicd",
+    "ci / cd",
+    "ci cd",
+    "ci\\cd",
+    "continuous integration",
+    "continuous delivery",
+    "continuous deployment"
+   ]
+  },
+  "github-actions": {
+   "category": "devops",
+   "aliases": [
+    "github actions",
+    "gh actions"
+   ]
+  },
+  "gitlab-ci": {
+   "category": "devops",
+   "aliases": [
+    "gitlab ci",
+    "gitlabci",
+    "gitlab ci/cd",
+    "gitlab"
+   ]
+  },
+  "jenkins": {
+   "category": "devops",
+   "aliases": []
+  },
+  "git": {
+   "category": "devops",
+   "aliases": [
+    "гіт",
+    "гит",
+    "version control"
+   ]
+  },
+  "github": {
+   "category": "devops",
+   "aliases": []
+  },
+  "bitbucket": {
+   "category": "devops",
+   "aliases": []
+  },
+  "terraform": {
+   "category": "devops",
+   "aliases": [
+    "терраформ"
+   ]
+  },
+  "ansible": {
+   "category": "devops",
+   "aliases": []
+  },
+  "linux": {
+   "category": "devops",
+   "aliases": [
+    "лінукс",
+    "ubuntu",
+    "unix"
+   ]
+  },
+  "nginx": {
+   "category": "devops",
+   "aliases": [
+    "нджінкс"
+   ]
+  },
+  "prometheus": {
+   "category": "devops",
+   "aliases": []
+  },
+  "grafana": {
+   "category": "devops",
+   "aliases": [
+    "графана"
+   ]
+  },
+  "datadog": {
+   "category": "devops",
+   "aliases": []
+  },
+  "sentry": {
+   "category": "devops",
+   "aliases": [
+    "сентрі"
+   ]
+  },
+  "elk": {
+   "category": "devops",
+   "aliases": [
+    "elk stack",
+    "kibana",
+    "logstash"
+   ]
+  },
+  "opentelemetry": {
+   "category": "devops",
+   "aliases": [
+    "otel",
+    "open telemetry"
+   ]
+  },
+  "observability": {
+   "category": "devops",
+   "aliases": [
+    "спостережуваність"
+   ]
+  },
+  "monitoring": {
+   "category": "devops",
+   "aliases": [
+    "моніторинг"
+   ]
+  },
+  "logging": {
+   "category": "devops",
+   "aliases": [
+    "логування"
+   ]
+  },
+  "pulumi": {
+   "category": "devops",
+   "aliases": []
+  },
+  "argocd": {
+   "category": "devops",
+   "aliases": [
+    "argo cd"
+   ]
+  },
+  "circleci": {
+   "category": "devops",
+   "aliases": []
+  },
+  "vercel": {
+   "category": "devops",
+   "aliases": []
+  },
+  "heroku": {
+   "category": "devops",
+   "aliases": []
+  },
+  "digitalocean": {
+   "category": "devops",
+   "aliases": [
+    "digital ocean"
+   ]
+  },
+  "cloudflare": {
+   "category": "devops",
+   "aliases": []
+  },
+  "iac": {
+   "category": "devops",
+   "aliases": [
+    "infrastructure as code",
+    "infrastructure-as-code"
+   ]
+  },
+  "microservices": {
+   "category": "devops",
+   "aliases": [
+    "microservice",
+    "мікросервіси",
+    "мікросервісна архітектура",
+    "микросервисы",
+    "micro-services"
+   ]
+  },
+  "monorepo": {
+   "category": "devops",
+   "aliases": [
+    "monorepos",
+    "nx",
+    "turborepo",
+    "turbo"
+   ]
+  },
+  "pnpm": {
+   "category": "devops",
+   "aliases": []
+  },
+  "npm": {
+   "category": "devops",
+   "aliases": [
+    "yarn",
+    "npm/yarn"
+   ]
+  },
+  "serverless": {
+   "category": "devops",
+   "aliases": []
+  },
+  "load-balancing": {
+   "category": "devops",
+   "aliases": [
+    "load balancing",
+    "балансування навантаження"
+   ]
+  },
+  "scalability": {
+   "category": "devops",
+   "aliases": [
+    "масштабованість"
+   ]
+  },
+  "high-load": {
+   "category": "devops",
+   "aliases": [
+    "highload",
+    "high load",
+    "high-loaded",
+    "хайлоад",
+    "highload systems"
+   ]
+  },
+  "event-driven": {
+   "category": "devops",
+   "aliases": [
+    "event-driven architecture",
+    "eda",
+    "event driven",
+    "event driven architecture"
+   ]
+  },
+  "ddd": {
+   "category": "devops",
+   "aliases": [
+    "domain-driven design",
+    "domain driven design"
+   ]
+  },
+  "clean-architecture": {
+   "category": "devops",
+   "aliases": [
+    "clean architecture",
+    "hexagonal architecture",
+    "onion architecture"
+   ]
+  },
+  "solid": {
+   "category": "devops",
+   "aliases": [
+    "solid principles"
+   ]
+  },
+  "design-patterns": {
+   "category": "devops",
+   "aliases": [
+    "design patterns",
+    "патерни проєктування",
+    "паттерни"
+   ]
+  },
+  "caching": {
+   "category": "devops",
+   "aliases": [
+    "cache",
+    "кешування",
+    "кеш"
+   ]
+  },
+  "agile": {
+   "category": "devops",
+   "aliases": [
+    "scrum",
+    "kanban",
+    "аджайл",
+    "скрам"
+   ]
+  },
+  "jira": {
+   "category": "devops",
+   "aliases": [
+    "jira/confluence",
+    "confluence"
+   ]
+  },
+  "idempotency": {
+   "category": "devops",
+   "aliases": [
+    "ідемпотентність"
+   ]
+  },
+  "aws": {
+   "category": "cloud",
+   "aliases": [
+    "amazon web services",
+    "amazon aws",
+    "амазон"
+   ]
+  },
+  "aws-lambda": {
+   "category": "cloud",
+   "aliases": [
+    "aws lambda",
+    "lambda"
+   ]
+  },
+  "aws-ec2": {
+   "category": "cloud",
+   "aliases": [
+    "ec2",
+    "aws ec2"
+   ]
+  },
+  "aws-s3": {
+   "category": "cloud",
+   "aliases": [
+    "s3",
+    "aws s3",
+    "amazon s3"
+   ]
+  },
+  "aws-rds": {
+   "category": "cloud",
+   "aliases": [
+    "rds",
+    "aws rds",
+    "amazon rds",
+    "aurora"
+   ]
+  },
+  "aws-ecs": {
+   "category": "cloud",
+   "aliases": [
+    "ecs",
+    "aws ecs",
+    "fargate",
+    "aws fargate"
+   ]
+  },
+  "aws-eks": {
+   "category": "cloud",
+   "aliases": [
+    "eks",
+    "aws eks"
+   ]
+  },
+  "aws-sqs": {
+   "category": "cloud",
+   "aliases": [
+    "sqs",
+    "aws sqs"
+   ]
+  },
+  "aws-sns": {
+   "category": "cloud",
+   "aliases": [
+    "sns",
+    "aws sns"
+   ]
+  },
+  "aws-api-gateway": {
+   "category": "cloud",
+   "aliases": [
+    "api gateway",
+    "aws api gateway"
+   ]
+  },
+  "aws-cloudformation": {
+   "category": "cloud",
+   "aliases": [
+    "cloudformation",
+    "aws cloudformation"
+   ]
+  },
+  "aws-cdk": {
+   "category": "cloud",
+   "aliases": [
+    "cdk",
+    "aws cdk"
+   ]
+  },
+  "aws-cloudwatch": {
+   "category": "cloud",
+   "aliases": [
+    "cloudwatch",
+    "aws cloudwatch"
+   ]
+  },
+  "aws-iam": {
+   "category": "cloud",
+   "aliases": [
+    "iam",
+    "aws iam"
+   ]
+  },
+  "aws-cognito": {
+   "category": "cloud",
+   "aliases": [
+    "cognito",
+    "aws cognito"
+   ]
+  },
+  "aws-ebs": {
+   "category": "cloud",
+   "aliases": [
+    "ebs",
+    "aws ebs"
+   ]
+  },
+  "aws-bedrock": {
+   "category": "cloud",
+   "aliases": [
+    "bedrock",
+    "amazon bedrock",
+    "aws bedrock"
+   ]
+  },
+  "aws-dynamodb": {
+   "category": "cloud",
+   "aliases": [
+    "aws dynamodb"
+   ]
+  },
+  "aws-step-functions": {
+   "category": "cloud",
+   "aliases": [
+    "step functions",
+    "aws step functions"
+   ]
+  },
+  "aws-sagemaker": {
+   "category": "cloud",
+   "aliases": [
+    "sagemaker"
+   ]
+  },
+  "aws-ses": {
+   "category": "cloud",
+   "aliases": [
+    "ses",
+    "aws ses"
+   ]
+  },
+  "aws-kinesis": {
+   "category": "cloud",
+   "aliases": [
+    "kinesis",
+    "aws kinesis"
+   ]
+  },
+  "aws-cloudfront": {
+   "category": "cloud",
+   "aliases": [
+    "cloudfront",
+    "aws cloudfront"
+   ]
+  },
+  "aws-route53": {
+   "category": "cloud",
+   "aliases": [
+    "route 53",
+    "route53"
+   ]
+  },
+  "azure": {
+   "category": "cloud",
+   "aliases": [
+    "microsoft azure",
+    "азур",
+    "азюр"
+   ]
+  },
+  "azure-functions": {
+   "category": "cloud",
+   "aliases": [
+    "azure functions"
+   ]
+  },
+  "azure-devops": {
+   "category": "cloud",
+   "aliases": [
+    "azure devops",
+    "ado"
+   ]
+  },
+  "azure-openai": {
+   "category": "cloud",
+   "aliases": [
+    "azure openai",
+    "azure openai service"
+   ]
+  },
+  "azure-ml": {
+   "category": "cloud",
+   "aliases": [
+    "azure ml",
+    "azure machine learning"
+   ]
+  },
+  "azure-aks": {
+   "category": "cloud",
+   "aliases": [
+    "aks",
+    "azure kubernetes",
+    "azure kubernetes service"
+   ]
+  },
+  "azure-service-bus": {
+   "category": "cloud",
+   "aliases": [
+    "azure service bus",
+    "service bus"
+   ]
+  },
+  "azure-blob-storage": {
+   "category": "cloud",
+   "aliases": [
+    "azure blob",
+    "blob storage",
+    "azure blob storage"
+   ]
+  },
+  "azure-app-service": {
+   "category": "cloud",
+   "aliases": [
+    "azure app service",
+    "app service"
+   ]
+  },
+  "azure-sql": {
+   "category": "cloud",
+   "aliases": [
+    "azure sql",
+    "azure sql database"
+   ]
+  },
+  "azure-cosmosdb": {
+   "category": "cloud",
+   "aliases": [
+    "azure cosmos db",
+    "azure cosmosdb"
+   ]
+  },
+  "azure-ad": {
+   "category": "cloud",
+   "aliases": [
+    "azure ad",
+    "entra id",
+    "azure active directory",
+    "entra"
+   ]
+  },
+  "gcp": {
+   "category": "cloud",
+   "aliases": [
+    "google cloud",
+    "google cloud platform",
+    "гуглкло"
+   ]
+  },
+  "gcp-cloud-run": {
+   "category": "cloud",
+   "aliases": [
+    "cloud run",
+    "google cloud run"
+   ]
+  },
+  "gcp-pubsub": {
+   "category": "cloud",
+   "aliases": [
+    "pub/sub",
+    "pubsub",
+    "google pub/sub",
+    "gcp pub/sub"
+   ]
+  },
+  "gcp-gke": {
+   "category": "cloud",
+   "aliases": [
+    "gke",
+    "google kubernetes engine"
+   ]
+  },
+  "gcp-cloud-functions": {
+   "category": "cloud",
+   "aliases": [
+    "cloud functions",
+    "google cloud functions"
+   ]
+  },
+  "gcp-bigquery": {
+   "category": "cloud",
+   "aliases": [
+    "gcp bigquery"
+   ]
+  },
+  "gcp-vertex-ai": {
+   "category": "cloud",
+   "aliases": [
+    "vertex ai",
+    "vertex",
+    "google vertex ai"
+   ]
+  },
+  "cloud-general": {
+   "category": "cloud",
+   "aliases": [
+    "cloud",
+    "cloud platforms",
+    "cloud services",
+    "cloud-native",
+    "cloud native",
+    "cloud infrastructure",
+    "хмарні сервіси",
+    "хмара"
+   ]
+  },
+  "rabbitmq": {
+   "category": "queue",
+   "aliases": [
+    "rabbit",
+    "rabbit mq",
+    "кролик"
+   ]
+  },
+  "kafka": {
+   "category": "queue",
+   "aliases": [
+    "apache kafka",
+    "кафка"
+   ]
+  },
+  "bullmq": {
+   "category": "queue",
+   "aliases": [
+    "bull mq",
+    "bull",
+    "bullmq queue"
+   ]
+  },
+  "sidekiq": {
+   "category": "queue",
+   "aliases": []
+  },
+  "celery": {
+   "category": "queue",
+   "aliases": [
+    "селері"
+   ]
+  },
+  "nats": {
+   "category": "queue",
+   "aliases": []
+  },
+  "activemq": {
+   "category": "queue",
+   "aliases": [
+    "active mq"
+   ]
+  },
+  "zeromq": {
+   "category": "queue",
+   "aliases": [
+    "zero mq"
+   ]
+  },
+  "redis-streams": {
+   "category": "queue",
+   "aliases": [
+    "redis streams"
+   ]
+  },
+  "message-queues": {
+   "category": "queue",
+   "aliases": [
+    "message queue",
+    "message queues",
+    "message broker",
+    "message brokers",
+    "messaging",
+    "queues",
+    "queue",
+    "черги повідомлень",
+    "брокери повідомлень",
+    "черги"
+   ]
+  },
+  "pubsub-pattern": {
+   "category": "queue",
+   "aliases": [
+    "pub-sub",
+    "publish-subscribe"
+   ]
+  },
+  "background-jobs": {
+   "category": "queue",
+   "aliases": [
+    "background jobs",
+    "job queues",
+    "job queue",
+    "background processing",
+    "cron jobs",
+    "cron",
+    "фонові задачі"
+   ]
+  },
+  "temporal": {
+   "category": "queue",
+   "aliases": [
+    "temporal.io"
+   ]
+  },
+  "airflow": {
+   "category": "queue",
+   "aliases": [
+    "apache airflow"
+   ]
+  },
+  "kafka-streams": {
+   "category": "queue",
+   "aliases": [
+    "kafka streams"
+   ]
+  },
+  "pulsar": {
+   "category": "queue",
+   "aliases": [
+    "apache pulsar"
+   ]
+  },
+  "claude-code": {
+   "category": "ai",
+   "aliases": [
+    "claude code",
+    "claude",
+    "claude cli",
+    "anthropic",
+    "клод",
+    "клауд"
+   ]
+  },
+  "copilot": {
+   "category": "ai",
+   "aliases": [
+    "github copilot",
+    "gh copilot",
+    "microsoft copilot",
+    "копілот"
+   ]
+  },
+  "cursor": {
+   "category": "ai",
+   "aliases": [
+    "cursor ide",
+    "курсор"
+   ]
+  },
+  "codex": {
+   "category": "ai",
+   "aliases": [
+    "openai codex"
+   ]
+  },
+  "windsurf": {
+   "category": "ai",
+   "aliases": []
+  },
+  "openai-api": {
+   "category": "ai",
+   "aliases": [
+    "openai",
+    "open ai",
+    "openai api",
+    "chatgpt",
+    "gpt",
+    "gpt-4",
+    "gpt-4o",
+    "gpt-5",
+    "gpt4",
+    "chat gpt",
+    "чатгпт"
+   ]
+  },
+  "llm": {
+   "category": "ai",
+   "aliases": [
+    "llms",
+    "large language model",
+    "large language models",
+    "llm apis",
+    "llm api",
+    "llm integration",
+    "llm integrations",
+    "ллм"
+   ]
+  },
+  "rag": {
+   "category": "ai",
+   "aliases": [
+    "retrieval-augmented generation",
+    "retrieval augmented generation",
+    "retrieval augmented",
+    "рег"
+   ]
+  },
+  "mcp": {
+   "category": "ai",
+   "aliases": [
+    "model context protocol",
+    "mcp servers",
+    "mcp server",
+    "mcp-server"
+   ]
+  },
+  "langchain": {
+   "category": "ai",
+   "aliases": [
+    "lang chain",
+    "langchain.js",
+    "langchainjs",
+    "ленгчейн"
+   ]
+  },
+  "langgraph": {
+   "category": "ai",
+   "aliases": [
+    "lang graph",
+    "langgraph.js"
+   ]
+  },
+  "langfuse": {
+   "category": "ai",
+   "aliases": []
+  },
+  "langsmith": {
+   "category": "ai",
+   "aliases": []
+  },
+  "llamaindex": {
+   "category": "ai",
+   "aliases": [
+    "llama index",
+    "llama-index"
+   ]
+  },
+  "vector-db": {
+   "category": "ai",
+   "aliases": [
+    "vector database",
+    "vector databases",
+    "vector db",
+    "vector dbs",
+    "vector store",
+    "vector stores",
+    "vector search",
+    "векторні бази даних"
+   ]
+  },
+  "embeddings": {
+   "category": "ai",
+   "aliases": [
+    "embedding",
+    "text embeddings",
+    "ембедінги",
+    "ембединги"
+   ]
+  },
+  "ai-agents": {
+   "category": "ai",
+   "aliases": [
+    "ai agents",
+    "ai agent",
+    "agents",
+    "agentic",
+    "agentic workflows",
+    "agentic ai",
+    "agentic development",
+    "agent frameworks",
+    "multi-agent",
+    "multi-agent systems",
+    "агенти",
+    "ai-агенти",
+    "autonomous agents"
+   ]
+  },
+  "prompt-engineering": {
+   "category": "ai",
+   "aliases": [
+    "prompt engineering",
+    "prompting",
+    "prompts",
+    "промпт-інжиніринг",
+    "промпти"
+   ]
+  },
+  "pinecone": {
+   "category": "ai",
+   "aliases": []
+  },
+  "qdrant": {
+   "category": "ai",
+   "aliases": []
+  },
+  "weaviate": {
+   "category": "ai",
+   "aliases": []
+  },
+  "pgvector": {
+   "category": "ai",
+   "aliases": [
+    "pg vector",
+    "pg_vector"
+   ]
+  },
+  "chromadb": {
+   "category": "ai",
+   "aliases": [
+    "chroma",
+    "chroma db"
+   ]
+  },
+  "milvus": {
+   "category": "ai",
+   "aliases": []
+  },
+  "faiss": {
+   "category": "ai",
+   "aliases": []
+  },
+  "gemini": {
+   "category": "ai",
+   "aliases": [
+    "google gemini",
+    "gemini api"
+   ]
+  },
+  "llama": {
+   "category": "ai",
+   "aliases": [
+    "llama 3",
+    "meta llama"
+   ]
+  },
+  "mistral": {
+   "category": "ai",
+   "aliases": []
+  },
+  "ollama": {
+   "category": "ai",
+   "aliases": []
+  },
+  "huggingface": {
+   "category": "ai",
+   "aliases": [
+    "hugging face",
+    "transformers",
+    "hf"
+   ]
+  },
+  "pytorch": {
+   "category": "ai",
+   "aliases": [
+    "torch"
+   ]
+  },
+  "tensorflow": {
+   "category": "ai",
+   "aliases": []
+  },
+  "scikit-learn": {
+   "category": "ai",
+   "aliases": [
+    "sklearn",
+    "scikit learn"
+   ]
+  },
+  "machine-learning": {
+   "category": "ai",
+   "aliases": [
+    "machine learning",
+    "ml",
+    "ml/ai",
+    "машинне навчання"
+   ]
+  },
+  "nlp": {
+   "category": "ai",
+   "aliases": [
+    "natural language processing"
+   ]
+  },
+  "computer-vision": {
+   "category": "ai",
+   "aliases": [
+    "computer vision",
+    "cv"
+   ]
+  },
+  "function-calling": {
+   "category": "ai",
+   "aliases": [
+    "function calling",
+    "tool calling",
+    "tool use",
+    "tool-calling"
+   ]
+  },
+  "fine-tuning": {
+   "category": "ai",
+   "aliases": [
+    "fine tuning",
+    "finetuning",
+    "fine-tune",
+    "lora"
+   ]
+  },
+  "ai-assisted-development": {
+   "category": "ai",
+   "aliases": [
+    "ai-assisted",
+    "ai assisted",
+    "ai-assisted development",
+    "ai coding",
+    "ai coding tools",
+    "ai-assisted coding",
+    "vibe coding",
+    "vibe-coding",
+    "ai tools",
+    "ai-powered development",
+    "ai-first"
+   ]
+  },
+  "openrouter": {
+   "category": "ai",
+   "aliases": []
+  },
+  "vercel-ai-sdk": {
+   "category": "ai",
+   "aliases": [
+    "vercel ai sdk",
+    "ai sdk"
+   ]
+  },
+  "autogen": {
+   "category": "ai",
+   "aliases": []
+  },
+  "crewai": {
+   "category": "ai",
+   "aliases": [
+    "crew ai"
+   ]
+  },
+  "llm-evals": {
+   "category": "ai",
+   "aliases": [
+    "evals",
+    "llm evaluation",
+    "llm evals",
+    "evaluation"
+   ]
+  },
+  "ai-general": {
+   "category": "ai",
+   "aliases": [
+    "ai",
+    "artificial intelligence",
+    "gen ai",
+    "genai",
+    "generative ai",
+    "штучний інтелект",
+    "ші"
+   ]
+  },
+  "pandas": {
+   "category": "other",
+   "aliases": []
+  },
+  "numpy": {
+   "category": "other",
+   "aliases": []
+  },
+  "stripe": {
+   "category": "other",
+   "aliases": []
+  },
+  "paypal": {
+   "category": "other",
+   "aliases": []
+  },
+  "twilio": {
+   "category": "other",
+   "aliases": []
+  },
+  "sendgrid": {
+   "category": "other",
+   "aliases": []
+  },
+  "s3-compatible": {
+   "category": "other",
+   "aliases": [
+    "minio"
+   ]
+  },
+  "stripe-payments": {
+   "category": "other",
+   "aliases": [
+    "payment integrations",
+    "payment gateways",
+    "payments integration",
+    "payment systems",
+    "payments",
+    "платіжні системи"
+   ]
+  },
+  "third-party-integrations": {
+   "category": "other",
+   "aliases": [
+    "third-party apis",
+    "third party integrations",
+    "third-party integrations",
+    "3rd party apis",
+    "integrations",
+    "інтеграції з сторонніми сервісами"
+   ]
+  },
+  "web-scraping": {
+   "category": "other",
+   "aliases": [
+    "scraping",
+    "puppeteer",
+    "web scraping"
+   ]
+  },
+  "crm": {
+   "category": "other",
+   "aliases": [
+    "salesforce",
+    "hubspot"
+   ]
+  },
+  "erp": {
+   "category": "other",
+   "aliases": []
+  },
+  "oop": {
+   "category": "other",
+   "aliases": [
+    "object-oriented programming",
+    "object oriented programming",
+    "ооп",
+    "object-oriented"
+   ]
+  },
+  "algorithms": {
+   "category": "other",
+   "aliases": [
+    "data structures",
+    "algorithms and data structures",
+    "структури даних",
+    "алгоритми"
+   ]
+  },
+  "multithreading": {
+   "category": "other",
+   "aliases": [
+    "concurrency",
+    "async programming",
+    "asynchronous programming",
+    "асинхронне програмування",
+    "multi-threading"
+   ]
+  },
+  "security": {
+   "category": "other",
+   "aliases": [
+    "owasp",
+    "application security",
+    "web security",
+    "безпека"
+   ]
+  },
+  "performance-optimization": {
+   "category": "other",
+   "aliases": [
+    "performance optimization",
+    "performance tuning",
+    "profiling",
+    "оптимізація продуктивності"
+   ]
+  },
+  "code-review": {
+   "category": "other",
+   "aliases": [
+    "code reviews",
+    "code review",
+    "кодревʼю",
+    "код-рев'ю"
+   ]
+  },
+  "mentoring": {
+   "category": "other",
+   "aliases": [
+    "менторинг"
+   ]
+  },
+  "english": {
+   "category": "other",
+   "aliases": [
+    "англійська",
+    "english b2",
+    "english b1",
+    "english c1",
+    "upper-intermediate",
+    "upper intermediate"
+   ]
+  },
+  "data-engineering": {
+   "category": "other",
+   "aliases": [
+    "etl",
+    "data pipelines",
+    "etl pipelines",
+    "data pipeline",
+    "elt"
+   ]
+  },
+  "data-analytics": {
+   "category": "other",
+   "aliases": [
+    "analytics",
+    "data analysis",
+    "аналітика"
+   ]
+  },
+  "power-bi": {
+   "category": "other",
+   "aliases": [
+    "powerbi"
+   ]
+  },
+  "tableau": {
+   "category": "other",
+   "aliases": []
+  },
+  "electron": {
+   "category": "other",
+   "aliases": []
+  },
+  "tauri": {
+   "category": "other",
+   "aliases": []
+  },
+  "react-hook-form": {
+   "category": "other",
+   "aliases": [
+    "formik"
+   ]
+  },
+  "zod": {
+   "category": "other",
+   "aliases": []
+  },
+  "joi": {
+   "category": "other",
+   "aliases": [
+    "class-validator",
+    "class validator"
+   ]
+  },
+  "webrtc": {
+   "category": "other",
+   "aliases": []
+  },
+  "mqtt": {
+   "category": "other",
+   "aliases": []
+  },
+  "iot": {
+   "category": "other",
+   "aliases": []
+  },
+  "blockchain": {
+   "category": "other",
+   "aliases": [
+    "web3",
+    "solidity",
+    "ethereum"
+   ]
+  },
+  "unity": {
+   "category": "other",
+   "aliases": []
+  },
+  "flutter": {
+   "category": "other",
+   "aliases": []
+  },
+  "ios": {
+   "category": "other",
+   "aliases": []
+  },
+  "android": {
+   "category": "other",
+   "aliases": []
+  },
+  "pwa": {
+   "category": "other",
+   "aliases": [
+    "progressive web app"
+   ]
+  },
+  "seo": {
+   "category": "other",
+   "aliases": []
+  },
+  "accessibility": {
+   "category": "other",
+   "aliases": [
+    "a11y",
+    "wcag"
+   ]
+  },
+  "i18n": {
+   "category": "other",
+   "aliases": [
+    "internationalization",
+    "localization",
+    "l10n"
+   ]
+  },
+  "multitenancy": {
+   "category": "other",
+   "aliases": [
+    "multi-tenancy",
+    "multi-tenant",
+    "multitenant",
+    "multi tenant"
+   ]
+  },
+  "saas": {
+   "category": "other",
+   "aliases": []
+  },
+  "pdf-generation": {
+   "category": "other",
+   "aliases": [
+    "pdf"
+   ]
+  },
+  "excel": {
+   "category": "other",
+   "aliases": [
+    "google sheets",
+    "spreadsheets"
+   ]
+  }
+ }
+}
