@@ -3,7 +3,7 @@ import { Cliffhanger, Explain, Hook, Pitfall, Recap } from './Passive';
 import { Predict } from './Predict';
 import { FillBlanks } from './FillBlanks';
 import { SqlLabWidget } from './sql-wiring';
-import type { Step } from '@learn-code/lesson-schema';
+import { IMPLEMENTED_KINDS, type Step } from '@learn-code/lesson-schema';
 import type { StepComponentProps, WidgetRegistry } from './types';
 
 /** One component per step kind. Kinds without a real widget map to a visible placeholder. */
@@ -31,17 +31,7 @@ export const widgetRegistry: WidgetRegistry = {
   cliffhanger: Cliffhanger,
 };
 
-/** Kinds that have a real widget (the rest render the placeholder). */
-export const IMPLEMENTED_KINDS = [
-  'hook',
-  'explain',
-  'recap',
-  'cliffhanger',
-  'pitfall',
-  'predict',
-  'fillBlanks',
-  'sqlLab',
-] as const;
+export { IMPLEMENTED_KINDS };
 
 /**
  * Renders the widget for any step. The switch narrows `step` per kind, so no cast is needed, and

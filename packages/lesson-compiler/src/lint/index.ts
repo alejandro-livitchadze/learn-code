@@ -2,6 +2,13 @@ import type { Lesson } from '@learn-code/lesson-schema';
 import {
   annotationLines,
   conceptRepresentations,
+  fillBlanksMarkers,
+  fillBlanksSolvable,
+  implementedKinds,
+  knownBlankMisconceptions,
+  knownConcepts,
+  stepCount,
+  uniqueStepIds,
   minActiveRatio,
   noAdjacentPassive,
   passiveWordLimit,
@@ -20,10 +27,28 @@ export const LINT_RULES: readonly LintRule[] = [
   conceptRepresentations,
   reviewCards,
   annotationLines,
+  uniqueStepIds,
+  fillBlanksMarkers,
+  fillBlanksSolvable,
+  knownConcepts,
+  knownBlankMisconceptions,
+  implementedKinds,
+  stepCount,
 ];
 
-export function lintLesson(lesson: Lesson, registries: Registries): readonly LintIssue[] {
-  return LINT_RULES.flatMap((rule) => rule(lesson, registries));
+export interface LintOptions {
+  /** Skip the unbuilt-kind rule. Only for compiler fixtures. */
+  readonly allowUnbuilt?: boolean;
+}
+
+export function lintLesson(
+  lesson: Lesson,
+  registries: Registries,
+  options: LintOptions = {},
+): readonly LintIssue[] {
+  return LINT_RULES.filter(
+    (rule) => !(options.allowUnbuilt === true && rule === implementedKinds),
+  ).flatMap((rule) => rule(lesson, registries));
 }
 
 export * from './rules';

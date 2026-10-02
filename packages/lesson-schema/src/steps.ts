@@ -317,3 +317,16 @@ const passiveSet: ReadonlySet<StepKind> = new Set<StepKind>(PASSIVE_KINDS);
 export function isActive(s: { readonly kind: StepKind }): boolean {
   return !passiveSet.has(s.kind);
 }
+
+/** Kinds that have a real widget in the player. The rest render a placeholder and cannot be played. */
+export const IMPLEMENTED_KINDS = [
+  'hook',
+  'explain',
+  'recap',
+  'cliffhanger',
+  'pitfall',
+  'predict',
+  'fillBlanks',
+  'sqlLab',
+] as const satisfies readonly StepKind[];
+export type ImplementedKind = (typeof IMPLEMENTED_KINDS)[number];
