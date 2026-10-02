@@ -66,7 +66,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: all acceptance criteria of E02.
 
 ## P7. Widgets, first set
-- Status: todo
+- Status: in_progress
 - Depends on: P6
 - Paths: `packages/widgets/**`, `apps/web/app/dev/**`, root
 - Epic: E03
