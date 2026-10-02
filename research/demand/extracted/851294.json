@@ -1,0 +1,19 @@
+{
+  "vacancyId": "851294",
+  "required": [
+    "React",
+    "Vue",
+    "Node.js",
+    "Python",
+    "Vercel",
+    "Railway",
+    "Supabase",
+    "Claude Code",
+    "Cursor"
+  ],
+  "niceToHave": [
+    "LLM",
+    "RAG"
+  ],
+  "seniority": "senior"
+}

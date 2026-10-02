@@ -1,0 +1,15 @@
+{
+  "vacancyId": "851033",
+  "required": [
+    "Node.js",
+    "PostgreSQL",
+    "SQL",
+    "REST API",
+    "JavaScript",
+    "Git",
+    "Node-RED",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

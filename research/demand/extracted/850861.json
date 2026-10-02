@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850861",
+  "required": [
+    "PHP-Laravel",
+    "React",
+    "Next.js",
+    "PostgreSQL",
+    "SQL"
+  ],
+  "niceToHave": [
+    "Stripe Connect",
+    "QuickBooks Online API",
+    "Twilio"
+  ],
+  "seniority": "senior"
+}

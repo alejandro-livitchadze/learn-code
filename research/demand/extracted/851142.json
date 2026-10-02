@@ -1,0 +1,35 @@
+{
+  "vacancyId": "851142",
+  "required": [
+    "Vue.js",
+    "Nuxt",
+    "TypeScript",
+    "Tailwind",
+    "HTML5",
+    "CSS3",
+    "Python",
+    "Django",
+    "Django REST Framework",
+    "Redis",
+    "PostgreSQL",
+    "Vercel",
+    "AWS",
+    "Docker",
+    "CI/CD",
+    "OpenAI",
+    "Anthropic",
+    "Supabase",
+    "Superwall"
+  ],
+  "niceToHave": [
+    "Webflow",
+    "Mollie",
+    "Stripe",
+    "PayPal",
+    "WebSockets",
+    "Pytest",
+    "Jest",
+    "Cypress"
+  ],
+  "seniority": "senior"
+}

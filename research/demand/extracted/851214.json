@@ -1,0 +1,21 @@
+{
+  "vacancyId": "851214",
+  "required": [
+    "Node.js",
+    "Python",
+    "Rust",
+    ".NET",
+    "SQL",
+    "NoSQL"
+  ],
+  "niceToHave": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Angular",
+    "CI/CD"
+  ],
+  "seniority": "middle"
+}
