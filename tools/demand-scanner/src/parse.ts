@@ -7,13 +7,17 @@ import { dirsFor, exists, listIds, readJson, writeJson } from './store.js';
 
 export function dedupeKey(title: string, description: string): string {
   const t = title.toLowerCase().replace(/\s+/g, ' ').trim();
-  const d = createHash('sha256').update(description.toLowerCase().replace(/\s+/g, ' ')).digest('hex');
+  const d = createHash('sha256')
+    .update(description.toLowerCase().replace(/\s+/g, ' '))
+    .digest('hex');
   return `${t}|${d}`;
 }
 
 const str = z.string();
 
-export function parseRaw(raw: unknown): { ok: true; vacancy: Vacancy } | { ok: false; reason: string } {
+export function parseRaw(
+  raw: unknown,
+): { ok: true; vacancy: Vacancy } | { ok: false; reason: string } {
   const r = RawItemSchema.safeParse(raw);
   if (!r.success) return { ok: false, reason: r.error.message };
   const { id, query, fetchedAt } = r.data;
@@ -55,10 +59,17 @@ export function parseAll(root: string): ParseSummary {
   }
   const dupPath = join(root, 'duplicates.json');
   const dups = (exists(dupPath) ? readJson(dupPath) : {}) as Record<string, string>;
-  let parsed = 0, rejected = 0, duplicates = 0, skippedExisting = 0;
+  let parsed = 0,
+    rejected = 0,
+    duplicates = 0,
+    skippedExisting = 0;
 
   for (const id of listIds(dirs.raw)) {
-    if (exists(join(dirs.parsed, `${id}.json`)) || id in dups || exists(join(dirs.rejected, `${id}.json`))) {
+    if (
+      exists(join(dirs.parsed, `${id}.json`)) ||
+      id in dups ||
+      exists(join(dirs.rejected, `${id}.json`))
+    ) {
       skippedExisting++;
       continue;
     }

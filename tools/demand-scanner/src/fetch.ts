@@ -4,9 +4,22 @@ import { parseFeed, vacancyIdFromLink } from './rss.js';
 import { dirsFor, exists, writeJson } from './store.js';
 import type { RawItem } from './schema.js';
 
-export const EXP_LEVELS = ['no_exp', '1y', '2y', '3y', '4y', '5y', '6y', '7y', '8y', '9y', '10y'] as const;
+export const EXP_LEVELS = [
+  'no_exp',
+  '1y',
+  '2y',
+  '3y',
+  '4y',
+  '5y',
+  '6y',
+  '7y',
+  '8y',
+  '9y',
+  '10y',
+] as const;
 export const DEFAULT_KEYWORDS = ['Fullstack', 'Node.js'] as const;
-export const USER_AGENT = 'learn-code-demand-scanner/0.1 (public research on required skills; polite, 1 req / 3 s)';
+export const USER_AGENT =
+  'learn-code-demand-scanner/0.1 (public research on required skills; polite, 1 req / 3 s)';
 const BASE = 'https://djinni.co/jobs/rss/';
 
 export interface HttpResponse {
@@ -53,7 +66,10 @@ export async function fetchFeeds(opts: FetchOptions): Promise<FetchSummary> {
   const log = opts.log ?? (() => undefined);
   const dirs = dirsFor(opts.root);
   mkdirSync(dirs.feeds, { recursive: true });
-  let requests = 0, items = 0, newItems = 0, skippedCached = 0;
+  let requests = 0,
+    items = 0,
+    newItems = 0,
+    skippedCached = 0;
 
   for (const keyword of opts.keywords) {
     for (const exp of opts.expLevels ?? EXP_LEVELS) {

@@ -23,7 +23,12 @@ export function vacancyIdFromLink(link: string): string | undefined {
 }
 
 const ENTITIES: Readonly<Record<string, string>> = {
-  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
 };
 
 export function htmlToText(html: string): string {
@@ -32,12 +37,13 @@ export function htmlToText(html: string): string {
     .replace(/<[^>]+>/g, '')
     .replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, e: string) => {
       if (e.startsWith('#')) {
-        const code = e[1]?.toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+        const code =
+          e[1]?.toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
         return Number.isFinite(code) ? String.fromCodePoint(code) : m;
       }
       return ENTITIES[e.toLowerCase()] ?? m;
     })
-    .replace(/[ \t ]+/g, ' ')
+    .replace(/[ \t\u00a0]+/g, ' ')
     .replace(/ *\n */g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();

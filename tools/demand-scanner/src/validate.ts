@@ -22,7 +22,9 @@ export function validateExtractions(root: string): ValidationResult {
   for (const id of ids) {
     const parsed = ExtractedSkillsSchema.safeParse(readJson(join(dirs.extracted, `${id}.json`)));
     if (!parsed.success) {
-      errors.push(`${id}: schema: ${parsed.error.issues.map((i) => `${i.path.join('.')} ${i.message}`).join('; ')}`);
+      errors.push(
+        `${id}: schema: ${parsed.error.issues.map((i) => `${i.path.join('.')} ${i.message}`).join('; ')}`,
+      );
       continue;
     }
     if (parsed.data.vacancyId !== id) {
