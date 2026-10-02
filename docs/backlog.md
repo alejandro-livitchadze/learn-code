@@ -58,7 +58,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `pnpm lesson build|check|new` work; SQL samples verified against PGlite in Node.js; a wrong declared output fails; `content/fullstack/joins-01/lesson.mdoc` passes; CI runs `lesson check`; README explains adding a step kind.
 
 ## P6. Lesson player
-- Status: todo
+- Status: in_progress
 - Depends on: P5
 - Paths: `apps/web/**`, root
 - Epic: E02
