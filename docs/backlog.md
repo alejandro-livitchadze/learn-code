@@ -82,7 +82,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `apps/web` depends on `@learn-code/widgets` (`workspace:*`, `transpilePackages`) and the catalogue imports it by package name; the player renders every step through `StepWidget` inside `HighlightsProvider` with `widgets.css` loaded once; the player imports `StepResult` and `StepComponentProps` from the widgets package (one definition) and `StepPlaceholder` is removed; the P6 e2e is updated to play the sample lesson with the real widgets (answers instead of "Mark as answered") at 1024 and 1440 px; Playwright tests for the `/dev/widgets` catalogue at 1024 and 1440 px; CI still green. Added by the orchestrator so the P7 milestone check "the sample lesson renders every implemented step kind" can pass.
 
 ## P8. SQL engine and sqlLab
-- Status: todo
+- Status: in_progress
 - Depends on: P7
 - Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, root
 - Epic: E04, part A
@@ -125,7 +125,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.
 
 ## D4. Extraction, the rest
-- Status: todo
+- Status: in_progress
 - Depends on: D3
 - Paths: `research/demand/**`
 - Done when: every parsed vacancy has a valid extraction file.
