@@ -74,7 +74,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `hook`, `explain`, `recap`, `cliffhanger`, `pitfall`, `predict`, `fillBlanks` meet the E03 common rules and appear in the catalogue page; unimplemented kinds map to a visible placeholder and the registry type still compiles.
 
 ## P7b. Wire widgets into the lesson player
-- Status: in_progress
+- Status: done
+- Note: merged via PR #15; CI green; reviewer APPROVE on 77e314d; e2e 19/19 locally (not in CI). The sample lesson cannot be finished through the UI until recall, sqlLab, brainPower and matching have widgets (the e2e seeds those four steps as answered and says so).
 - Depends on: P7
 - Paths: `apps/web/**`, root
 - Epic: E02 and E03 (player integration)

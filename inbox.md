@@ -25,3 +25,4 @@
 ## 2026-10-02 P7
 
 - P7 review minors (not blocking): `render.test.tsx:9` has an `as` cast; Predict `attempts` counts distinct wrong options only. The wiring and e2e minors are covered by task P7b. Stale branch `task/P7` also needs deleting.
+- P7b review minors (not blocking): `e2e/player.spec.ts:71` test name should say four unbuilt steps are storage-seeded; catalogue still imports `fixtures` by relative path (export it from packages/widgets); the full play-through no longer runs at 1280 px; `globals.css:210-240` may hold dead `.code`/`.note` rules. The sample lesson cannot be finished in the UI until recall, sqlLab, brainPower and matching have widgets. Playwright e2e is still not in CI. Stale branch `task/P7b` also needs deleting.

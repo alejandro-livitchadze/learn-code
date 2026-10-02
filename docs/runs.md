@@ -23,3 +23,4 @@
 - Usage: 5 workers and 2 reviewers this run; four tasks plus P5 at the author's request, beyond MAX_TASKS_PER_RUN.
 - P6 (PR #13): merged, CI green, review verdict APPROVE on b96982f. Extra task at the author's request.
 - P7 (PR #14): merged, CI green, review verdict APPROVE on 9b67ce5 (reviewer drove /dev/widgets in Chromium at 1024 and 1440 px). Extra task at the author's request. Milestone step for P7 is held until P7b (player wiring, added by the orchestrator) is merged, because the integration checklist requires the sample lesson to render implemented step kinds.
+- P7b (PR #15): merged, CI green, review verdict APPROVE on 77e314d. Added by the orchestrator to wire the P7 widgets into the player before the P7 milestone step.
