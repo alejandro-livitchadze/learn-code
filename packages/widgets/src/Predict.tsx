@@ -12,7 +12,9 @@ type Props = StepComponentProps<StepOfKind<'predict'>> & {
 
 export function Predict({ step, restored, onComplete, initialTried = [] }: Props) {
   const restoredIndex =
-    restored?.status === 'answered' ? (readChosen(restored.payload) ?? correctPredictIndex(step)) : undefined;
+    restored?.status === 'answered'
+      ? (readChosen(restored.payload) ?? correctPredictIndex(step))
+      : undefined;
   const [tried, setTried] = useState<readonly number[]>(initialTried);
   const [last, setLast] = useState<number | undefined>(initialTried[initialTried.length - 1]);
   const [done, setDone] = useState<number | undefined>(restoredIndex);
@@ -27,7 +29,12 @@ export function Predict({ step, restored, onComplete, initialTried = [] }: Props
       setDone(i);
       if (!completed.current) {
         completed.current = true;
-        onComplete({ status: 'answered', correct: true, attempts: tried.length + 1, payload: { chosen: i } });
+        onComplete({
+          status: 'answered',
+          correct: true,
+          attempts: tried.length + 1,
+          payload: { chosen: i },
+        });
       }
     } else if (!tried.includes(i)) {
       setTried((t) => [...t, i]);
@@ -45,8 +52,7 @@ export function Predict({ step, restored, onComplete, initialTried = [] }: Props
       <Code code={step.code} highlightKey={`${step.id}:code`} label="Code to predict" />
       <ul className="w-options" aria-label="Possible outputs">
         {step.options.map((o, i) => {
-          const state =
-            done === i ? 'correct' : tried.includes(i) ? 'wrong' : 'idle';
+          const state = done === i ? 'correct' : tried.includes(i) ? 'wrong' : 'idle';
           return (
             <li key={i}>
               <button

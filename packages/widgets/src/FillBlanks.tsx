@@ -34,7 +34,12 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
     attempts.current += 1;
     if (result.correct && !completed.current) {
       completed.current = true;
-      onComplete({ status: 'answered', correct: true, attempts: attempts.current, payload: { answers } });
+      onComplete({
+        status: 'answered',
+        correct: true,
+        attempts: attempts.current,
+        payload: { answers },
+      });
     }
   };
 

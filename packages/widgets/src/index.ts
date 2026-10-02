@@ -1,4 +1,4 @@
-export { widgetRegistry, IMPLEMENTED_KINDS } from './registry';
+export { widgetRegistry, StepWidget, IMPLEMENTED_KINDS } from './registry';
 export { HighlightsProvider } from './Code';
 export { Predict } from './Predict';
 export { FillBlanks } from './FillBlanks';

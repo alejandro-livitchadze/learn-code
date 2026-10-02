@@ -14,7 +14,13 @@ const CHARACTERS: Readonly<Record<Character, { readonly name: string; readonly m
   careful: { name: 'Careful', mark: '!' },
 };
 
-function Speech({ character, children }: { readonly character: Character; readonly children: React.ReactNode }) {
+function Speech({
+  character,
+  children,
+}: {
+  readonly character: Character;
+  readonly children: React.ReactNode;
+}) {
   const c = CHARACTERS[character];
   return (
     <div className="w-speech" data-character={character}>
@@ -74,7 +80,12 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
       <Markdown text={step.body} />
       {step.code !== undefined ? (
         <>
-          <Code code={step.code} highlightKey={`${step.id}:code`} label="Annotated code" notes={notes} />
+          <Code
+            code={step.code}
+            highlightKey={`${step.id}:code`}
+            label="Annotated code"
+            notes={notes}
+          />
           {total > 0 ? (
             <div className="w-row">
               <button
@@ -83,7 +94,11 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
                 disabled={shown >= total}
                 onClick={() => setShown((n) => Math.min(n + 1, total))}
               >
-                {shown >= total ? 'All notes shown' : shown === 0 ? 'Show first note' : 'Show next note'}
+                {shown >= total
+                  ? 'All notes shown'
+                  : shown === 0
+                    ? 'Show first note'
+                    : 'Show next note'}
               </button>
               <button
                 type="button"
