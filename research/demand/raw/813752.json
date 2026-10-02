@@ -1,0 +1,14 @@
+{
+  "id": "813752",
+  "query": "Node.js",
+  "fetchedAt": "2026-10-02T12:34:42.353Z",
+  "title": "Junior / Trainee JavaScript Developer - Web Data Scraping",
+  "link": "https://djinni.co/jobs/813752-junior-trainee-javascript-developer-web-data-/",
+  "description": "<p>We're looking for a motivated JavaScript developer at the junior or trainee level to join a team that builds production-grade web scrapers for enterprise clients. Your work will run on enterprise-level web data infrastructure used by some of the world's most recognizable brands - from Fortune 500 retailers like Nike to global technology companies like Philips - powering their market research, price intelligence, and competitive data pipelines.</p><p>&nbsp;</p><p>This is a hands-on engineering role. You won't be writing toy examples - from early on you'll be building real scrapers that extract structured data at scale.</p><p>&nbsp;</p><p>Responsibilities</p><p>&nbsp;</p><p>- Analyze target websites using Chrome DevTools to understand DOM structure and network requests</p><p>- Write JavaScript scrapers using Cheerio and related libraries</p><p>- Craft precise CSS selectors and XPath expressions to reliably target data elements</p><p>- Use Postman to inspect APIs and reverse-engineer data endpoints where applicable</p><p>- Handle pagination, dynamic content, and common anti-scraping patterns</p><p>- Deliver clean, structured output data (JSON/CSV) per client specifications</p><p>- Maintain and update existing scrapers as target sites change</p><p>&nbsp;</p><p>Tech stack</p><p>&nbsp;</p><p>JavaScript, Cheerio, CSS Selectors, XPath, Chrome DevTools, Postman, Git</p><p>&nbsp;</p><p>Requirements</p><p>&nbsp;</p><p>- 1 year of JavaScript experience in any context (commercial, freelance, or project-based), OR currently enrolled in / recently graduated from a Software Engineering, Computer Science, or related program</p><p>- English B2 or higher - you must be able to read technical documentation and communicate with the team in English</p><p>- Understanding of HTML/DOM structure and HTTP basics</p><p>- Ability to learn independently and figure things out from documentation</p><p>&nbsp;</p><p>Nice to have</p><p>&nbsp;</p><p>- Any personal or academic projects involving scraping, parsing, or browser automation</p><p>- Familiarity with Node.js ecosystem</p><p>- Basic knowledge of how proxies or headless browsers work</p><p>&nbsp;</p><p>What we offer</p><p>&nbsp;</p><p>- Work on real client projects from day one - no synthetic tasks</p><p>- Mentorship and code review from experienced engineers on the team</p><p>- Remote-first, fully async-friendly - work from anywhere</p>",
+  "pubDate": "Thu, 01 Oct 2026 14:44:26 +0300",
+  "guid": "https://djinni.co/jobs/813752-junior-trainee-javascript-developer-web-data-/",
+  "category": [
+    "Node.js",
+    ""
+  ]
+}

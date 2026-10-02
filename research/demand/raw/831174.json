@@ -1,0 +1,14 @@
+{
+  "id": "831174",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:17.202Z",
+  "title": "Middle Fullstack Web Developer (Core CRM)",
+  "link": "https://djinni.co/jobs/831174-middle-fullstack-web-developer-core-crm/",
+  "description": "<p><strong>Про проєкт</strong></p><p>Ми розробляємо кредитну fintech-платформу - систему видачі та супроводу споживчих позик. Система складається з повного циклу обробки заявок, верифікації користувача, формування заявок, тощо.<br>&nbsp;</p><p><strong>Що ти будеш робити</strong></p><p>- Розробляти та підтримувати backend-логіку кредитного циклу (видача, пролонгація, погашення позик), скоринг/ризик-правила</p><p>- Писати та рефакторити PHP-код у гібридній кодовій базі</p><p>- Eloquent/Laravel-компонентах поруч з legacy-класами</p><p>- Розробляти адмін-панелі та internal-інструменти на Vue 3 + Vite + Element Plus</p><p>- Працювати з асинхронними задачами через RabbitMQ (черги, воркери)</p><p>- Інтегруватись із зовнішніми сервісами: платіжні шлюз-сервіси електронного підпису, генерація договорів(PDF/DOCX)</p><p>- Писати тести (Pest/PHPUnit) для критичної фінансової</p><p>- Активно використовувати AI-інструменти (Claude Code) у щоденній розробці - рефакторинг, аналіз legacy-коду, прискорення рутинних</p><p>задач.</p><p>&nbsp;</p><p><strong>Наш стек</strong></p><p>- Backend: PHP 8.2, MySQL, Redis, RabbitMQ, Eloquent, Guzzle</p><p>- Frontend: Vue 3, Vite/Webpack 5, Element Plus (admin)</p><p>- Інфраструктура: Docker Compose, GitLab CI</p><p>- Тестування: PHPUnit</p><p>- Інше: phpoffice (Word/Excel-генерація), mpdf/wkhtmlt-рев'ю документів, Sentry<br>&nbsp;</p><p><strong>Очікуваний досвід</strong></p><p>- 2-4 роки комерційного досвіду з PHP (7.4+/8.x)</p><p>- Досвід роботи з Laravel-екосистемою або Eloquent ORM</p><p>- Впевнене володіння SQL, досвід оптимізації запитів, розуміння індексів</p><p>- Досвід роботи з Vue.js (Vue 3 - плюс) або готовність швидко в нього зайти</p><p>- Розуміння REST API, досвід інтеграції зі сторонніми</p><p>- Досвід роботи в кодовій базі з legacy-кодом - вміння рефакторити обережно, без регресій, є великим плюсом</p><p>- Впевнене користування Git</p><p>- Впевнене, продуктивне використання AI-інструментів для розробки - зокрема Claude Code (або аналогічних agentic coding tools) - обов'язкова вимога, а не бонус</p><p>- Плюсом буде досвід у fintech/lending, робота з асинхронними черзями (RabbitMQ/Kafka), досвід з Docker<br>&nbsp;</p>",
+  "pubDate": "Mon, 07 Sep 2026 11:44:37 +0300",
+  "guid": "https://djinni.co/jobs/831174-middle-fullstack-web-developer-core-crm/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

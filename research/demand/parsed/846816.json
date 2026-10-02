@@ -1,0 +1,9 @@
+{
+  "id": "846816",
+  "url": "https://djinni.co/jobs/846816-junior-full-stack-developer-net-react/",
+  "title": "Junior Full-Stack Developer (.NET + React)",
+  "description": "Loankea is a US mortgage lender. We build and run our own software: a workspace for our staff and a portal where borrowers apply and follow their case. Both are in production and used every day.\n\nYou would be the second engineer on this codebase, working directly with the person who built it, and you would carry a task from the issue to production yourself.\n\nBesides the product itself, you would build internal tools and automations for the team, including AI agents for specific business processes.\n\nWe are looking for someone who is comfortable with both backend and frontend development, uses AI tools daily, and is accountable for every line they submit, whether they or an agent wrote it.\n\nRequirements\n• 1+ year of commercial development experience\n• C# and .NET: async, LINQ, dependency injection\n• React and TypeScript\n• PostgreSQL or another relational database\n• AI development tools such as Claude Code, Cursor, Codex or similar\n• Comfortable working in an existing codebase and following the conventions already in place\n• Writing tests and debugging\n• English B1+\n\nMain Stack\n• Backend: C#, .NET 10, GraphQL (HotChocolate), EF Core, PostgreSQL, Azure\n• Frontend: TypeScript, React 19, Apollo Client, Vite, Tailwind CSS, Radix UI\n• Testing: xUnit, Vitest, Testing Library, Testcontainers\n• Tools: Git, GitHub Actions, Docker\n• AI: Claude Code\n\nGraphQL is a plus, not a requirement. It runs through the whole stack here, and if you have not used it, we will teach you.",
+  "publishedAt": "2026-09-12T08:27:09.000Z",
+  "fetchedAt": "2026-10-02T12:34:07.695Z",
+  "query": "Fullstack"
+}
