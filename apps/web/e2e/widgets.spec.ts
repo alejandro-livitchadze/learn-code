@@ -18,6 +18,7 @@ for (const width of [1024, 1440]) {
         'pitfall',
         'predict',
         'fillBlanks',
+        'sqlLab',
       ]) {
         await expect(page.locator(`[data-kind="${kind}"]`).first()).toBeVisible();
       }
