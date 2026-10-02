@@ -46,3 +46,11 @@
 - Workers: 0. Reviewers: 0. Integration PR #16 stays open (milestone D5 step pending; see backlog).
 - Update, same run: CI green on a18cfb9; fresh reviewer gave APPROVE; P8b (PR #20) squash-merged into develop. Reviewers: 1. Workers: 0.
 - Milestone D5: CI green on develop (13e0b20); integration reviewer APPROVE; PR #16 merged into main (merge commit 7bd1c27); main synced back into develop. Reviewers this run: 2 (task P8b, integration). Workers: 0. Next: C1 is ready (depends on D5); P9 is ready (depends on P8).
+
+## 2026-10-02 (sixth run): F1, F2, F6
+
+- F2 (PR #22): merged, CI green, review APPROVE on 0890164.
+- F1 (PR #23): merged, CI green, review APPROVE on e69f87e. Unbuilt-kind and step-count rules were warnings for joins-01 via LEGACY_LESSONS until F6.
+- F6 (PR #24): worker left three compiler tests red (they edit joins-01 by string replacement); F6 Paths widened, fix round 1 done, merged, CI green, review APPROVE on af651a5.
+- Workers: 4 (F1, F2, F6, F6 fix round). Reviewers: 3. MAX_PARALLEL and MAX_TASKS_PER_RUN exceeded at the author's request.
+- Next ready: F3, F4, F5, F7 (F3 and F5 overlap each other; F4 and F7 are independent), F8 is author/orchestrator only.

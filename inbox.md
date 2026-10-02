@@ -52,3 +52,10 @@
 
 - Milestone D5 is on main (PR #16, integration verdict APPROVE on 13e0b20, merge commit 7bd1c27; it also carries P8, P8b, D4). What to try by hand: read `research/demand/report-js.md` and `spot-check.md` (compare the 20 listed vacancies with their Djinni text), and run `pnpm install && pnpm --filter @learn-code/web build && pnpm --filter @learn-code/web start`, then open /fullstack/joins-01 and play through the sqlLab step.
 - Integration review minors: the e2e still seeds recall, brainPower and matching as completed (remove as widgets land).
+
+## 2026-10-02 sixth run
+
+- F1, F2, F6 merged (PRs #23, #22, #24). Stale remote branches `task/F1`, `task/F2`, `task/F6` need deleting (branch delete returned 403 from this environment).
+- F6 minors: `joins-01` title still says "400 rows" (seed gives 320); the 1920 distractor in p2 is weak.
+- Decision needed from the author: do recall, brainPower, matching, parsons and firesideChat get tasks, or leave the 3-month scope? Nothing builds them; the sample lesson no longer uses them.
+- F1 minor: new lint rules have no `brokenFixtures` entries.

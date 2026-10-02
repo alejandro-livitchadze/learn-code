@@ -42,7 +42,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: date, timestamp, timestamptz, time, interval, numeric, bigint, boolean, arrays and json come back as PostgreSQL's text output (configure PGlite parsers to return raw text, session time zone fixed to UTC); a test asserts the exact strings for each type and passes under `TZ=Europe/Kyiv` and `TZ=UTC`; a predict fixture with a date output passes with `2024-03-10`.
 
 ## F6. Sample lesson: finishable and truthful
-- Status: in_progress
+- Status: done
+- Note: merged via PR #24; CI green; reviewer APPROVE on af651a5 (minors: lesson title still says 400 rows; weak 1920 distractor). The author decision on recall, brainPower, matching, parsons and firesideChat is still open.
 - Depends on: none
 - Paths: `content/fullstack/joins-01/**`, `apps/web/e2e/**`, `docs/backlog.md` (orchestrator); also `packages/lesson-compiler/src/check.ts` and `packages/lesson-compiler/test/check.test.ts`, `packages/lesson-compiler/test/cli.test.ts` (remove `LEGACY_LESSONS`, fix tests that edit joins-01 by string replacement)
 - Source: `docs/audit-2026-10-03.md`, finding 6 (major)
