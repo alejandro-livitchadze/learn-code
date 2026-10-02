@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850626",
+  "required": [
+    "Angular",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "JavaScript",
+    "OpenAI",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "NestJS"
+  ],
+  "seniority": "unknown"
+}

@@ -1,0 +1,20 @@
+{
+  "vacancyId": "850281",
+  "required": [
+    "Express.js",
+    "Node.js",
+    "TypeScript",
+    "REST API",
+    "WebSocket",
+    "Jest",
+    "Docker",
+    "MySQL",
+    "Redis"
+  ],
+  "niceToHave": [
+    "React",
+    "Redux",
+    "Next"
+  ],
+  "seniority": "senior"
+}

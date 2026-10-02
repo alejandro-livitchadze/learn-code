@@ -1,0 +1,22 @@
+{
+  "vacancyId": "850671",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "React",
+    "AWS Lambda",
+    "Step Functions",
+    "SQS",
+    "Redis",
+    "PostgreSQL",
+    "Git",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "Cloudflare Workers",
+    "Serverless Framework",
+    "Prometheus",
+    "Grafana"
+  ],
+  "seniority": "unknown"
+}

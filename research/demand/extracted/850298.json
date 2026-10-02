@@ -1,0 +1,18 @@
+{
+  "vacancyId": "850298",
+  "required": [
+    "PHP",
+    "Laravel",
+    "SQL",
+    "Vue.js",
+    "REST API",
+    "Git",
+    "Claude Code"
+  ],
+  "niceToHave": [
+    "RabbitMQ",
+    "Kafka",
+    "Docker"
+  ],
+  "seniority": "middle"
+}

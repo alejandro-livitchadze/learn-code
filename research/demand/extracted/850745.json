@@ -1,0 +1,25 @@
+{
+  "vacancyId": "850745",
+  "required": [
+    "Node.js",
+    "Vue.js",
+    "MongoDB",
+    "Mongoose",
+    "Nuxt.js",
+    "HTML5",
+    "CSS3",
+    "JavaScript",
+    "TypeScript",
+    "Express.js",
+    "Git",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "MongoAtlas",
+    "Vuetify",
+    "Tailwind",
+    "Bootstrap",
+    "SASS"
+  ],
+  "seniority": "senior"
+}

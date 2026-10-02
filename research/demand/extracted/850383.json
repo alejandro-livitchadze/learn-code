@@ -1,0 +1,25 @@
+{
+  "vacancyId": "850383",
+  "required": [
+    "TypeScript",
+    "Node.js",
+    "Python",
+    "React",
+    "Next.js",
+    "PostgreSQL",
+    "Claude Code",
+    "Cursor",
+    "LLM",
+    "RAG",
+    "Docker",
+    "CI/CD",
+    "AWS",
+    "GCP",
+    "Azure"
+  ],
+  "niceToHave": [
+    "Langfuse",
+    "LangSmith"
+  ],
+  "seniority": "senior"
+}
