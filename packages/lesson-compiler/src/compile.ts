@@ -18,6 +18,8 @@ export type CompileResult =
       readonly lesson: Lesson;
       /** 1-based source line of each step tag, keyed by step id. */
       readonly stepLines: Readonly<Record<string, number>>;
+      /** 1-based source line of each step tag, in step order (unlike `stepLines`, safe with duplicate ids). */
+      readonly stepLineList: readonly number[];
     }
   | { readonly ok: false; readonly errors: readonly CompileError[] };
 
@@ -82,7 +84,7 @@ export function compileSource(source: string, path: string): CompileResult {
       const id = n.attributes['id'];
       if (typeof id === 'string') stepLines[id] = lineOf(n);
     }
-    return { ok: true, lesson: parsed.data, stepLines };
+    return { ok: true, lesson: parsed.data, stepLines, stepLineList: stepNodes.map(lineOf) };
   }
   for (const issue of parsed.error.issues) {
     const stepIndex = issue.path[0] === 'steps' ? issue.path[1] : undefined;

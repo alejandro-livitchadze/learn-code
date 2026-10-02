@@ -1,4 +1,12 @@
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,21 +29,26 @@ const original = readFileSync(join(sourceCourse, 'joins-01/lesson.mdoc'), 'utf8'
 let counter = 0;
 
 /** Copy the course to a temp dir with a modified lesson source; returns the lesson path. */
-function variant(edit: (src: string) => string): string {
-  const course = join(tmp, `c${counter++}`);
+function variant(edit: (src: string) => string, lessonId = 'joins-01'): string {
+  const course = join(tmp, `c${counter++}`, 'fullstack');
   cpSync(sourceCourse, course, { recursive: true });
-  const file = join(course, 'joins-01/lesson.mdoc');
-  const next = edit(original);
+  if (lessonId !== 'joins-01') renameSync(join(course, 'joins-01'), join(course, lessonId));
+  const file = join(course, lessonId, 'lesson.mdoc');
+  const next = edit(original).replace('id: joins-01', `id: ${lessonId}`);
   expect(next).not.toBe(original);
   writeFileSync(file, next);
   return file;
 }
+const errorsOf = (issues: readonly { severity: string }[]) =>
+  issues.filter((i) => i.severity === 'error');
 const lineOf = (src: string, text: string): number =>
   src.split('\n').findIndex((l) => l.includes(text)) + 1;
 
 describe('sample lesson', () => {
-  it('passes check', async () => {
-    expect(await checkLesson(join(sourceCourse, 'joins-01/lesson.mdoc'))).toEqual([]);
+  it('passes check, with warnings for the legacy exemptions only', async () => {
+    const issues = await checkLesson(join(sourceCourse, 'joins-01/lesson.mdoc'));
+    expect(issues.filter((i) => i.severity === 'error')).toEqual([]);
+    expect(new Set(issues.map((i) => i.rule))).toEqual(new Set(['step-count', 'unbuilt-kind']));
   });
 });
 
@@ -120,6 +133,86 @@ describe('lint rules reported with file and line', () => {
   });
 });
 
+describe('playable and solvable rules', () => {
+  const passives = Array.from(
+    { length: 13 },
+    (_, i) => `{% cliffhanger id="z${i}" estSeconds=10 question="Next?" /%}`,
+  ).join('\n\n');
+  const cases: readonly (readonly [string, (s: string) => string, string])[] = [
+    ['unique-step-ids', (s) => s.replace('id="m1"', 'id="p1"'), 'id="p1" estSeconds=45'],
+    ['fill-blanks-markers', (s) => s.replace('___fn___', '___ghost___'), 'id="f1"'],
+    [
+      'fill-blanks-solvable',
+      (s) => s.replace('accepted=["distinct"]', 'accepted=["  "]'),
+      'id="f1"',
+    ],
+    [
+      'unknown-concept',
+      (s) =>
+        s.replace('concepts: [inner-join, row-multiplication]', 'concepts: [inner-join, nope]'),
+      '',
+    ],
+    [
+      'unknown-concept',
+      (s) => s.replace('concepts=["inner-join"] %}\n{% blank', 'concepts=["nope"] %}\n{% blank'),
+      'id="f1"',
+    ],
+    [
+      'unknown-misconception',
+      (s) =>
+        s.replace(
+          'accepted=["distinct"] misconception="join-counts-orders"',
+          'accepted=["distinct"] misconception="nope"',
+        ),
+      'id="f1"',
+    ],
+    ['folder-names', (s) => s.replace('id: joins-01', 'id: other'), 'id: other'],
+    ['folder-names', (s) => s.replace('courseId: fullstack', 'courseId: other'), 'courseId:'],
+    ['step-count', (s) => s, ''],
+    ['step-count', (s) => `${s}\n${passives}\n`, ''],
+  ];
+  it.each(cases)('%s', async (rule, edit, at) => {
+    const file = variant(edit, 'joins-02');
+    const src = readFileSync(file, 'utf8');
+    const issues = await checkLesson(file, { allowUnbuilt: true });
+    const hit = issues.find((i) => i.rule === rule);
+    expect(hit, issues.map(formatIssue).join('\n')).toBeDefined();
+    expect(hit?.severity).toBe('error');
+    expect(hit?.file).toBe(file);
+    if (at) expect(hit?.line).toBe(src.split('\n').findIndex((l) => l.includes(at)) + 1);
+    expect(formatIssue(hit!)).toContain(`${file}:`);
+  });
+
+  it('puts duplicate ids on the second occurrence', async () => {
+    const file = variant((s) => s.replace('id="m1"', 'id="p1"'), 'joins-02');
+    const src = readFileSync(file, 'utf8');
+    const hit = (await checkLesson(file, { allowUnbuilt: true })).find(
+      (i) => i.rule === 'unique-step-ids',
+    );
+    expect(hit?.line).toBe(lineOf(src, '{% matching id="p1"'));
+  });
+
+  it('fails on unbuilt kinds unless allowUnbuilt is set', async () => {
+    const file = variant((s) => s, 'joins-02');
+    const strict = (await checkLesson(file)).filter((i) => i.rule === 'unbuilt-kind');
+    expect(strict.map((i) => i.line)).toEqual(
+      ['{% recall', '{% brainPower', '{% matching'].map((t) =>
+        lineOf(readFileSync(file, 'utf8'), t),
+      ),
+    );
+    expect(strict.every((i) => i.severity === 'error')).toBe(true);
+    const lax = await checkLesson(file, { allowUnbuilt: true });
+    expect(lax.some((i) => i.rule === 'unbuilt-kind')).toBe(false);
+  });
+
+  it('accepts the sample lesson under its real name with no folder or registry errors', async () => {
+    const file = variant((s) => s.replace('estSeconds=45', 'estSeconds=46'));
+    const issues = await checkLesson(file, { allowUnbuilt: true });
+    expect(issues.map((i) => i.rule)).toEqual(['step-count']);
+    expect(issues[0]?.severity).toBe('warning');
+  });
+});
+
 describe('compile and registry errors', () => {
   it('reports a missing required attribute with a line number', async () => {
     const file = variant((s) => s.replace(' estSeconds=40', ''));
@@ -196,9 +289,9 @@ describe('sample verification', () => {
 
   it('accepts an empty or failing starter, rejects a broken solution or missing seed', async () => {
     const empty = variant((s) => s.replace(/ starter="[^"]*"/, ''));
-    expect(await checkLesson(empty)).toEqual([]);
+    expect(errorsOf(await checkLesson(empty))).toEqual([]);
     const broken = variant((s) => s.replace(/ starter="[^"]*"/, ' starter="select nope"'));
-    expect(await checkLesson(broken)).toEqual([]);
+    expect(errorsOf(await checkLesson(broken))).toEqual([]);
     const badSolution = variant((s) =>
       s.replace('solution="select count(distinct', 'solution="select count(nope'),
     );

@@ -38,8 +38,8 @@ const withSteps = (steps: readonly Step[]): Lesson => ({ ...validLesson, steps }
 describe('valid lesson', () => {
   it('passes the schema and every rule', () => {
     expect(lessonSchema.safeParse(validLesson).success).toBe(true);
-    expect(lintLesson(validLesson, registries)).toEqual([]);
-    expect(LINT_RULES).toHaveLength(8);
+    expect(lintLesson(validLesson, registries, { allowUnbuilt: true })).toEqual([]);
+    expect(LINT_RULES).toHaveLength(15);
   });
 });
 
@@ -49,10 +49,92 @@ describe('broken fixtures', () => {
       const fixture = brokenFixtures[id];
       if (fixture === undefined) throw new Error(`missing fixture ${id}`);
       expect(rule(fixture, registries).length).toBeGreaterThan(0);
-      const failing = new Set(lintLesson(fixture, registries).map((i) => i.rule));
+      const failing = new Set(
+        lintLesson(fixture, registries, { allowUnbuilt: true }).map((i) => i.rule),
+      );
       expect([...failing]).toEqual([id]);
     });
   }
+});
+
+describe('playable and solvable rules', () => {
+  const only = (l: Lesson, rule: string) =>
+    lintLesson(l, registries, { allowUnbuilt: true }).filter((i) => i.rule === rule);
+  const blanks = (id: string): Step => step(id);
+  const patchBlanks = (id: string, patch: Partial<Extract<Step, { kind: 'fillBlanks' }>>): Lesson =>
+    withSteps(
+      validSteps.map((s) => (s.id === id && s.kind === 'fillBlanks' ? { ...s, ...patch } : s)),
+    );
+
+  it('reports a duplicate id at the second step', () => {
+    const l = withSteps(validSteps.map((s) => (s.id === 'match' ? { ...s, id: 'hook' } : s)));
+    const [issue] = only(l, 'unique-step-ids');
+    expect(issue?.stepIndex).toBe(validSteps.findIndex((s) => s.id === 'match'));
+    expect(issue?.message).toContain('"hook"');
+  });
+
+  it('compares template markers with blank ids both ways', () => {
+    const extra = only(
+      patchBlanks('blanks', { template: 'select ___x___ ___ghost___' }),
+      'fill-blanks-markers',
+    );
+    expect(extra.map((i) => i.message)).toEqual(['marker ___ghost___ has no blank']);
+    const unused = only(patchBlanks('blanks', { template: 'select 1' }), 'fill-blanks-markers');
+    expect(unused.map((i) => i.message)).toEqual(['blank "x" has no marker']);
+    const twice = only(
+      patchBlanks('blanks', { template: '___x___ ___x___' }),
+      'fill-blanks-markers',
+    );
+    expect(twice.map((i) => i.message)).toEqual(['marker ___x___ appears more than once']);
+    const b = blanks('blanks');
+    if (b.kind !== 'fillBlanks') throw new Error('kind');
+    const dup = only(
+      patchBlanks('blanks', { blanks: [...b.blanks, ...b.blanks] }),
+      'fill-blanks-markers',
+    );
+    expect(dup.map((i) => i.message)).toEqual(['blank "x" is defined twice']);
+  });
+
+  it('requires the first accepted answers to pass checkFillBlanks', () => {
+    const l = patchBlanks('blanks', {
+      blanks: [{ id: 'x', accepted: ['   ', '1'], feedback: 'Close.' }],
+    });
+    expect(only(l, 'fill-blanks-solvable')).toHaveLength(1);
+    expect(only(validLesson, 'fill-blanks-solvable')).toEqual([]);
+  });
+
+  it('flags unknown lesson and step concepts', () => {
+    const l = {
+      ...withSteps(validSteps.map((s) => (s.id === 'hook' ? { ...s, concepts: ['nope'] } : s))),
+      concepts: ['join-types', 'nope2'],
+    };
+    const issues = only(l, 'unknown-concept');
+    expect(issues.map((i) => i.message)).toEqual([
+      'lesson concept "nope2" is not in concepts.json',
+      'step concept "nope" is not in concepts.json',
+    ]);
+  });
+
+  it('flags unknown blank misconceptions and accepts known ones', () => {
+    const blank = { id: 'x', accepted: ['1'], feedback: 'Close.' };
+    const bad = patchBlanks('blanks', { blanks: [{ ...blank, misconception: 'nope' }] });
+    expect(only(bad, 'unknown-misconception')).toHaveLength(1);
+    const ok = patchBlanks('blanks', { blanks: [{ ...blank, misconception: 'join-drops-rows' }] });
+    expect(only(ok, 'unknown-misconception')).toEqual([]);
+  });
+
+  it('flags unbuilt kinds unless allowed, and counts steps', () => {
+    const strict = lintLesson(validLesson, registries).filter((i) => i.rule === 'unbuilt-kind');
+    expect(strict.map((i) => i.stepId)).toEqual(['reveal', 'match', 'brain']);
+    expect(only(withSteps(validSteps.slice(0, 11)), 'step-count')).toHaveLength(1);
+    expect(
+      only(
+        withSteps([...validSteps, ...validSteps.map((s) => ({ ...s, id: `${s.id}2` }))]),
+        'step-count',
+      ),
+    ).toHaveLength(1);
+    expect(only(validLesson, 'step-count')).toEqual([]);
+  });
 });
 
 describe('rule details', () => {

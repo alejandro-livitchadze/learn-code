@@ -55,6 +55,13 @@ describe('cli', () => {
     expect(await run(['new', 'cli'], o.log)).toBe(1);
   });
 
+  it('--allow-unbuilt is accepted and drops the unbuilt-kind findings', async () => {
+    const o = collect();
+    const lesson = join(repoContent, 'fullstack/joins-01');
+    expect(await run(['check', lesson, '--allow-unbuilt'], o.log)).toBe(0);
+    expect(o.lines.join('\n')).not.toContain('unbuilt-kind');
+  });
+
   it('prints usage for unknown commands', async () => {
     const o = collect();
     expect(await run(['nope'], o.log)).toBe(1);
@@ -67,7 +74,10 @@ describe('cli', () => {
     expect(o.lines.join('\n')).toMatch(/lesson\.mdoc:\d+: error/);
     const ok = collect();
     expect(await run(['check', join(repoContent, 'fullstack/joins-01')], ok.log)).toBe(0);
-    expect(ok.lines[0]).toMatch(/^ok /);
+    expect(ok.lines.at(-1)).toMatch(/^ok /);
+    const strict = collect();
+    expect(await run(['check', join(repoContent, 'fullstack/joins-01')], strict.log)).toBe(0);
+    expect(strict.lines.join('\n')).toContain('warning [unbuilt-kind]');
   });
 
   it('build writes json, and reports compile errors', async () => {

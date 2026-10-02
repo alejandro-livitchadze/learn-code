@@ -3,6 +3,8 @@ import type { ConceptEntry, Lesson, MisconceptionEntry } from '@learn-code/lesso
 export interface LintIssue {
   readonly rule: string;
   readonly stepId?: string;
+  /** Index of the step in the lesson; locates the right step when ids repeat. */
+  readonly stepIndex?: number;
   readonly message: string;
   readonly severity: 'error' | 'warning';
 }
