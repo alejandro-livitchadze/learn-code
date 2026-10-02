@@ -1,0 +1,26 @@
+{
+  "vacancyId": "850872",
+  "required": [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "SQL",
+    "REST APIs",
+    "webhooks",
+    "OAuth",
+    "CI/CD",
+    "GitHub Actions",
+    "Claude Code",
+    "Cursor",
+    "GitHub Copilot"
+  ],
+  "niceToHave": [
+    "Supabase",
+    "PostgreSQL",
+    "React Native",
+    "Turborepo",
+    "Bun"
+  ],
+  "seniority": "middle"
+}

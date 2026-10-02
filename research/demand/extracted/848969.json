@@ -1,0 +1,18 @@
+{
+  "vacancyId": "848969",
+  "required": [
+    "GTM",
+    "GA4",
+    "Amplitude",
+    "Stripe",
+    "Adyen",
+    "NMI",
+    "webhooks"
+  ],
+  "niceToHave": [
+    "Node",
+    "Python",
+    "PHP"
+  ],
+  "seniority": "unknown"
+}

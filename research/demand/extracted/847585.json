@@ -1,0 +1,14 @@
+{
+  "vacancyId": "847585",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "React"
+  ],
+  "niceToHave": [
+    "Docker",
+    "Kubernetes",
+    "Linux"
+  ],
+  "seniority": "senior"
+}

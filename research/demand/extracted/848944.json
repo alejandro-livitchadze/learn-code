@@ -1,0 +1,24 @@
+{
+  "vacancyId": "848944",
+  "required": [
+    "Laravel",
+    "Vue.js",
+    "PostgreSQL",
+    "SQL",
+    "ClickHouse",
+    "BigQuery",
+    "Snowflake",
+    "GCP",
+    "Docker",
+    "GitHub Actions",
+    "Sentry",
+    "Claude Code"
+  ],
+  "niceToHave": [
+    "TypeScript",
+    "Terraform",
+    "Pulumi",
+    "Apache Druid"
+  ],
+  "seniority": "lead"
+}

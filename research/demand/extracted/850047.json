@@ -1,0 +1,19 @@
+{
+  "vacancyId": "850047",
+  "required": [
+    "Node.js",
+    "JavaScript",
+    "TypeScript",
+    "Express.js",
+    "NestJS",
+    "Fastify",
+    "REST API",
+    "SQL",
+    "NoSQL",
+    "Claude Code",
+    "Cursor",
+    "Codex"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

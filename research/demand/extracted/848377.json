@@ -1,0 +1,14 @@
+{
+  "vacancyId": "848377",
+  "required": [
+    "Laravel",
+    "Vue.js",
+    "Nuxt.js",
+    "REST API",
+    "Docker",
+    "SQL",
+    "NoSQL"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

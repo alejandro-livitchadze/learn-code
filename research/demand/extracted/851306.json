@@ -1,0 +1,17 @@
+{
+  "vacancyId": "851306",
+  "required": [
+    "JavaScript",
+    "Nodejs",
+    "Express",
+    "AWS",
+    "RabbitMQ",
+    "Cursor",
+    "Claude",
+    "ChatGPT"
+  ],
+  "niceToHave": [
+    "PHP"
+  ],
+  "seniority": "senior"
+}

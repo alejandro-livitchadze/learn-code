@@ -1,0 +1,13 @@
+{
+  "vacancyId": "850518",
+  "required": [
+    "Python",
+    "React",
+    "PostgreSQL",
+    "Stripe",
+    "AWS",
+    "LogTo"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

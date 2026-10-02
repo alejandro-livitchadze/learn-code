@@ -1,0 +1,19 @@
+{
+  "vacancyId": "848621",
+  "required": [
+    "Node.js",
+    "React",
+    "JavaScript",
+    "TypeScript",
+    "Firebase",
+    "Stripe",
+    "Cloud Functions",
+    "Firestore",
+    "Google Cloud",
+    "Cloud Run",
+    "GitHub Actions",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

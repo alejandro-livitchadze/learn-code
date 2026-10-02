@@ -1,0 +1,18 @@
+{
+  "vacancyId": "848632",
+  "required": [
+    "Node.js",
+    "REST API",
+    "Express",
+    "NestJS",
+    "TypeScript",
+    "PostgreSQL",
+    "GraphQL",
+    "Git",
+    "Docker",
+    "AWS",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

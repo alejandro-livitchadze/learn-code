@@ -1,0 +1,31 @@
+{
+  "vacancyId": "848936",
+  "required": [
+    "Node.js",
+    "Nest.js",
+    "PostgreSQL",
+    "MySQL",
+    "MongoDB",
+    "redis",
+    "MikroORM",
+    "TypeORM",
+    "Sequelize",
+    "Mongoose",
+    "Temporal.io",
+    "AWS",
+    "Web socket",
+    "jest",
+    "Postman",
+    "JavaScript",
+    "TypeScript",
+    "REST",
+    "Git",
+    "AI tools"
+  ],
+  "niceToHave": [
+    "CI/CD",
+    "GitlabCI",
+    "Kafka"
+  ],
+  "seniority": "senior"
+}

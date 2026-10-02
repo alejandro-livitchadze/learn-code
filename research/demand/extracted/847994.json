@@ -1,0 +1,28 @@
+{
+  "vacancyId": "847994",
+  "required": [
+    ".NET",
+    "ASP.NET Core",
+    "REST API",
+    "NHibernate",
+    "Oracle",
+    "MS SQL",
+    "PostgreSQL",
+    "React",
+    "JavaScript",
+    "TypeScript",
+    "CI/CD",
+    "Azure DevOps",
+    "SQL"
+  ],
+  "niceToHave": [
+    "Angular",
+    "Vue.js",
+    "Azure",
+    "AWS",
+    "SOAP",
+    "RabbitMQ",
+    "Kafka"
+  ],
+  "seniority": "senior"
+}

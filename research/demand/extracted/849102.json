@@ -1,0 +1,25 @@
+{
+  "vacancyId": "849102",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "PostgreSQL",
+    "ClickHouse",
+    "Redis",
+    "Kubernetes",
+    "Docker",
+    "Linux",
+    "REST API",
+    "WebSocket",
+    "Android",
+    "Burp Suite",
+    "mitmproxy",
+    "Frida"
+  ],
+  "niceToHave": [
+    "protobuf",
+    "gRPC"
+  ],
+  "seniority": "senior"
+}

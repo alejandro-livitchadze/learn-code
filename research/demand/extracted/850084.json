@@ -1,0 +1,19 @@
+{
+  "vacancyId": "850084",
+  "required": [
+    "React",
+    "NextJS",
+    "NodeJS",
+    "NestJS",
+    "TypeScript",
+    "GIT",
+    "REST",
+    "Cursor",
+    "Claude Code"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Azure"
+  ],
+  "seniority": "junior"
+}

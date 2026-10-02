@@ -1,0 +1,20 @@
+{
+  "vacancyId": "849584",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "Python",
+    "MongoDB",
+    "AWS",
+    "Terraform",
+    "CloudFormation",
+    "Elasticsearch",
+    "Atlas Search",
+    "CI/CD",
+    "microservices"
+  ],
+  "niceToHave": [
+    "Serverless Framework"
+  ],
+  "seniority": "lead"
+}

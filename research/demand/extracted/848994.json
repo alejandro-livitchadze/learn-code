@@ -1,0 +1,28 @@
+{
+  "vacancyId": "848994",
+  "required": [
+    "Python",
+    "TypeScript",
+    "FastAPI",
+    "Angular",
+    "RESTful APIs",
+    "microservices",
+    "Git",
+    "CI/CD",
+    "SQL",
+    "Docker",
+    "Kubernetes",
+    "pytest",
+    "OpenTelemetry",
+    "JWT",
+    "Keycloak",
+    "OIDC"
+  ],
+  "niceToHave": [
+    "Kafka",
+    "RabbitMQ",
+    "ClickHouse",
+    "Playwright"
+  ],
+  "seniority": "lead"
+}

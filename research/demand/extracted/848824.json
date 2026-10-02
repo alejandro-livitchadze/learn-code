@@ -1,0 +1,14 @@
+{
+  "vacancyId": "848824",
+  "required": [
+    "Kotlin",
+    "Java",
+    "React",
+    "AWS",
+    "microservices",
+    "Kafka",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

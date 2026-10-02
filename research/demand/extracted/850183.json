@@ -1,0 +1,17 @@
+{
+  "vacancyId": "850183",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "WebSockets",
+    "REST",
+    "FIX",
+    "AWS",
+    "Redis",
+    "IAM"
+  ],
+  "niceToHave": [
+    "PostgreSQL"
+  ],
+  "seniority": "senior"
+}

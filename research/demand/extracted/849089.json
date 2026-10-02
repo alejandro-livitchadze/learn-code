@@ -1,0 +1,26 @@
+{
+  "vacancyId": "849089",
+  "required": [
+    "React",
+    "Node.js",
+    "NestJS",
+    "Express",
+    "TypeScript",
+    "PostgreSQL",
+    "REST API",
+    "Claude Code",
+    "Cursor",
+    "LLM"
+  ],
+  "niceToHave": [
+    "Next.js",
+    "LangGraph",
+    "MCP",
+    "n8n",
+    "Supabase",
+    "Vercel AI SDK",
+    "Docker",
+    "AWS"
+  ],
+  "seniority": "unknown"
+}

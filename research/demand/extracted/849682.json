@@ -1,0 +1,24 @@
+{
+  "vacancyId": "849682",
+  "required": [
+    "Python",
+    "Django",
+    "SQL",
+    "Oracle",
+    "PL/SQL",
+    "HTML5",
+    "CSS3",
+    "JavaScript",
+    "Django ORM",
+    "python-oracledb",
+    "Chart.js",
+    "Apache ECharts",
+    "REST APIs",
+    "Git"
+  ],
+  "niceToHave": [
+    "Django REST Framework",
+    "PostgreSQL"
+  ],
+  "seniority": "middle"
+}

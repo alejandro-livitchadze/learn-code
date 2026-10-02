@@ -1,0 +1,26 @@
+{
+  "vacancyId": "848173",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "NestJS",
+    "PostgreSQL",
+    "SQL",
+    "React",
+    "Next.js",
+    "Docker",
+    "CI/CD",
+    "REST APIs"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Azure",
+    "Kubernetes",
+    "Terraform",
+    "Kafka",
+    "RabbitMQ",
+    "GraphQL",
+    "LLM"
+  ],
+  "seniority": "senior"
+}

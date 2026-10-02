@@ -1,0 +1,17 @@
+{
+  "vacancyId": "848819",
+  "required": [
+    "Next.js",
+    "TypeScript",
+    "React",
+    "Python",
+    "SQL",
+    "Linux",
+    "LLM"
+  ],
+  "niceToHave": [
+    "SQLite",
+    "SEO"
+  ],
+  "seniority": "senior"
+}

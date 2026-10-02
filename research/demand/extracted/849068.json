@@ -1,0 +1,12 @@
+{
+  "vacancyId": "849068",
+  "required": [
+    "Node.js",
+    "React",
+    "REST APIs"
+  ],
+  "niceToHave": [
+    "Angular"
+  ],
+  "seniority": "senior"
+}

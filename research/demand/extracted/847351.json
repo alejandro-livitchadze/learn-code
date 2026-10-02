@@ -1,0 +1,20 @@
+{
+  "vacancyId": "847351",
+  "required": [
+    "Python",
+    "FastAPI",
+    "TypeScript",
+    "React",
+    "SQL",
+    "PostgreSQL",
+    "Azure",
+    "AWS",
+    "GCP",
+    "Docker",
+    "CI/CD",
+    "LLM",
+    "RAG"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

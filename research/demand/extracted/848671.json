@@ -1,0 +1,15 @@
+{
+  "vacancyId": "848671",
+  "required": [
+    "Next.js",
+    "React",
+    "Git",
+    "GitHub",
+    "Webflow"
+  ],
+  "niceToHave": [
+    "Claude Code",
+    "Cursor"
+  ],
+  "seniority": "unknown"
+}

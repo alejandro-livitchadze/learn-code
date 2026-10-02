@@ -1,0 +1,25 @@
+{
+  "vacancyId": "848583",
+  "required": [
+    "Python",
+    "Django",
+    "DRF",
+    "REST API",
+    "Git",
+    "CI/CD",
+    "React.js",
+    "TypeScript",
+    "Redux",
+    "SWR",
+    "SASS",
+    "Bootstrap"
+  ],
+  "niceToHave": [
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "GCP"
+  ],
+  "seniority": "senior"
+}
