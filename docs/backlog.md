@@ -5,7 +5,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
 ## F1. Lesson check: playable and solvable
-- Status: in_progress
+- Status: done
+- Note: merged via PR #23; CI green; reviewer APPROVE on e69f87e (minors: LEGACY_LESSONS also downgrades unbuilt-kind for joins-01, removed in F6; new rules lack brokenFixtures entries).
 - Depends on: none
 - Paths: `packages/lesson-compiler/**`, `packages/lesson-schema/**`, `packages/widgets/src/check.ts`, `packages/widgets/src/registry.tsx`, root
 - Source: `docs/audit-2026-10-03.md`, finding 1 (blocker)
@@ -43,7 +44,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 ## F6. Sample lesson: finishable and truthful
 - Status: in_progress
 - Depends on: none
-- Paths: `content/fullstack/joins-01/**`, `apps/web/e2e/**`, `docs/backlog.md` (orchestrator)
+- Paths: `content/fullstack/joins-01/**`, `apps/web/e2e/**`, `docs/backlog.md` (orchestrator); also `packages/lesson-compiler/src/check.ts` and `packages/lesson-compiler/test/check.test.ts`, `packages/lesson-compiler/test/cli.test.ts` (remove `LEGACY_LESSONS`, fix tests that edit joins-01 by string replacement)
 - Source: `docs/audit-2026-10-03.md`, finding 6 (major)
 - Done when: `joins-01` uses only kinds in `IMPLEMENTED_KINDS`, includes a `pitfall` and a `cliffhanger`, and has 12 to 20 steps; the seed has orders without items and an `amount` column, and a sample shows the inflated sum; `lesson check` proves `select count(*) from orders` does not match the reference; the prompt names the expected column; the e2e plays the lesson with no `localStorage` seeding. The author decides whether recall, brainPower, matching, parsons and firesideChat get tasks or leave the 3-month scope, and the backlog says so.
 
