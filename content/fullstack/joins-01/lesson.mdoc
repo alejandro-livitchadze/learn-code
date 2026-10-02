@@ -13,40 +13,33 @@ Friday, 18:40. The sales report shows revenue **four times** higher than the ban
 {% option output="100" misconception="join-keeps-row-count" %}
 There are 100 orders, so the join must give 100 rows.
 {% /option %}
-{% option output="400" correct=true %}
-Each order matched four items, so every order shows up four times.
+{% option output="320" correct=true %}
+Each order has four items, so every order with items shows up four times. Orders 81 to 100 have no items and vanish.
 {% /option %}
-{% option output="500" misconception="join-is-union" %}
+{% option output="420" misconception="join-is-union" %}
 A join pairs rows side by side. It does not stack the two tables.
 {% /option %}
 {% /predict %}
 
 {% explain id="e1" estSeconds=45 code="select o.id, i.sku\nfrom orders o\njoin items i on i.order_id = o.id" concepts=["inner-join"] %}
-A join returns one row for every matching pair. One order with four items gives four rows.
+A join returns one row for every matching pair. One order with four items gives four rows. An order with no items gives none.
 
 {% annotation line=3 %}
 Every matching item makes one more row for the same order.
 {% /annotation %}
 {% /explain %}
 
-{% recall id="r1" estSeconds=60 %}
-{% question prompt="Why does the revenue sum come out four times too high?" %}
-{% option text="Each order is repeated once per item" correct=true %}
-Right. The sum adds the order amount once per row.
+{% predict id="p2" estSeconds=60 code="./samples/sum.sql" language="sql" concepts=["row-multiplication"] %}
+{% option output="1600" misconception="join-keeps-row-count" %}
+That is the true revenue: 80 paid orders of 20. The join does not keep each order once.
 {% /option %}
-{% option text="The database counts twice" misconception="join-counts-orders" %}
-The database counts exactly what you ask. The join produced the extra rows.
+{% option output="6400" correct=true %}
+Each order amount is added once per item, so 80 orders of 20 become 320 rows of 20. This is the report's bug.
 {% /option %}
-{% /question %}
-{% question prompt="Why is count(*) after a join not the number of orders?" %}
-{% option text="It counts result rows, not orders" correct=true %}
-Right. Use count(distinct o.id) to count orders.
+{% option output="1920" misconception="join-counts-orders" %}
+The sum does not count orders or items. It adds the amount on every row the join produced.
 {% /option %}
-{% option text="count(*) ignores the join" misconception="join-keeps-row-count" %}
-count(*) counts the rows the join produced.
-{% /option %}
-{% /question %}
-{% /recall %}
+{% /predict %}
 
 {% fillBlanks id="f1" estSeconds=60 template="select count(___fn___ o.id)\nfrom orders o\njoin items i on i.order_id = o.id" language="sql" concepts=["inner-join"] %}
 {% blank id="fn" accepted=["distinct"] misconception="join-counts-orders" %}
@@ -54,21 +47,39 @@ distinct makes each order count once, however many items it has.
 {% /blank %}
 {% /fillBlanks %}
 
-{% sqlLab id="s1" estSeconds=120 prompt="Return the number of orders that have at least one item." seedRef="default" starter="select count(*) from orders o join items i on i.order_id = o.id" solution="select count(distinct o.id) from orders o join items i on i.order_id = o.id" concepts=["row-multiplication"] %}
+{% predict id="p3" estSeconds=60 code="select count(distinct o.id)\nfrom orders o\njoin items i on i.order_id = o.id" language="sql" concepts=["row-multiplication"] %}
+{% option output="100" misconception="join-keeps-row-count" %}
+The join drops the 20 orders without items, so not all 100 orders are counted.
+{% /option %}
+{% option output="320" misconception="join-counts-orders" %}
+That is the number of rows. distinct counts each order once.
+{% /option %}
+{% option output="80" correct=true %}
+Distinct order ids among the joined rows: only the 80 orders that have items.
+{% /option %}
+{% /predict %}
+
+{% sqlLab id="s1" estSeconds=120 prompt="Return one row with one column named n: the number of orders that have at least one item." seedRef="default" starter="select count(*) as n from orders" solution="select count(distinct order_id) as n from items" concepts=["row-multiplication"] %}
 {% hint %}
-Count something that is the same for all rows of one order.
+The starter counts every order, including empty carts. Count distinct order ids in items instead.
 {% /hint %}
 {% /sqlLab %}
 
-{% brainPower id="b1" estSeconds=60 question="Why do four items per order make the revenue exactly four times too high?" concepts=["row-multiplication"] %}
-Each order is repeated once per item, and every repeat adds the full order amount again.
-{% /brainPower %}
+{% pitfall id="pf1" estSeconds=40 language="sql" badCode="select sum(o.amount)\nfrom orders o\njoin items i on i.order_id = o.id" goodCode="select sum(amount)\nfrom orders" concepts=["row-multiplication"] %}
+Summing a column of the one side after a join to the many side adds it once per match. Sum at the grain of that table, or aggregate the many side before you join.
+{% /pitfall %}
 
-{% matching id="m1" estSeconds=45 prompt="Match each term to its meaning." concepts=["inner-join"] %}
-{% pair left="Primary key" right="Identifies one row in its own table" /%}
-{% pair left="Foreign key" right="Points at a row in another table" /%}
-{% pair left="Inner join" right="Keeps only rows that match on both sides" /%}
-{% /matching %}
+{% sqlLab id="s2" estSeconds=90 prompt="Return one row with one column named revenue: the true total amount of all orders." seedRef="default" starter="select sum(o.amount) as revenue from orders o join items i on i.order_id = o.id" solution="select sum(amount) as revenue from orders" concepts=["row-multiplication"] %}
+{% hint %}
+The amount lives in orders. You do not need items to add it up.
+{% /hint %}
+{% /sqlLab %}
+
+{% fillBlanks id="f2" estSeconds=60 template="select o.id, count(i.id) as items\nfrom orders o\njoin items i on i.order_id = o.id\ngroup by ___col___" language="sql" concepts=["inner-join"] %}
+{% blank id="col" accepted=["o.id", "1"] misconception="join-keeps-row-count" %}
+Group by the order id to get one row per order again.
+{% /blank %}
+{% /fillBlanks %}
 
 {% recap id="rc1" estSeconds=30 concepts=["inner-join", "row-multiplication"] %}
 {% point %}
@@ -81,3 +92,17 @@ One left row with many matches appears many times.
 Count or sum at the right grain: use distinct or aggregate before you join.
 {% /point %}
 {% /recap %}
+
+{% predict id="p4" estSeconds=60 code="./samples/left.sql" language="sql" concepts=["inner-join"] %}
+{% option output="100" misconception="join-keeps-row-count" %}
+Orders still repeat once per item, so the count is not 100.
+{% /option %}
+{% option output="340" correct=true %}
+320 matched rows, plus one row each for the 20 orders without items. A left join keeps them.
+{% /option %}
+{% option output="420" misconception="join-is-union" %}
+A join does not stack 100 orders on top of 320 items.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 question="The left join kept 20 orders that have no items. What does i.sku look like on those rows, and what does count(i.id) give for them?" /%}
