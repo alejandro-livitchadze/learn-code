@@ -140,7 +140,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: every parsed vacancy has a valid extraction file.
 
 ## D5. Reports
-- Status: todo
+- Status: in_progress
 - Depends on: D4
 - Paths: `research/demand/**`, `tools/demand-scanner/**`
 - Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.
