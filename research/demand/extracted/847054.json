@@ -1,0 +1,19 @@
+{
+  "vacancyId": "847054",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "SQL",
+    "NoSQL",
+    "PostgreSQL",
+    "MySQL",
+    "Redis",
+    "WebSocket",
+    "Azure",
+    "Kubernetes",
+    "CI/CD",
+    "REST"
+  ],
+  "niceToHave": [],
+  "seniority": "lead"
+}

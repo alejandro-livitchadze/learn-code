@@ -1,0 +1,31 @@
+{
+  "vacancyId": "846999",
+  "required": [
+    "PHP",
+    "Symfony",
+    "Vue 3",
+    "React",
+    "REST API",
+    "API Platform",
+    "PostgreSQL",
+    "Redis",
+    "Doctrine",
+    "centrifugo",
+    "DDD",
+    "SOLID",
+    "Git",
+    "Docker",
+    "HTML5",
+    "CSS3",
+    "PHPStan",
+    "Psalm",
+    "RabbitMQ",
+    "PHPUnit"
+  ],
+  "niceToHave": [
+    "Symfony Workflow",
+    "Elasticsearch",
+    "S3"
+  ],
+  "seniority": "lead"
+}

@@ -1,0 +1,31 @@
+{
+  "vacancyId": "846700",
+  "required": [
+    "React",
+    "TypeScript",
+    "C#",
+    "ASP.NET MVC",
+    "Web API",
+    ".NET Framework",
+    ".NET Core",
+    "JavaScript",
+    "XHTML",
+    "CSS",
+    "Redux",
+    "Redux Saga",
+    "Immutable.js",
+    "SOLID",
+    "XML",
+    "JSON"
+  ],
+  "niceToHave": [
+    "AWS",
+    "SQS",
+    "EKS",
+    "Fargate",
+    "Kubernetes",
+    "Node.js",
+    "nw.js"
+  ],
+  "seniority": "middle"
+}

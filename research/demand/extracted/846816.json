@@ -1,0 +1,25 @@
+{
+  "vacancyId": "846816",
+  "required": [
+    "C#",
+    ".NET",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "Claude Code",
+    "Cursor",
+    "Codex",
+    "EF Core",
+    "Git",
+    "Docker",
+    "GitHub Actions",
+    "Tailwind CSS",
+    "Vitest",
+    "xUnit",
+    "Azure"
+  ],
+  "niceToHave": [
+    "GraphQL"
+  ],
+  "seniority": "junior"
+}

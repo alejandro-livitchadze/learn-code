@@ -1,0 +1,15 @@
+{
+  "vacancyId": "846677",
+  "required": [
+    "Node.js",
+    "SQL",
+    "NoSQL",
+    "Docker",
+    "LLM",
+    "REST APIs",
+    "Linux",
+    "AI agents"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}
