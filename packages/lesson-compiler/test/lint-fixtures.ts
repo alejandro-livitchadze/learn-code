@@ -101,6 +101,24 @@ export const validSteps: readonly Step[] = [
   },
   {
     ...base,
+    id: 'blanks3',
+    kind: 'fillBlanks',
+    template: 'select ___z___',
+    language: 'sql',
+    blanks: [{ id: 'z', accepted: ['1'], feedback: 'Close.' }],
+    concepts: N,
+  },
+  {
+    ...base,
+    id: 'blanks4',
+    kind: 'fillBlanks',
+    template: 'select ___w___',
+    language: 'sql',
+    blanks: [{ id: 'w', accepted: ['1'], feedback: 'Close.' }],
+    concepts: J,
+  },
+  {
+    ...base,
     id: 'recap',
     kind: 'recap',
     points: ['Joins keep rows.', 'NULL is not equal to NULL.', 'Test both sides.'],
@@ -123,6 +141,12 @@ const withSteps = (steps: readonly Step[], extra: Partial<Lesson> = {}): Lesson 
   ...extra,
   steps,
 });
+const byId = (id: string): Step => {
+  const s = validSteps.find((x) => x.id === id);
+  if (s === undefined) throw new Error(`no step ${id}`);
+  return s;
+};
+const renamed = (id: string, to: string): Step => ({ ...byId(id), id: to });
 const replaceStep = (id: string, patch: (s: Step) => Step): Step[] =>
   validSteps.map((s) => (s.id === id ? patch(s) : s));
 
@@ -136,18 +160,16 @@ export const brokenFixtures: Readonly<Record<string, Lesson>> = {
       (s): s is Step => s !== undefined,
     ),
   ),
-  'min-active-ratio': withSteps(
-    [
-      ...validSteps.slice(0, 5),
-      { ...base, id: 'cliff', kind: 'cliffhanger', question: 'What next?', concepts: N },
-      validSteps[3],
-      { ...base, id: 'pit', kind: 'pitfall', body: 'Oops.', concepts: N },
-      validSteps[4],
-      { ...base, id: 'pit2', kind: 'pitfall', body: 'Oops again.', concepts: N },
-      validSteps[8],
-      validSteps[9],
-    ].filter((s): s is Step => s !== undefined),
-  ),
+  'min-active-ratio': withSteps([
+    ...validSteps.slice(0, 5),
+    { ...base, id: 'cliff', kind: 'cliffhanger', question: 'What next?', concepts: N },
+    renamed('blanks', 'blanks-again'),
+    { ...base, id: 'pit', kind: 'pitfall', body: 'Oops.', concepts: N },
+    renamed('lab', 'lab-again'),
+    { ...base, id: 'pit2', kind: 'pitfall', body: 'Oops again.', concepts: N },
+    byId('blanks2'),
+    byId('recap'),
+  ]),
   'predict-before-explain': withSteps(
     replaceStep('predict', () => ({
       ...base,
@@ -179,7 +201,13 @@ export const brokenFixtures: Readonly<Record<string, Lesson>> = {
   ),
   'concept-representations': withSteps(
     replaceStep('match', (s) => ({ ...s, concepts: [] })).map((s) =>
-      s.id === 'blanks' || s.id === 'brain' || s.id === 'reveal' ? { ...s, concepts: [] } : s,
+      s.id === 'blanks' ||
+      s.id === 'blanks3' ||
+      s.id === 'blanks4' ||
+      s.id === 'brain' ||
+      s.id === 'reveal'
+        ? { ...s, concepts: [] }
+        : s,
     ),
   ),
   'review-cards': withSteps(

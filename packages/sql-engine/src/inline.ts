@@ -20,13 +20,8 @@ export function createInlineEngine(options: InlineEngineOptions = {}): SqlEngine
   return {
     id: 'pglite-inline',
     async open(seedSql: string): Promise<SqlSession> {
-      const runner = new SqlRunner(await createDatabase(), seedSql, maxRows);
-      try {
-        await runner.seed();
-      } catch (error) {
-        await runner.close();
-        throw error;
-      }
+      const runner = new SqlRunner(createDatabase, seedSql, maxRows);
+      await runner.open();
       let queue: Promise<unknown> = Promise.resolve();
       const serial = <T>(job: () => Promise<T>): Promise<T> => {
         const next = queue.then(job);

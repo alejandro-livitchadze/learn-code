@@ -15,28 +15,50 @@ export interface DatabaseResult {
   readonly fields: readonly { readonly name: string }[];
 }
 
-const RESET_SQL = 'drop schema if exists public cascade; create schema public;';
+export type DatabaseFactory = () => Promise<DatabaseLike>;
 
 /** Runs seed, reset and learner SQL on one database. Used inline (Node) and inside the worker. */
 export class SqlRunner {
+  private db: DatabaseLike | undefined;
+
   constructor(
-    private readonly db: DatabaseLike,
+    private readonly createDatabase: DatabaseFactory,
     private readonly seedSql: string,
     private readonly maxRows: number,
   ) {}
 
-  async seed(): Promise<void> {
-    if (this.seedSql.trim() !== '') await this.db.exec(this.seedSql);
+  /** Creates the first database and seeds it. On failure nothing stays open. */
+  async open(): Promise<void> {
+    this.db = await this.freshSeeded();
   }
 
+  /**
+   * Replaces the database with a new, seeded one, so the result is identical to a fresh `open`
+   * whatever state the learner left the old session in (aborted or open transaction, changed
+   * `search_path` or settings, extra schemas). If creating or seeding fails, the old database
+   * stays in place and the next call can retry.
+   */
   async reset(): Promise<void> {
-    await this.db.exec(RESET_SQL);
-    await this.seed();
+    const old = this.db;
+    this.db = await this.freshSeeded();
+    if (old !== undefined) await old.close().catch(() => undefined);
+  }
+
+  private async freshSeeded(): Promise<DatabaseLike> {
+    const db = await this.createDatabase();
+    try {
+      if (this.seedSql.trim() !== '') await db.exec(this.seedSql);
+    } catch (error) {
+      await db.close().catch(() => undefined);
+      throw error;
+    }
+    return db;
   }
 
   /** Runs a script; the outcome is the last statement's result, or the first error. */
   async execute(sql: string): Promise<SqlOutcome> {
     try {
+      if (this.db === undefined) throw new Error('session is not open');
       const results = await this.db.exec(sql, { rowMode: 'array' });
       const last = results[results.length - 1];
       if (last === undefined) return { ok: true, result: buildResult([], [], this.maxRows) };
@@ -54,8 +76,10 @@ export class SqlRunner {
     }
   }
 
-  close(): Promise<void> {
-    return this.db.close();
+  async close(): Promise<void> {
+    const db = this.db;
+    this.db = undefined;
+    await db?.close();
   }
 }
 

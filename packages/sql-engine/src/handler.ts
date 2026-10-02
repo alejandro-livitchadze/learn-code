@@ -1,7 +1,7 @@
 import type { WorkerRequest, WorkerResponse } from './protocol';
-import { SqlRunner, type DatabaseLike } from './runner';
+import { SqlRunner, type DatabaseFactory } from './runner';
 
-export type DatabaseFactory = () => Promise<DatabaseLike>;
+export type { DatabaseFactory };
 
 /**
  * The message handler that lives inside the worker. It is a plain function over `post`, so tests
@@ -18,8 +18,11 @@ export function createWorkerHandler(
     try {
       switch (request.type) {
         case 'init': {
-          runner = new SqlRunner(await createDatabase(), request.seedSql, request.maxRows);
-          await runner.seed();
+          await runner?.close();
+          runner = undefined;
+          const opened = new SqlRunner(createDatabase, request.seedSql, request.maxRows);
+          await opened.open();
+          runner = opened;
           post({ id: request.id, type: 'done' });
           return;
         }
