@@ -1,0 +1,19 @@
+{
+  "vacancyId": "837230",
+  "required": [
+    "React",
+    "Redux",
+    "ES6+",
+    "HTML5",
+    "CSS3",
+    "Node.js",
+    "REST APIs",
+    "MongoDB",
+    "Redis",
+    "TypeScript",
+    "JavaScript",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "lead"
+}

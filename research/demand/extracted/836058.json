@@ -1,0 +1,19 @@
+{
+  "vacancyId": "836058",
+  "required": [
+    "TypeScript",
+    "Node",
+    "NestJS",
+    "PostgreSQL",
+    "AWS",
+    "Claude Code",
+    "Codex",
+    "Temporal"
+  ],
+  "niceToHave": [
+    "Twilio",
+    "MCP",
+    "SIP"
+  ],
+  "seniority": "senior"
+}

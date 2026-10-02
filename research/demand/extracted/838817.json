@@ -1,0 +1,18 @@
+{
+  "vacancyId": "838817",
+  "required": [
+    "Java",
+    "Spring Boot",
+    "React",
+    "Angular",
+    "Azure OpenAI",
+    "Kafka",
+    "Terraform",
+    "Kubernetes",
+    "Helm",
+    "ArgoCD",
+    "LLM"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

@@ -1,0 +1,27 @@
+{
+  "vacancyId": "839861",
+  "required": [
+    "Kafka",
+    "RabbitMQ",
+    "Docker",
+    "Helm",
+    "Terraform",
+    "Pulumi",
+    "Kubernetes",
+    "PHP",
+    "Symfony",
+    "Redis",
+    "MariaDB",
+    "PostgreSQL",
+    "BigQuery",
+    "Twig",
+    "HTML",
+    "Sass",
+    "JavaScript",
+    "Webpack Encore",
+    "AWS",
+    "GitLab"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

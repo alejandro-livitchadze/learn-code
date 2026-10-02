@@ -1,0 +1,21 @@
+{
+  "vacancyId": "838394",
+  "required": [
+    "Node.js",
+    "PHP",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "REST",
+    "Redis",
+    "Memcache",
+    "Docker",
+    "Git"
+  ],
+  "niceToHave": [
+    "Shopify",
+    "WordPress",
+    "Magento"
+  ],
+  "seniority": "unknown"
+}

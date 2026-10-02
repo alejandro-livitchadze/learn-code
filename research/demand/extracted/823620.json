@@ -1,0 +1,27 @@
+{
+  "vacancyId": "823620",
+  "required": [
+    "NestJS",
+    "PostgreSQL",
+    "Node.js",
+    "JavaScript",
+    "TypeScript",
+    "TypeORM",
+    "Jest",
+    "RESTful"
+  ],
+  "niceToHave": [
+    "AWS",
+    "EC2",
+    "S3",
+    "Lambda",
+    "RabbitMQ",
+    "Kafka",
+    "Docker",
+    "Redis",
+    "MongoDB",
+    "Elasticsearch",
+    "microservice"
+  ],
+  "seniority": "junior"
+}

@@ -1,0 +1,29 @@
+{
+  "vacancyId": "831174",
+  "required": [
+    "PHP",
+    "Laravel",
+    "Eloquent",
+    "Vue 3",
+    "Vite",
+    "Element Plus",
+    "RabbitMQ",
+    "Pest",
+    "PHPUnit",
+    "MySQL",
+    "Redis",
+    "Guzzle",
+    "Docker Compose",
+    "GitLab CI",
+    "SQL",
+    "Vue.js",
+    "REST API",
+    "Git",
+    "Claude Code"
+  ],
+  "niceToHave": [
+    "Kafka",
+    "Docker"
+  ],
+  "seniority": "middle"
+}
