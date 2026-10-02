@@ -12,7 +12,7 @@ export interface Registries {
   readonly concepts: readonly ConceptEntry[];
   readonly misconceptions: readonly MisconceptionEntry[];
   /** Concept ids that only describe syntax. They never get review cards. */
-  readonly syntaxConcepts?: readonly string[];
+  readonly syntaxConcepts?: readonly string[] | undefined;
 }
 
 export type LintRule = (lesson: Lesson, registries: Registries) => readonly LintIssue[];

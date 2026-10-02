@@ -13,7 +13,12 @@ export interface CompileError {
 }
 
 export type CompileResult =
-  | { readonly ok: true; readonly lesson: Lesson }
+  | {
+      readonly ok: true;
+      readonly lesson: Lesson;
+      /** 1-based source line of each step tag, keyed by step id. */
+      readonly stepLines: Readonly<Record<string, number>>;
+    }
   | { readonly ok: false; readonly errors: readonly CompileError[] };
 
 export const formatError = (e: CompileError): string => `${e.file}:${e.line}: ${e.message}`;
@@ -71,7 +76,14 @@ export function compileSource(source: string, path: string): CompileResult {
 
   // 5. Zod is the final gate.
   const parsed = lessonSchema.safeParse({ schemaVersion: 1, ...frontmatter, steps });
-  if (parsed.success) return { ok: true, lesson: parsed.data };
+  if (parsed.success) {
+    const stepLines: Record<string, number> = {};
+    for (const n of stepNodes) {
+      const id = n.attributes['id'];
+      if (typeof id === 'string') stepLines[id] = lineOf(n);
+    }
+    return { ok: true, lesson: parsed.data, stepLines };
+  }
   for (const issue of parsed.error.issues) {
     const stepIndex = issue.path[0] === 'steps' ? issue.path[1] : undefined;
     const node = typeof stepIndex === 'number' ? stepNodes[stepIndex] : undefined;
