@@ -21,3 +21,7 @@
 ## 2026-10-02 P6
 
 - P6 review minors (not blocking): `progress.ts:87` has one uncovered branch; `reducer.ts:36` `complete` action does not check the step id (guard it when E03 widgets arrive); Lighthouse was run with the desktop preset only. Playwright e2e is not in CI (needs a `.github/**` and root change, a candidate task). Stale branch `task/P6` also needs deleting.
+
+## 2026-10-02 P7
+
+- P7 review minors (not blocking): `render.test.tsx:9` has an `as` cast; Predict `attempts` counts distinct wrong options only. The wiring and e2e minors are covered by task P7b. Stale branch `task/P7` also needs deleting.
