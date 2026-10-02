@@ -31,3 +31,8 @@
 
 - Milestone P7 is on main (PR #12, integration verdict APPROVE on 530fe77, merge commit d1eadef). What to try by hand: `git checkout main && pnpm install && pnpm --filter @learn-code/web build && pnpm --filter @learn-code/web start`, then open http://localhost:3000/dev/widgets (all seven built widgets in idle, wrong and restored states) and http://localhost:3000/fullstack/joins-01 (the sample lesson; steps 1 to 3 work, step 4 shows "NOT BUILT YET" and blocks, because recall, sqlLab, brainPower and matching have no widgets yet).
 - Integration review minors: the sample lesson cannot be finished through the UI until those four widgets exist (the e2e seeds them as answered); check the contrast of the placeholder text once settled.
+
+## 2026-10-02 third run
+
+- D4 merged. Stale branch `task/D4` needs deleting.
+- P8 (PR #18) is waiting on a one-line fix round (prettier format); the next run handles it. Suggested follow-up task P8b for the wiring listed in docs/runs.md.
