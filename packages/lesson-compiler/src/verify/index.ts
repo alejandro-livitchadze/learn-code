@@ -2,7 +2,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import { runNode } from './node';
-import { runSql, sameResult, showSql, type SqlResult } from './sql';
+import { runSql, showSql, type SqlResult } from './sql';
+import { checkSqlLab } from './sql-lab';
 
 export interface VerifyIssue {
   readonly stepId: string;
@@ -52,7 +53,7 @@ async function verifyPredict(
   return []; // http samples have nothing to run
 }
 
-/** Reference solution must run; the starter must not produce the same result. */
+/** Reference solution must run and be stable; the starter must not produce the same rows. */
 async function verifySqlLab(
   s: Extract<Step, { kind: 'sqlLab' }>,
   lessonDir: string,
@@ -61,16 +62,13 @@ async function verifySqlLab(
   if (seed === undefined) {
     return [{ stepId: s.id, message: `seed "seeds/${s.seedRef}.sql" does not exist` }];
   }
-  const solution = await tryQuery(seed, s.solution);
-  if (solution instanceof Error) {
-    return [{ stepId: s.id, message: `reference solution failed: ${solution.message}` }];
-  }
-  if (s.starter.trim() === '') return [];
-  const starter = await tryQuery(seed, s.starter);
-  if (!(starter instanceof Error) && sameResult(starter, solution, s.orderMatters)) {
-    return [{ stepId: s.id, message: 'the starter already passes; it must fail' }];
-  }
-  return [];
+  const problems = await checkSqlLab({
+    seed,
+    solution: s.solution,
+    starter: s.starter,
+    orderMatters: s.orderMatters,
+  });
+  return problems.map((message) => ({ stepId: s.id, message }));
 }
 
 /** Execute every code sample with a declared output and compare exactly. */
@@ -89,5 +87,6 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
 
 export { formatRows } from './format';
 export { closeSql, runSql, sameResult, showSql } from './sql';
+export { checkSqlLab, sameSqlResult } from './sql-lab';
 export type { SqlResult } from './sql';
 export { runNode, NODE_TIMEOUT_MS } from './node';
