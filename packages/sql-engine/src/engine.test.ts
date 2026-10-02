@@ -149,6 +149,71 @@ describe('PGlite inline adapter', () => {
     expect((await s.execute('select * from scratch')).ok).toBe(false);
   });
 
+  describe('reset always restores a fresh database', () => {
+    const snapshot = async (s: SqlSession) =>
+      mustOk(
+        await s.execute(
+          `select
+             (select string_agg(nspname, ',' order by nspname) from pg_namespace
+               where nspname !~ '^pg_' and nspname <> 'information_schema') as schemas,
+             (select string_agg(table_name, ',' order by table_name) from information_schema.tables
+               where table_schema = 'public') as tables,
+             (select count(*) from books) as books,
+             current_setting('search_path') as search_path,
+             current_setting('work_mem') as work_mem,
+             current_setting('transaction_isolation') as isolation,
+             txid_current_if_assigned() is null as no_tx_id`,
+        ),
+      ).rows;
+
+    const cases: readonly (readonly [string, string])[] = [
+      ['an aborted transaction', 'begin; select 1/0'],
+      ['an open transaction', 'begin; delete from books; create table scratch (a int)'],
+      ['a changed search_path', 'set search_path to nowhere'],
+      ['an extra schema', 'create schema keep; create table keep.x (a int)'],
+      [
+        'a changed session setting',
+        "set work_mem = '8MB'; set transaction_isolation = 'serializable'",
+      ],
+    ];
+
+    for (const [name, sql] of cases) {
+      it(`after ${name}`, async () => {
+        const s = await open();
+        const fresh = await snapshot(s);
+        await s.execute(sql);
+        await s.reset();
+        expect(await snapshot(s)).toEqual(fresh);
+        expect((await s.execute('select * from scratch')).ok).toBe(false);
+        expect((await s.execute('select * from keep.x')).ok).toBe(false);
+      });
+    }
+
+    it('leaves the session usable after a failed reset, and a later reset works', async () => {
+      let failNext = false;
+      let created = 0;
+      const flaky = createInlineEngine({
+        createDatabase: async () => {
+          created += 1;
+          if (failNext) {
+            failNext = false;
+            throw new Error('out of memory');
+          }
+          return createPglite();
+        },
+      });
+      const s = await flaky.open(SEED);
+      sessions.push(s);
+      mustOk(await s.execute('delete from books'));
+      failNext = true;
+      await expect(s.reset()).rejects.toThrow('out of memory');
+      expect(mustOk(await s.execute('select count(*) from books')).rows).toEqual([['0']]);
+      await s.reset();
+      expect(mustOk(await s.execute('select count(*) from books')).rows).toEqual([['3']]);
+      expect(created).toBe(3);
+    });
+  });
+
   it('rejects open when the seed is broken', async () => {
     await expect(engine.open('create tabel x')).rejects.toThrow();
   });
@@ -195,6 +260,19 @@ describe('worker adapter', () => {
     const bad = await s.execute('select * form books');
     expect(!bad.ok && bad.sqlState).toBe('42601');
     await s.reset();
+    await s.close();
+  });
+
+  it('reset recovers from an aborted transaction and a changed search_path', async () => {
+    const { create } = inProcessWorkers('@@never@@');
+    const s = await createWorkerEngine({ createWorker: create }).open(SEED);
+    await s.execute('begin; select 1/0');
+    await s.reset();
+    expect(mustOk(await s.execute('select count(*) from books')).rows).toEqual([['3']]);
+    await s.execute('set search_path to nowhere');
+    await s.reset();
+    expect(mustOk(await s.execute('select count(*) from books')).rows).toEqual([['3']]);
+    expect(mustOk(await s.execute('show search_path')).rows).toEqual([['public']]);
     await s.close();
   });
 
