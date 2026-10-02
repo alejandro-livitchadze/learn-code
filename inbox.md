@@ -12,3 +12,8 @@
 - Stale branch `task/P3` also needs deleting.
 - Stale branch `task/P4` also needs deleting.
 - P5 review minors (not blocking): `cli.ts:36` unchecked `(e as Error)`; `verify/node.ts:21` sample child process inherits the full environment (should pass a minimal env); `cli.ts:25` `lesson new` uses a hard-coded relative `content` dir; root `demand` script was added inside P5 although unrelated. Stale branch `task/P5` also needs deleting.
+
+## 2026-10-02 milestone P5
+
+- Milestone P5 is on main (PR #8, integration verdict APPROVE on fc25ac9). What to try by hand: run `pnpm install && pnpm lesson check content` and then `pnpm lesson new <course> <lesson-id>` to scaffold a lesson; open `content/fullstack/joins-01/lesson.mdoc` and try breaking a declared output to see the check fail.
+- Integration review minors: `tags/kinds.ts` coverage is 77% (add tests for the remaining tag converters); exclude type-only files from the coverage config.

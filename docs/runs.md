@@ -19,3 +19,5 @@
 - Follow-ups for P5 or a root task: add `"test"` to `packages/lesson-compiler/tsconfig.json` include; add `@vitest/coverage-v8` and a coverage threshold if CI should enforce 90%; export `./lint` from `src/index.ts`; CLI must pass real registries to `lintLesson`.
 
 - P5 (PR #11): merged, CI green, review verdict APPROVE on 51c040d. Under protocol v4 from here on. P2, D3, P3, P4 were merged earlier under v2 without a reviewer. Milestone step for P5 follows.
+- Milestone P5: integration reviewer verdict APPROVE on fc25ac9, CI green on develop; PR #8 retitled "Integration" and merged into main (merge commit fb82dbc). main was synced back into develop. No integration PR is open now because develop has no diff against main; open a new "Integration" PR when develop moves ahead.
+- Usage: 5 workers and 2 reviewers this run; four tasks plus P5 at the author's request, beyond MAX_TASKS_PER_RUN.
