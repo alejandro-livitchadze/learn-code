@@ -1,0 +1,15 @@
+{
+  "vacancyId": "847981",
+  "required": [
+    "JavaScript",
+    "Python",
+    "PHP",
+    "SQL",
+    "APIs",
+    "webhooks"
+  ],
+  "niceToHave": [
+    "LLM"
+  ],
+  "seniority": "unknown"
+}

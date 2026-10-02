@@ -1,0 +1,16 @@
+{
+  "vacancyId": "847565",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "Fastify",
+    "PostgreSQL",
+    "MongoDB",
+    "RabbitMQ",
+    "Drizzle",
+    "React",
+    "AWS"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

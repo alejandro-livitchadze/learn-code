@@ -1,0 +1,16 @@
+{
+  "vacancyId": "848184",
+  "required": [
+    "TypeScript",
+    "Node.js",
+    "NestJS",
+    "AWS",
+    "PostgreSQL",
+    "React",
+    "AWS EventBridge",
+    "AWS SQS",
+    "Microservices"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

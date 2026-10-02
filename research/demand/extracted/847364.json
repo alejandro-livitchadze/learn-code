@@ -1,0 +1,22 @@
+{
+  "vacancyId": "847364",
+  "required": [
+    "TypeScript",
+    "React",
+    "Node.js",
+    "PostgreSQL",
+    "Redis",
+    "Socket.IO",
+    "Google Cloud"
+  ],
+  "niceToHave": [
+    "NestJS",
+    "Next.js",
+    "Docker",
+    "Terraform",
+    "Vitest",
+    "Jest",
+    "Playwright"
+  ],
+  "seniority": "middle"
+}

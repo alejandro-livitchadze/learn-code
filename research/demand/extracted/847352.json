@@ -1,0 +1,15 @@
+{
+  "vacancyId": "847352",
+  "required": [
+    "Laravel",
+    "React",
+    "queue",
+    "Inertia"
+  ],
+  "niceToHave": [
+    "OpenAPI",
+    "MCP",
+    "PostHog"
+  ],
+  "seniority": "senior"
+}

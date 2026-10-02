@@ -1,0 +1,19 @@
+{
+  "vacancyId": "847769",
+  "required": [
+    "TypeScript",
+    "JavaScript",
+    "Python",
+    "Next.js",
+    "PostgreSQL",
+    "Supabase",
+    "AWS",
+    "Azure",
+    "GCP",
+    "LLM",
+    "RAG",
+    "MCP"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

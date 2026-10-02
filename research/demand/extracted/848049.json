@@ -1,0 +1,16 @@
+{
+  "vacancyId": "848049",
+  "required": [
+    "React",
+    "Node.js",
+    "PostgreSQL",
+    "GCP"
+  ],
+  "niceToHave": [
+    "GraphQL",
+    "Terraform",
+    "React Native",
+    "MCP"
+  ],
+  "seniority": "unknown"
+}
