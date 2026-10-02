@@ -18,7 +18,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
   7. Open the integration pull request from `develop` into `main`.
 
 ## P1. Scaffold and CI
-- Status: todo
+- Status: done
+- Note: merged via PR #3 (scaffold from lane/platform plus tools/*, research/ ignore, esbuild build allowed); CI green on Node 26.
 - Depends on: R0
 - Paths: root, `.github/**`
 - Epic: E01, task 1
