@@ -34,7 +34,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: Zod schemas and inferred types for the lesson, every step kind in `00-context.md` section 2 except `bugHunt` and `apiLab`, and the registry, roadmap and status files; `PASSIVE_KINDS` and `isActive`; tests for valid and invalid fixtures.
 
 ## P3. Markdoc compiler
-- Status: in_progress
+- Status: done
+- Note: merged via PR #9; CI green. Markdoc 0.5.10 is maintained (see compiler README).
 - Depends on: P2
 - Paths: `packages/lesson-compiler/**`, root
 - Epic: E01, task 3 (compile part)

@@ -10,7 +10,7 @@
 
 ## 2026-10-02 (second run): P2 and D3
 
-- P2 (PR #6): merged, CI green. D3 (PR #7): merged, CI green.
+- P2 (PR #6), D3 (PR #7), P3 (PR #9): all merged, CI green. MAX_TASKS_PER_RUN (3) reached.
 - Workers: 2 (parallel). P2 worker returned a placeholder report; I verified its diff and checks myself.
 - D3 note: vacancy 846663 contained an embedded instruction; the worker ignored it (data only). Long descriptions were truncated at about 5000 characters; relevant for D4.
 - Usage: no concerns.
