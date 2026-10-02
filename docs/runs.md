@@ -14,3 +14,6 @@
 - Workers: 2 (parallel). P2 worker returned a placeholder report; I verified its diff and checks myself.
 - D3 note: vacancy 846663 contained an embedded instruction; the worker ignored it (data only). Long descriptions were truncated at about 5000 characters; relevant for D4.
 - Usage: no concerns.
+
+- Extra task at the author'"'"'s request (beyond MAX_TASKS_PER_RUN): P4 (PR #10), merged, CI green.
+- Follow-ups for P5 or a root task: add `"test"` to `packages/lesson-compiler/tsconfig.json` include; add `@vitest/coverage-v8` and a coverage threshold if CI should enforce 90%; export `./lint` from `src/index.ts`; CLI must pass real registries to `lintLesson`.

@@ -10,3 +10,4 @@
 - The root `package.json` has no `demand` script, so `pnpm demand validate` from the brief does not work; the D3 worker used `pnpm --filter ./tools/demand-scanner demand validate`. A root script would fix it (a `root` task); tell me if you want one.
 - Stale remote branches still to delete: `lane/platform`, `lane/demand`, `task/P1`, `task/D1`, `task/P2`, `task/D3`.
 - Stale branch `task/P3` also needs deleting.
+- Stale branch `task/P4` also needs deleting.
