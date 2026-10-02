@@ -1,0 +1,22 @@
+{
+  "vacancyId": "841764",
+  "required": [
+    "C#",
+    ".NET Core",
+    "ASP.NET",
+    "JavaScript",
+    "AJAX",
+    "HTML",
+    "CSS",
+    "jQuery",
+    "bootstrap",
+    "oAuth 2.0",
+    "Git",
+    "SQL"
+  ],
+  "niceToHave": [
+    "vue3",
+    "Postgresql"
+  ],
+  "seniority": "unknown"
+}

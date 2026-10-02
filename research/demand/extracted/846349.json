@@ -1,0 +1,14 @@
+{
+  "vacancyId": "846349",
+  "required": [
+    "React.js",
+    "Node.js",
+    "PostgreSQL",
+    "Elasticsearch",
+    "SQL",
+    "Amazon Web Services",
+    "LLM"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

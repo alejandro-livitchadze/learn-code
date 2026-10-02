@@ -1,0 +1,21 @@
+{
+  "vacancyId": "746003",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "Docker",
+    "Kubernetes",
+    "OAuth",
+    "JWT",
+    "React",
+    "Angular",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "Nest.js",
+    "GraphQL",
+    "Ruby on Rails",
+    "AWS"
+  ],
+  "seniority": "senior"
+}

@@ -1,0 +1,40 @@
+{
+  "vacancyId": "846799",
+  "required": [
+    "Angular",
+    "Java",
+    "TypeScript",
+    "Git",
+    "CI/CD",
+    "Helm",
+    "Express",
+    "Hapi",
+    "Posgtess"
+  ],
+  "niceToHave": [
+    "HTML5",
+    "CSS",
+    "SASS",
+    "JavaScript",
+    "Angular CLI",
+    "NPM",
+    "NodeJS",
+    "C#",
+    "C++",
+    "Python",
+    "JSON",
+    "OData",
+    "Web Sockets",
+    "Java EE",
+    "JEST",
+    "Karma",
+    "Jasmine",
+    "Protractor",
+    "MAVEN",
+    "Jenkins",
+    "Ansible",
+    "Azure",
+    "Amazon"
+  ],
+  "seniority": "senior"
+}

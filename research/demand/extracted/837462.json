@@ -1,0 +1,19 @@
+{
+  "vacancyId": "837462",
+  "required": [
+    "Shopify",
+    "Shopify Admin API",
+    "Storefront API",
+    "REST",
+    "GraphQL",
+    "webhooks",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Node.js",
+    "TypeScript",
+    "Figma"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

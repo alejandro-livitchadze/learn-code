@@ -1,0 +1,9 @@
+{
+  "vacancyId": "525998",
+  "required": [
+    "Node.js",
+    "React"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

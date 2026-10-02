@@ -1,0 +1,21 @@
+{
+  "vacancyId": "763411",
+  "required": [
+    "PHP",
+    "JS",
+    "MySQL",
+    "React",
+    "REST API",
+    "Webhooks",
+    "n8n",
+    "Make",
+    "Zapier",
+    "WordPress",
+    "ACF",
+    "Woo",
+    "Opencart",
+    "Laravel"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

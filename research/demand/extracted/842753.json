@@ -1,0 +1,24 @@
+{
+  "vacancyId": "842753",
+  "required": [
+    "SQL",
+    "Python",
+    "FastAPI",
+    "React",
+    "TypeScript",
+    "CI/CD",
+    "Docker",
+    "Redis",
+    "Tailwind",
+    "Vite"
+  ],
+  "niceToHave": [
+    "Postgres",
+    "Azure",
+    "LLM",
+    "RAG",
+    "Anthropic",
+    "OpenAI"
+  ],
+  "seniority": "lead"
+}

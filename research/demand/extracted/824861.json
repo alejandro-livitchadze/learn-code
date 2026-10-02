@@ -1,0 +1,22 @@
+{
+  "vacancyId": "824861",
+  "required": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "NestJS",
+    "MongoDB",
+    "PostgreSQL"
+  ],
+  "niceToHave": [
+    "MQTT",
+    "React Native",
+    "WebSockets",
+    "Azure",
+    "IoT Hub",
+    "Microsoft Entra ID"
+  ],
+  "seniority": "middle"
+}

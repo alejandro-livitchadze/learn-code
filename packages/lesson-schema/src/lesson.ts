@@ -1,0 +1,13 @@
+import { z } from 'zod';
+import { step } from './steps';
+
+export const lesson = z.object({
+  schemaVersion: z.literal(1),
+  id: z.string().min(1),
+  courseId: z.string().min(1),
+  locale: z.string().default('en'),
+  title: z.string().min(1),
+  concepts: z.array(z.string()).readonly(),
+  steps: z.array(step).min(8).readonly(),
+});
+export type Lesson = z.infer<typeof lesson>;

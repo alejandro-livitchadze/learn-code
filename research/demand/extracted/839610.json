@@ -1,0 +1,22 @@
+{
+  "vacancyId": "839610",
+  "required": [
+    "Node.js",
+    "Vue.js",
+    "React",
+    "Claude Code",
+    "Codex",
+    "Cursor",
+    "PostgreSQL",
+    "MySQL",
+    "SQL Server",
+    "Git",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "PHP",
+    "AWS",
+    "LLM"
+  ],
+  "seniority": "senior"
+}

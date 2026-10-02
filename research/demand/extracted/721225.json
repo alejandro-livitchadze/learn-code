@@ -1,0 +1,21 @@
+{
+  "vacancyId": "721225",
+  "required": [
+    "HTML/CSS",
+    "JavaScript",
+    "TypeScript",
+    "Node.js",
+    "Express.js",
+    "Nest.js",
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "REST API",
+    "React",
+    "Next.js",
+    "Git"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

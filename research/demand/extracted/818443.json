@@ -1,0 +1,13 @@
+{
+  "vacancyId": "818443",
+  "required": [
+    "Python",
+    "React",
+    "Docker"
+  ],
+  "niceToHave": [
+    "Claude Code",
+    "AI Agents Orchestration"
+  ],
+  "seniority": "junior"
+}

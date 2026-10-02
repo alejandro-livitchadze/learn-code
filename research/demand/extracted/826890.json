@@ -1,0 +1,20 @@
+{
+  "vacancyId": "826890",
+  "required": [
+    "Java",
+    "Spring",
+    "React",
+    "Junit",
+    "Mockito",
+    "Selenium",
+    "Protractor",
+    "Spring Boot",
+    "Jenkins",
+    "Kubernetes",
+    "Cloud Foundry"
+  ],
+  "niceToHave": [
+    "Kotlin"
+  ],
+  "seniority": "senior"
+}

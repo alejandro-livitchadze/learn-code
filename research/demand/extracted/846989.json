@@ -1,0 +1,16 @@
+{
+  "vacancyId": "846989",
+  "required": [
+    "Go",
+    "React",
+    "TypeScript",
+    "SQL",
+    "NoSQL",
+    "microservices"
+  ],
+  "niceToHave": [
+    "Kafka",
+    "GCP"
+  ],
+  "seniority": "senior"
+}

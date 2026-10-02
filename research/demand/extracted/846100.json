@@ -1,0 +1,31 @@
+{
+  "vacancyId": "846100",
+  "required": [
+    "Python",
+    "FastAPI",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "SQLAlchemy 2",
+    "Alembic",
+    "REST API",
+    "JSON",
+    "webhooks",
+    "Redux Toolkit",
+    "Axios",
+    "React Router",
+    "Redis",
+    "APScheduler",
+    "Git",
+    "Pydantic 2",
+    "asyncio"
+  ],
+  "niceToHave": [
+    "Sentry",
+    "Prometheus",
+    "Grafana",
+    "ClickHouse",
+    "BigQuery"
+  ],
+  "seniority": "middle"
+}

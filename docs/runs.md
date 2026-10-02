@@ -7,3 +7,15 @@
 - CI: green on `develop`.
 - Usage: no workers used.
 - Open item: branches `lane/platform`, `lane/demand`, `task/P1`, `task/D1` could not be deleted (git push --delete was denied); see inbox.md.
+
+## 2026-10-02 (second run): P2 and D3
+
+- P2 (PR #6), D3 (PR #7), P3 (PR #9): all merged, CI green. MAX_TASKS_PER_RUN (3) reached.
+- Workers: 2 (parallel). P2 worker returned a placeholder report; I verified its diff and checks myself.
+- D3 note: vacancy 846663 contained an embedded instruction; the worker ignored it (data only). Long descriptions were truncated at about 5000 characters; relevant for D4.
+- Usage: no concerns.
+
+- Extra task at the author's request (beyond MAX_TASKS_PER_RUN): P4 (PR #10), merged, CI green.
+- Follow-ups for P5 or a root task: add `"test"` to `packages/lesson-compiler/tsconfig.json` include; add `@vitest/coverage-v8` and a coverage threshold if CI should enforce 90%; export `./lint` from `src/index.ts`; CLI must pass real registries to `lintLesson`.
+
+- P5 (PR #11): merged, CI green, review verdict APPROVE on 51c040d. Under protocol v4 from here on. P2, D3, P3, P4 were merged earlier under v2 without a reviewer. Milestone step for P5 follows.

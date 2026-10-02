@@ -1,0 +1,12 @@
+{
+  "vacancyId": "818611",
+  "required": [
+    "Kaytaro",
+    "Binom",
+    "LLM",
+    "GPT",
+    "Claude"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

@@ -26,28 +26,32 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: pnpm workspaces (`apps/*`, `packages/*`, `tools/*`) and Turborepo; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; root scripts `typecheck`, `lint`, `test`; GitHub Actions on Node.js 26 running install with `--frozen-lockfile`, typecheck, lint and test; CI green on GitHub.
 
 ## P2. Lesson schema
-- Status: todo
+- Status: done
+- Note: merged via PR #6; CI green.
 - Depends on: P1
 - Paths: `packages/lesson-schema/**`, root
 - Epic: E01, task 2
 - Done when: Zod schemas and inferred types for the lesson, every step kind in `00-context.md` section 2 except `bugHunt` and `apiLab`, and the registry, roadmap and status files; `PASSIVE_KINDS` and `isActive`; tests for valid and invalid fixtures.
 
 ## P3. Markdoc compiler
-- Status: todo
+- Status: done
+- Note: merged via PR #9; CI green. Markdoc 0.5.10 is maintained (see compiler README).
 - Depends on: P2
 - Paths: `packages/lesson-compiler/**`, root
 - Epic: E01, task 3 (compile part)
 - Done when: Markdoc maintenance status noted; tag definitions for the step kinds from P2; `compileLesson(path)` returns a validated `Lesson` or errors with file and line; text outside tags is an error; tests for one valid and at least five invalid lessons.
 
 ## P4. Linter
-- Status: todo
+- Status: done
+- Note: merged via PR #10; CI green; 38 tests, lint coverage 99.5% measured locally (CI does not enforce coverage yet).
 - Depends on: P3
 - Paths: `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
 - Epic: E01, task 3 (lint part)
 - Done when: rules 1 to 7 from `00-context.md` section 3 as separate pure functions; seven broken fixtures each fail exactly their rule; coverage of lint rules at least 90%.
 
 ## P5. Sample verification, CLI, sample lesson
-- Status: todo
+- Status: done
+- Note: merged via PR #11; CI green; reviewer APPROVE on 51c040d (4 minors, see inbox.md).
 - Depends on: P4
 - Paths: `packages/lesson-compiler/**`, `content/**`, root, `.github/**`
 - Epic: E01, tasks 3 (verify part), 4, 5
@@ -104,7 +108,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: at least 150 canonical skills with categories `language`, `runtime`, `framework`, `database`, `orm`, `api`, `auth`, `testing`, `devops`, `cloud`, `queue`, `ai`, `frontend`, `other`; Ukrainian spellings; the `ai` category includes claude-code, copilot, openai-api, rag, mcp, langchain, langgraph, vector-db, embeddings, ai-agents; AWS and Azure services have their own ids.
 
 ## D3. Extraction, first 100
-- Status: todo
+- Status: done
+- Note: merged via PR #7; 100 files, validator 0 errors, CI green. Validate with `pnpm --filter ./tools/demand-scanner demand validate` (no root `demand` script).
 - Depends on: D2
 - Paths: `research/demand/**`
 - Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.

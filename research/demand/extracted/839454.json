@@ -1,0 +1,28 @@
+{
+  "vacancyId": "839454",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "REST APIs",
+    "PostgreSQL",
+    "Kafka",
+    "Redis",
+    "OAuth 2.0",
+    "JWT",
+    "HMAC",
+    "mTLS",
+    "Webhooks",
+    "HTTP"
+  ],
+  "niceToHave": [
+    "GraphQL",
+    "gRPC",
+    "PCI DSS",
+    "Prometheus",
+    "Grafana",
+    "OpenTelemetry",
+    "Loki",
+    "Jaeger"
+  ],
+  "seniority": "senior"
+}

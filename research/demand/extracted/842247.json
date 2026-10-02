@@ -1,0 +1,15 @@
+{
+  "vacancyId": "842247",
+  "required": [
+    "Node.js",
+    "React",
+    "TypeScript",
+    "REST APIs",
+    "SQL",
+    "Git",
+    "Docker",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

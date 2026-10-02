@@ -1,0 +1,27 @@
+{
+  "vacancyId": "840138",
+  "required": [
+    "Python",
+    "JavaScript",
+    "HTML5",
+    "CSS3",
+    "React",
+    "Angular",
+    "FastAPI",
+    "Django",
+    "Flask",
+    "PostgreSQL",
+    "MongoDB",
+    "RESTful",
+    "Git",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "Azure",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "GitOps"
+  ],
+  "seniority": "unknown"
+}

@@ -1,0 +1,79 @@
+---
+id: joins-01
+courseId: fullstack
+title: "Why your JOIN returned 400 rows"
+concepts: [inner-join, row-multiplication]
+---
+
+{% hook id="h1" estSeconds=40 character="bug" %}
+Friday, 18:40. The sales report shows revenue **four times** higher than the bank does.
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/join.sql" language="sql" concepts=["row-multiplication"] %}
+{% option output="100 rows" misconception="join-keeps-row-count" %}
+A join can return more rows than either table has.
+{% /option %}
+{% option output="400 rows" correct=true %}
+Each order matched four items.
+{% /option %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=45 code="select 1" %}
+One order, four items, four rows.
+
+{% annotation line=1 %}
+Four rows come out here.
+{% /annotation %}
+{% /explain %}
+
+{% recall id="r1" estSeconds=60 %}
+{% question prompt="Why did the transaction fail?" %}
+{% option text="Deadlock" correct=true %}
+Right.
+{% /option %}
+{% option text="Typo" misconception="typo" %}
+No.
+{% /option %}
+{% /question %}
+{% question prompt="Why did the index help?" %}
+{% option text="Fewer reads" correct=true %}
+Right.
+{% /option %}
+{% option text="Magic" misconception="magic" %}
+No.
+{% /option %}
+{% /question %}
+{% /recall %}
+
+{% fillBlanks id="f1" estSeconds=60 template="select ___col___ from t" language="sql" %}
+{% blank id="col" accepted=["*", "id"] %}
+Any column works.
+{% /blank %}
+{% /fillBlanks %}
+
+{% sqlLab id="s1" estSeconds=120 prompt="Count the rows." seedRef="shop" solution="select count(*) from orders" %}
+{% hint %}
+Use an aggregate.
+{% /hint %}
+{% /sqlLab %}
+
+{% brainPower id="b1" estSeconds=60 question="Why four rows?" %}
+Because each order has four items.
+{% /brainPower %}
+
+{% matching id="m1" estSeconds=45 prompt="Match." %}
+{% pair left="PK" right="Unique row id" /%}
+{% pair left="FK" right="Points at another table" /%}
+{% /matching %}
+
+{% recap id="rc1" estSeconds=30 %}
+{% point %}
+Joins multiply rows.
+{% /point %}
+{% point %}
+Count what you mean.
+{% /point %}
+{% point %}
+Check the grain.
+{% /point %}
+{% /recap %}

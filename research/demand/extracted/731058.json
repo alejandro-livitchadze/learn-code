@@ -1,0 +1,12 @@
+{
+  "vacancyId": "731058",
+  "required": [
+    "PHP",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Yii2"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

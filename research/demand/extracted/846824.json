@@ -1,0 +1,29 @@
+{
+  "vacancyId": "846824",
+  "required": [
+    "Java",
+    "Spring",
+    "React",
+    "Spring Boot",
+    "Spring Cloud",
+    "microservices",
+    "RESTful APIs",
+    "JavaScript",
+    "TypeScript",
+    "JUnit",
+    "Jasmine",
+    "Mockito",
+    "Protractor",
+    "Selenium",
+    "CI/CD",
+    "Jenkins",
+    "Kubernetes",
+    "Cloud Foundry",
+    "GitHub Copilot",
+    "OpenAI",
+    "TDD",
+    "BDD"
+  ],
+  "niceToHave": [],
+  "seniority": "lead"
+}

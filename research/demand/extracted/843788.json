@@ -1,0 +1,24 @@
+{
+  "vacancyId": "843788",
+  "required": [
+    "PHP",
+    "JS",
+    "HTML/CSS",
+    "Vue.js",
+    "Laravel",
+    "Git",
+    "JIRA",
+    "Confluence"
+  ],
+  "niceToHave": [
+    "PostgreSQL",
+    "MySQL",
+    "jQuery",
+    "AngularJS",
+    "Bootstrap",
+    "Docker",
+    "Linux",
+    "Rest API"
+  ],
+  "seniority": "junior"
+}

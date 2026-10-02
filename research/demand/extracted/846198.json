@@ -1,0 +1,32 @@
+{
+  "vacancyId": "846198",
+  "required": [
+    "Power Apps",
+    "Power Automate",
+    "Power Platform",
+    "Power Fx",
+    "Dataverse",
+    "SharePoint",
+    "SQL",
+    "REST APIs",
+    "JSON",
+    "Git"
+  ],
+  "niceToHave": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "HTML",
+    "CSS",
+    "Power Platform CLI",
+    "Azure Functions",
+    "Microsoft Graph API",
+    "Power BI",
+    "Microsoft Copilot Studio",
+    "AI Builder",
+    "Azure DevOps",
+    "GitHub Actions",
+    "CI/CD"
+  ],
+  "seniority": "junior"
+}

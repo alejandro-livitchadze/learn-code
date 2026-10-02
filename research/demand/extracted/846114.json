@@ -1,0 +1,23 @@
+{
+  "vacancyId": "846114",
+  "required": [
+    "React",
+    "TypeScript",
+    "Next.js",
+    "Storybook",
+    "Figma",
+    "Jest",
+    "HTML",
+    "CSS",
+    "ASP.NET Core",
+    "C#",
+    "REST APIs",
+    "Azure Functions",
+    "Azure API Management",
+    "Microsoft SQL Server",
+    "Azure Cosmos DB",
+    "Duende Identity Server"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

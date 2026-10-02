@@ -1,0 +1,17 @@
+{
+  "vacancyId": "813752",
+  "required": [
+    "JavaScript",
+    "Cheerio",
+    "CSS Selectors",
+    "XPath",
+    "Chrome DevTools",
+    "Postman",
+    "Git",
+    "HTML"
+  ],
+  "niceToHave": [
+    "Node.js"
+  ],
+  "seniority": "junior"
+}

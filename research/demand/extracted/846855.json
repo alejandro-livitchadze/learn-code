@@ -1,0 +1,26 @@
+{
+  "vacancyId": "846855",
+  "required": [
+    "Node.js",
+    "JavaScript",
+    "Linux",
+    "MongoDB",
+    "axios",
+    "puppeteer",
+    "cheerio",
+    "zod",
+    "git",
+    "eslint",
+    "prettier",
+    "vitest",
+    "Docker",
+    "HL7",
+    "web scraping",
+    "RPA"
+  ],
+  "niceToHave": [
+    "Playwright",
+    "HIPAA"
+  ],
+  "seniority": "unknown"
+}

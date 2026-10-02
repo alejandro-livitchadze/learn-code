@@ -1,0 +1,20 @@
+[
+  {
+    "id": "join-keeps-row-count",
+    "belief": "A join returns as many rows as the left table has.",
+    "correction": "A join returns one row per matching pair, so one left row can appear many times.",
+    "concepts": ["row-multiplication"]
+  },
+  {
+    "id": "join-counts-orders",
+    "belief": "count(*) after a join counts orders.",
+    "correction": "count(*) counts result rows, which are order and item pairs.",
+    "concepts": ["row-multiplication"]
+  },
+  {
+    "id": "join-is-union",
+    "belief": "A join stacks the rows of both tables.",
+    "correction": "A join pairs rows side by side; a union stacks them.",
+    "concepts": ["inner-join"]
+  }
+]
