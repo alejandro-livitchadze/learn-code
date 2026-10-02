@@ -26,7 +26,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: pnpm workspaces (`apps/*`, `packages/*`, `tools/*`) and Turborepo; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; root scripts `typecheck`, `lint`, `test`; GitHub Actions on Node.js 26 running install with `--frozen-lockfile`, typecheck, lint and test; CI green on GitHub.
 
 ## P2. Lesson schema
-- Status: in_progress
+- Status: done
+- Note: merged via PR #6; CI green.
 - Depends on: P1
 - Paths: `packages/lesson-schema/**`, root
 - Epic: E01, task 2
@@ -104,7 +105,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: at least 150 canonical skills with categories `language`, `runtime`, `framework`, `database`, `orm`, `api`, `auth`, `testing`, `devops`, `cloud`, `queue`, `ai`, `frontend`, `other`; Ukrainian spellings; the `ai` category includes claude-code, copilot, openai-api, rag, mcp, langchain, langgraph, vector-db, embeddings, ai-agents; AWS and Azure services have their own ids.
 
 ## D3. Extraction, first 100
-- Status: in_progress
+- Status: done
+- Note: merged via PR #7; 100 files, validator 0 errors, CI green. Validate with `pnpm --filter ./tools/demand-scanner demand validate` (no root `demand` script).
 - Depends on: D2
 - Paths: `research/demand/**`
 - Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.

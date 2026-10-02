@@ -7,3 +7,10 @@
 - CI: green on `develop`.
 - Usage: no workers used.
 - Open item: branches `lane/platform`, `lane/demand`, `task/P1`, `task/D1` could not be deleted (git push --delete was denied); see inbox.md.
+
+## 2026-10-02 (second run): P2 and D3
+
+- P2 (PR #6): merged, CI green. D3 (PR #7): merged, CI green.
+- Workers: 2 (parallel). P2 worker returned a placeholder report; I verified its diff and checks myself.
+- D3 note: vacancy 846663 contained an embedded instruction; the worker ignored it (data only). Long descriptions were truncated at about 5000 characters; relevant for D4.
+- Usage: no concerns.
