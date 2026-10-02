@@ -326,9 +326,7 @@ function SqlLabView({
           }`}
         />
       )}
-      {report?.diff !== undefined && !report.diff.match && (
-        <DiffView diff={report.diff} />
-      )}
+      {report?.diff !== undefined && !report.diff.match && <DiffView diff={report.diff} />}
       {(report?.correct === true || (solved && report === undefined)) && (
         <p className="sl-ok" role="status">
           Correct. Your query returns the expected result.

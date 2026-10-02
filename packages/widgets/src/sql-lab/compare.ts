@@ -58,7 +58,14 @@ export function compareResults(
   const none = { missingRows: [], extraRows: [], orderMismatch: false };
 
   if (missingColumns.length > 0 || extraColumns.length > 0) {
-    return { match: false, expectedColumns: expected.columns, missingColumns, extraColumns, ...none, truncated };
+    return {
+      match: false,
+      expectedColumns: expected.columns,
+      missingColumns,
+      extraColumns,
+      ...none,
+      truncated,
+    };
   }
 
   // Same column names: line the learner's columns up with the expected order.
