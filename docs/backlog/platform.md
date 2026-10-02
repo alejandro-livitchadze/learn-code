@@ -9,6 +9,7 @@ Each task fits one session. "Done when" is the acceptance test for that task onl
 - Depends on: none
 - Epic: E01, task 1
 - Done when: pnpm workspaces and Turborepo with the layout from `00-context.md`; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; GitHub Actions running install, typecheck, lint and test on Node.js 26 for pushes and pull requests; CI is green.
+- Note: scaffold built; typecheck, lint, test pass locally (pnpm 12 via corepack). Remote CI result and PR could not be checked: `gh` is logged in as `olivitchuk` and cannot see `alejandro-livitchadze/learn-code`. Only the 5 packages exist as stubs; `tools/demand-scanner` belongs to the demand lane. Prettier ignores `docs`, `inbox`, `content`.
 
 ## P2. Lesson schema
 - Status: todo
