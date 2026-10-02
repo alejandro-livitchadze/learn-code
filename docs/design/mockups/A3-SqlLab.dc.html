@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notebook: SQL lab</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@500;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2346A0}a:hover{color:#16306F}
+.paper{background-color:#F7F3EA;background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 31px, #E4DCCB 31px, #E4DCCB 32px)}
+.hl{background:linear-gradient(to bottom, transparent 55%, #FFE45C 55%, #FFE45C 90%, transparent 90%)}
+</style>
+</helmet>
+<div class="paper" style="min-height: 1000px; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; color: #1E1B16; box-sizing: border-box; padding: 32px 48px 48px">
+  <div style="max-width: 1344px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+
+    <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 3px solid #1E1B16; padding-bottom: 14px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <a href="#" style="font-size: 14px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700">Module 1 · Databases</a>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Why your JOIN returned <span class="hl">400 rows</span></h1>
+      </div>
+      <span style="font-family: 'Caveat', cursive; font-size: 24px; color: #2346A0">step 9 of 14</span>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: flex-start">
+      <main style="flex: 999 1 720px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+          <span style="background: #2346A0; color: #FFFFFF; font-weight: 700; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border-radius: 4px">Your turn</span>
+          <p style="margin: 0; font-size: 21px; font-weight: 700; line-height: 1.35">Fix the report: one row per order, with its total and how many items it has.</p>
+        </div>
+
+        <div style="border: 2.5px solid #1E1B16; border-radius: 10px; background: #FFFFFF; overflow: hidden">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 2px solid #1E1B16; font-size: 14px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600">report.sql</span>
+            <div style="display: flex; gap: 10px">
+              <button style="font: inherit; font-size: 14px; padding: 8px 14px; background: transparent; border: 2px solid #1E1B16; border-radius: 8px; cursor: pointer">Reset database</button>
+              <button style="font: inherit; font-size: 14px; font-weight: 700; padding: 8px 16px; background: #1E1B16; color: #F7F3EA; border: none; border-radius: 8px; cursor: pointer">Run · Ctrl+Enter</button>
+            </div>
+          </div>
+          <pre style="margin: 0; padding: 18px 22px; font-family: 'JetBrains Mono', monospace; font-size: 18px; line-height: 1.85; overflow-x: auto"><span style="color: #8A8270">1</span>  <span style="color: #2346A0; font-weight: 600">select</span> o.id, count(i.sku) <span style="color: #2346A0; font-weight: 600">as</span> items
+<span style="color: #8A8270">2</span>  <span style="color: #2346A0; font-weight: 600">from</span> orders o
+<span style="color: #8A8270">3</span>  <span style="color: #2346A0; font-weight: 600">join</span> items i <span style="color: #2346A0; font-weight: 600">on</span> i.order_id = o.id
+<span style="color: #8A8270">4</span>  <span style="color: #2346A0; font-weight: 600">group by</span> o.id;</pre>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+          <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 8px">
+            <div style="font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase">Your result · 100 rows</div>
+            <div style="border: 2.5px solid #1E1B16; border-radius: 8px; background: #FFFFFF; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 15px">
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #1E1B16; color: #F7F3EA; padding: 6px 12px; gap: 16px"><span>id</span><span>items</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span>7</span><span>4</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span>8</span><span>1</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; color: #8A8270"><span>…</span><span>…</span></div>
+            </div>
+          </div>
+          <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 8px">
+            <div style="font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #9A3412">Expected · 100 rows</div>
+            <div style="border: 2.5px solid #C2410C; border-radius: 8px; background: #FFF7F0; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 15px">
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #9A3412; color: #FFFFFF; padding: 6px 12px; gap: 16px"><span>id</span><span style="text-decoration: underline wavy">total</span><span>items</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span>7</span><span>64.00</span><span>4</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span>8</span><span>12.50</span><span>1</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; color: #8A8270"><span>…</span><span>…</span><span>…</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
+          <span style="font-family: 'Caveat', cursive; font-size: 28px; color: #C2410C; font-weight: 700">Almost! One column is missing: total.</span>
+          <span style="font-size: 16px; color: #5B5446">Rows match. Attempt 2.</span>
+        </div>
+      </main>
+
+      <aside style="flex: 1 1 260px; max-width: 300px; display: flex; flex-direction: column; gap: 22px; border-left: 2px dashed #B9AE97; padding-left: 24px">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">Tables</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; background: #FFFFFF; border: 2px solid #1E1B16; border-radius: 8px; padding: 10px 12px">
+            <strong>orders</strong><br>id · int · pk<br>total · numeric<br>created_at · timestamptz
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; background: #FFFFFF; border: 2px solid #1E1B16; border-radius: 8px; padding: 10px 12px">
+            <strong>items</strong><br>id · int · pk<br>order_id · int → orders.id<br>sku · text
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">Hints</div>
+          <button style="font: inherit; font-size: 16px; text-align: left; padding: 10px 14px; background: #FFFFFF; border: 2px solid #1E1B16; border-radius: 8px; cursor: pointer">1 · What else must go in group by?</button>
+          <button style="font: inherit; font-size: 16px; text-align: left; padding: 10px 14px; background: transparent; border: 2px dashed #B9AE97; border-radius: 8px; color: #5B5446; cursor: pointer">2 · Show the rule</button>
+          <button style="font: inherit; font-size: 16px; text-align: left; padding: 10px 14px; background: transparent; border: 2px dashed #B9AE97; border-radius: 8px; color: #5B5446; cursor: pointer">3 · Show part of the answer</button>
+        </div>
+        <div style="border: 2.5px solid #C2410C; border-radius: 8px; padding: 12px 14px; background: #FFF7F0">
+          <div style="font-weight: 700; color: #9A3412; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">Gotcha</div>
+          <p style="margin: 6px 0 0; font-size: 16px; line-height: 1.45">Don’t sum <code style="font-family: 'JetBrains Mono', monospace">o.total</code> after this join. Group first, or you’re back to ×4.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; border-top: 3px solid #1E1B16; padding-top: 18px">
+      <button style="font: inherit; font-size: 18px; padding: 12px 22px; background: transparent; border: 2.5px solid #1E1B16; border-radius: 10px; cursor: pointer">Back</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <span style="font-family: 'Caveat', cursive; font-size: 22px; color: #5B5446">match the expected result to continue</span>
+        <button disabled style="font: inherit; font-size: 18px; font-weight: 700; padding: 14px 28px; background: #CFC6B3; color: #4A4436; border: none; border-radius: 10px">Continue</button>
+      </div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

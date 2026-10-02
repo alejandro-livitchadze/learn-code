@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notebook: reveal with diagram</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@500;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2346A0}a:hover{color:#16306F}
+.paper{background-color:#F7F3EA;background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 31px, #E4DCCB 31px, #E4DCCB 32px)}
+.hl{background:linear-gradient(to bottom, transparent 55%, #FFE45C 55%, #FFE45C 90%, transparent 90%)}
+</style>
+</helmet>
+<div class="paper" style="min-height: 1000px; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; color: #1E1B16; box-sizing: border-box; padding: 32px 48px 48px">
+  <div style="max-width: 1344px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px">
+
+    <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 3px solid #1E1B16; padding-bottom: 14px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <a href="#" style="font-size: 14px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700">Module 1 · Databases</a>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Why your JOIN returned <span class="hl">400 rows</span></h1>
+      </div>
+      <span style="font-family: 'Caveat', cursive; font-size: 24px; color: #2346A0">step 3 of 14</span>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; background: #E6F4EA; border: 2.5px solid #1E1B16; border-radius: 10px; padding: 14px 20px; box-shadow: 4px 4px 0 #1E1B16">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#1E6B34" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 L14 26 L29 8"></path></svg>
+      <p style="margin: 0; font-size: 20px; line-height: 1.4; flex: 1 1 500px"><strong>400 rows. You got it.</strong> Every order shows up once per matching item: 100 × 4.</p>
+      <span style="font-family: 'Caveat', cursive; font-size: 22px; color: #1E6B34">picked 100? see the note on the right</span>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+
+      <main style="flex: 999 1 720px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="background: #1E1B16; color: #F7F3EA; font-weight: 700; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border-radius: 4px">What really happened</span>
+          <span style="font-family: 'Caveat', cursive; font-size: 24px; color: #2346A0">follow order 7</span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 15px">orders</div>
+            <div style="border: 2.5px solid #1E1B16; border-radius: 8px; background: #FFFFFF; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 15px">
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #1E1B16; color: #F7F3EA; padding: 6px 12px; gap: 16px"><span>id</span><span>total</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; background: #FFE45C"><span>7</span><span>64.00</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; color: #8A8270"><span>8</span><span>12.50</span></div>
+            </div>
+          </div>
+
+          <div style="font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700">×</div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 15px">items</div>
+            <div style="border: 2.5px solid #1E1B16; border-radius: 8px; background: #FFFFFF; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 15px">
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #1E1B16; color: #F7F3EA; padding: 6px 12px; gap: 16px"><span>order_id</span><span>sku</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; background: #FFF3A8"><span>7</span><span>mug</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; background: #FFF3A8"><span>7</span><span>tee</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; background: #FFF3A8"><span>7</span><span>cap</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; background: #FFF3A8"><span>7</span><span>pin</span></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px 12px; gap: 16px; color: #8A8270"><span>8</span><span>bag</span></div>
+            </div>
+          </div>
+
+          <svg width="64" height="30" viewBox="0 0 64 30" fill="none" stroke="#1E1B16" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 15 C22 4 40 26 58 15 M50 8 L59 15 L50 22"></path></svg>
+
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 15px">result</div>
+            <div style="border: 2.5px solid #1E1B16; border-radius: 8px; background: #FFFFFF; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 15px">
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #1E1B16; color: #F7F3EA; padding: 6px 12px; gap: 16px"><span>o.id</span><span>total</span><span>sku</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span class="hl">7</span><span class="hl">64.00</span><span>mug</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span class="hl">7</span><span class="hl">64.00</span><span>tee</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span class="hl">7</span><span class="hl">64.00</span><span>cap</span></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 12px; gap: 16px"><span class="hl">7</span><span class="hl">64.00</span><span>pin</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+          <p style="margin: 0; flex: 1 1 380px; font-size: 19px; line-height: 1.55; max-width: 560px">A join makes <strong>one row per matching pair</strong>. Order 7 has four items, so it appears four times, and its <code style="font-family: 'JetBrains Mono', monospace; font-size: 17px">total</code> appears four times too.</p>
+          <div style="flex: 0 1 300px; transform: rotate(1.5deg); font-family: 'Caveat', cursive; font-size: 26px; line-height: 1.2; color: #C2410C; border: 2.5px dashed #C2410C; border-radius: 12px; padding: 12px 16px">sum(total) now counts 64.00 four times. There’s your ×4 revenue.</div>
+        </div>
+      </main>
+
+      <aside style="flex: 1 1 260px; max-width: 300px; display: flex; flex-direction: column; gap: 22px; border-left: 2px dashed #B9AE97; padding-left: 24px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">If you picked 100</div>
+          <p style="margin: 0; font-size: 17px; line-height: 1.5">You were thinking of a join as “add columns to each order”. It is closer to “list every order–item pair”.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">If you picked 40,000</div>
+          <p style="margin: 0; font-size: 17px; line-height: 1.5">That is every order with every item: a join with no matching rule. The <code style="font-family: 'JetBrains Mono', monospace">on</code> clause keeps only pairs that belong together.</p>
+        </div>
+        <div style="transform: rotate(-2deg); background: #FFF3A8; padding: 16px 18px 20px; box-shadow: 0 6px 14px rgba(30,27,22,0.18); font-family: 'Caveat', cursive; font-size: 24px; line-height: 1.2">
+          <div style="font-size: 16px; font-family: 'Atkinson Hyperlegible', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px">Olha</div>
+          Oh. So the join didn’t lie. My sum did.
+        </div>
+      </aside>
+    </div>
+
+    <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; border-top: 3px solid #1E1B16; padding-top: 18px">
+      <button style="font: inherit; font-size: 18px; padding: 12px 22px; background: transparent; border: 2.5px solid #1E1B16; border-radius: 10px; cursor: pointer">Back</button>
+      <button style="font: inherit; font-size: 18px; font-weight: 700; padding: 14px 28px; background: #1E1B16; color: #F7F3EA; border: none; border-radius: 10px; cursor: pointer; box-shadow: 4px 4px 0 #E8590C">Continue</button>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
