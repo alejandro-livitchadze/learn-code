@@ -18,7 +18,7 @@ Epic: E05. Lessons from an earlier run, use them:
 - Done when: `tools/demand-scanner` fetches the RSS feed for `primary_keyword=Fullstack` and also `Node.js`, parses into the `Vacancy` schema, caches raw responses, skips cached vacancies on re-run, and has `pnpm demand validate` implementing the schema and literal-occurrence guard; unit tests pass.
 
 ## D2. Synonyms
-- Status: todo
+- Status: in_progress
 - Depends on: D1
 - Done when: `synonyms.json` covers at least 150 canonical skills with categories `language`, `runtime`, `framework`, `database`, `orm`, `api`, `auth`, `testing`, `devops`, `cloud`, `queue`, `ai`, `frontend`, `other`, with Ukrainian spellings; the `ai` category includes claude-code, copilot, openai-api, rag, mcp, langchain, langgraph, vector-db, embeddings, ai-agents; AWS and Azure services have their own ids; common misspellings found in data are mapped.
 
