@@ -58,18 +58,28 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `pnpm lesson build|check|new` work; SQL samples verified against PGlite in Node.js; a wrong declared output fails; `content/fullstack/joins-01/lesson.mdoc` passes; CI runs `lesson check`; README explains adding a step kind.
 
 ## P6. Lesson player
-- Status: todo
+- Status: done
+- Note: merged via PR #13; CI green; reviewer APPROVE on b96982f; reducer 100% coverage; Lighthouse desktop 1.00/1.00 (reviewer run). E2E is local only, not in CI.
 - Depends on: P5
 - Paths: `apps/web/**`, root
 - Epic: E02
 - Done when: all acceptance criteria of E02.
 
 ## P7. Widgets, first set
-- Status: todo
+- Status: done
+- Note: merged via PR #14; CI green; reviewer APPROVE on 9b67ce5 (driven in Chromium at 1024 and 1440 px). The player is not wired to the registry yet: see P7b.
 - Depends on: P6
 - Paths: `packages/widgets/**`, `apps/web/app/dev/**`, root
 - Epic: E03
 - Done when: `hook`, `explain`, `recap`, `cliffhanger`, `pitfall`, `predict`, `fillBlanks` meet the E03 common rules and appear in the catalogue page; unimplemented kinds map to a visible placeholder and the registry type still compiles.
+
+## P7b. Wire widgets into the lesson player
+- Status: done
+- Note: merged via PR #15; CI green; reviewer APPROVE on 77e314d; e2e 19/19 locally (not in CI). The sample lesson cannot be finished through the UI until recall, sqlLab, brainPower and matching have widgets (the e2e seeds those four steps as answered and says so).
+- Depends on: P7
+- Paths: `apps/web/**`, root
+- Epic: E02 and E03 (player integration)
+- Done when: `apps/web` depends on `@learn-code/widgets` (`workspace:*`, `transpilePackages`) and the catalogue imports it by package name; the player renders every step through `StepWidget` inside `HighlightsProvider` with `widgets.css` loaded once; the player imports `StepResult` and `StepComponentProps` from the widgets package (one definition) and `StepPlaceholder` is removed; the P6 e2e is updated to play the sample lesson with the real widgets (answers instead of "Mark as answered") at 1024 and 1440 px; Playwright tests for the `/dev/widgets` catalogue at 1024 and 1440 px; CI still green. Added by the orchestrator so the P7 milestone check "the sample lesson renders every implemented step kind" can pass.
 
 ## P8. SQL engine and sqlLab
 - Status: todo
