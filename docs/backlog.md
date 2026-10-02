@@ -90,7 +90,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: all acceptance criteria of E04 part A.
 
 ## P8b. Wire sqlLab, lesson check on the SQL engine
-- Status: todo
+- Status: in_progress
 - Depends on: P8
 - Paths: `packages/widgets/**`, `apps/web/**`, `packages/lesson-compiler/**`, root
 - Epic: E04, part A (wiring and task 5)
