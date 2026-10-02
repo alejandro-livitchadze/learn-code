@@ -312,6 +312,55 @@ export const fixtures: readonly Fixture[] = [
     },
   },
   {
+    id: 'sql-idle',
+    title: 'sqlLab, idle (needs the sample seed)',
+    step: {
+      ...base,
+      id: 'fx-sql-1',
+      kind: 'sqlLab',
+      prompt: 'Return the number of orders that have at least one item.',
+      seedRef: 'default',
+      starter: 'select count(*) from orders o join items i on i.order_id = o.id',
+      solution: 'select count(distinct o.id) from orders o join items i on i.order_id = o.id',
+      orderMatters: false,
+      hints: ['Count something that is the same for all rows of one order.'],
+    },
+  },
+  {
+    id: 'sql-restored',
+    title: 'sqlLab, restored as solved',
+    step: {
+      ...base,
+      id: 'fx-sql-2',
+      kind: 'sqlLab',
+      prompt: 'Return the number of orders that have at least one item.',
+      seedRef: 'default',
+      starter: '',
+      solution: 'select count(distinct o.id) from orders o join items i on i.order_id = o.id',
+      orderMatters: false,
+      hints: [],
+    },
+    restored: answered(2, {
+      sql: 'select count(distinct o.id) from orders o join items i on i.order_id = o.id',
+    }),
+  },
+  {
+    id: 'sql-long',
+    title: 'sqlLab, long query and prompt',
+    step: {
+      ...base,
+      id: 'fx-sql-3',
+      kind: 'sqlLab',
+      prompt: `${'Find every customer whose orders were counted more than once. '.repeat(4)}\n\nUse \`group by\` and \`having\`.`,
+      seedRef: 'default',
+      starter: `select o.customer, count(*) as item_rows, count(distinct o.id) as orders_without_the_duplicates from orders o join items i on i.order_id = o.id group by o.customer having count(*) > 1 -- a long trailing comment`,
+      solution:
+        'select o.customer from orders o join items i on i.order_id = o.id group by o.customer having count(*) > 1',
+      orderMatters: true,
+      hints: ['One', 'Two'],
+    },
+  },
+  {
     id: 'unbuilt-parsons',
     title: 'Unbuilt kind shows a placeholder (parsons)',
     step: {

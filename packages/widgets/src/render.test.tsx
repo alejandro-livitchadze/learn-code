@@ -34,6 +34,20 @@ describe('rendering', () => {
     expect(fill).toContain('All blanks are correct.');
     expect(done).not.toHaveBeenCalled();
   });
+  it('renders sqlLab as the real widget, with its editor frame and no engine started', () => {
+    const out = html('sql-idle');
+    expect(out).toContain('data-kind="sqlLab"');
+    expect(out).toContain('Run (Ctrl+Enter)');
+    expect(out).toContain('Reset database');
+    expect(out).not.toContain('has not been built yet');
+  });
+  it('shows a solved sqlLab when restored, without calling onComplete', () => {
+    const done = vi.fn();
+    expect(html('sql-restored', done)).toContain(
+      'Correct. Your query returns the expected result.',
+    );
+    expect(done).not.toHaveBeenCalled();
+  });
   it('does not show a run button or answer before answering', () => {
     expect(html('predict-idle')).not.toContain('Run it');
   });

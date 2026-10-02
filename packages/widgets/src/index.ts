@@ -1,4 +1,5 @@
 export { widgetRegistry, StepWidget, IMPLEMENTED_KINDS } from './registry';
+export { SeedBaseProvider } from './sql-wiring';
 export { HighlightsProvider } from './Code';
 export { Predict } from './Predict';
 export { FillBlanks } from './FillBlanks';
