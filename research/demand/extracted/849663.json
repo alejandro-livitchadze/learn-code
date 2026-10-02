@@ -1,0 +1,29 @@
+{
+  "vacancyId": "849663",
+  "required": [
+    "Flutter",
+    "Dart",
+    "Swift",
+    "Kotlin",
+    "Gradle",
+    "CocoaPods",
+    "REST",
+    "WebSocket",
+    "Postman",
+    "cURL",
+    "Git",
+    "CI/CD",
+    "Xcode"
+  ],
+  "niceToHave": [
+    "NestJS",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "AWS",
+    "S3",
+    "Rust",
+    "C++"
+  ],
+  "seniority": "unknown"
+}

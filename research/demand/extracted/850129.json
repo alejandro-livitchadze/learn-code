@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850129",
+  "required": [
+    "Node.js",
+    "React",
+    "Claude",
+    "Cursor"
+  ],
+  "niceToHave": [
+    "Azure",
+    "Microsoft Graph",
+    "Power Platform",
+    "Dynamics 365"
+  ],
+  "seniority": "senior"
+}

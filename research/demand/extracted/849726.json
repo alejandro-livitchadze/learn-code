@@ -1,0 +1,25 @@
+{
+  "vacancyId": "849726",
+  "required": [
+    "Node.js",
+    "NestJS",
+    "Hapi.js",
+    "TypeScript",
+    "React",
+    "MobX",
+    "Redux",
+    "SQL",
+    "PostgreSQL",
+    "REST"
+  ],
+  "niceToHave": [
+    "GraphQL",
+    "Next.js",
+    "Redis",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "CI/CD"
+  ],
+  "seniority": "senior"
+}

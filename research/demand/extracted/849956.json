@@ -1,0 +1,16 @@
+{
+  "vacancyId": "849956",
+  "required": [
+    "TypeScript",
+    "Python",
+    "CI"
+  ],
+  "niceToHave": [
+    "OSLC",
+    "OData",
+    "SOAP",
+    "SAML",
+    "Kerberos"
+  ],
+  "seniority": "senior"
+}

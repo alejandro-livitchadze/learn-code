@@ -1,0 +1,31 @@
+{
+  "vacancyId": "849892",
+  "required": [
+    "Angular",
+    "TypeScript",
+    "RxJS",
+    "Node.js",
+    "Express",
+    "OAuth 2.0",
+    "OpenID Connect",
+    "SAML",
+    "JWT",
+    "LLM",
+    "GitLab CI/CD",
+    "Docker",
+    "AWS EKS",
+    "SonarQube",
+    "ESLint",
+    "Prettier",
+    "Husky",
+    "Vitest",
+    "Claude Code",
+    "Cursor",
+    "MCP"
+  ],
+  "niceToHave": [
+    "Playwright",
+    "ts-morph"
+  ],
+  "seniority": "senior"
+}
