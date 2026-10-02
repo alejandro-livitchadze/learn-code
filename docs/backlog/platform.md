@@ -5,7 +5,7 @@ Branch `lane/platform`. Status values: `todo`, `in_progress`, `done`, `blocked`.
 Each task fits one session. "Done when" is the acceptance test for that task only. The epic file holds the details.
 
 ## P1. Scaffold and CI
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Epic: E01, task 1
 - Done when: pnpm workspaces and Turborepo with the layout from `00-context.md`; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; GitHub Actions running install, typecheck, lint and test on Node.js 26 for pushes and pull requests; CI is green.
