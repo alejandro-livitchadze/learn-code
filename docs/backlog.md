@@ -4,6 +4,62 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
+## F1. Lesson check: playable and solvable
+- Status: todo
+- Depends on: none
+- Paths: `packages/lesson-compiler/**`, `packages/lesson-schema/**`, `packages/widgets/src/check.ts`, `packages/widgets/src/registry.tsx`, root
+- Source: `docs/audit-2026-10-03.md`, finding 1 (blocker)
+- Done when: `lesson check` fails, with file and line, on each of: duplicate step ids; a `fillBlanks` whose template markers and `blanks` ids differ; a `fillBlanks` whose first accepted answers do not pass `checkFillBlanks`; a lesson or step concept id missing from `concepts.json`; a blank misconception id missing from `misconceptions.json`; a step kind not in `IMPLEMENTED_KINDS` (error for content, with a `--allow-unbuilt` flag used only by compiler fixtures); frontmatter `id` or `courseId` different from the folder names; fewer than 12 or more than 20 steps (warning for `joins-01` until F6). One failing fixture per rule; the existing seven fixtures still fail exactly their rule.
+
+## F2. SQL session reset that always works
+- Status: todo
+- Depends on: none
+- Paths: `packages/sql-engine/**`
+- Source: `docs/audit-2026-10-03.md`, finding 2 (major)
+- Done when: `reset()` gives a database identical to a fresh `open(seed)` after each of: an aborted transaction, an open transaction, a changed `search_path`, an extra schema, a changed session setting (close and recreate the database, or `rollback` plus `discard all` plus dropping non-system schemas); a failed reset leaves the session usable on the next call; tests cover each case on the inline adapter and one on the worker adapter.
+
+## F3. One result comparer, one SQL path
+- Status: todo
+- Depends on: none
+- Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, `packages/lesson-compiler/**`
+- Source: `docs/audit-2026-10-03.md`, finding 3 (major)
+- Done when: `compareResults` lives in `packages/sql-engine` (pure, exported) and is the only comparer used by the widget and by `lesson check`; `sameSqlResult`, `sameResult` and `verify/sql.ts` are deleted; predict verification runs through the inline adapter; `lesson check` fails a `sqlLab` whose reference result exceeds the row cap; a test feeds the same pairs to the widget path and the check path.
+
+## F4. Build and e2e in CI, e2e portable
+- Status: todo
+- Depends on: none
+- Paths: `.github/**`, `apps/web/e2e/**`, `apps/web/playwright.config.ts`, root
+- Source: `docs/audit-2026-10-03.md`, finding 4 (major)
+- Done when: CI runs `pnpm --filter @learn-code/web build`, installs the pinned Chromium and runs `pnpm --filter @learn-code/web e2e`, with `timeout-minutes` set on the job; `typeSql` uses `ControlOrMeta+A`; the suite passes on macOS and Linux; README says how to run it.
+
+## F5. Show SQL values as PostgreSQL prints them
+- Status: todo
+- Depends on: none
+- Paths: `packages/sql-engine/**`, `packages/lesson-compiler/**`
+- Source: `docs/audit-2026-10-03.md`, finding 5 (major)
+- Done when: date, timestamp, timestamptz, time, interval, numeric, bigint, boolean, arrays and json come back as PostgreSQL's text output (configure PGlite parsers to return raw text, session time zone fixed to UTC); a test asserts the exact strings for each type and passes under `TZ=Europe/Kyiv` and `TZ=UTC`; a predict fixture with a date output passes with `2024-03-10`.
+
+## F6. Sample lesson: finishable and truthful
+- Status: todo
+- Depends on: none
+- Paths: `content/fullstack/joins-01/**`, `apps/web/e2e/**`, `docs/backlog.md` (orchestrator)
+- Source: `docs/audit-2026-10-03.md`, finding 6 (major)
+- Done when: `joins-01` uses only kinds in `IMPLEMENTED_KINDS`, includes a `pitfall` and a `cliffhanger`, and has 12 to 20 steps; the seed has orders without items and an `amount` column, and a sample shows the inflated sum; `lesson check` proves `select count(*) from orders` does not match the reference; the prompt names the expected column; the e2e plays the lesson with no `localStorage` seeding. The author decides whether recall, brainPower, matching, parsons and firesideChat get tasks or leave the 3-month scope, and the backlog says so.
+
+## F7. One Markdown contract
+- Status: todo
+- Depends on: none
+- Paths: `packages/widgets/src/markdown.tsx`, `packages/widgets/src/*.test.*`, `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
+- Source: `docs/audit-2026-10-03.md`, finding 7 (major)
+- Done when: the supported subset is written in the compiler README; the renderer supports links (http and https only, `rel="noreferrer"`), emphasis and fenced code; a lint rule rejects any other construct with file and line; tests cover each supported construct, a `javascript:` link, and one rejected construct.
+
+## F8. Make the specs agree
+- Status: todo
+- Depends on: none
+- Paths: `docs/**`, `CLAUDE.md`, `README.md` (author or orchestrator only)
+- Source: `docs/audit-2026-10-03.md`, finding 8 (major)
+- Done when: every item listed in audit finding 8 is fixed or deleted; `CLAUDE.md` section 10 has an M5 integration check (the three lessons build, play to the end in the e2e, and every linked source was opened); superseded docs carry a first-line "superseded by" note; README lists the commands for lesson check, build and e2e.
+
 ## R0. Recovery and migration
 - Status: done
 - Depends on: none
