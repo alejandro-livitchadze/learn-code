@@ -11,3 +11,4 @@
 - Stale remote branches still to delete: `lane/platform`, `lane/demand`, `task/P1`, `task/D1`, `task/P2`, `task/D3`.
 - Stale branch `task/P3` also needs deleting.
 - Stale branch `task/P4` also needs deleting.
+- P5 review minors (not blocking): `cli.ts:36` unchecked `(e as Error)`; `verify/node.ts:21` sample child process inherits the full environment (should pass a minimal env); `cli.ts:25` `lesson new` uses a hard-coded relative `content` dir; root `demand` script was added inside P5 although unrelated. Stale branch `task/P5` also needs deleting.
