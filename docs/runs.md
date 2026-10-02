@@ -44,3 +44,4 @@
 
 - P8b (PR #20, head a18cfb9): the branch was already complete (final commit 91287c5, develop merged in by another session). I ran install, typecheck, lint, prettier and test locally: all pass; only `root` files outside the app/package paths changed. CI was still running when this run ended; no review verdict exists for this head. P8b stays `in_progress`. Next run: if CI is green, run the review gate on a18cfb9.
 - Workers: 0. Reviewers: 0. Integration PR #16 stays open (milestone D5 step pending; see backlog).
+- Update, same run: CI green on a18cfb9; fresh reviewer gave APPROVE; P8b (PR #20) squash-merged into develop. Reviewers: 1. Workers: 0.

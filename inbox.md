@@ -43,3 +43,7 @@
 
 - P8 merged (PR #18); stale branches `task/P8` and `task/D5` need deleting.
 - D5 reports are on develop: `research/demand/report.md`, `report-js.md`, `spot-check.md`. Milestone D5 step follows. Note for the author: Junior-Middle level mapping in the extraction files is inconsistent (some mapped to junior, some to middle); the reports group them, so numbers are unaffected. Possible later D task: add synonyms for frequent unknown terms (n8n, bootstrap, phpunit, drf, maven, typo "posgtess").
+
+## 2026-10-02 fifth run
+
+- P8b merged (PR #20). Review minors (not blocking): CI does not run `next build` or Playwright e2e (candidate `root`/`.github` task); `packages/lesson-compiler/tsconfig.json` `lib` now includes DOM, drop it if not needed. Stale branches `task/P8b` and `task/D5` need deleting.
