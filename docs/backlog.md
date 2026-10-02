@@ -125,7 +125,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.
 
 ## D4. Extraction, the rest
-- Status: in_progress
+- Status: done
+- Note: merged via PR #17; 212 extraction files, validator 0 errors, CI green; reviewer APPROVE on d088d9c.
 - Depends on: D3
 - Paths: `research/demand/**`
 - Done when: every parsed vacancy has a valid extraction file.
