@@ -97,19 +97,47 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Epic: E04, part A (wiring and task 5)
 - Done when: `sqlLab` is registered in the widgets registry via `createSqlLab` with a lazy `getEngine` (`createWorkerEngine`, imported only on the first sqlLab step) and a `loadSeed` that provides `seeds/<seedRef>.sql`; `sqlLab` has fixtures and appears in the catalogue; CodeMirror and `@learn-code/sql-engine` dependencies live in `packages/widgets/package.json`, not the root; `@learn-code/sql-engine` is in `transpilePackages`; the sample lesson can be finished through the UI for sqlLab; a production build shows PGlite is a lazy chunk and pages without SQL steps do not fetch it; the Worker timeout path is checked in a real browser; `lesson check` runs the reference query (must match expected rows) and the starter (must not) through the sql-engine inline adapter. Added by the orchestrator from the P8 review follow-ups.
 
+## V1. UI package: tokens, fonts, page shell
+- Status: todo
+- Depends on: P8b
+- Paths: `packages/ui/**`, `apps/web/**`, root
+- Epic: E08 sections 2, 3, 7 and component Button, InkCard, StepTag, Highlight
+- Done when: `packages/ui` exports tokens (CSS and typed), the four fonts via `next/font`, page shell (header, main, margin, footer) and the listed components; the dark theme is removed; the lesson page uses the shell; code lint CL1 and CL2 run in CI; catalogue shows each component; Playwright screenshots at 1280 and 1440 px are committed.
+
+## V2. Margin schema, Markdoc tags, design lint
+- Status: todo
+- Depends on: V1
+- Paths: `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
+- Epic: E08 sections 5, 8 (lesson design lint) and 9
+- Done when: `margin` and the title highlight are in the schema; Markdoc tags compile into them; rules DL1 to DL8 exist as pure functions with one failing fixture each; the sample lesson passes.
+
+## V3. Characters and margin components
+- Status: todo
+- Depends on: V2
+- Paths: `packages/ui/**`, `packages/widgets/**`, `apps/web/**`
+- Epic: E08 sections 4 and 5
+- Done when: The Bug, Olha and Mr. Runtime exist as SVG components; StickyNote, SpeechBubble, Gotcha, StopAndThink, FeedbackBanner, Annotation, MiniDiagram, ReviewCard, Cliffhanger, HintLadder are built and in the catalogue; the player renders `margin` items and the hook's left character column.
+
+## V4. Restyle every existing widget and the sample lesson
+- Status: todo
+- Depends on: V3
+- Paths: `packages/widgets/**`, `content/**`, `apps/web/**`
+- Epic: E08 whole file; mockups A1 to A4
+- Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
+
 ## P9. Schema builder
 - Status: todo
-- Depends on: P8
+- Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
-- Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested.
+- Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested; built only from `packages/ui` components and tokens, following E08.
 
 ## P10. Be the database: joins
 - Status: todo
 - Depends on: P9
 - Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
 - Epic: E06 (`beTheDatabase`, join variant)
-- Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output.
+- Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output; built only from `packages/ui` components and tokens, following E08.
 
 ## C1. Module 1 roadmap
 - Status: todo
