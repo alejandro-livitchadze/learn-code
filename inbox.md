@@ -38,3 +38,8 @@
 - P8 (PR #18) is waiting on a one-line fix round (prettier format); the next run handles it. Suggested follow-up task P8b for the wiring listed in docs/runs.md.
 
 - P8 merged (PR #18). Added backlog task P8b (wiring, lesson check on sql-engine). Stale branch `task/P8` also needs deleting.
+
+## 2026-10-02 fourth run
+
+- P8 merged (PR #18); stale branches `task/P8` and `task/D5` need deleting.
+- D5 reports are on develop: `research/demand/report.md`, `report-js.md`, `spot-check.md`. Milestone D5 step follows. Note for the author: Junior-Middle level mapping in the extraction files is inconsistent (some mapped to junior, some to middle); the reports group them, so numbers are unaffected. Possible later D task: add synonyms for frequent unknown terms (n8n, bootstrap, phpunit, drf, maven, typo "posgtess").
