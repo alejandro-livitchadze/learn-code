@@ -1,0 +1,135 @@
+# Backlog
+
+Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator edits this file.
+
+`Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
+
+## R0. Recovery and migration
+- Status: todo
+- Depends on: none
+- Paths: everything (orchestrator only, no workers)
+- Done when:
+  1. On `main`: move this file to `docs/backlog.md`; delete `docs/backlog/` and the lane inbox files; create an empty `inbox.md` and `docs/runs.md`; commit "chore: switch to orchestrator protocol", push. This is the only allowed push to `main`.
+  2. Create `develop` from `main`.
+  3. Inspect PR #1 (`lane/platform`), PR #2 (`lane/demand`) and commit `ad74c83`. Write a short finding in `docs/runs.md`: how the scaffold ended up on `lane/demand`.
+  4. Take the scaffold from `lane/platform` as the canonical P1. On `task/P1` from `develop`, apply it and add what the demand side needed at the root: `tools/*` in the workspace globs, `research/` in `.prettierignore`, esbuild allowed to run its build script. Pin Node.js 26 and the pnpm version. Get CI green on GitHub, merge into `develop`, mark P1 `done`.
+  5. On `task/D1` from the updated `develop`, bring over only `tools/demand-scanner/**` and `research/**` from `lane/demand`, plus any lockfile change it needs. Do not bring its root config copies. Get CI green, merge into `develop`. Set D1 and D2 to `done` only if their "Done when" is really met, otherwise `todo` with a note of what is missing.
+  6. Close PR #1 and PR #2 with a comment linking the replacements. Delete `lane/platform` and `lane/demand`.
+  7. Open the integration pull request from `develop` into `main`.
+
+## P1. Scaffold and CI
+- Status: todo
+- Depends on: R0
+- Paths: root, `.github/**`
+- Epic: E01, task 1
+- Done when: pnpm workspaces (`apps/*`, `packages/*`, `tools/*`) and Turborepo; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; root scripts `typecheck`, `lint`, `test`; GitHub Actions on Node.js 26 running install with `--frozen-lockfile`, typecheck, lint and test; CI green on GitHub.
+
+## P2. Lesson schema
+- Status: todo
+- Depends on: P1
+- Paths: `packages/lesson-schema/**`, root
+- Epic: E01, task 2
+- Done when: Zod schemas and inferred types for the lesson, every step kind in `00-context.md` section 2 except `bugHunt` and `apiLab`, and the registry, roadmap and status files; `PASSIVE_KINDS` and `isActive`; tests for valid and invalid fixtures.
+
+## P3. Markdoc compiler
+- Status: todo
+- Depends on: P2
+- Paths: `packages/lesson-compiler/**`, root
+- Epic: E01, task 3 (compile part)
+- Done when: Markdoc maintenance status noted; tag definitions for the step kinds from P2; `compileLesson(path)` returns a validated `Lesson` or errors with file and line; text outside tags is an error; tests for one valid and at least five invalid lessons.
+
+## P4. Linter
+- Status: todo
+- Depends on: P3
+- Paths: `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
+- Epic: E01, task 3 (lint part)
+- Done when: rules 1 to 7 from `00-context.md` section 3 as separate pure functions; seven broken fixtures each fail exactly their rule; coverage of lint rules at least 90%.
+
+## P5. Sample verification, CLI, sample lesson
+- Status: todo
+- Depends on: P4
+- Paths: `packages/lesson-compiler/**`, `content/**`, root, `.github/**`
+- Epic: E01, tasks 3 (verify part), 4, 5
+- Done when: `pnpm lesson build|check|new` work; SQL samples verified against PGlite in Node.js; a wrong declared output fails; `content/fullstack/joins-01/lesson.mdoc` passes; CI runs `lesson check`; README explains adding a step kind.
+
+## P6. Lesson player
+- Status: todo
+- Depends on: P5
+- Paths: `apps/web/**`, root
+- Epic: E02
+- Done when: all acceptance criteria of E02.
+
+## P7. Widgets, first set
+- Status: todo
+- Depends on: P6
+- Paths: `packages/widgets/**`, `apps/web/app/dev/**`, root
+- Epic: E03
+- Done when: `hook`, `explain`, `recap`, `cliffhanger`, `pitfall`, `predict`, `fillBlanks` meet the E03 common rules and appear in the catalogue page; unimplemented kinds map to a visible placeholder and the registry type still compiles.
+
+## P8. SQL engine and sqlLab
+- Status: todo
+- Depends on: P7
+- Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, root
+- Epic: E04, part A
+- Done when: all acceptance criteria of E04 part A.
+
+## P9. Schema builder
+- Status: todo
+- Depends on: P8
+- Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
+- Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
+- Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested.
+
+## P10. Be the database: joins
+- Status: todo
+- Depends on: P9
+- Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
+- Epic: E06 (`beTheDatabase`, join variant)
+- Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output.
+
+## D1. Scanner: fetch, parse, validate
+- Status: todo
+- Depends on: P1
+- Paths: `tools/demand-scanner/**`, `research/demand/**`, root
+- Epic: E05, with the notes below
+- Done when: fetches the Djinni RSS feed for `primary_keyword=Fullstack` and `Node.js` across all `exp_level` values; parses into the `Vacancy` schema; caches raw responses; skips cached vacancies; `pnpm demand validate` implements the schema and literal-occurrence guard; tests pass in CI.
+
+## D2. Synonyms
+- Status: todo
+- Depends on: D1
+- Paths: `tools/demand-scanner/**`
+- Done when: at least 150 canonical skills with categories `language`, `runtime`, `framework`, `database`, `orm`, `api`, `auth`, `testing`, `devops`, `cloud`, `queue`, `ai`, `frontend`, `other`; Ukrainian spellings; the `ai` category includes claude-code, copilot, openai-api, rag, mcp, langchain, langgraph, vector-db, embeddings, ai-agents; AWS and Azure services have their own ids.
+
+## D3. Extraction, first 100
+- Status: todo
+- Depends on: D2
+- Paths: `research/demand/**`
+- Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.
+
+## D4. Extraction, the rest
+- Status: todo
+- Depends on: D3
+- Paths: `research/demand/**`
+- Done when: every parsed vacancy has a valid extraction file.
+
+## D5. Reports
+- Status: todo
+- Depends on: D4
+- Paths: `research/demand/**`, `tools/demand-scanner/**`
+- Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.
+
+## D6. Weekly refresh
+- Status: todo
+- Depends on: D5
+- Paths: `research/demand/**`
+- Done when: never marked done. Run at most once per 7 days (check the last date in `research/demand/changelog.md`): fetch new vacancies, extract, regenerate reports, add one dated line to the changelog with the sample size and any skill whose share moved 5 points or more.
+
+## Notes for D tasks
+
+- Djinni RSS: `/jobs/rss/?primary_keyword=Fullstack`. One request returns at most 100 items and ignores `page=`; repeat with each `exp_level` (`no_exp`, `1y` ... `10y`). One request every 3 seconds.
+- The feed has no company and no salary. Deduplicate by normalized title plus description hash.
+- No local model. Extraction is done by the worker reading the text.
+
+## Stop point
+
+After P10 and D5 the orchestrator only runs D6 and triage. New platform work needs the author.
