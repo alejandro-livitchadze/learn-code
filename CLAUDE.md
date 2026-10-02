@@ -64,7 +64,8 @@ In the worker's worktree:
 
 1. Make sure one pull request from `develop` into `main` exists, titled "Integration: ready for author review". Never merge it.
 2. Append to `docs/runs.md` (on `develop`): date, tasks attempted, result of each, CI state, usage concerns if any.
-3. Stop when `MAX_TASKS_PER_RUN` is reached, when no task is ready, or when everything ready is blocked.
+3. After every merge into `develop`, go back to section 3 and pick again.
++   Stop only when `MAX_TASKS_PER_RUN` is reached, when no task is ready, or when everything ready is blocked.
 
 ## 7. Hard rules for the orchestrator
 
