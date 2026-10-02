@@ -2,6 +2,8 @@ import type { SqlResult } from '@learn-code/sql-engine';
 
 export interface ResultDiff {
   readonly match: boolean;
+  /** The reference result's columns, in order; the headers for the row grids. */
+  readonly expectedColumns: readonly string[];
   /** Expected column names (lower case) the learner's result lacks. */
   readonly missingColumns: readonly string[];
   /** Learner column names (lower case) the expected result does not have. */
@@ -56,7 +58,7 @@ export function compareResults(
   const none = { missingRows: [], extraRows: [], orderMismatch: false };
 
   if (missingColumns.length > 0 || extraColumns.length > 0) {
-    return { match: false, missingColumns, extraColumns, ...none, truncated };
+    return { match: false, expectedColumns: expected.columns, missingColumns, extraColumns, ...none, truncated };
   }
 
   // Same column names: line the learner's columns up with the expected order.
@@ -76,6 +78,7 @@ export function compareResults(
     sameRows &&
     expected.rows.some((row, i) => rowKey(row) !== rowKey(aligned[i] ?? []));
   return {
+    expectedColumns: expected.columns,
     match: sameRows && !orderMismatch && !truncated && expected.rowCount === actual.rowCount,
     missingColumns,
     extraColumns,

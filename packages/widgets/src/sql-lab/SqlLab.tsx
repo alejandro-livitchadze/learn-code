@@ -76,13 +76,7 @@ function Grid({
 
 const plural = (n: number, word: string): string => `${n} ${word}${n === 1 ? '' : 's'}`;
 
-function DiffView({
-  diff,
-  expected,
-}: {
-  readonly diff: ResultDiff;
-  readonly expected: readonly string[];
-}) {
+export function DiffView({ diff }: { readonly diff: ResultDiff }) {
   if (diff.missingColumns.length > 0 || diff.extraColumns.length > 0) {
     return (
       <div className="sl-diff" role="status">
@@ -109,7 +103,7 @@ function DiffView({
       {diff.orderMismatch && <p>You have the right rows, but this task needs a specific order.</p>}
       {diff.missingRows.length > 0 && (
         <Grid
-          columns={expected}
+          columns={diff.expectedColumns}
           rows={diff.missingRows.slice(0, MAX_DIFF_ROWS)}
           mark="missing"
           caption={`Missing ${plural(diff.missingRows.length, 'row')}`}
@@ -117,7 +111,7 @@ function DiffView({
       )}
       {diff.extraRows.length > 0 && (
         <Grid
-          columns={expected}
+          columns={diff.expectedColumns}
           rows={diff.extraRows.slice(0, MAX_DIFF_ROWS)}
           mark="extra"
           caption={`Extra ${plural(diff.extraRows.length, 'row')}`}
@@ -139,7 +133,6 @@ function SqlLabView({
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [schema, setSchema] = useState<readonly SchemaTable[]>([]);
   const [report, setReport] = useState<RunReport | undefined>(undefined);
-  const [expectedColumns, setExpectedColumns] = useState<readonly string[]>([]);
   const [running, setRunning] = useState(false);
   const [solved, setSolved] = useState(wasSolved);
   const [hintsShown, setHintsShown] = useState(0);
@@ -202,7 +195,6 @@ function SqlLabView({
       const { report: next, schema: nextSchema } = await lab.run(sql);
       setReport(next);
       if (nextSchema !== undefined) setSchema(nextSchema);
-      if (next.outcome.ok) setExpectedColumns(next.outcome.result.columns);
       if (next.correct) setSolved(true);
       if (next.correct && !completed.current) {
         completed.current = true;
@@ -335,7 +327,7 @@ function SqlLabView({
         />
       )}
       {report?.diff !== undefined && !report.diff.match && (
-        <DiffView diff={report.diff} expected={expectedColumns} />
+        <DiffView diff={report.diff} />
       )}
       {(report?.correct === true || (solved && report === undefined)) && (
         <p className="sl-ok" role="status">

@@ -6,7 +6,7 @@ import { compareResults } from './compare';
 import { LabController } from './controller';
 import { diagnosticRange } from './editor-range';
 import { SCHEMA_QUERY, groupSchema, mayChangeSchema } from './schema';
-import { createSqlLab } from './SqlLab';
+import { DiffView, createSqlLab } from './SqlLab';
 
 const res = (columns: string[], rows: unknown[][], rowCount = rows.length): SqlResult => ({
   columns,
@@ -263,5 +263,19 @@ describe('SqlLab widget', () => {
     expect(html).toContain('Run (Ctrl+Enter)');
     expect(html).toContain('<strong>book</strong>');
     expect(html).toContain('Correct. Your query returns the expected result.');
+  });
+});
+
+describe('DiffView', () => {
+  it('uses the expected column order as headers when the learner reordered columns', () => {
+    const expected = res(['name', 'title'], [['Ada', 'Notes']]);
+    const actual = res(['title', 'name'], [['More', 'Ada']]);
+    const diff = compareResults(expected, actual, false);
+    expect(diff.match).toBe(false);
+    const html = renderToString(<DiffView diff={diff} />);
+    const headers = [...html.matchAll(/<th>(.*?)<\/th>/g)].map((m) => m[1]);
+    expect(headers).toEqual(['name', 'title', 'name', 'title']);
+    expect(html).toContain('<td>Ada</td><td>Notes</td>');
+    expect(html).toContain('<td>Ada</td><td>More</td>');
   });
 });
