@@ -32,3 +32,8 @@
 - P8 (PR #18): first review on 01f4a28 was CHANGES_REQUESTED (blocker: diff grid headers used the learner's column order). Fix round 1 pushed as 8b76101 (code fix and test pass locally). CI on 8b76101 is red only because `prettier --check` flags `compare.ts` and `SqlLab.tsx`; the worker and my local checks did not run `pnpm format`. P8 stays `in_progress`. Next run: fix round 2 (run `pnpm format`, add `pnpm format` to the worker checks), then review on the new head. No review verdict exists for 8b76101 yet.
 - Workers in this run: D4, P8, P8 fix round 1 (MAX_TASKS_PER_RUN of 3 reached). Reviewers: 2. Both workers' final reports were empty or a placeholder; I verified diffs and checks myself.
 - P8 follow-ups (outside its Paths): register `sqlLab` in the widgets registry with a lazy `getEngine`, add fixtures, `loadSeed`, `transpilePackages` for `@learn-code/sql-engine`; move CodeMirror deps from root to `packages/widgets/package.json`; extend `lesson check` to use the sql-engine; verify the Worker and wasm in a browser and that non-SQL pages do not fetch PGlite. Suggested new backlog task P8b.
+
+## 2026-10-02 (fourth run): P8 fix round 2
+
+- P8 (PR #18): fix round 2 pushed as ed5a368 (`prettier` format only). Local format, typecheck, lint and test pass. CI on ed5a368 was still running when this run ended; no review verdict exists for this head. Next run: if CI is green, run the review gate on ed5a368. P8 stays `in_progress`.
+- Workers: 1 (P8 fix round 2). Reviewers: 0. No usage concerns.
