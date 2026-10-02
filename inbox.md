@@ -47,3 +47,8 @@
 ## 2026-10-02 fifth run
 
 - P8b merged (PR #20). Review minors (not blocking): CI does not run `next build` or Playwright e2e (candidate `root`/`.github` task); `packages/lesson-compiler/tsconfig.json` `lib` now includes DOM, drop it if not needed. Stale branches `task/P8b` and `task/D5` need deleting.
+
+## 2026-10-02 milestone D5
+
+- Milestone D5 is on main (PR #16, integration verdict APPROVE on 13e0b20, merge commit 7bd1c27; it also carries P8, P8b, D4). What to try by hand: read `research/demand/report-js.md` and `spot-check.md` (compare the 20 listed vacancies with their Djinni text), and run `pnpm install && pnpm --filter @learn-code/web build && pnpm --filter @learn-code/web start`, then open /fullstack/joins-01 and play through the sqlLab step.
+- Integration review minors: the e2e still seeds recall, brainPower and matching as completed (remove as widgets land).
