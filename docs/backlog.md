@@ -110,6 +110,33 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Epic: E06 (`beTheDatabase`, join variant)
 - Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output.
 
+## C1. Module 1 roadmap
+- Status: todo
+- Depends on: D5
+- Paths: `content/fullstack/roadmap.json`, `content/fullstack/registry/**`
+- Epic: E07 (module 1 entries), `00-context.md` sections 2 to 4
+- Done when: `roadmap.json` lists 8 to 10 lessons for module 1 (PostgreSQL) in order, each with id, title, concepts, misconceptions, planned step kinds, and the E07 interaction it uses if any; lesson order and emphasis are justified in a short note that cites numbers from `research/demand/report-js.md`; `concepts.json` and `misconceptions.json` contain every id the roadmap uses; all files pass schema validation.
+
+## L1. Module 1, lesson 1
+- Status: todo
+- Depends on: C1, P8b
+- Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
+- Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.
+
+## L2. Module 1, lesson 2
+- Status: todo
+- Depends on: L1
+- Paths: `content/fullstack/<id of roadmap lesson 2>/**`, `content/fullstack/registry/**`
+- Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
+
+## L3. Module 1, lesson 3
+- Status: todo
+- Depends on: L2
+- Paths: `content/fullstack/<id of roadmap lesson 3>/**`, `content/fullstack/registry/**`
+- Done when: same as L2, for roadmap lesson 3.
+
+After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 are on develop. Play them and leave notes in inbox.md."
+
 ## D1. Scanner: fetch, parse, validate
 - Status: done
 - Note: merged via PR #4; code and data from lane/demand, tests and CI green.
