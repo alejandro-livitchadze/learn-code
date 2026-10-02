@@ -1,0 +1,14 @@
+[
+  {
+    "id": "inner-join",
+    "name": "Inner join",
+    "description": "Combines rows of two tables that match on a condition; unmatched rows disappear.",
+    "prerequisites": []
+  },
+  {
+    "id": "row-multiplication",
+    "name": "Row multiplication",
+    "description": "A join returns one row per matching pair, so the result can have more rows than either table.",
+    "prerequisites": ["inner-join"]
+  }
+]

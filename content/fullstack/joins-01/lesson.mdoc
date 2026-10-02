@@ -1,0 +1,83 @@
+---
+id: joins-01
+courseId: fullstack
+title: "Why your JOIN returned 400 rows"
+concepts: [inner-join, row-multiplication]
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["row-multiplication"] %}
+Friday, 18:40. The sales report shows revenue **four times** higher than the bank does. The Bug is very proud of itself.
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/join.sql" language="sql" concepts=["inner-join", "row-multiplication"] %}
+{% option output="100" misconception="join-keeps-row-count" %}
+There are 100 orders, so the join must give 100 rows.
+{% /option %}
+{% option output="400" correct=true %}
+Each order matched four items, so every order shows up four times.
+{% /option %}
+{% option output="500" misconception="join-is-union" %}
+A join pairs rows side by side. It does not stack the two tables.
+{% /option %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=45 code="select o.id, i.sku\nfrom orders o\njoin items i on i.order_id = o.id" concepts=["inner-join"] %}
+A join returns one row for every matching pair. One order with four items gives four rows.
+
+{% annotation line=3 %}
+Every matching item makes one more row for the same order.
+{% /annotation %}
+{% /explain %}
+
+{% recall id="r1" estSeconds=60 %}
+{% question prompt="Why does the revenue sum come out four times too high?" %}
+{% option text="Each order is repeated once per item" correct=true %}
+Right. The sum adds the order amount once per row.
+{% /option %}
+{% option text="The database counts twice" misconception="join-counts-orders" %}
+The database counts exactly what you ask. The join produced the extra rows.
+{% /option %}
+{% /question %}
+{% question prompt="Why is count(*) after a join not the number of orders?" %}
+{% option text="It counts result rows, not orders" correct=true %}
+Right. Use count(distinct o.id) to count orders.
+{% /option %}
+{% option text="count(*) ignores the join" misconception="join-keeps-row-count" %}
+count(*) counts the rows the join produced.
+{% /option %}
+{% /question %}
+{% /recall %}
+
+{% fillBlanks id="f1" estSeconds=60 template="select count(___fn___ o.id)\nfrom orders o\njoin items i on i.order_id = o.id" language="sql" concepts=["inner-join"] %}
+{% blank id="fn" accepted=["distinct"] misconception="join-counts-orders" %}
+distinct makes each order count once, however many items it has.
+{% /blank %}
+{% /fillBlanks %}
+
+{% sqlLab id="s1" estSeconds=120 prompt="Return the number of orders that have at least one item." seedRef="default" starter="select count(*) from orders o join items i on i.order_id = o.id" solution="select count(distinct o.id) from orders o join items i on i.order_id = o.id" concepts=["row-multiplication"] %}
+{% hint %}
+Count something that is the same for all rows of one order.
+{% /hint %}
+{% /sqlLab %}
+
+{% brainPower id="b1" estSeconds=60 question="Why do four items per order make the revenue exactly four times too high?" concepts=["row-multiplication"] %}
+Each order is repeated once per item, and every repeat adds the full order amount again.
+{% /brainPower %}
+
+{% matching id="m1" estSeconds=45 prompt="Match each term to its meaning." concepts=["inner-join"] %}
+{% pair left="Primary key" right="Identifies one row in its own table" /%}
+{% pair left="Foreign key" right="Points at a row in another table" /%}
+{% pair left="Inner join" right="Keeps only rows that match on both sides" /%}
+{% /matching %}
+
+{% recap id="rc1" estSeconds=30 concepts=["inner-join", "row-multiplication"] %}
+{% point %}
+A join returns one row per matching pair.
+{% /point %}
+{% point %}
+One left row with many matches appears many times.
+{% /point %}
+{% point %}
+Count or sum at the right grain: use distinct or aggregate before you join.
+{% /point %}
+{% /recap %}

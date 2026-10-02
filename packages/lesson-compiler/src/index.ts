@@ -1,3 +1,11 @@
 export { compileLesson, compileSource, formatError } from './compile';
 export type { CompileError, CompileResult } from './compile';
 export { KIND_TAGS, CHILD_TAGS, markdocConfig } from './tags';
+export * from './lint';
+export { checkLesson, formatIssue } from './check';
+export type { CheckIssue } from './check';
+export { loadRegistries } from './registries';
+export type { RegistryResult } from './registries';
+export { scaffoldLesson, lessonTemplate } from './scaffold';
+export { verifySamples, formatRows } from './verify';
+export type { VerifyIssue } from './verify';
