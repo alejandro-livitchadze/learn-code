@@ -37,3 +37,5 @@
 
 - P8 (PR #18): fix round 2 pushed as ed5a368 (`prettier` format only). Local format, typecheck, lint and test pass. CI on ed5a368 was still running when this run ended; no review verdict exists for this head. Next run: if CI is green, run the review gate on ed5a368. P8 stays `in_progress`.
 - Workers: 1 (P8 fix round 2). Reviewers: 0. No usage concerns.
+
+- Update, same run: after an unrelated session pushed a format-only commit (ed5a368) to `task/P8`, CI went green on the new head; I confirmed the diff is whitespace only, re-ran all checks locally, and a fresh reviewer gave APPROVE on ed5a368. P8 (PR #18) merged. Added task P8b for the wiring and `lesson check` follow-ups. Stale branches `task/D4`, `task/P8` need deleting.

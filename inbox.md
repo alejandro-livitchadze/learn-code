@@ -36,3 +36,5 @@
 
 - D4 merged. Stale branch `task/D4` needs deleting.
 - P8 (PR #18) is waiting on a one-line fix round (prettier format); the next run handles it. Suggested follow-up task P8b for the wiring listed in docs/runs.md.
+
+- P8 merged (PR #18). Added backlog task P8b (wiring, lesson check on sql-engine). Stale branch `task/P8` also needs deleting.

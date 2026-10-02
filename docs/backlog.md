@@ -82,11 +82,19 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `apps/web` depends on `@learn-code/widgets` (`workspace:*`, `transpilePackages`) and the catalogue imports it by package name; the player renders every step through `StepWidget` inside `HighlightsProvider` with `widgets.css` loaded once; the player imports `StepResult` and `StepComponentProps` from the widgets package (one definition) and `StepPlaceholder` is removed; the P6 e2e is updated to play the sample lesson with the real widgets (answers instead of "Mark as answered") at 1024 and 1440 px; Playwright tests for the `/dev/widgets` catalogue at 1024 and 1440 px; CI still green. Added by the orchestrator so the P7 milestone check "the sample lesson renders every implemented step kind" can pass.
 
 ## P8. SQL engine and sqlLab
-- Status: in_progress
+- Status: done
+- Note: merged via PR #18; CI green; reviewer APPROVE on ed5a368 after one fix round (diff headers) and a format commit. Wiring, lesson check and root dep move are in P8b.
 - Depends on: P7
 - Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, root
 - Epic: E04, part A
 - Done when: all acceptance criteria of E04 part A.
+
+## P8b. Wire sqlLab, lesson check on the SQL engine
+- Status: todo
+- Depends on: P8
+- Paths: `packages/widgets/**`, `apps/web/**`, `packages/lesson-compiler/**`, root
+- Epic: E04, part A (wiring and task 5)
+- Done when: `sqlLab` is registered in the widgets registry via `createSqlLab` with a lazy `getEngine` (`createWorkerEngine`, imported only on the first sqlLab step) and a `loadSeed` that provides `seeds/<seedRef>.sql`; `sqlLab` has fixtures and appears in the catalogue; CodeMirror and `@learn-code/sql-engine` dependencies live in `packages/widgets/package.json`, not the root; `@learn-code/sql-engine` is in `transpilePackages`; the sample lesson can be finished through the UI for sqlLab; a production build shows PGlite is a lazy chunk and pages without SQL steps do not fetch it; the Worker timeout path is checked in a real browser; `lesson check` runs the reference query (must match expected rows) and the starter (must not) through the sql-engine inline adapter. Added by the orchestrator from the P8 review follow-ups.
 
 ## P9. Schema builder
 - Status: todo
