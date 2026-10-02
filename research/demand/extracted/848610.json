@@ -1,0 +1,20 @@
+{
+  "vacancyId": "848610",
+  "required": [
+    "Python",
+    "LangChain",
+    "LangGraph",
+    "MCP",
+    "LLM",
+    "Claude Code",
+    "OpenAI",
+    "Gemini",
+    "CI"
+  ],
+  "niceToHave": [
+    "TypeScript",
+    "Node",
+    "React"
+  ],
+  "seniority": "unknown"
+}

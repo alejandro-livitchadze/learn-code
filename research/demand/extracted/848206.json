@@ -1,0 +1,19 @@
+{
+  "vacancyId": "848206",
+  "required": [
+    "TypeScript",
+    "Adonis.js",
+    "Nest.js",
+    "PostgreSQL",
+    "Redis",
+    "Swagger",
+    "Postman",
+    "Git"
+  ],
+  "niceToHave": [
+    "ElasticSearch",
+    "AWS",
+    "CI/CD"
+  ],
+  "seniority": "junior"
+}

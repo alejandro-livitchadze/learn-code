@@ -1,0 +1,26 @@
+{
+  "vacancyId": "848314",
+  "required": [
+    "Kotlin",
+    "Java",
+    "Spring Boot",
+    "Docker",
+    "AWS",
+    "Azure",
+    "RESTful APIs",
+    "microservices",
+    "PostgreSQL",
+    "MongoDB",
+    "Git",
+    "CI/CD",
+    "React.js",
+    "TypeScript",
+    "JavaScript",
+    "HTML5",
+    "CSS3"
+  ],
+  "niceToHave": [
+    "Kotlin Multiplatform"
+  ],
+  "seniority": "unknown"
+}

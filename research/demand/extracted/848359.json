@@ -1,0 +1,28 @@
+{
+  "vacancyId": "848359",
+  "required": [
+    "Python",
+    "FastAPI",
+    "asyncio",
+    "aiohttp",
+    "websockets",
+    "SQLAlchemy",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Redux",
+    "Tailwind CSS",
+    "Docker",
+    "Linux",
+    "Git",
+    "JWT",
+    "RBAC",
+    "Socket.IO"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

@@ -1,0 +1,22 @@
+{
+  "vacancyId": "848691",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "Java",
+    "Spring Boot",
+    "REST APIs",
+    "Kafka",
+    "RabbitMQ",
+    "PostgreSQL",
+    "Cassandra",
+    "Redis",
+    "Docker",
+    "Kubernetes",
+    "Azure",
+    "Azure IoT Hub",
+    "CI/CD"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

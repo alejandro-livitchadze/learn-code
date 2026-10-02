@@ -1,0 +1,19 @@
+{
+  "vacancyId": "848269",
+  "required": [
+    "Node.js",
+    "Express",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "AWS",
+    "CI/CD",
+    "GitHub Actions"
+  ],
+  "niceToHave": [
+    "Angular",
+    "MCP",
+    "React Native"
+  ],
+  "seniority": "senior"
+}

@@ -1,0 +1,22 @@
+{
+  "vacancyId": "848293",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "gRPC",
+    "MySQL",
+    "PostgreSQL",
+    "ClickHouse",
+    "DynamoDB",
+    "MongoDB",
+    "Kubernetes",
+    "Kafka",
+    "RabbitMQ",
+    "AWS",
+    "GCP",
+    "Azure",
+    "microservices"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}
