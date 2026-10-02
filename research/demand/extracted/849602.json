@@ -1,0 +1,13 @@
+{
+  "vacancyId": "849602",
+  "required": [
+    "ColdFusion",
+    "Lucee",
+    "MySQL",
+    "REST APIs"
+  ],
+  "niceToHave": [
+    "AWS"
+  ],
+  "seniority": "senior"
+}

@@ -1,0 +1,10 @@
+{
+  "vacancyId": "849641",
+  "required": [
+    "Node.js",
+    "CI/CD",
+    "Docker"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

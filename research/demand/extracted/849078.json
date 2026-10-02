@@ -1,0 +1,21 @@
+{
+  "vacancyId": "849078",
+  "required": [
+    "PostgreSQL",
+    "SQL",
+    "n8n",
+    "REST API",
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Git",
+    "Docker",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "FastAPI",
+    "Node.js",
+    "Redis"
+  ],
+  "seniority": "unknown"
+}

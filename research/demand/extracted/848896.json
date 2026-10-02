@@ -1,0 +1,19 @@
+{
+  "vacancyId": "848896",
+  "required": [
+    "Node.js",
+    "Python",
+    "microservices",
+    "MongoDB",
+    "Redis",
+    "Git",
+    "Docker",
+    "REST API"
+  ],
+  "niceToHave": [
+    "FFmpeg",
+    "AWS",
+    "ML"
+  ],
+  "seniority": "junior"
+}

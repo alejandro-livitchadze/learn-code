@@ -1,0 +1,14 @@
+{
+  "vacancyId": "849031",
+  "required": [
+    "React",
+    "TypeScript",
+    "NestJS",
+    "PostgreSQL"
+  ],
+  "niceToHave": [
+    "SQL",
+    "Snowflake"
+  ],
+  "seniority": "middle"
+}
