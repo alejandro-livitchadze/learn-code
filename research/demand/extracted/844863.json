@@ -1,0 +1,29 @@
+{
+  "vacancyId": "844863",
+  "required": [
+    "React",
+    "Vue.js",
+    "JavaScript",
+    "TypeScript",
+    "HTML",
+    "CSS",
+    "Node.js",
+    "NestJS",
+    "Express.js",
+    "Strapi",
+    "Unity",
+    "C#",
+    "REST",
+    "GraphQL",
+    "PostgreSQL",
+    "MySQL",
+    "Git"
+  ],
+  "niceToHave": [
+    "Unity Addressables",
+    "Unity WebGL",
+    "GitLab CI/CD",
+    "Docker"
+  ],
+  "seniority": "middle"
+}

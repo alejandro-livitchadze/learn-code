@@ -1,0 +1,15 @@
+{
+  "vacancyId": "846201",
+  "required": [
+    "Next.js",
+    "Node.js",
+    "TypeScript",
+    "Strapi",
+    "REST API",
+    "Docker"
+  ],
+  "niceToHave": [
+    "CI/CD"
+  ],
+  "seniority": "middle"
+}

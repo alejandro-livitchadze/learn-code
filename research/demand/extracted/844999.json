@@ -1,0 +1,21 @@
+{
+  "vacancyId": "844999",
+  "required": [
+    "Python",
+    "Django",
+    "Django REST Framework",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "Celery",
+    "Docker",
+    "CI/CD",
+    "Linux",
+    "Claude Code",
+    "Codex",
+    "Redis",
+    "Next.js"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

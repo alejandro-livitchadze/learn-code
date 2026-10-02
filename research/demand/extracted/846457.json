@@ -1,0 +1,17 @@
+{
+  "vacancyId": "846457",
+  "required": [
+    "Python",
+    "React",
+    "REST API",
+    "Linux",
+    "AI agents",
+    "LLM"
+  ],
+  "niceToHave": [
+    "Docker",
+    "CI/CD",
+    "IoT"
+  ],
+  "seniority": "middle"
+}

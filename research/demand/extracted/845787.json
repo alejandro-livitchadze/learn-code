@@ -1,0 +1,21 @@
+{
+  "vacancyId": "845787",
+  "required": [
+    "Node.js",
+    "NestJS",
+    "PostgreSQL",
+    "Redis",
+    "AWS",
+    "Docker",
+    "мікросервіс"
+  ],
+  "niceToHave": [
+    "RAG",
+    "embeddings",
+    "MCP",
+    "Terraform",
+    "GCP",
+    "Cloudflare"
+  ],
+  "seniority": "lead"
+}

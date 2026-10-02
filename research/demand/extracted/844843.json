@@ -1,0 +1,19 @@
+{
+  "vacancyId": "844843",
+  "required": [
+    "Node.js",
+    "React",
+    "microservices",
+    "MongoDB",
+    "REST APIs",
+    "Claude Code",
+    "Copilot",
+    "AWS"
+  ],
+  "niceToHave": [
+    "Docker",
+    "Kubernetes",
+    "CI/CD"
+  ],
+  "seniority": "senior"
+}
