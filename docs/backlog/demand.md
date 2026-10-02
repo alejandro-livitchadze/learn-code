@@ -11,7 +11,7 @@ Epic: E05. Lessons from an earlier run, use them:
 - No local model is available in this lane. Skill extraction is done by you, in this session, in batches of 20, each batch validated by the schema and by the guard "every skill string literally appears in the vacancy text".
 
 ## D1. Scanner: fetch, parse, validate
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Done when: `tools/demand-scanner` fetches the RSS feed for `primary_keyword=Fullstack` and also `Node.js`, parses into the `Vacancy` schema, caches raw responses, skips cached vacancies on re-run, and has `pnpm demand validate` implementing the schema and literal-occurrence guard; unit tests pass.
 
