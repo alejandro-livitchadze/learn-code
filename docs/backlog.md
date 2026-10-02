@@ -42,7 +42,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: Markdoc maintenance status noted; tag definitions for the step kinds from P2; `compileLesson(path)` returns a validated `Lesson` or errors with file and line; text outside tags is an error; tests for one valid and at least five invalid lessons.
 
 ## P4. Linter
-- Status: todo
+- Status: in_progress
 - Depends on: P3
 - Paths: `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
 - Epic: E01, task 3 (lint part)
