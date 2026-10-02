@@ -15,7 +15,7 @@ If your prompt says you are the orchestrator, follow sections 1 to 7. A worker f
 - `MAX_FIX_ROUNDS = 2` (per task, CI fixes and review fixes together)
 - `CI_WAIT_MINUTES = 20`
 - `CHECKPOINT_MINUTES = 15`
-- `MILESTONES = P5, P7, P10, D5`
+- `MILESTONES = P5, P7, P10, D5, M5`
 - Branches: `main` (stable, milestone snapshots), `develop` (integration), `task/<ID>` (one per task)
 
 ## 1. Start of every run
