@@ -26,3 +26,8 @@
 
 - P7 review minors (not blocking): `render.test.tsx:9` has an `as` cast; Predict `attempts` counts distinct wrong options only. The wiring and e2e minors are covered by task P7b. Stale branch `task/P7` also needs deleting.
 - P7b review minors (not blocking): `e2e/player.spec.ts:71` test name should say four unbuilt steps are storage-seeded; catalogue still imports `fixtures` by relative path (export it from packages/widgets); the full play-through no longer runs at 1280 px; `globals.css:210-240` may hold dead `.code`/`.note` rules. The sample lesson cannot be finished in the UI until recall, sqlLab, brainPower and matching have widgets. Playwright e2e is still not in CI. Stale branch `task/P7b` also needs deleting.
+
+## 2026-10-02 milestone P7
+
+- Milestone P7 is on main (PR #12, integration verdict APPROVE on 530fe77, merge commit d1eadef). What to try by hand: `git checkout main && pnpm install && pnpm --filter @learn-code/web build && pnpm --filter @learn-code/web start`, then open http://localhost:3000/dev/widgets (all seven built widgets in idle, wrong and restored states) and http://localhost:3000/fullstack/joins-01 (the sample lesson; steps 1 to 3 work, step 4 shows "NOT BUILT YET" and blocks, because recall, sqlLab, brainPower and matching have no widgets yet).
+- Integration review minors: the sample lesson cannot be finished through the UI until those four widgets exist (the e2e seeds them as answered); check the contrast of the placeholder text once settled.
