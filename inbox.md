@@ -17,3 +17,7 @@
 
 - Milestone P5 is on main (PR #8, integration verdict APPROVE on fc25ac9). What to try by hand: run `pnpm install && pnpm lesson check content` and then `pnpm lesson new <course> <lesson-id>` to scaffold a lesson; open `content/fullstack/joins-01/lesson.mdoc` and try breaking a declared output to see the check fail.
 - Integration review minors: `tags/kinds.ts` coverage is 77% (add tests for the remaining tag converters); exclude type-only files from the coverage config.
+
+## 2026-10-02 P6
+
+- P6 review minors (not blocking): `progress.ts:87` has one uncovered branch; `reducer.ts:36` `complete` action does not check the step id (guard it when E03 widgets arrive); Lighthouse was run with the desktop preset only. Playwright e2e is not in CI (needs a `.github/**` and root change, a candidate task). Stale branch `task/P6` also needs deleting.

@@ -58,7 +58,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `pnpm lesson build|check|new` work; SQL samples verified against PGlite in Node.js; a wrong declared output fails; `content/fullstack/joins-01/lesson.mdoc` passes; CI runs `lesson check`; README explains adding a step kind.
 
 ## P6. Lesson player
-- Status: in_progress
+- Status: done
+- Note: merged via PR #13; CI green; reviewer APPROVE on b96982f; reducer 100% coverage; Lighthouse desktop 1.00/1.00 (reviewer run). E2E is local only, not in CI.
 - Depends on: P5
 - Paths: `apps/web/**`, root
 - Epic: E02
