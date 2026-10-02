@@ -1,0 +1,23 @@
+{
+  "vacancyId": "847547",
+  "required": [
+    "Vue.js",
+    "React",
+    "TypeScript",
+    "Python",
+    "Django",
+    "REST API",
+    "Django REST Framework",
+    "Celery",
+    "PostgreSQL",
+    "Redis",
+    "OpenSearch",
+    "LLM"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Playwright",
+    "OpenSearch"
+  ],
+  "seniority": "senior"
+}

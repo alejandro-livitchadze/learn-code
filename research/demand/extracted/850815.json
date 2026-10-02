@@ -1,0 +1,15 @@
+{
+  "vacancyId": "850815",
+  "required": [
+    "PHP",
+    "Laravel",
+    "PostgreSQL",
+    "Nuxt 3",
+    "Vue.js",
+    "Claude API"
+  ],
+  "niceToHave": [
+    "LLM"
+  ],
+  "seniority": "unknown"
+}

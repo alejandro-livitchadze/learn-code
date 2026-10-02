@@ -2,6 +2,7 @@ import { Unimplemented } from './Unimplemented';
 import { Cliffhanger, Explain, Hook, Pitfall, Recap } from './Passive';
 import { Predict } from './Predict';
 import { FillBlanks } from './FillBlanks';
+import { SqlLabWidget } from './sql-wiring';
 import type { Step } from '@learn-code/lesson-schema';
 import type { StepComponentProps, WidgetRegistry } from './types';
 
@@ -20,7 +21,7 @@ export const widgetRegistry: WidgetRegistry = {
   brainPower: Unimplemented,
   matching: Unimplemented,
   pitfall: Pitfall,
-  sqlLab: Unimplemented,
+  sqlLab: SqlLabWidget,
   schemaBuilder: Unimplemented,
   relationLab: Unimplemented,
   normalizeLab: Unimplemented,
@@ -39,6 +40,7 @@ export const IMPLEMENTED_KINDS = [
   'pitfall',
   'predict',
   'fillBlanks',
+  'sqlLab',
 ] as const;
 
 /**

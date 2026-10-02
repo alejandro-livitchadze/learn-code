@@ -1,0 +1,18 @@
+{
+  "vacancyId": "850433",
+  "required": [
+    "C#",
+    ".NET",
+    "React",
+    "AWS",
+    "SQL",
+    "REST APIs"
+  ],
+  "niceToHave": [
+    "Python",
+    "Docker",
+    "Kubernetes",
+    "CI/CD"
+  ],
+  "seniority": "unknown"
+}

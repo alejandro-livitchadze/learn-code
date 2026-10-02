@@ -1,0 +1,26 @@
+{
+  "vacancyId": "848500",
+  "required": [
+    ".NET Core",
+    "Angular",
+    "Entity Framework Core",
+    "MySQL",
+    "Redis",
+    "Microservices",
+    "AWS",
+    "CI/CD",
+    "OpenTelemetry",
+    "Grafana",
+    "Sentry",
+    "Docker",
+    "bash",
+    "CORS"
+  ],
+  "niceToHave": [
+    "Keycloak",
+    "n8n",
+    "SonarQube",
+    "NuGet"
+  ],
+  "seniority": "senior"
+}

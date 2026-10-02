@@ -1,0 +1,18 @@
+{
+  "vacancyId": "848943",
+  "required": [
+    "Shopify",
+    "Liquid",
+    "JavaScript",
+    "HTML5",
+    "CSS3",
+    "Git",
+    "Shopify APIs",
+    "Admin API",
+    "Storefront API"
+  ],
+  "niceToHave": [
+    "GraphQL"
+  ],
+  "seniority": "middle"
+}

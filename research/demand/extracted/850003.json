@@ -1,0 +1,30 @@
+{
+  "vacancyId": "850003",
+  "required": [
+    "PHP",
+    "Laravel",
+    "WordPress",
+    "JavaScript",
+    "MySQL",
+    "Redis",
+    "RabbitMQ",
+    "Kafka",
+    "REST API",
+    "PHPUnit",
+    "Pest",
+    "Jest",
+    "Vitest",
+    "Git",
+    "Linux"
+  ],
+  "niceToHave": [
+    "HTML5",
+    "CSS3",
+    "React",
+    "Twig",
+    "Bootstrap",
+    "Nginx",
+    "Docker"
+  ],
+  "seniority": "senior"
+}

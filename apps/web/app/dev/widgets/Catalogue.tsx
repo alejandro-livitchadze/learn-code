@@ -6,11 +6,15 @@ import {
   HighlightsProvider,
   IMPLEMENTED_KINDS,
   Predict,
+  SeedBaseProvider,
   StepWidget,
   type HighlightMap,
   type StepResult,
 } from '@learn-code/widgets';
 import { fixtures, type Fixture } from '../../../../../packages/widgets/src/fixtures';
+
+/** The catalogue's sqlLab fixtures use the seeds of the sample lesson. */
+const CATALOGUE_SEEDS = '/seeds/fullstack/joins-01';
 
 function Widget({
   fixture,
@@ -76,25 +80,27 @@ function Entry({ fixture }: { readonly fixture: Fixture }) {
 export function Catalogue({ highlights }: { readonly highlights: HighlightMap }) {
   return (
     <HighlightsProvider value={highlights}>
-      <main className="cat">
-        <h1>Widget catalogue</h1>
-        <p className="lead">
-          Every widget built so far, in its idle, wrong, restored and long-content states. Built:{' '}
-          {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a placeholder.
-        </p>
-        <nav aria-label="Fixtures">
-          <ul className="cat-nav">
-            {fixtures.map((f) => (
-              <li key={f.id}>
-                <a href={`#${f.id}`}>{f.title}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {fixtures.map((f) => (
-          <Entry key={f.id} fixture={f} />
-        ))}
-      </main>
+      <SeedBaseProvider value={CATALOGUE_SEEDS}>
+        <main className="cat">
+          <h1>Widget catalogue</h1>
+          <p className="lead">
+            Every widget built so far, in its idle, wrong, restored and long-content states. Built:{' '}
+            {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a placeholder.
+          </p>
+          <nav aria-label="Fixtures">
+            <ul className="cat-nav">
+              {fixtures.map((f) => (
+                <li key={f.id}>
+                  <a href={`#${f.id}`}>{f.title}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {fixtures.map((f) => (
+            <Entry key={f.id} fixture={f} />
+          ))}
+        </main>
+      </SeedBaseProvider>
       <style>{`
         .cat { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; display: grid; gap: 1.5rem; }
         .cat-nav { columns: 2; margin: 0; padding-left: 1.2rem; }

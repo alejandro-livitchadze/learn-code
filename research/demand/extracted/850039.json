@@ -1,0 +1,28 @@
+{
+  "vacancyId": "850039",
+  "required": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Node.js",
+    "Nest.js",
+    "Express",
+    "Postgres",
+    "MongoDB",
+    "Firebase",
+    "Supabase"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Google Cloud",
+    "React Native",
+    "Docker",
+    "Kubernetes",
+    "CI/CD",
+    "GitHub Actions",
+    "GitLab CI",
+    "CircleCI",
+    "LLM"
+  ],
+  "seniority": "junior"
+}

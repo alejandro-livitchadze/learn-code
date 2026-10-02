@@ -1,0 +1,15 @@
+{
+  "vacancyId": "848203",
+  "required": [
+    ".NET",
+    "Angular",
+    "Entity Framework",
+    "relational databases"
+  ],
+  "niceToHave": [
+    "PostgreSQL",
+    "RabbitMQ",
+    "Azure"
+  ],
+  "seniority": "middle"
+}

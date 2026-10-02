@@ -1,0 +1,24 @@
+{
+  "vacancyId": "848606",
+  "required": [
+    "Node.js",
+    "NestJS",
+    "React",
+    "TypeScript",
+    "MongoDB",
+    "PostgreSQL",
+    "Stripe"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Jest",
+    "Cypress",
+    "Playwright",
+    "Docker",
+    "CI/CD",
+    "GitHub Actions",
+    "GitLab CI",
+    "Redis"
+  ],
+  "seniority": "senior"
+}

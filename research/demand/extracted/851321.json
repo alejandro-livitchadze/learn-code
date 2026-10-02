@@ -1,0 +1,27 @@
+{
+  "vacancyId": "851321",
+  "required": [
+    "Odds88",
+    "Node.js",
+    "Nest.js",
+    "Express.js",
+    "Koa.js",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "SQL",
+    "microservices",
+    "Git",
+    "Docker",
+    "CI/CD",
+    "webhooks"
+  ],
+  "niceToHave": [
+    "WebSockets",
+    "Kafka",
+    "RabbitMQ",
+    "SQS",
+    "NATS"
+  ],
+  "seniority": "senior"
+}

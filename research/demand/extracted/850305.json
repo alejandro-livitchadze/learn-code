@@ -1,0 +1,17 @@
+{
+  "vacancyId": "850305",
+  "required": [
+    "Node.js",
+    "JavaScript",
+    "TypeScript",
+    "RESTful APIs",
+    "GraphQL",
+    "ORM",
+    "Git",
+    "CI/CD",
+    "Docker",
+    "web3"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

@@ -1,0 +1,21 @@
+{
+  "vacancyId": "848106",
+  "required": [
+    ".NET",
+    "Angular",
+    "C#",
+    "ASP.NET Core",
+    "ASP.NET MVC",
+    "JavaScript",
+    "TypeScript",
+    "Git",
+    "NUnit",
+    "Postman"
+  ],
+  "niceToHave": [
+    "MS SQL Server",
+    "PostgreSQL",
+    "Oracle"
+  ],
+  "seniority": "unknown"
+}

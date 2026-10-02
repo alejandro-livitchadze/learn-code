@@ -1,0 +1,23 @@
+{
+  "vacancyId": "850408",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "JSON",
+    "REST API",
+    "Git",
+    "LLM",
+    "RAG",
+    "MCP",
+    "SQL",
+    "AWS",
+    "GCP",
+    "Azure",
+    "RabbitMQ",
+    "SQS"
+  ],
+  "niceToHave": [
+    "n8n"
+  ],
+  "seniority": "junior"
+}

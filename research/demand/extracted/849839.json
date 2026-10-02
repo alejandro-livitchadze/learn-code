@@ -1,0 +1,41 @@
+{
+  "vacancyId": "849839",
+  "required": [
+    "Python",
+    "asyncio",
+    "FastAPI",
+    "Pydantic",
+    "WebSockets",
+    "LLM",
+    "PostgreSQL",
+    "Redis",
+    "React",
+    "TypeScript",
+    "Vite",
+    "Linux",
+    "Docker",
+    "Docker Compose",
+    "Claude Code",
+    "MCP"
+  ],
+  "niceToHave": [
+    "React Flow",
+    "Zustand",
+    "TanStack Query",
+    "React Hook Form",
+    "Tailwind",
+    "Radix UI",
+    "Qdrant",
+    "pgvector",
+    "RAG",
+    "Pytest",
+    "DeepEval",
+    "GitLab CI",
+    "OpenTelemetry",
+    "Prometheus",
+    "SIP",
+    "Asterisk",
+    "PyTorch"
+  ],
+  "seniority": "unknown"
+}

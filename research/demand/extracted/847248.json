@@ -1,0 +1,24 @@
+{
+  "vacancyId": "847248",
+  "required": [
+    ".NET",
+    "C#",
+    "React",
+    "JavaScript",
+    "TypeScript",
+    "RESTful APIs",
+    "SQL",
+    "Docker",
+    "CI/CD",
+    "Git"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Azure",
+    "GCP",
+    "microservices",
+    "Kubernetes",
+    "TDD"
+  ],
+  "seniority": "senior"
+}

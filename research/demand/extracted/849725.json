@@ -1,0 +1,28 @@
+{
+  "vacancyId": "849725",
+  "required": [
+    "React",
+    "TypeScript",
+    "Node.js",
+    "MongoDB",
+    "REST APIs",
+    "Clerk",
+    "Auth0",
+    "Cognito",
+    "OAuth 2.0",
+    "OpenID Connect",
+    "JWT",
+    "CI/CD",
+    "MFA"
+  ],
+  "niceToHave": [
+    "AWS",
+    "ECS",
+    "Fargate",
+    "IAM",
+    "CloudWatch",
+    "Terraform",
+    "WebSockets"
+  ],
+  "seniority": "senior"
+}

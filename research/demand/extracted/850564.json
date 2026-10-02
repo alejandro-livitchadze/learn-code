@@ -1,0 +1,28 @@
+{
+  "vacancyId": "850564",
+  "required": [
+    "TypeScript",
+    "JavaScript",
+    "Angular",
+    "RxJS",
+    "Three.js",
+    "WebGL",
+    "Node.js",
+    "Express",
+    "REST APIs",
+    "Git"
+  ],
+  "niceToHave": [
+    "Docker",
+    "PostgreSQL",
+    "SQLite",
+    "DynamoDB",
+    "Playwright",
+    "WebAssembly",
+    "GLSL",
+    "AWS",
+    "Cursor",
+    "Claude Code"
+  ],
+  "seniority": "unknown"
+}

@@ -1,0 +1,13 @@
+{
+  "vacancyId": "849054",
+  "required": [
+    "React",
+    "Next.js",
+    "Git",
+    "Claude Code"
+  ],
+  "niceToHave": [
+    "SEO"
+  ],
+  "seniority": "unknown"
+}

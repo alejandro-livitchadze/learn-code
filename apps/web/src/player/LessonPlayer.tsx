@@ -6,6 +6,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { isActive, type Lesson } from '@learn-code/lesson-schema';
 import {
   HighlightsProvider,
+  SeedBaseProvider,
   StepWidget,
   type HighlightMap,
   type StepResult,
@@ -158,7 +159,9 @@ export function LessonPlayer({ lesson, highlights }: Props) {
                 Step {state.index + 1} of {steps.length}: {step.kind}
               </h2>
               <HighlightsProvider value={highlights}>
-                <StepWidget step={step} restored={current} onComplete={onComplete} />
+                <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
+                  <StepWidget step={step} restored={current} onComplete={onComplete} />
+                </SeedBaseProvider>
               </HighlightsProvider>
             </div>
           ) : (

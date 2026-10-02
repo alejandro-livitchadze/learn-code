@@ -1,0 +1,18 @@
+{
+  "vacancyId": "848450",
+  "required": [
+    "PHP",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "MySQL",
+    "SQL",
+    "REST APIs",
+    "Git",
+    "Linux"
+  ],
+  "niceToHave": [
+    "jQuery"
+  ],
+  "seniority": "senior"
+}

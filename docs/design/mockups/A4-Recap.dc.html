@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notebook: recap</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@500;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2346A0}a:hover{color:#16306F}
+.paper{background-color:#F7F3EA;background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 31px, #E4DCCB 31px, #E4DCCB 32px)}
+.hl{background:linear-gradient(to bottom, transparent 55%, #FFE45C 55%, #FFE45C 90%, transparent 90%)}
+</style>
+</helmet>
+<div class="paper" style="min-height: 1000px; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; color: #1E1B16; box-sizing: border-box; padding: 32px 48px 48px">
+  <div style="max-width: 1344px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+
+    <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 3px solid #1E1B16; padding-bottom: 14px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <a href="#" style="font-size: 14px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700">Module 1 · Databases</a>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Why your JOIN returned <span class="hl">400 rows</span></h1>
+      </div>
+      <span style="font-family: 'Caveat', cursive; font-size: 24px; color: #2346A0">step 14 of 14 · done!</span>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+      <main style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="background: #1E1B16; color: #F7F3EA; font-weight: 700; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border-radius: 4px">Pin this to your brain</span>
+        </div>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 18px">
+          <li style="display: flex; gap: 16px; align-items: flex-start">
+            <span style="font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; line-height: 1; color: #E8590C; min-width: 28px">1</span>
+            <p style="margin: 0; font-size: 22px; line-height: 1.45">A join returns <span class="hl">one row per matching pair</span>, not one row per left-hand row.</p>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: flex-start">
+            <span style="font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; line-height: 1; color: #E8590C; min-width: 28px">2</span>
+            <p style="margin: 0; font-size: 22px; line-height: 1.45">Values from the “one” side repeat for every match on the “many” side, so sums over them grow.</p>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: flex-start">
+            <span style="font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; line-height: 1; color: #E8590C; min-width: 28px">3</span>
+            <p style="margin: 0; font-size: 22px; line-height: 1.45">To report per order, <code style="font-family: 'JetBrains Mono', monospace; font-size: 20px">group by</code> the order, then count the many side.</p>
+          </li>
+        </ol>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px">
+          <div style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase">These come back as review cards</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 14px">
+            <div style="flex: 1 1 220px; background: #FFFFFF; border: 2.5px solid #1E1B16; border-radius: 10px; padding: 14px 16px; box-shadow: 4px 4px 0 #1E1B16; display: flex; flex-direction: column; gap: 8px">
+              <span style="font-size: 16px; line-height: 1.4">Why did sum(total) come out four times too big?</span>
+              <span style="font-family: 'Caveat', cursive; font-size: 20px; color: #2346A0">in 1 day</span>
+            </div>
+            <div style="flex: 1 1 220px; background: #FFFFFF; border: 2.5px solid #1E1B16; border-radius: 10px; padding: 14px 16px; box-shadow: 4px 4px 0 #1E1B16; display: flex; flex-direction: column; gap: 8px">
+              <span style="font-size: 16px; line-height: 1.4">An order with 3 items, joined to items. How many rows?</span>
+              <span style="font-family: 'Caveat', cursive; font-size: 20px; color: #2346A0">in 3 days</span>
+            </div>
+            <div style="flex: 1 1 220px; background: #FFFFFF; border: 2.5px solid #1E1B16; border-radius: 10px; padding: 14px 16px; box-shadow: 4px 4px 0 #1E1B16; display: flex; flex-direction: column; gap: 8px">
+              <span style="font-size: 16px; line-height: 1.4">What decides which pairs a join keeps?</span>
+              <span style="font-family: 'Caveat', cursive; font-size: 20px; color: #2346A0">in 1 week</span>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside style="flex: 1 1 300px; max-width: 360px; display: flex; flex-direction: column; gap: 22px; border-left: 2px dashed #B9AE97; padding-left: 24px">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px">
+          <svg width="96" height="80" viewBox="0 0 96 80" fill="none" stroke="#1E1B16" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-label="The Bug, looking guilty">
+            <ellipse cx="48" cy="48" rx="26" ry="22" fill="#E8590C"></ellipse>
+            <line x1="48" y1="26" x2="48" y2="70"></line>
+            <circle cx="48" cy="22" r="11" fill="#1E1B16"></circle>
+            <path d="M42 13 L34 3 M54 13 L62 3"></path>
+            <path d="M22 40 L8 34 M22 52 L6 54 M74 40 L88 34 M74 52 L90 54"></path>
+          </svg>
+          <div style="background: #FFFFFF; border: 2.5px solid #1E1B16; border-radius: 18px; padding: 14px 16px; font-size: 17px; line-height: 1.45; box-shadow: 4px 4px 0 #1E1B16">Fine. Revenue is correct again. I’ll find something else.</div>
+        </div>
+        <div style="transform: rotate(-1.5deg); background: #1E1B16; color: #F7F3EA; border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+          <div style="font-family: 'Caveat', cursive; font-size: 26px; color: #FFE45C">Next time…</div>
+          <p style="margin: 0; font-size: 18px; line-height: 1.45">Order 12 has no items. It just vanished from your report. Where did it go?</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; border-top: 3px solid #1E1B16; padding-top: 18px">
+      <button style="font: inherit; font-size: 18px; padding: 12px 22px; background: transparent; border: 2.5px solid #1E1B16; border-radius: 10px; cursor: pointer">Back</button>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <a href="#" style="font-size: 18px; font-weight: 700">All lessons</a>
+        <button style="font: inherit; font-size: 18px; font-weight: 700; padding: 14px 28px; background: #1E1B16; color: #F7F3EA; border: none; border-radius: 10px; cursor: pointer; box-shadow: 4px 4px 0 #E8590C">Next lesson: the missing order</button>
+      </div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

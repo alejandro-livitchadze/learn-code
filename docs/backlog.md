@@ -82,25 +82,89 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `apps/web` depends on `@learn-code/widgets` (`workspace:*`, `transpilePackages`) and the catalogue imports it by package name; the player renders every step through `StepWidget` inside `HighlightsProvider` with `widgets.css` loaded once; the player imports `StepResult` and `StepComponentProps` from the widgets package (one definition) and `StepPlaceholder` is removed; the P6 e2e is updated to play the sample lesson with the real widgets (answers instead of "Mark as answered") at 1024 and 1440 px; Playwright tests for the `/dev/widgets` catalogue at 1024 and 1440 px; CI still green. Added by the orchestrator so the P7 milestone check "the sample lesson renders every implemented step kind" can pass.
 
 ## P8. SQL engine and sqlLab
-- Status: todo
+- Status: done
+- Note: merged via PR #18; CI green; reviewer APPROVE on ed5a368 after one fix round (diff headers) and a format commit. Wiring, lesson check and root dep move are in P8b.
 - Depends on: P7
 - Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, root
 - Epic: E04, part A
 - Done when: all acceptance criteria of E04 part A.
 
+## P8b. Wire sqlLab, lesson check on the SQL engine
+- Status: done
+- Note: merged via PR #20; CI green; reviewer APPROVE on a18cfb9; e2e 22/22 locally (not in CI).
+- Depends on: P8
+- Paths: `packages/widgets/**`, `apps/web/**`, `packages/lesson-compiler/**`, root
+- Epic: E04, part A (wiring and task 5)
+- Done when: `sqlLab` is registered in the widgets registry via `createSqlLab` with a lazy `getEngine` (`createWorkerEngine`, imported only on the first sqlLab step) and a `loadSeed` that provides `seeds/<seedRef>.sql`; `sqlLab` has fixtures and appears in the catalogue; CodeMirror and `@learn-code/sql-engine` dependencies live in `packages/widgets/package.json`, not the root; `@learn-code/sql-engine` is in `transpilePackages`; the sample lesson can be finished through the UI for sqlLab; a production build shows PGlite is a lazy chunk and pages without SQL steps do not fetch it; the Worker timeout path is checked in a real browser; `lesson check` runs the reference query (must match expected rows) and the starter (must not) through the sql-engine inline adapter. Added by the orchestrator from the P8 review follow-ups.
+
+## V1. UI package: tokens, fonts, page shell
+- Status: todo
+- Depends on: P8b
+- Paths: `packages/ui/**`, `apps/web/**`, root
+- Epic: E08 sections 2, 3, 7 and component Button, InkCard, StepTag, Highlight
+- Done when: `packages/ui` exports tokens (CSS and typed), the four fonts via `next/font`, page shell (header, main, margin, footer) and the listed components; the dark theme is removed; the lesson page uses the shell; code lint CL1 and CL2 run in CI; catalogue shows each component; Playwright screenshots at 1280 and 1440 px are committed.
+
+## V2. Margin schema, Markdoc tags, design lint
+- Status: todo
+- Depends on: V1
+- Paths: `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
+- Epic: E08 sections 5, 8 (lesson design lint) and 9
+- Done when: `margin` and the title highlight are in the schema; Markdoc tags compile into them; rules DL1 to DL8 exist as pure functions with one failing fixture each; the sample lesson passes.
+
+## V3. Characters and margin components
+- Status: todo
+- Depends on: V2
+- Paths: `packages/ui/**`, `packages/widgets/**`, `apps/web/**`
+- Epic: E08 sections 4 and 5
+- Done when: The Bug, Olha and Mr. Runtime exist as SVG components; StickyNote, SpeechBubble, Gotcha, StopAndThink, FeedbackBanner, Annotation, MiniDiagram, ReviewCard, Cliffhanger, HintLadder are built and in the catalogue; the player renders `margin` items and the hook's left character column.
+
+## V4. Restyle every existing widget and the sample lesson
+- Status: todo
+- Depends on: V3
+- Paths: `packages/widgets/**`, `content/**`, `apps/web/**`
+- Epic: E08 whole file; mockups A1 to A4
+- Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
+
 ## P9. Schema builder
 - Status: todo
-- Depends on: P8
+- Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
-- Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested.
+- Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested; built only from `packages/ui` components and tokens, following E08.
 
 ## P10. Be the database: joins
 - Status: todo
 - Depends on: P9
 - Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
 - Epic: E06 (`beTheDatabase`, join variant)
-- Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output.
+- Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output; built only from `packages/ui` components and tokens, following E08.
+
+## C1. Module 1 roadmap
+- Status: todo
+- Depends on: D5
+- Paths: `content/fullstack/roadmap.json`, `content/fullstack/registry/**`
+- Epic: E07 (module 1 entries), `00-context.md` sections 2 to 4
+- Done when: `roadmap.json` lists 8 to 10 lessons for module 1 (PostgreSQL) in order, each with id, title, concepts, misconceptions, planned step kinds, and the E07 interaction it uses if any; lesson order and emphasis are justified in a short note that cites numbers from `research/demand/report-js.md`; `concepts.json` and `misconceptions.json` contain every id the roadmap uses; all files pass schema validation.
+
+## L1. Module 1, lesson 1
+- Status: todo
+- Depends on: C1, P8b
+- Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
+- Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.
+
+## L2. Module 1, lesson 2
+- Status: todo
+- Depends on: L1
+- Paths: `content/fullstack/<id of roadmap lesson 2>/**`, `content/fullstack/registry/**`
+- Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
+
+## L3. Module 1, lesson 3
+- Status: todo
+- Depends on: L2
+- Paths: `content/fullstack/<id of roadmap lesson 3>/**`, `content/fullstack/registry/**`
+- Done when: same as L2, for roadmap lesson 3.
+
+After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 are on develop. Play them and leave notes in inbox.md."
 
 ## D1. Scanner: fetch, parse, validate
 - Status: done
@@ -125,13 +189,15 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: the first 100 unextracted vacancies (sorted by id) have extraction files passing `pnpm demand validate`. The worker extracts by reading the text itself, in batches of 20, validating after each batch.
 
 ## D4. Extraction, the rest
-- Status: todo
+- Status: done
+- Note: merged via PR #17; 212 extraction files, validator 0 errors, CI green; reviewer APPROVE on d088d9c.
 - Depends on: D3
 - Paths: `research/demand/**`
 - Done when: every parsed vacancy has a valid extraction file.
 
 ## D5. Reports
-- Status: todo
+- Status: done
+- Note: merged via PR #19; 209-vacancy main sample, 158 JS sample; reviewer APPROVE on d15b4c5, CI green.
 - Depends on: D4
 - Paths: `research/demand/**`, `tools/demand-scanner/**`
 - Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.

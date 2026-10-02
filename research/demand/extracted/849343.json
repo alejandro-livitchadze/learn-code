@@ -1,0 +1,27 @@
+{
+  "vacancyId": "849343",
+  "required": [
+    "Python",
+    "TypeScript",
+    "Node.js",
+    "SIP",
+    "Asterisk",
+    "LLM",
+    "STT",
+    "TTS"
+  ],
+  "niceToHave": [
+    "LiveKit",
+    "Vapi",
+    "Retell",
+    "jambonz",
+    "Kamailio",
+    "OpenSIPS",
+    "FreeSWITCH",
+    "MCP",
+    "React",
+    "Docker",
+    "Terraform"
+  ],
+  "seniority": "senior"
+}

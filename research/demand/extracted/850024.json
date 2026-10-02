@@ -1,0 +1,26 @@
+{
+  "vacancyId": "850024",
+  "required": [
+    "PHP",
+    "Symfony",
+    "Vue 3",
+    "React",
+    "TS",
+    "HTML5",
+    "CSS3",
+    "REST API",
+    "API Platform",
+    "PostgreSQL",
+    "Redis",
+    "Doctrine",
+    "Centrifugo",
+    "RabbitMQ",
+    "Git",
+    "Docker",
+    "PHPUnit",
+    "Elasticsearch",
+    "S3"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

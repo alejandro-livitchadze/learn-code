@@ -1,0 +1,32 @@
+{
+  "vacancyId": "850141",
+  "required": [
+    "Python",
+    "LLM",
+    "PostgreSQL",
+    "SQL",
+    "REST API",
+    "Linux",
+    "OpenAI",
+    "Claude",
+    "Gemini",
+    "OCR"
+  ],
+  "niceToHave": [
+    "FastAPI",
+    "Flask",
+    "Django",
+    "Node.js",
+    "Docker",
+    "Docker Compose",
+    "N8N",
+    "Temporal",
+    "LangChain",
+    "LlamaIndex",
+    "CrewAI",
+    "RAG",
+    "Telegram Bot API",
+    "Slack Bot API"
+  ],
+  "seniority": "unknown"
+}

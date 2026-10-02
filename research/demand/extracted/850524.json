@@ -1,0 +1,43 @@
+{
+  "vacancyId": "850524",
+  "required": [
+    "Python",
+    "Django",
+    "Django REST Framework",
+    "Django Channels",
+    "Redis",
+    "MySQL",
+    "MongoDB",
+    "asyncio",
+    "pydantic",
+    "LLM",
+    "RAG",
+    "JWT",
+    "REST",
+    "React",
+    "TypeScript",
+    "Redux",
+    "React Query",
+    "HTML5",
+    "CSS3",
+    "SASS",
+    "MUI",
+    "Vite",
+    "Webpack",
+    "Git",
+    "Linux"
+  ],
+  "niceToHave": [
+    "MCP",
+    "ChromaDB",
+    "langchain",
+    "mongoengine",
+    "Docker",
+    "Kubernetes",
+    "Flask",
+    "OAuth2",
+    "Bootstrap",
+    "Bulma"
+  ],
+  "seniority": "middle"
+}

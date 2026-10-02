@@ -1,0 +1,16 @@
+{
+  "vacancyId": "848781",
+  "required": [
+    "NestJS",
+    "Next.js",
+    "TypeORM",
+    "PostgreSQL",
+    "TypeScript",
+    "Claude Code",
+    "MCP"
+  ],
+  "niceToHave": [
+    "GraphQL"
+  ],
+  "seniority": "unknown"
+}

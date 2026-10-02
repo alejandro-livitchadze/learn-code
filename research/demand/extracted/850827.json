@@ -1,0 +1,24 @@
+{
+  "vacancyId": "850827",
+  "required": [
+    "PHP",
+    "Laravel",
+    "SQL",
+    "REST API",
+    "JSON-RPC",
+    "WebSocket",
+    "Eloquent",
+    "Vue 3",
+    "TypeScript",
+    "Pinia",
+    "Vue Router",
+    "Vite",
+    "SCSS",
+    "Axios",
+    "Vitest",
+    "Playwright",
+    "Git"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

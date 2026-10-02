@@ -1,0 +1,19 @@
+{
+  "vacancyId": "847360",
+  "required": [
+    "Python",
+    "Node.js",
+    "TypeScript",
+    "SQL",
+    "CI/CD",
+    "GitHub Actions",
+    "GCP",
+    "AWS",
+    "BigQuery",
+    "Postgres",
+    "React",
+    "Next.js"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { typeSql } from './helpers';
 
 const URL = '/fullstack/joins-01';
 const KEY = 'learn-code:v1:progress:fullstack/joins-01';
@@ -13,7 +14,7 @@ async function stepNumber(page: Page): Promise<number> {
 }
 
 /** Kinds with no widget yet. Their placeholder is an active step that cannot be completed. */
-const UNBUILT_ACTIVE = ['r1', 's1', 'b1', 'm1'] as const;
+const UNBUILT_ACTIVE = ['r1', 'b1', 'm1'] as const;
 
 const kindOf = async (page: Page): Promise<string> =>
   /: (\w+)$/.exec(((await heading(page).textContent()) ?? '').trim())?.[1] ?? '';
@@ -27,10 +28,19 @@ async function answerCurrent(page: Page, kind: string): Promise<void> {
     await page.getByRole('textbox', { name: /Blank 1 of 1/ }).fill('distinct');
     await page.getByRole('button', { name: 'Check' }).click();
     await expect(page.getByText('All blanks are correct.')).toBeVisible();
+  } else if (kind === 'sqlLab') {
+    await typeSql(
+      page,
+      'select count(distinct o.id) from orders o join items i on i.order_id = o.id',
+    );
+    await page.getByRole('button', { name: /Run/ }).click();
+    await expect(page.getByText('Correct. Your query returns the expected result.')).toBeVisible({
+      timeout: 60_000,
+    });
   }
 }
 
-/** The four unbuilt active steps are marked answered in storage, so the rest is played for real. */
+/** The three unbuilt active steps are marked answered in storage, so the rest is played for real. */
 async function seedUnbuilt(page: Page): Promise<void> {
   // Wait for hydration and the first save, or that save could overwrite the seed.
   await expect(heading(page)).toBeVisible();
@@ -56,7 +66,7 @@ async function playToEnd(page: Page): Promise<void> {
   await expect(heading(page)).toBeVisible();
   for (let i = await stepNumber(page); i < TOTAL; i += 1) {
     const kind = await kindOf(page);
-    if (kind === 'predict' || kind === 'fillBlanks') {
+    if (kind === 'predict' || kind === 'fillBlanks' || kind === 'sqlLab') {
       await expect(continueBtn(page)).toBeDisabled();
       await answerCurrent(page, kind);
     }

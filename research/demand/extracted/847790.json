@@ -1,0 +1,19 @@
+{
+  "vacancyId": "847790",
+  "required": [
+    "Go",
+    "NodeJS",
+    "TS",
+    "React",
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "AWS",
+    "GCP",
+    "LLM",
+    "RAG"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

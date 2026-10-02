@@ -24,3 +24,24 @@
 - P6 (PR #13): merged, CI green, review verdict APPROVE on b96982f. Extra task at the author's request.
 - P7 (PR #14): merged, CI green, review verdict APPROVE on 9b67ce5 (reviewer drove /dev/widgets in Chromium at 1024 and 1440 px). Extra task at the author's request. Milestone step for P7 is held until P7b (player wiring, added by the orchestrator) is merged, because the integration checklist requires the sample lesson to render implemented step kinds.
 - P7b (PR #15): merged, CI green, review verdict APPROVE on 77e314d. Added by the orchestrator to wire the P7 widgets into the player before the P7 milestone step.
+- Milestone P7: integration reviewer verdict APPROVE on 530fe77, CI green on develop; PR #12 merged into main (merge commit d1eadef); main synced back into develop. Usage: this run used 8 workers (P2, D3, P3, P4, P5, P6, P7, P7b) and 6 reviewer runs (4 task reviews and 2 integration reviews), with P7b added by the orchestrator, well beyond MAX_TASKS_PER_RUN at the author's request.
+
+## 2026-10-02 (third run): D4 and P8
+
+- D4 (PR #17): merged, CI green, review verdict APPROVE on d088d9c. 212 extraction files, validator 0 errors. Minors for D5: decide how to bucket GenAI tools (Cursor, Claude, ChatGPT) and keep the "Junior-Middle" to junior mapping consistent; vacancies 850924, 850047, 850459 are not ordinary developer roles (D5 may exclude them).
+- P8 (PR #18): first review on 01f4a28 was CHANGES_REQUESTED (blocker: diff grid headers used the learner's column order). Fix round 1 pushed as 8b76101 (code fix and test pass locally). CI on 8b76101 is red only because `prettier --check` flags `compare.ts` and `SqlLab.tsx`; the worker and my local checks did not run `pnpm format`. P8 stays `in_progress`. Next run: fix round 2 (run `pnpm format`, add `pnpm format` to the worker checks), then review on the new head. No review verdict exists for 8b76101 yet.
+- Workers in this run: D4, P8, P8 fix round 1 (MAX_TASKS_PER_RUN of 3 reached). Reviewers: 2. Both workers' final reports were empty or a placeholder; I verified diffs and checks myself.
+- P8 follow-ups (outside its Paths): register `sqlLab` in the widgets registry with a lazy `getEngine`, add fixtures, `loadSeed`, `transpilePackages` for `@learn-code/sql-engine`; move CodeMirror deps from root to `packages/widgets/package.json`; extend `lesson check` to use the sql-engine; verify the Worker and wasm in a browser and that non-SQL pages do not fetch PGlite. Suggested new backlog task P8b.
+
+## 2026-10-02 (fourth run): P8 fix round 2
+
+- P8 (PR #18): fix round 2 pushed as ed5a368 (`prettier` format only). Local format, typecheck, lint and test pass. CI on ed5a368 was still running when this run ended; no review verdict exists for this head. Next run: if CI is green, run the review gate on ed5a368. P8 stays `in_progress`.
+- Workers: 1 (P8 fix round 2). Reviewers: 0. No usage concerns.
+
+- Update, same run: after an unrelated session pushed a format-only commit (ed5a368) to `task/P8`, CI went green on the new head; I confirmed the diff is whitespace only, re-ran all checks locally, and a fresh reviewer gave APPROVE on ed5a368. P8 (PR #18) merged. Added task P8b for the wiring and `lesson check` follow-ups. Stale branches `task/D4`, `task/P8` need deleting.
+
+## 2026-10-02 (fifth run): P8b resumed
+
+- P8b (PR #20, head a18cfb9): the branch was already complete (final commit 91287c5, develop merged in by another session). I ran install, typecheck, lint, prettier and test locally: all pass; only `root` files outside the app/package paths changed. CI was still running when this run ended; no review verdict exists for this head. P8b stays `in_progress`. Next run: if CI is green, run the review gate on a18cfb9.
+- Workers: 0. Reviewers: 0. Integration PR #16 stays open (milestone D5 step pending; see backlog).
+- Update, same run: CI green on a18cfb9; fresh reviewer gave APPROVE; P8b (PR #20) squash-merged into develop. Reviewers: 1. Workers: 0.

@@ -1,0 +1,24 @@
+{
+  "vacancyId": "850230",
+  "required": [
+    "TypeScript",
+    "Nest.js",
+    "Next.js",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "LangGraph.js",
+    "Mastra",
+    "GraphRAG",
+    "Neo4j",
+    "MCP",
+    "RAG",
+    "FFmpeg"
+  ],
+  "niceToHave": [
+    "Python",
+    "PyTorch",
+    "LoRA"
+  ],
+  "seniority": "middle"
+}

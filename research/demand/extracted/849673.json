@@ -1,0 +1,21 @@
+{
+  "vacancyId": "849673",
+  "required": [
+    "Python",
+    "Node.js",
+    ".NET",
+    "SOAP",
+    "REST",
+    "OAuth2",
+    "Docker",
+    "CI/CD",
+    "Terraform",
+    "Kubernetes"
+  ],
+  "niceToHave": [
+    "AWS",
+    "Azure",
+    "GCP"
+  ],
+  "seniority": "senior"
+}

@@ -1,0 +1,13 @@
+{
+  "vacancyId": "849418",
+  "required": [
+    "TypeScript",
+    "Node.js",
+    "Next.js",
+    "React",
+    "Prisma",
+    "PostgreSQL"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850159",
+  "required": [
+    "Angular",
+    "Ionic",
+    ".NET",
+    "MS SQL",
+    "Claude"
+  ],
+  "niceToHave": [
+    "RabbitMQ",
+    "AWS",
+    "Python"
+  ],
+  "seniority": "middle"
+}

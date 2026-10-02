@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850891",
+  "required": [
+    "React",
+    ".NET",
+    "C#",
+    "REST APIs",
+    "microservices",
+    "AWS"
+  ],
+  "niceToHave": [
+    "Twilio",
+    "WebRTC"
+  ],
+  "seniority": "senior"
+}

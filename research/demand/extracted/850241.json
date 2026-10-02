@@ -1,0 +1,26 @@
+{
+  "vacancyId": "850241",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "NestJS",
+    "PostgreSQL",
+    "Prisma",
+    "LLM",
+    "OpenAI",
+    "React",
+    "Jest"
+  ],
+  "niceToHave": [
+    "LangChain",
+    "LangGraph",
+    "Socket.IO",
+    "WebSockets",
+    "AWS",
+    "Docker",
+    "CI/CD",
+    "Claude Code",
+    "Cursor"
+  ],
+  "seniority": "middle"
+}

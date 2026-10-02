@@ -1,0 +1,16 @@
+{
+  "vacancyId": "850459",
+  "required": [
+    "React.js",
+    "Node.js",
+    "Express.js",
+    "NestJS",
+    "REST APIs",
+    "Claude Code",
+    "Cursor"
+  ],
+  "niceToHave": [
+    "Python"
+  ],
+  "seniority": "middle"
+}

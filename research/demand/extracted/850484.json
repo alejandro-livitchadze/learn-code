@@ -1,0 +1,29 @@
+{
+  "vacancyId": "850484",
+  "required": [
+    "Python",
+    "TypeScript",
+    "FastAPI",
+    "Angular",
+    "RESTful APIs",
+    "microservices",
+    "Git",
+    "CI/CD",
+    "SQL",
+    "Docker",
+    "Kubernetes",
+    "pytest",
+    "OpenTelemetry",
+    "JWT",
+    "OIDC",
+    "Keycloak"
+  ],
+  "niceToHave": [
+    "NATS JetStream",
+    "Kafka",
+    "RabbitMQ",
+    "ClickHouse",
+    "Playwright"
+  ],
+  "seniority": "senior"
+}

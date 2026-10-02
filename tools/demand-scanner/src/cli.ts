@@ -1,5 +1,8 @@
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { BlockedError, DEFAULT_KEYWORDS, fetchFeeds } from './fetch.js';
 import { parseAll } from './parse.js';
+import { writeReports } from './report.js';
 import { DATA_DIR } from './store.js';
 import { validateExtractions } from './validate.js';
 
@@ -7,7 +10,10 @@ const USAGE = `usage: pnpm demand <command>
   fetch [keyword...]   fetch RSS feeds (default: ${DEFAULT_KEYWORDS.join(', ')}), cache new vacancies
   parse                parse cached raw items into parsed/, reject bad ones, drop duplicates
   scan [keyword...]    fetch, then parse
+  report               write report.md, report-js.md, spot-check.md, unknown-terms.json
   validate             check extracted/*.json against the schema and the literal-occurrence guard`;
+
+const SYNONYMS_PATH = join(dirname(fileURLToPath(import.meta.url)), '..', 'synonyms.json');
 
 async function main(argv: readonly string[]): Promise<number> {
   const [cmd, ...rest] = argv;
@@ -31,6 +37,11 @@ async function main(argv: readonly string[]): Promise<number> {
     case 'parse':
       console.log(parseAll(DATA_DIR));
       return 0;
+    case 'report': {
+      const ctx = writeReports(DATA_DIR, SYNONYMS_PATH);
+      console.log(`reports written: ${ctx.sample.length} vacancies in the sample`);
+      return 0;
+    }
     case 'validate': {
       const { checked, errors } = validateExtractions(DATA_DIR);
       for (const e of errors) console.error(e);

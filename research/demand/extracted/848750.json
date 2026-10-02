@@ -1,0 +1,10 @@
+{
+  "vacancyId": "848750",
+  "required": [
+    "Python",
+    "React",
+    "AWS"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}
