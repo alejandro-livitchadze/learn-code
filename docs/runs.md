@@ -39,3 +39,8 @@
 - Workers: 1 (P8 fix round 2). Reviewers: 0. No usage concerns.
 
 - Update, same run: after an unrelated session pushed a format-only commit (ed5a368) to `task/P8`, CI went green on the new head; I confirmed the diff is whitespace only, re-ran all checks locally, and a fresh reviewer gave APPROVE on ed5a368. P8 (PR #18) merged. Added task P8b for the wiring and `lesson check` follow-ups. Stale branches `task/D4`, `task/P8` need deleting.
+
+## 2026-10-02 (fifth run): P8b resumed
+
+- P8b (PR #20, head a18cfb9): the branch was already complete (final commit 91287c5, develop merged in by another session). I ran install, typecheck, lint, prettier and test locally: all pass; only `root` files outside the app/package paths changed. CI was still running when this run ended; no review verdict exists for this head. P8b stays `in_progress`. Next run: if CI is green, run the review gate on a18cfb9.
+- Workers: 0. Reviewers: 0. Integration PR #16 stays open (milestone D5 step pending; see backlog).
