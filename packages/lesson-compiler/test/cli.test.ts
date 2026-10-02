@@ -75,10 +75,8 @@ describe('cli', () => {
     const ok = collect();
     expect(await run(['check', join(repoContent, 'fullstack/joins-01')], ok.log)).toBe(0);
     expect(ok.lines.at(-1)).toMatch(/^ok /);
-    const strict = collect();
-    expect(await run(['check', join(repoContent, 'fullstack/joins-01')], strict.log)).toBe(0);
-    expect(strict.lines.join('\n')).toContain('warning [unbuilt-kind]');
-  });
+    expect(ok.lines.join('\n')).not.toContain('warning');
+  }, 120_000);
 
   it('build writes json, and reports compile errors', async () => {
     const o = collect();

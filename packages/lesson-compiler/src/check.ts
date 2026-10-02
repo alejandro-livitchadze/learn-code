@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
 import { compileLesson } from './compile';
-import { RULE_IDS, lintLesson, type Registries } from './lint';
+import { lintLesson, type Registries } from './lint';
 import { loadRegistries } from './registries';
 import { verifySamples } from './verify';
 
@@ -24,13 +24,6 @@ export interface CheckOptions {
   /** Do not fail on step kinds without a widget. Only for compiler fixtures. */
   readonly allowUnbuilt?: boolean;
 }
-
-/**
- * Lessons that predate the playable-lesson rules. Their step count and unbuilt kinds are warnings
- * until they are rewritten (F6). Keyed `<courseId>/<lessonId>` by folder names.
- */
-export const LEGACY_LESSONS: readonly string[] = ['fullstack/joins-01'];
-const LEGACY_RULES: readonly string[] = [RULE_IDS.stepCount, RULE_IDS.unbuiltKind];
 
 /** 1-based line of a top-level frontmatter key, or 1. */
 function frontmatterLine(path: string, key: string): number {
@@ -79,7 +72,6 @@ export async function checkLesson(path: string, options: CheckOptions = {}): Pro
   const lessonDir = dirname(path);
   const folderLesson = basename(dirname(resolve(path)));
   const folderCourse = basename(dirname(dirname(resolve(path))));
-  const legacy = LEGACY_LESSONS.includes(`${folderCourse}/${folderLesson}`);
   const folders: readonly (readonly [string, string, string])[] = [
     ['id', compiled.lesson.id, folderLesson],
     ['courseId', compiled.lesson.courseId, folderCourse],
@@ -104,7 +96,7 @@ export async function checkLesson(path: string, options: CheckOptions = {}): Pro
       file: path,
       line,
       rule: i.rule,
-      severity: legacy && LEGACY_RULES.includes(i.rule) ? 'warning' : i.severity,
+      severity: i.severity,
       message: i.message,
     });
   }
