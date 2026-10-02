@@ -50,7 +50,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: rules 1 to 7 from `00-context.md` section 3 as separate pure functions; seven broken fixtures each fail exactly their rule; coverage of lint rules at least 90%.
 
 ## P5. Sample verification, CLI, sample lesson
-- Status: todo
+- Status: in_progress
 - Depends on: P4
 - Paths: `packages/lesson-compiler/**`, `content/**`, root, `.github/**`
 - Epic: E01, tasks 3 (verify part), 4, 5
