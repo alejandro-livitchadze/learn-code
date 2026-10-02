@@ -5,14 +5,14 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
 ## F1. Lesson check: playable and solvable
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `packages/lesson-compiler/**`, `packages/lesson-schema/**`, `packages/widgets/src/check.ts`, `packages/widgets/src/registry.tsx`, root
 - Source: `docs/audit-2026-10-03.md`, finding 1 (blocker)
 - Done when: `lesson check` fails, with file and line, on each of: duplicate step ids; a `fillBlanks` whose template markers and `blanks` ids differ; a `fillBlanks` whose first accepted answers do not pass `checkFillBlanks`; a lesson or step concept id missing from `concepts.json`; a blank misconception id missing from `misconceptions.json`; a step kind not in `IMPLEMENTED_KINDS` (error for content, with a `--allow-unbuilt` flag used only by compiler fixtures); frontmatter `id` or `courseId` different from the folder names; fewer than 12 or more than 20 steps (warning for `joins-01` until F6). One failing fixture per rule; the existing seven fixtures still fail exactly their rule.
 
 ## F2. SQL session reset that always works
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `packages/sql-engine/**`
 - Source: `docs/audit-2026-10-03.md`, finding 2 (major)
