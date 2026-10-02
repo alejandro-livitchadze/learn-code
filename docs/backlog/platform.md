@@ -8,7 +8,7 @@ Each task fits one session. "Done when" is the acceptance test for that task onl
 - Status: done
 - Depends on: none
 - Epic: E01, task 1
-- Note: Scaffold built; apps/web and packages are empty stubs (Next.js comes in P6); tools/demand-scanner left to the demand lane. Assumption: local Node is 22, CI pins 26; CI also runs prettier check. CI green not yet observed.
+- Note: Scaffold built; apps/web and packages are empty stubs (Next.js comes in P6); tools/demand-scanner left to the demand lane. Assumption: local Node is 22, CI pins 26; CI also runs prettier check. CI green on Node 26 (lockfile fix needed first).
 - Done when: pnpm workspaces and Turborepo with the layout from `00-context.md`; strict shared tsconfig; ESLint with `no-explicit-any` as error; Prettier; Vitest with one passing test; GitHub Actions running install, typecheck, lint and test on Node.js 26 for pushes and pull requests; CI is green.
 
 ## P2. Lesson schema
