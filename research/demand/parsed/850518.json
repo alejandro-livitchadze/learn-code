@@ -1,0 +1,9 @@
+{
+  "id": "850518",
+  "url": "https://djinni.co/jobs/850518-senior-full-stack-developer-python-react/",
+  "title": "Senior Full Stack Developer (Python, React)",
+  "description": "Duration: Minimum 3 months, open-ended (evolving product)\nWorkload: Full-time\nStart Date: Target October 15 or earlier\n\nProject:\nThe company specializes in AI model compression and is expanding its own model development capabilities. Its Model Serving platform provides developers and external users with access to AI models through APIs. The public developer portal serves as the main platform where users can manage their usage, access tokens and APIs, and explore technical documentation. The product has grown significantly over the past 7–8 months and has become a high-priority area for the company.\nExperience Level: Senior developer who can work independently across stakeholders and drive features from requirements through to completion.\n\nCore Responsibilities:\nTake features from concept through implementation and delivery\nDrive end-to-end feature development with cross-team collaboration (DevOps, MLOps, Finance & Legal, etc.)\nImplement new features and advanced platform capabilities such as RBAC, analytics, monitoring, etc.\nSet up metrics and monitoring systems for growth tracking\n\nRequired Technical Skills:\nLanguages & Frameworks: Python, React, PostgreSQL\nThird-party Integrations: LogTo (authentication), Stripe (payments), and other external APIs\nInfrastructure: AWS hosting (with DevOps team support)\nFull Stack Capability: Both backend and frontend development\nEnglish: B2+\n\nClient Interview Format:\n30–45-minute technical discussion focused on understanding the product and mutual fit",
+  "publishedAt": "2026-09-28T11:32:25.000Z",
+  "fetchedAt": "2026-10-02T12:34:20.443Z",
+  "query": "Fullstack"
+}

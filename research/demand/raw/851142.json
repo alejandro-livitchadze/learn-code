@@ -1,0 +1,14 @@
+{
+  "id": "851142",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:20.441Z",
+  "title": "Full-stack AI Developer",
+  "link": "https://djinni.co/jobs/851142-full-stack-ai-developer/",
+  "description": "<p><strong>The Role</strong></p><p>We are looking for a versatile&nbsp;<strong>Senior AI Full-Stack Developer</strong> who can build, ship, and utilise cutting-edge AI builder platforms (<strong>OpenAI, Anthropic, AI Studio, Lovable, Base44, etc</strong>), cloud ecosystems (<strong>Vercel, AWS, etc</strong>), and backend tools (<strong>Supabase, Superwall, etc</strong>) to accelerate product development, and iterate on web and mobile-ready applications end-to-end, with a knowledge of modern frontend (<strong>Vue.js/Nuxt, Webflow</strong>) and backend (<strong>Python/Django, PostgreSQL</strong>).<br><br>&nbsp;</p><p><strong>Key Responsibilities</strong></p><ul><li>Utilize AI-first development engines and platforms (OpenAI, Anthropic, Lovable, Base44, Vercel, Supabase, etc) to build, test, and iterate on features at lightning speed.</li><li>Build, maintain, and optimize scalable web applications using Vue.js (2/3), Nuxt, Python (Django/DRF), and PostgreSQL.</li><li>Design secure RESTful APIs, asynchronous tasks (Celery, Redis/RabbitMQ), OAuth flows, and third-party integrations including paywalls/monetization (Superwall) and payments.</li><li>Deploy and manage services using Docker, Vercel, AWS (S3, RDS, CloudFront, SQS), and GitHub Actions CI/CD pipelines.</li><li>Own features from technical requirements to testing, code reviews, release, and monitoring (Sentry).</li></ul><p>&nbsp;</p><p><strong>Requirements</strong></p><ul><li>5+ years of software engineering experience across full-stack web and cloud applications.</li><li>Hands-on experience with AI development frameworks, low-code/AI builders (OpenAI, Anthropic, Lovable, Base44), and modern backend services (Supabase, Superwall).</li><li>Good knowledge of Vue.js (Vue 2/3, Nuxt 2/3/4), TypeScript/JS, HTML5/CSS3/Tailwind.</li><li>Good knowledge of Python with Django / Django REST Framework, ORM, caching (Redis), and relational databases (PostgreSQL).</li><li>Proficiency deploying on Vercel and AWS, containerizing with Docker, and managing CI/CD pipelines.</li><li>Language: Professional English proficiency (B2+).</li></ul><p>&nbsp;</p><p><strong>Nice-to-Have</strong></p><ul><li>Experience migrating Webflow sites to Vue/Nuxt.</li><li>Knowledge of payment gateways (Mollie, Stripe, PayPal), media/PDF processing, or WebSockets.</li><li>Testing experience with Pytest, Jest, or Cypress.</li></ul><p>&nbsp;</p>",
+  "pubDate": "Thu, 01 Oct 2026 12:30:46 +0300",
+  "guid": "https://djinni.co/jobs/851142-full-stack-ai-developer/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "849343",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:17.200Z",
+  "title": "Senior Full Stack Engineer, Voice Agent (IVA)",
+  "link": "https://djinni.co/jobs/849343-senior-full-stack-engineer-voice-agent-iva/",
+  "description": "<p>We are looking for a&nbsp;<strong>Senior Full Stack Engineer</strong> with strong experience in VoIP, SIP telephony, and conversational AI to join a Healthcare product.</p><p>&nbsp;</p><p>You will help develop an intelligent voice solution that automates pharmacy calls, processes prescription-related requests, and connects patients with pharmacy staff when needed.</p><p>&nbsp;</p><p><strong>RESPONSIBILITIES:</strong></p><ul><li>Develop and improve the voice agent, including conversation flows, patient verification, fallback scenarios, and call transfers;</li><li>Build backend services and integrations with pharmacy management systems;</li><li>Maintain the telephony layer, including SIP, RTP, codecs, DTMF, and PBX integrations;</li><li>Optimize STT, LLM, and TTS pipelines for performance, accuracy, latency, and cost;</li><li>Implement monitoring, call tracing, quality evaluation, and regression testing;</li><li>Investigate production issues and contribute to architectural decisions.</li></ul><p>&nbsp;</p><p><strong>REQUIREMENTS:</strong></p><ul><li>Senior-level experience in backend or full-stack development;</li><li>Strong knowledge of Python or TypeScript/Node.js;</li><li>Hands-on production experience with VoIP and SIP telephony;</li><li>Experience building IVR systems, voice bots, or LLM-powered voice agents;</li><li>Understanding of STT, TTS, turn-taking, tool calling, and real-time voice processing;</li><li>Experience integrating LLMs and third-party systems into production;</li><li>Working knowledge of Asterisk or a similar PBX;</li><li>Strong problem-solving, ownership, and communication skills.</li></ul><p>&nbsp;</p><p><strong>WILL BE PLUS:</strong></p><ul><li>Experience with LiveKit Agents, Vapi, Retell, jambonz, or similar platforms;</li><li>Knowledge of Kamailio, OpenSIPS, FreeSWITCH, or MCP;</li><li>Experience in Healthcare or other security-sensitive environments;</li><li>Knowledge of React, Docker, Terraform, and observability tools.</li></ul><p>&nbsp;</p><p><strong>MAIN BENEFITS:</strong></p><ul><li>Flexible working hours;</li><li>25 paid days off and 10 sick/medical leaves;</li><li>Additional paid days off for personal events;</li><li>Maternity/Paternity leaves;</li><li>Medical insurance;</li><li>Self-development budget;</li><li>Referral bonuses;</li><li>Corporate events and gifts;</li><li>Speaking Clubs;</li><li>PE accounting and support.</li></ul>",
+  "pubDate": "Tue, 29 Sep 2026 10:32:49 +0300",
+  "guid": "https://djinni.co/jobs/849343-senior-full-stack-engineer-voice-agent-iva/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "772690",
+  "url": "https://djinni.co/jobs/772690-full-stack-developer-next-js-python/",
+  "title": "Full-stack Developer (Next.js + Python)",
+  "description": "Про проєкт:\nІнноваційний стартап, що працює на перетині AI та real-time комунікацій.\nМета — створити сучасний web-додаток із розумними алгоритмами, швидкою взаємодією та self-hosted інфраструктурою.\n\nВаші задачі:\nРозробка та підтримка web-додатку на Next.js.\nІнтеграція real-time функцій через WebRTC / LiveKit.\nРобота з Supabase (Postgres), включно з локальним розгортанням.\nСтворення інтерфейсів із Tailwind CSS + shadcn/ui.\nОптимізація архітектури, CI/CD, GitOps, деплой на Vercel.\nАктивне використання AI-інструментів (ChatGPT, Gemini, Claude, Cursor) у процесі розробки.\n\nОсновні вимоги (Must-have):\nГлибокі знання Next.js та екосистеми React.\nДосвід Full-stack розробки на TypeScript / JavaScript.\nПрактичний досвід роботи з WebRTC (чат або відео-застосунки).\nЗнання одного з ORM — Drizzle (перевага) або Prisma.\nВолодіння Git / GitOps.\nРегулярне використання AI-асистентів у розробці.\n\nБуде плюсом:\nІнтеграція Stripe або робота з Firebase.\nЗнання Docker, GitLab CI/CD, досвід налаштування пайплайнів.\nРозуміння Cloudflare Workers або Edge Computing.\nБазові знання Python",
+  "publishedAt": "2026-09-06T18:24:32.000Z",
+  "fetchedAt": "2026-10-02T12:34:07.695Z",
+  "query": "Fullstack"
+}

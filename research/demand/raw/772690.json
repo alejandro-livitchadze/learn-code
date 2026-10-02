@@ -1,0 +1,14 @@
+{
+  "id": "772690",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:07.695Z",
+  "title": "Full-stack Developer (Next.js + Python)",
+  "link": "https://djinni.co/jobs/772690-full-stack-developer-next-js-python/",
+  "description": "<p><strong>Про проєкт:</strong><br>Інноваційний стартап, що працює на перетині <strong>AI</strong> та <strong>real-time комунікацій</strong>.<br>Мета — створити сучасний web-додаток із розумними алгоритмами, швидкою взаємодією та self-hosted інфраструктурою.</p><p>&nbsp;</p><p><strong>Ваші задачі:</strong></p><ul><li>Розробка та підтримка web-додатку на <strong>Next.js</strong>.</li><li>Інтеграція <strong>real-time функцій</strong> через <strong>WebRTC / LiveKit</strong>.</li><li>Робота з <strong>Supabase (Postgres)</strong>, включно з локальним розгортанням.</li><li>Створення інтерфейсів із <strong>Tailwind CSS + shadcn/ui</strong>.</li><li>Оптимізація архітектури, CI/CD, GitOps, деплой на <strong>Vercel</strong>.</li><li>Активне використання <strong>AI-інструментів</strong> (ChatGPT, Gemini, Claude, Cursor) у процесі розробки.<br>&nbsp;</li></ul><p><strong>Основні вимоги (Must-have):</strong></p><ul><li>Глибокі знання <strong>Next.js</strong> та екосистеми <strong>React</strong>.</li><li>Досвід <strong>Full-stack</strong> розробки на <strong>TypeScript / JavaScript</strong>.</li><li>Практичний досвід роботи з <strong>WebRTC</strong> (чат або відео-застосунки).</li><li>Знання одного з ORM — <strong>Drizzle (перевага)</strong> або <strong>Prisma</strong>.</li><li>Володіння <strong>Git / GitOps</strong>.</li><li>Регулярне використання <strong>AI-асистентів</strong> у розробці.<br>&nbsp;</li></ul><p><strong>Буде плюсом:</strong></p><ul><li>Інтеграція <strong>Stripe</strong> або робота з <strong>Firebase</strong>.</li><li>Знання <strong>Docker</strong>, <strong>GitLab CI/CD</strong>, досвід налаштування пайплайнів.</li><li>Розуміння <strong>Cloudflare Workers</strong> або <strong>Edge Computing</strong>.</li><li>Базові знання <strong>Python</strong></li></ul>",
+  "pubDate": "Sun, 06 Sep 2026 21:24:32 +0300",
+  "guid": "https://djinni.co/jobs/772690-full-stack-developer-next-js-python/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

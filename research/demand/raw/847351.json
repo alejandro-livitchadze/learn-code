@@ -1,0 +1,14 @@
+{
+  "id": "847351",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:26.714Z",
+  "title": "Senior Full Stack developer (Python/React)",
+  "link": "https://djinni.co/jobs/847351-senior-full-stack-developer-python-react/",
+  "description": "<p>Project: Fast-growing SaaS startup transforming the professional services industry with AI-powered software that automates complex workflows across documents, search, and matter management.<br><br><strong>Responsibilities:</strong><br>• Act as an independent technical owner to deliver complex product and infrastructure features from architectural design to deployment<br>• Build and optimize AI-powered workflows, including LLM agents, document processing, and tool calling<br>• Design robust backend systems, APIs, data flows, queues, and third-party integrations<br>• Debug and resolve complex production issues across the full stack using traces and logs<br>• Utilize AI coding tools (Claude Code, Cursor, Codex) as a daily force multiplier to accelerate development velocity<br><br><strong>Requirements:</strong><br>• 7+ years of professional software engineering experience<br>• Strong proficiency in Python with FastAPI (or similar frameworks) and TypeScript with React<br>• Advanced SQL expertise and schema design, preferably with PostgreSQL<br>• Solid experience with cloud infrastructure (Azure, AWS, or GCP), Docker, and CI/CD pipelines<br>• Deep architectural skills for designing highly reliable async systems, APIs, workers, and queues<br>• Hands-on technical experience operating production LLM features, agents, prompt workflows, and RAG/search systems<br>• Practical experience with observability, metrics, and tracing tools (Datadog, PostHog, Langfuse, OpenTelemetry)<br>• Proven track record of autonomous, end-to-end delivery of production-ready systems<br><br>Full-time. 6-8 months, start in 2-3 weeks</p>",
+  "pubDate": "Tue, 08 Sep 2026 19:00:36 +0300",
+  "guid": "https://djinni.co/jobs/847351-senior-full-stack-developer-python-react/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}
