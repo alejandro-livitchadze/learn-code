@@ -1,0 +1,26 @@
+{
+  "vacancyId": "772690",
+  "required": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "JavaScript",
+    "WebRTC",
+    "Drizzle",
+    "Prisma",
+    "Git",
+    "GitOps",
+    "Supabase",
+    "Tailwind CSS",
+    "shadcn/ui"
+  ],
+  "niceToHave": [
+    "Stripe",
+    "Firebase",
+    "Docker",
+    "GitLab CI/CD",
+    "Cloudflare Workers",
+    "Python"
+  ],
+  "seniority": "unknown"
+}

@@ -1,0 +1,27 @@
+{
+  "vacancyId": "823055",
+  "required": [
+    "LangChain",
+    "LangGraph",
+    "LlamaIndex",
+    "REST API",
+    "webhooks",
+    "OAuth",
+    "Python",
+    "AWS",
+    "IAM",
+    "EC2",
+    "S3",
+    "Ollama",
+    "vLLM",
+    "llama.cpp",
+    "Gemini",
+    "OpenAI",
+    "Anthropic"
+  ],
+  "niceToHave": [
+    "Docker",
+    "CI/CD"
+  ],
+  "seniority": "unknown"
+}

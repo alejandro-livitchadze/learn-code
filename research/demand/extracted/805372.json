@@ -1,0 +1,25 @@
+{
+  "vacancyId": "805372",
+  "required": [
+    "JavaScript",
+    "React",
+    "Java",
+    "REST APIs",
+    "HTTP",
+    "HTML",
+    "CSS",
+    "JSON",
+    "Git",
+    "SQL"
+  ],
+  "niceToHave": [
+    "Spring Boot",
+    "Node.js",
+    "PostgreSQL",
+    "MongoDB",
+    "Postman",
+    "Maven",
+    "Gradle"
+  ],
+  "seniority": "junior"
+}

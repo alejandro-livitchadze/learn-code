@@ -1,0 +1,28 @@
+{
+  "vacancyId": "805780",
+  "required": [
+    "Python",
+    "Django",
+    "FastAPI",
+    "Flask",
+    "PostgreSQL",
+    "REST APIs",
+    "Celery",
+    "Docker",
+    "Git",
+    "AWS",
+    "React"
+  ],
+  "niceToHave": [
+    "Kafka",
+    "SQS",
+    "SNS",
+    "RabbitMQ",
+    "Datadog",
+    "Prometheus",
+    "Grafana",
+    "CI/CD",
+    "Next.js"
+  ],
+  "seniority": "senior"
+}

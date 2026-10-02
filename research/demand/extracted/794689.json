@@ -1,0 +1,18 @@
+{
+  "vacancyId": "794689",
+  "required": [
+    "NestJS",
+    "Node.js",
+    "MySQL",
+    "TypeORM",
+    "Angular",
+    "TypeScript",
+    "Git"
+  ],
+  "niceToHave": [
+    "OpenAI API",
+    "Docker",
+    "Playwright"
+  ],
+  "seniority": "middle"
+}
