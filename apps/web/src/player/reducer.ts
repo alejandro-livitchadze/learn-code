@@ -1,5 +1,6 @@
 import { isActive, type Step } from '@learn-code/lesson-schema';
-import type { PlayerAction, PlayerState, StepResult } from './types';
+import type { StepResult } from '@learn-code/widgets';
+import type { PlayerAction, PlayerState } from './types';
 
 const VIEWED: StepResult = { status: 'viewed' };
 

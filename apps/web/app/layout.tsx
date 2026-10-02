@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import type { ReactNode } from 'react';
+import '@learn-code/widgets/widgets.css';
 import './globals.css';
 
 const body = localFont({
