@@ -1,0 +1,14 @@
+{
+  "id": "850047",
+  "query": "Node.js",
+  "fetchedAt": "2026-10-02T12:34:48.644Z",
+  "title": "Backend Developer Node.js (AI Evaluation)",
+  "link": "https://djinni.co/jobs/850047-backend-developer-node-js-ai-evaluation/",
+  "description": "<p><strong>Job Summary</strong></p><p>As a Software Engineer, you will review AI-generated code and compare it with how you would write the solution yourself. Your main responsibility will be to evaluate AI-generated solutions, identify mistakes, and uncover reasoning gaps.<br>Right now, our developers are helping other engineers who work with AI get more accurate and reliable code. So, if you’ve ever written a prompt for AI and received a great answer, there’s a chance that work done by our developers helped make that answer better.</p><p>&nbsp;</p><p><strong>Requirements</strong></p><ul><li>3-4 years of hands-on experience as a Software Developer on commercial projects, including B2B SaaS systems and data-heavy applications.</li><li><strong>Use AI tools (AI agents, Claude Code, Cursor, Codex or similar) in daily workflow.</strong></li><li><strong>Experience working with existing codebases and unfamiliar repositories</strong></li><li>Strong experience with Node.js</li><li>Strong knowledge of JavaScript / TypeScript</li><li>Experience with backend frameworks such as&nbsp;Express.js or NestJS or Fastify</li><li>Good understanding of REST API and backend architecture</li><li>Experience working with databases (SQL and/or NoSQL)</li><li>Ability to independently analyze code and identify bugs or inconsistencies</li><li>Strong analytical and problem-solving skills</li><li>Upper-Intermediate English (B2)</li></ul><p>&nbsp;</p><p><strong>Key Responsibilities</strong></p><ul><li>Work with Frontier Labs, producing training data to train Al models.</li><li>Evaluate AI-generated code, technical solutions, and engineering approaches.</li><li>Identify bugs, incorrect assumptions, architectural issues, and weak reasoning in AI responses.</li><li>Test and evaluate agentic coding models designed to perform complex engineering tasks at a senior developer level.</li><li>Compare AI-generated solutions against senior engineering standards and best practices.</li></ul><p>&nbsp;</p><p><strong>Bonus:</strong></p><ul><li>Computer Science or related education.</li><li>Learning new programming languages.</li><li>Strong understanding of algorithms and data structures.</li></ul><p>&nbsp;</p><p>This is&nbsp;<strong>not a traditional software development role.&nbsp;</strong>You will use your engineering expertise to analyze AI outputs, find issues in their solutions, and help train better AI systems.</p>",
+  "pubDate": "Thu, 24 Sep 2026 13:10:13 +0300",
+  "guid": "https://djinni.co/jobs/850047-backend-developer-node-js-ai-evaluation/",
+  "category": [
+    "Node.js",
+    ""
+  ]
+}

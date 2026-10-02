@@ -1,0 +1,14 @@
+{
+  "id": "847585",
+  "query": "Node.js",
+  "fetchedAt": "2026-10-02T12:35:01.268Z",
+  "title": "Sr FullStack (Node.js 60%, React 40%)",
+  "link": "https://djinni.co/jobs/847585-sr-fullstack-node-js-60-react-40/",
+  "description": "<p>This role is more focused on backend development with Node.js and TypeScript, but it also requires React experience so you can handle your frontend tasks independently rather than relying on a frontend developer.</p><p>&nbsp;</p><p>Infrastructure and production environments are handled by a separate DevOps team, so your focus will remain on application development rather than production support or infrastructure management.</p><p>&nbsp;</p><p><strong>Responsibilities</strong></p><ol><li>Design, develop, and maintain backend services throughout the full development lifecycle</li><li>Assist with frontend implementation when needed to deliver product features</li><li>Release new functionality and monitor feature stability after deployment</li><li>Work closely with Product, Platform, and Reliability teams</li><li>Contribute to technical improvements and enhancements within the existing architecture</li></ol><p>&nbsp;</p><p><strong>Tech Stack</strong></p><p>Node.js, TypeScript, React, Redis, MySQL, PostgreSQL, Elasticsearch, Kafka/RabbitMQ, monitoring and observability tools</p><p>&nbsp;</p><p><strong>Requirements</strong></p><ul><li>Strong hands-on commercial experience with Node.js and TypeScript</li><li>Experience with React and modern frontend engineering practices</li><li>Solid experience with databases, caching, and data management approaches</li><li>Experience investigating and resolving issues in distributed environments</li><li>A product ownership mindset, with the ability to take features from concept to production</li><li>English communication skills for daily collaboration and team meetings</li></ul><p>&nbsp;</p><p><strong>Nice to Have</strong></p><p>Experience with microservice architectures and API development</p><p>Experience with Docker and Kubernetes</p><p>Knowledge of application performance tuning and optimization</p><p>Basic understanding of Linux and networking</p><p>Familiarity with clean architecture principles and testing methodologies</p><p>&nbsp;</p><p><strong>What the Company Offers</strong></p><ul><li>Fully remote work environment with a flexible schedule</li><li>Paid vacation and days off</li><li>Salary reviews twice a year</li><li>B2B/contractor cooperation model with accounting support</li><li>An opportunity to work on a large-scale product and influence technical direction</li></ul>",
+  "pubDate": "Wed, 09 Sep 2026 19:34:37 +0300",
+  "guid": "https://djinni.co/jobs/847585-sr-fullstack-node-js-60-react-40/",
+  "category": [
+    "Node.js",
+    ""
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "846114",
+  "query": "Fullstack",
+  "fetchedAt": "2026-10-02T12:34:14.049Z",
+  "title": ".NET Full-Stack Software Engineer (IRC303351)",
+  "link": "https://djinni.co/jobs/846114-net-full-stack-software-engineer-irc303351/",
+  "description": "<p>Job Description<br>Front-End Development</p><p>Strong commercial experience with React<br>Proficiency in TypeScript<br>Experience building applications using Next.js<br>Experience developing and documenting reusable UI components with Storybook<br>Ability to interpret and implement designs from Figma<br>Experience writing unit and component tests using Jest<br>Strong knowledge of modern HTML and CSS, including CSS custom properties, responsive design, Flexbox and CSS Grid<br>Understanding of accessibility, browser compatibility and front-end performance best practices<br>Back-End Development</p><p>Strong commercial experience with ASP.NET Core and C#<br>Experience designing and developing secure, maintainable REST APIs<br>Experience with Azure Functions and serverless application development<br>Knowledge of Azure API Management<br>Experience working with Microsoft SQL Server, including database design and query optimisation<br>Experience working with Azure Cosmos DB<br>Understanding of authentication, authorisation and API security, ideally Duende Identity Server<br>Job Responsibilities<br>Design, implement and unit test core application components running on Azure<br>Drive and participate in the functional design<br>Contribute to the review and analysis of business requirements and development of code reviews and technical designs/specifications<br>Participate in SCRUM</p><p>Department/Project Description<br>The client is a holding company that administers association football clubs including Manchester City F.C. As for the product, it is mancity.com website and all innfrastructure around. We are using Scrum. Technologies/Tools: - Back-end: C#, .Net; ASP.NET; ASP.NET Web API; Umbraco; MS SQL. - Front-end: HTML/CSS, Angular, WebPack. - Other: Jira, Git, Docker, MS Azure.</p>",
+  "pubDate": "Wed, 02 Sep 2026 10:08:23 +0300",
+  "guid": "https://djinni.co/jobs/846114-net-full-stack-software-engineer-irc303351/",
+  "category": [
+    "Fullstack",
+    ""
+  ]
+}

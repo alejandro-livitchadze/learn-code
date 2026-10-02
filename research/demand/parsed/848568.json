@@ -1,0 +1,9 @@
+{
+  "id": "848568",
+  "url": "https://djinni.co/jobs/848568-middle-full-stack-developer-node-js-python-re/",
+  "title": "Middle Full-Stack Developer (Node.js + Python + React)",
+  "description": "Employment: Remote, full-time\nEngagement length: Long-term, 12 months\nStart: Mid-October\nTime zone: CET (candidate location is flexible — EU, Balkans, Ukraine, CIS, Asia, Africa, Middle East)\nRequired:\nBackend:\nNode.js — 5+ years of commercial experience, NestJS, TypeScript in production\nSolid understanding of the event loop, streams, and async patterns in Node\nORM/query builders: TypeORM, MikroORM, or Knex\nBullMQ or similar task queue (retries, idempotency)\nPython — 3+ years of commercial experience\nDjango/DRF: REST API design, ORM, migrations, serializers, permissions\nFastAPI or another async framework in production\nasyncio: async/await, concurrent task orchestration\nCelery or similar for background task processing\nMySQL/PostgreSQL: database design, query optimization, migrations\nMessage queues: RabbitMQ, Kafka, or similar\nRedis or similar for caching\nWebSockets, real-time event delivery\nUnderstanding of microservices architecture\n\nFrontend:\nReact — 1.5+ years of commercial experience\nTypeScript in production\nState management: Redux/RTK/MobX\nData fetching: RTK-Query\nCustom React Hooks\nSASS/Bootstrap/Tailwind\nUnderstanding of component composition and reusability\n\nGeneral:\nGit (branching strategies, merge conflict resolution, code review)\nTesting: Jest, Supertest, React Testing Library\nAPI documentation: Swagger/OpenAPI\nEnglish B2+\n\nNice to have:\nCI/CD (GitHub Actions, GitLab CI, Jenkins)\nElasticsearch/OpenSearch\nVector databases (Qdrant, pgvector), embedding/RAG pipelines\nDocker\nAWS/GCP/Azure",
+  "publishedAt": "2026-09-16T07:21:17.000Z",
+  "fetchedAt": "2026-10-02T12:34:20.446Z",
+  "query": "Fullstack"
+}
