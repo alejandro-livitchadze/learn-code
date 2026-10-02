@@ -1,0 +1,17 @@
+{
+  "vacancyId": "836059",
+  "required": [
+    "LLM",
+    "SQL",
+    "Python",
+    "TypeScript",
+    "Claude Code",
+    "Codex"
+  ],
+  "niceToHave": [
+    "Twilio",
+    "SIP",
+    "MCP"
+  ],
+  "seniority": "unknown"
+}

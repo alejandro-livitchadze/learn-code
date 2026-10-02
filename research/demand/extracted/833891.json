@@ -1,0 +1,30 @@
+{
+  "vacancyId": "833891",
+  "required": [
+    ".NET Core",
+    "Angular",
+    "React",
+    "Vue",
+    "Entity Framework Core",
+    "MySQL",
+    "Redis",
+    "AWS ECS",
+    "CI/CD",
+    "OpenTelemetry",
+    "Grafana",
+    "Sentry",
+    "Stripe",
+    "Twilio",
+    "Xero",
+    "Quickbooks",
+    "CORS",
+    "Docker"
+  ],
+  "niceToHave": [
+    "Keycloak",
+    "n8n",
+    "SonarQube",
+    "Code Rabbit"
+  ],
+  "seniority": "senior"
+}

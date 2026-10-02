@@ -1,0 +1,23 @@
+{
+  "vacancyId": "835818",
+  "required": [
+    "Node.js",
+    "Express.js",
+    "TypeScript",
+    "JavaScript",
+    "React",
+    "React Native",
+    "PostgreSQL",
+    "SQL",
+    "Jest",
+    "Docker",
+    "Git",
+    "CI/CD"
+  ],
+  "niceToHave": [
+    "RabbitMQ",
+    "OpenAPI",
+    "Swagger"
+  ],
+  "seniority": "unknown"
+}

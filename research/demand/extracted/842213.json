@@ -1,0 +1,18 @@
+{
+  "vacancyId": "842213",
+  "required": [
+    "TypeScript",
+    "Next.js",
+    "React",
+    "Supabase",
+    "AWS",
+    "Mastra",
+    "Langfuse",
+    "Claude Code",
+    "Codex",
+    "CI/CD",
+    "LLM"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

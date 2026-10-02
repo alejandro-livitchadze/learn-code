@@ -1,0 +1,25 @@
+{
+  "vacancyId": "810899",
+  "required": [
+    "JavaScript",
+    "TypeScript",
+    "Node.js",
+    "Express",
+    "Fastify",
+    "NestJS",
+    "React",
+    "PostgreSQL",
+    "REST APIs"
+  ],
+  "niceToHave": [
+    "Next.js",
+    "Python",
+    "FastAPI",
+    "Redis",
+    "AWS",
+    "GCP",
+    "Docker",
+    "GitHub Actions"
+  ],
+  "seniority": "unknown"
+}

@@ -1,0 +1,15 @@
+{
+  "vacancyId": "780331",
+  "required": [
+    "Angular",
+    ".NET Core",
+    "MS SQL",
+    "EF Core",
+    "MVC",
+    "SQL"
+  ],
+  "niceToHave": [
+    "C#"
+  ],
+  "seniority": "middle"
+}

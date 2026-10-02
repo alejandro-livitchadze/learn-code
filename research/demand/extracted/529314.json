@@ -1,0 +1,21 @@
+{
+  "vacancyId": "529314",
+  "required": [
+    "TypeScript",
+    "Node.js",
+    "express",
+    "nest.js",
+    "SQL",
+    "PL/SQL",
+    "Swagger",
+    "git",
+    "CI/CD",
+    "REST",
+    "JavaScript"
+  ],
+  "niceToHave": [
+    "MERN",
+    "next.js"
+  ],
+  "seniority": "junior"
+}

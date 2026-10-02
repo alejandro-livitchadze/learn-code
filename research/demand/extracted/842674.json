@@ -1,0 +1,23 @@
+{
+  "vacancyId": "842674",
+  "required": [
+    "Java",
+    "React",
+    "TypeScript",
+    "Hibernate",
+    "JDBC",
+    "MariaDB",
+    "Kafka",
+    "Docker",
+    "Maven",
+    "Redux",
+    "HTML5",
+    "SCSS",
+    "Webpack",
+    "Jest",
+    "MaterialUI",
+    "Git"
+  ],
+  "niceToHave": [],
+  "seniority": "middle"
+}

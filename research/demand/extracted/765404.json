@@ -1,0 +1,10 @@
+{
+  "vacancyId": "765404",
+  "required": [
+    "Node.js",
+    "React",
+    "PostgreSQL"
+  ],
+  "niceToHave": [],
+  "seniority": "junior"
+}

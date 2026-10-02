@@ -1,0 +1,12 @@
+{
+  "vacancyId": "846583",
+  "required": [
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "React",
+    "WebGL"
+  ],
+  "niceToHave": [],
+  "seniority": "lead"
+}

@@ -1,0 +1,12 @@
+{
+  "vacancyId": "845755",
+  "required": [
+    "Node.js",
+    "LLM"
+  ],
+  "niceToHave": [
+    "iOS",
+    "Android"
+  ],
+  "seniority": "lead"
+}

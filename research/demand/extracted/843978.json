@@ -1,0 +1,28 @@
+{
+  "vacancyId": "843978",
+  "required": [
+    "Next.js",
+    "NestJS",
+    "TypeScript",
+    "ChakraUI",
+    "Kubernetes",
+    "Docker",
+    "CI/CD",
+    "AWS",
+    "Lambda",
+    "ECS",
+    "EKS",
+    "S3",
+    "RDS",
+    "SQL",
+    "NoSQL",
+    "Claude Code",
+    "Code Rabbit"
+  ],
+  "niceToHave": [
+    "microservices",
+    "Python",
+    "Dash"
+  ],
+  "seniority": "senior"
+}

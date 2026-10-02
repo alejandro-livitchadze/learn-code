@@ -1,0 +1,36 @@
+{
+  "vacancyId": "840810",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "NestJS",
+    "PostgreSQL",
+    "Drizzle",
+    "Prisma",
+    "TypeORM",
+    "Redis",
+    "BullMQ",
+    "RabbitMQ",
+    "SQS",
+    "Docker",
+    "CI/CD",
+    "Jest"
+  ],
+  "niceToHave": [
+    "Facebook Marketing API",
+    "Google Ads API",
+    "AWS",
+    "ECS",
+    "ECR",
+    "S3",
+    "Lambda",
+    "GitHub Actions",
+    "Prometheus",
+    "Grafana",
+    "Airtable API",
+    "Google Sheets API",
+    "Claude",
+    "Gemini"
+  ],
+  "seniority": "middle"
+}

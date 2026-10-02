@@ -1,0 +1,18 @@
+{
+  "vacancyId": "845789",
+  "required": [
+    "Node.js",
+    "NestJS",
+    "PostgreSQL",
+    "Redis",
+    "AWS",
+    "Docker",
+    "REST API",
+    "мікросервіс"
+  ],
+  "niceToHave": [
+    "Terraform",
+    "Pulumi"
+  ],
+  "seniority": "senior"
+}

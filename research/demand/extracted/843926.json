@@ -1,0 +1,17 @@
+{
+  "vacancyId": "843926",
+  "required": [
+    "Python",
+    "LLM",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Postgres",
+    "MongoDB",
+    "LangChain",
+    "OpenAI",
+    "AI agents"
+  ],
+  "niceToHave": [],
+  "seniority": "unknown"
+}

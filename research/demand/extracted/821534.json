@@ -1,0 +1,24 @@
+{
+  "vacancyId": "821534",
+  "required": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Node.js",
+    "REST APIs",
+    "PostgreSQL",
+    "MongoDB",
+    "Git",
+    "OpenAI API"
+  ],
+  "niceToHave": [
+    "Next.js",
+    "Docker",
+    "AWS",
+    "DigitalOcean",
+    "GitHub Actions",
+    "Infrastructure as Code",
+    "Cursor"
+  ],
+  "seniority": "junior"
+}

@@ -1,0 +1,21 @@
+{
+  "vacancyId": "833996",
+  "required": [
+    "PostgreSQL",
+    "Redis",
+    "Linux",
+    "Docker",
+    "CI/CD",
+    "AWS",
+    "Azure",
+    "GCP",
+    "REST",
+    "gRPC",
+    "JSON",
+    "SystemD"
+  ],
+  "niceToHave": [
+    "Rust"
+  ],
+  "seniority": "senior"
+}

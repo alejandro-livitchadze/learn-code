@@ -1,0 +1,31 @@
+{
+  "vacancyId": "846943",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "Python",
+    "React",
+    "PostgreSQL",
+    "Stripe",
+    "CI/CD",
+    "Claude Code",
+    "LLM",
+    "REST",
+    "GraphQL"
+  ],
+  "niceToHave": [
+    "Next.js",
+    "Supabase",
+    "Firebase",
+    "React Native",
+    "Flutter",
+    "HIPAA",
+    "GDPR",
+    "SOC2",
+    "WebSockets",
+    "LiveKit",
+    "Snowflake",
+    "Tableau"
+  ],
+  "seniority": "senior"
+}

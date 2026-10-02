@@ -1,0 +1,16 @@
+{
+  "vacancyId": "846250",
+  "required": [
+    "JavaScript",
+    "NestJS",
+    "React",
+    "PostgreSQL",
+    "Claude Code",
+    "Cursor",
+    "Codex"
+  ],
+  "niceToHave": [
+    "React Native"
+  ],
+  "seniority": "middle"
+}

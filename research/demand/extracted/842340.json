@@ -1,0 +1,25 @@
+{
+  "vacancyId": "842340",
+  "required": [
+    "C#",
+    ".NET Core",
+    "ASP.NET Core",
+    "React",
+    "Entity Framework",
+    "REST",
+    "GraphQL",
+    "SQL Server",
+    "PostgreSQL",
+    "MongoDB",
+    "Claude",
+    "GitHub Copilot",
+    "microservices"
+  ],
+  "niceToHave": [
+    "Docker",
+    "CI/CD",
+    "Azure",
+    "Azure Kubernetes Service"
+  ],
+  "seniority": "middle"
+}

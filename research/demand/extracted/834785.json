@@ -1,0 +1,32 @@
+{
+  "vacancyId": "834785",
+  "required": [
+    "Python",
+    "FastAPI",
+    "ReactJS",
+    "TypeScript",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "microservices",
+    "REST",
+    "GraphQL",
+    "CI/CD",
+    "SQL",
+    "NoSQL",
+    "Celery"
+  ],
+  "niceToHave": [
+    "LLM",
+    "Kafka",
+    "SNS",
+    "SQS",
+    "Redis",
+    "RabbitMQ",
+    "Terraform",
+    "CloudFormation",
+    "Domain-Driven Design",
+    "Clean Architecture"
+  ],
+  "seniority": "senior"
+}
