@@ -1,0 +1,27 @@
+{
+  "vacancyId": "840533",
+  "required": [
+    ".NET",
+    "ASP.NET Core",
+    "C#",
+    "REST APIs",
+    "OpenAPI",
+    "FluentValidation",
+    "Azure",
+    "Service Bus",
+    "Azure Functions",
+    "CosmosDB",
+    "Azure DevOps",
+    "CI/CD",
+    "React"
+  ],
+  "niceToHave": [
+    "OAuth 2.0",
+    "Docker",
+    "Kubernetes",
+    "Power Apps",
+    "Power Automate",
+    "Azure ML"
+  ],
+  "seniority": "senior"
+}

@@ -1,0 +1,34 @@
+{
+  "vacancyId": "843842",
+  "required": [
+    "Creatio",
+    "C#",
+    ".NET",
+    "ASP.NET",
+    "Web API",
+    "WCF",
+    "JavaScript",
+    "Angular",
+    "jQuery",
+    "Backbone.js",
+    "Ext JS",
+    "RequireJS",
+    "SQL",
+    "PostgreSQL",
+    "MS SQL",
+    "HTML5",
+    "CSS3",
+    "Git",
+    "SOLID"
+  ],
+  "niceToHave": [
+    "REST",
+    "SOAP",
+    "RabbitMQ",
+    "Kafka",
+    "Jenkins",
+    "Azure DevOps",
+    "CI/CD"
+  ],
+  "seniority": "unknown"
+}

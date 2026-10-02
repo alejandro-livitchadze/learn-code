@@ -1,0 +1,26 @@
+{
+  "vacancyId": "841237",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "React",
+    "PostgreSQL",
+    "REST APIs",
+    "Docker",
+    "CI/CD",
+    "Next.js",
+    "Prisma",
+    "TypeORM",
+    "Redis",
+    "AWS",
+    "GitHub Actions",
+    "Tailwind CSS",
+    "WebSockets",
+    "Claude"
+  ],
+  "niceToHave": [
+    "Kubernetes",
+    "LangChain"
+  ],
+  "seniority": "senior"
+}

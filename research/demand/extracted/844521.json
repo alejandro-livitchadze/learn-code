@@ -1,0 +1,12 @@
+{
+  "vacancyId": "844521",
+  "required": [
+    "Next.js",
+    "RevenueCat",
+    "Superwall",
+    "Customer.io",
+    "GA4"
+  ],
+  "niceToHave": [],
+  "seniority": "senior"
+}

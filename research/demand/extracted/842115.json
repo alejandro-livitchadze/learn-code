@@ -1,0 +1,28 @@
+{
+  "vacancyId": "842115",
+  "required": [
+    "Python",
+    "Django",
+    "DRF",
+    "React",
+    "JavaScript",
+    "TypeScript",
+    "PostgreSQL",
+    "Redis",
+    "Celery",
+    "Git",
+    "Claude Code",
+    "Cursor"
+  ],
+  "niceToHave": [
+    "LangChain",
+    "OpenAI",
+    "Vite",
+    "MUI",
+    "Recharts",
+    "Azure",
+    "Docker",
+    "CI/CD"
+  ],
+  "seniority": "unknown"
+}

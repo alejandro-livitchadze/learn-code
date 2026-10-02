@@ -1,0 +1,25 @@
+{
+  "vacancyId": "843432",
+  "required": [
+    "Node.js",
+    "TypeScript",
+    "RabbitMQ",
+    "Kafka",
+    "PostgreSQL",
+    "Redis",
+    "CI/CD",
+    "Git",
+    "Grafana",
+    "Loki",
+    "Tempo",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "webhook"
+  ],
+  "niceToHave": [
+    "ArgoCD",
+    "GitOps"
+  ],
+  "seniority": "senior"
+}

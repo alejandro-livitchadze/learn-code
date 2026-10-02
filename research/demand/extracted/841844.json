@@ -1,0 +1,30 @@
+{
+  "vacancyId": "841844",
+  "required": [
+    "Node.js",
+    "Angular",
+    "TypeScript",
+    "RxJS",
+    "Angular Material",
+    "PostgreSQL",
+    "TypeORM",
+    "Firestore",
+    "RabbitMQ",
+    "Pub/Sub",
+    "Redis",
+    "Docker",
+    "Cloud Functions",
+    "Cloud Storage",
+    "Secret Manager",
+    "GCP",
+    "RESTful"
+  ],
+  "niceToHave": [
+    "BigQuery",
+    "CI/CD",
+    "TikTok Business API",
+    "Facebook Graph API",
+    "Google Ads API"
+  ],
+  "seniority": "middle"
+}

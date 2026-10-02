@@ -1,0 +1,12 @@
+{
+  "vacancyId": "840655",
+  "required": [
+    "Node.js",
+    "TypeScript"
+  ],
+  "niceToHave": [
+    "C++",
+    "ClickHouse"
+  ],
+  "seniority": "senior"
+}
