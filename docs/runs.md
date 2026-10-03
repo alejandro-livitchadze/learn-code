@@ -88,3 +88,9 @@
 - Update, same run: L1 (PR #32, head eb4e58a) worker done; CI green; reviewer CHANGES_REQUESTED (predict samples show `-- Docs:` comments that state the answer; the alias rule says "only after SELECT" but GROUP BY also accepts output names). L1 stays `in_progress`; fix round 1 not started because MAX_TASKS_PER_RUN (V2, V3, L1) was reached. Next run: dispatch the fix round on `task/L1` with the PR comment as context, then re-review.
 - Workers: 3. Reviewers: 3. Integration PR #21 still open; no milestone this run.
 - Next ready: V4 (V3 done), L1 fix round; F8 is author/orchestrator only.
+
+## 2026-10-03 (fifth run): L1 fix round 1
+
+- L1 (PR #32): fix round 1 worker done, head 8183533 (both blockers fixed; scope checked, only `content/fullstack/query-order-01/**` and `registry/**` changed). Worker ran install, typecheck, lint and `lesson check` (pass); `pnpm test` hangs locally (PGlite), CI decides. CI running on 8183533; no review verdict for this head yet. L1 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, run a fresh review on 8183533.
+- V4 was ready but its `content/**` Paths overlap L1, so it waits.
+- Workers: 1. Reviewers: 0. Integration PR #21 still open; no milestone this run.
