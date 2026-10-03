@@ -1,0 +1,114 @@
+---
+id: query-order-01
+courseId: fullstack
+title: "The query that runs backwards"
+concepts: [query-execution-order, alias-scope, order-by-determinism]
+# Sources for every claim about PostgreSQL behavior (the SQL samples carry their own links):
+# - Order of processing (FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT) and "an output column name can be used in ORDER BY and GROUP BY but not in WHERE or HAVING":
+#   https://www.postgresql.org/docs/current/sql-select.html
+# - HAVING filters groups after GROUP BY, WHERE filters rows before it:
+#   https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP
+# - ORDER BY may use output column names: https://www.postgresql.org/docs/current/queries-order.html
+# - Without ORDER BY the order of returned rows is unspecified, and LIMIT then returns an unpredictable subset:
+#   https://www.postgresql.org/docs/current/queries-limit.html
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["query-execution-order"] %}
+Friday, 17:55. Your report query fails with `column "doubled" does not exist`. You can see `doubled` right there in the SELECT. The Bug has moved the clauses around in its mind, and it is very proud of itself.
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/alias-order.sql" language="sql" concepts=["alias-scope", "query-execution-order"] %}
+{% option output="customer | doubled\ndi | 180\ned | 110\nana | 80" correct=true %}
+The paid orders are doubled, sorted by that new column, and the top three stay. ORDER BY can use the alias.
+{% /option %}
+{% option output="ERROR: column \"doubled\" does not exist" misconception="alias-unusable-in-order-by" %}
+That error belongs to WHERE, not to ORDER BY. ORDER BY runs after SELECT has made the alias.
+{% /option %}
+{% option output="customer | doubled\nana | 80\nbo | 30\nana | 50" misconception="limit-gives-first-rows" %}
+Those are the first three paid rows by id. The ORDER BY sorts before LIMIT cuts, so the biggest come first.
+{% /option %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="select customer, sum(amount) as total\nfrom orders\nwhere status = 'paid'\ngroup by customer\nhaving sum(amount) > 30\norder by total desc\nlimit 2" concepts=["query-execution-order", "alias-scope"] %}
+The database runs the clauses in this order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT. You write SELECT first, but it runs fifth. An alias is born in SELECT, so only the stages after it can use it.
+
+{% annotation line=2 %}
+Runs first: pick the table.
+{% /annotation %}
+{% annotation line=1 %}
+Runs fifth: the alias appears here.
+{% /annotation %}
+{% annotation line=6 %}
+Runs after SELECT, so it sees total.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=45 template="select customer, sum(amount) as total\nfrom orders\ngroup by customer\n___kw___ sum(amount) > 30" language="sql" concepts=["query-execution-order"] %}
+{% blank id="kw" accepted=["having"] misconception="where-filters-groups" %}
+A sum exists only after GROUP BY, so the filter on it is HAVING. WHERE runs before any group exists.
+{% /blank %}
+{% /fillBlanks %}
+
+{% sqlLab id="s1" estSeconds=90 prompt="The starter fails. Fix it: return customer and doubled (amount times two) for every order whose doubled value is over 50, whatever its status." seedRef="default" starter="select customer, amount * 2 as doubled from orders where doubled > 50" solution="select customer, amount * 2 as doubled from orders where amount * 2 > 50" concepts=["alias-scope"] %}
+{% hint %}
+WHERE runs before SELECT, so doubled does not exist yet. Write the expression out in WHERE.
+{% /hint %}
+{% /sqlLab %}
+
+{% pitfall id="pf1" estSeconds=40 language="sql" badCode="select * from orders\nlimit 3" goodCode="select * from orders\norder by id\nlimit 3" concepts=["order-by-determinism"] %}
+A table has no built-in row order. Without ORDER BY, LIMIT 3 gives some three rows, often the same ones on your laptop. Then an update or a different plan changes them, and the "first orders" widget shows other orders.
+{% /pitfall %}
+
+{% predict id="p2" estSeconds=60 code="./samples/where-limit.sql" language="sql" concepts=["query-execution-order", "order-by-determinism"] %}
+{% option output="id\n5\n8" correct=true %}
+WHERE keeps the paid orders, ORDER BY puts the biggest first, LIMIT keeps two: orders 5 and 8.
+{% /option %}
+{% option output="id\n5" misconception="limit-before-where" %}
+That would happen if LIMIT ran before WHERE. It runs last, so refunded order 3 is already gone when it cuts.
+{% /option %}
+{% option output="id\n1\n2" misconception="limit-gives-first-rows" %}
+Those are the first paid rows by id. The ORDER BY on amount decides which rows LIMIT keeps.
+{% /option %}
+{% /predict %}
+
+{% sqlLab id="s2" estSeconds=90 prompt="Return one column id: the three biggest paid orders, biggest amount first." seedRef="default" starter="select id from orders where status = 'paid' limit 3" solution="select id from orders where status = 'paid' order by amount desc limit 3" orderMatters=true concepts=["order-by-determinism"] %}
+{% hint %}
+The starter has no ORDER BY, so LIMIT keeps some three paid rows. Sort by amount, biggest first.
+{% /hint %}
+{% /sqlLab %}
+
+{% fillBlanks id="f2" estSeconds=45 template="select customer, sum(amount) as total\nfrom orders\ngroup by customer\norder by ___col___ desc" language="sql" concepts=["alias-scope"] %}
+{% blank id="col" accepted=["total", "sum(amount)"] misconception="alias-unusable-in-order-by" %}
+ORDER BY runs after SELECT, so the alias total works. Repeating sum(amount) works too.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p3" estSeconds=75 code="./samples/group-having.sql" language="sql" concepts=["query-execution-order"] %}
+{% option output="customer | total\ndi | 90\nana | 65\ned | 55" correct=true %}
+WHERE drops refunded orders first, GROUP BY sums per customer, HAVING keeps sums over 30, and ORDER BY sorts them.
+{% /option %}
+{% option output="customer | total\ndi | 90\ncy | 70\nana | 65\ned | 55\nbo | 45" misconception="where-filters-groups" %}
+Refunded orders would stay only if WHERE ran after the sums. It runs before GROUP BY, so they never reach a sum.
+{% /option %}
+{% option output="customer | total\ndi | 90\ned | 55\nana | 40" misconception="having-filters-rows" %}
+That filters single rows over 30. HAVING works on the sum of each group, so ana's 40 and 25 add up to 65.
+{% /option %}
+{% /predict %}
+
+{% sqlLab id="s3" estSeconds=120 prompt="Return customer and total: the sum of paid amounts per customer, only for customers whose paid total is over 30. Name the sum column total." seedRef="default" starter="select customer, sum(amount) as total from orders where sum(amount) > 30 group by customer" solution="select customer, sum(amount) as total from orders where status = 'paid' group by customer having sum(amount) > 30" concepts=["query-execution-order"] %}
+{% hint %}
+WHERE cannot see sums. Filter the paid rows in WHERE, then filter the groups in HAVING.
+{% /hint %}
+{% /sqlLab %}
+
+{% recap id="rc1" estSeconds=30 concepts=["query-execution-order", "alias-scope", "order-by-determinism"] %}
+{% point %}
+A query runs FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT, not in the order you write it.
+{% /point %}
+{% point %}
+An alias made in SELECT works in ORDER BY but not in WHERE or HAVING.
+{% /point %}
+{% point %}
+Without ORDER BY, LIMIT returns some rows, not the first ones.
+{% /point %}
+{% /recap %}
