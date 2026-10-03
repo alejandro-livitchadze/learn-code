@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Code } from './Code';
+import { HookColumn } from './Margin';
 import { Markdown, renderInline } from './markdown';
 import type { StepComponentProps, StepOfKind } from './types';
 
@@ -38,9 +39,9 @@ function Speech({
 export function Hook({ step }: StepComponentProps<StepOfKind<'hook'>>) {
   return (
     <div className="w-widget" data-kind="hook">
-      <Speech character={step.character ?? 'bug'}>
+      <HookColumn character={step.character}>
         <Markdown text={step.body} />
-      </Speech>
+      </HookColumn>
     </div>
   );
 }

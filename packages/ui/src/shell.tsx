@@ -5,6 +5,8 @@ export interface PageShellProps {
   readonly header: ReactNode;
   /** Content of the main column. */
   readonly children: ReactNode;
+  /** Left character column, for `hook` steps only (E08 section 3). */
+  readonly lead?: ReactNode;
   /** Margin items; the margin column is omitted when absent. */
   readonly margin?: ReactNode;
   /** The `PageFooter`. */
@@ -12,11 +14,16 @@ export interface PageShellProps {
 }
 
 /** Notebook page: header, main column with optional margin, footer (E08 section 3). */
-export function PageShell({ header, children, margin, footer }: PageShellProps) {
+export function PageShell({ header, children, lead, margin, footer }: PageShellProps) {
   return (
     <div className="ui-page">
       {header}
       <div className="ui-body">
+        {lead === undefined ? null : (
+          <aside className="ui-lead" aria-label="Character">
+            {lead}
+          </aside>
+        )}
         <main className="ui-main">{children}</main>
         {margin === undefined ? null : (
           <aside className="ui-margin" aria-label="Margin notes">
