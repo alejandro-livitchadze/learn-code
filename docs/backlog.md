@@ -30,7 +30,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 ## F4. Build and e2e in CI, e2e portable
 - Status: in_progress
 - Depends on: none
-- Paths: `.github/**`, `apps/web/e2e/**`, `apps/web/playwright.config.ts`, root
+- Paths: `.github/**`, `apps/web/e2e/**`, `apps/web/playwright.config.ts`, root, `README.md` (e2e section only; added by the orchestrator because the Done-when needs it)
 - Source: `docs/audit-2026-10-03.md`, finding 4 (major)
 - Done when: CI runs `pnpm --filter @learn-code/web build`, installs the pinned Chromium and runs `pnpm --filter @learn-code/web e2e`, with `timeout-minutes` set on the job; `typeSql` uses `ControlOrMeta+A`; the suite passes on macOS and Linux; README says how to run it.
 
