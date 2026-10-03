@@ -74,18 +74,16 @@ function Entry({ fixture }: { readonly fixture: Fixture }) {
     <section className="cat-entry" id={fixture.id} aria-labelledby={`${fixture.id}-h`}>
       <header className="cat-head">
         <h3 id={`${fixture.id}-h`}>{fixture.title}</h3>
-        <button
-          type="button"
-          className="w-btn w-btn-quiet"
+        <Button
           onClick={() => {
             setRun((n) => n + 1);
             setCalls([]);
           }}
         >
           Reset
-        </button>
+        </Button>
       </header>
-      <div className="cat-stage legacy-skin">
+      <div className="cat-stage">
         <Widget key={run} fixture={fixture} onComplete={onComplete} />
       </div>
       <p className="w-muted" data-testid={`${fixture.id}-calls`}>
@@ -245,7 +243,7 @@ export function Catalogue({ highlights }: { readonly highlights: HighlightMap })
           <h1>Widget catalogue</h1>
           <p className="lead">
             Every widget built so far, in its idle, wrong, restored and long-content states. Built:{' '}
-            {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a placeholder.
+            {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a short notice.
           </p>
           <UiComponents />
           <nav aria-label="Fixtures">

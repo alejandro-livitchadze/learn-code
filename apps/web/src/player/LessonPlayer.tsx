@@ -2,26 +2,52 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import { isActive, type Lesson } from '@learn-code/lesson-schema';
-import { Button, buttonClass, PageFooter, PageHeader, PageShell, StepTag } from '@learn-code/ui';
 import {
+  Button,
+  buttonClass,
+  Highlight,
+  PageFooter,
+  PageHeader,
+  PageShell,
+  stepTagText,
+} from '@learn-code/ui';
+import {
+  FooterProvider,
   HighlightsProvider,
   HookLead,
   MarginItems,
+  MarginSlotProvider,
   SeedBaseProvider,
   StepWidget,
   type HighlightMap,
+  type StepFooter,
   type StepResult,
 } from '@learn-code/widgets';
 import { ConsoleEventSink } from './events';
 import { LocalStorageProgressStore } from './progress';
 import { initialState, isLessonComplete, reduce } from './reducer';
+import { splitTitle } from './title';
 import type { PlayerAction, PlayerState } from './types';
 
 interface Props {
   readonly lesson: Lesson;
   readonly highlights: HighlightMap;
+  /** The lesson the last step leads to, when the cliffhanger names one that exists. */
+  readonly next?: { readonly href: string; readonly title: string };
+}
+
+function titleNode(lesson: Lesson): ReactNode {
+  const parts = splitTitle(lesson.title, lesson.titleHighlights);
+  if (parts.mark === undefined) return lesson.title;
+  return (
+    <>
+      {parts.before}
+      <Highlight>{parts.mark}</Highlight>
+      {parts.after}
+    </>
+  );
 }
 
 const store = new LocalStorageProgressStore();
@@ -32,7 +58,7 @@ function isTypingTarget(t: EventTarget | null): boolean {
   return t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(t.tagName);
 }
 
-export function LessonPlayer({ lesson, highlights }: Props) {
+export function LessonPlayer({ lesson, highlights, next: nextLesson }: Props) {
   const lessonId = `${lesson.courseId}/${lesson.id}`;
   const steps = lesson.steps;
   const [state, dispatch] = useReducer(
@@ -41,6 +67,8 @@ export function LessonPlayer({ lesson, highlights }: Props) {
     () => initialState(lessonId, steps),
   );
   const [ready, setReady] = useState(false);
+  const [footer, setFooter] = useState<StepFooter | undefined>(undefined);
+  const [marginSlot, setMarginSlot] = useState<HTMLElement | null>(null);
   const router = useRouter();
   const headingRef = useRef<HTMLHeadingElement>(null);
   const moved = useRef(false);
@@ -124,22 +152,44 @@ export function LessonPlayer({ lesson, highlights }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [ready, next, back, isLast, open, router]);
 
-  const hint = open ? 'Answer this step to continue.' : '';
+  const hint = open ? (footer?.hint ?? 'Answer this step to continue.') : '';
+  const action = open ? footer?.action : undefined;
   const finish = isLast ? (
     open || !ready ? (
       <Button variant="primary" disabled aria-describedby="gate-hint">
         Finish
       </Button>
+    ) : nextLesson !== undefined ? (
+      <>
+        <Link href="/" className="all-lessons">
+          All lessons
+        </Link>
+        <Link href={nextLesson.href} className={buttonClass('primary')}>
+          Next lesson: {nextLesson.title}
+        </Link>
+      </>
     ) : (
       <Link href="/" className={buttonClass('primary')}>
         Finish
       </Link>
     )
+  ) : action !== undefined ? (
+    <Button
+      variant="primary"
+      onClick={action.onAct}
+      disabled={action.disabled}
+      aria-describedby="gate-hint"
+    >
+      {action.label}
+    </Button>
   ) : (
     <Button variant="primary" onClick={next} disabled={open || !ready} aria-describedby="gate-hint">
       Continue
     </Button>
   );
+
+  const position = `step ${state.index + 1} of ${steps.length}`;
+  const tagText = step === undefined ? null : stepTagText(step.kind);
 
   return (
     <>
@@ -151,9 +201,12 @@ export function LessonPlayer({ lesson, highlights }: Props) {
         <PageShell
           lead={ready && step?.kind === 'hook' ? <HookLead key={step.id} step={step} /> : undefined}
           margin={
-            ready && step?.margin !== undefined && step.margin.length > 0 ? (
-              <MarginItems key={step.id} items={step.margin} />
-            ) : undefined
+            <>
+              <div ref={setMarginSlot} />
+              {ready && step !== undefined ? (
+                <MarginItems key={step.id} items={step.margin} />
+              ) : null}
+            </>
           }
           header={
             <PageHeader
@@ -164,8 +217,31 @@ export function LessonPlayer({ lesson, highlights }: Props) {
                   {children}
                 </Link>
               )}
-              title={lesson.title}
-              counter={`step ${state.index + 1} of ${steps.length}`}
+              title={titleNode(lesson)}
+              counter={
+                <span className="counter">
+                  <span>{isLast && complete ? `${position} · done!` : position}</span>
+                  <span
+                    className="progress"
+                    role="progressbar"
+                    aria-label="Lesson progress"
+                    aria-valuemin={1}
+                    aria-valuemax={steps.length}
+                    aria-valuenow={state.index + 1}
+                    aria-valuetext={`Step ${state.index + 1} of ${steps.length}`}
+                  >
+                    {steps.map((s, i) => (
+                      <span
+                        key={s.id}
+                        className="seg"
+                        data-state={
+                          i === state.index ? 'current' : state.results[s.id] ? 'done' : 'todo'
+                        }
+                      />
+                    ))}
+                  </span>
+                </span>
+              }
             />
           }
           footer={
@@ -181,40 +257,26 @@ export function LessonPlayer({ lesson, highlights }: Props) {
             />
           }
         >
-          <div
-            className="progress"
-            role="progressbar"
-            aria-label="Lesson progress"
-            aria-valuemin={1}
-            aria-valuemax={steps.length}
-            aria-valuenow={state.index + 1}
-            aria-valuetext={`Step ${state.index + 1} of ${steps.length}`}
-          >
-            {steps.map((s, i) => (
-              <span
-                key={s.id}
-                className="seg"
-                data-state={i === state.index ? 'current' : state.results[s.id] ? 'done' : 'todo'}
-              />
-            ))}
-          </div>
-          <section className="legacy-skin" aria-label="Current step">
+          <section aria-label="Current step">
             {ready && step ? (
               <div className="step" key={step.id}>
-                <StepTag kind={step.kind} />
                 <h2
                   ref={headingRef}
                   tabIndex={-1}
                   className="step-title"
                   data-testid="step-heading"
                 >
-                  Step {state.index + 1} of {steps.length}: {step.kind}
+                  {tagText === null ? position : `${position}: ${tagText}`}
                 </h2>
                 <HighlightsProvider value={highlights}>
                   <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
-                    {step.kind === 'hook' ? null : (
-                      <StepWidget step={step} restored={current} onComplete={onComplete} />
-                    )}
+                    <MarginSlotProvider value={marginSlot}>
+                      <FooterProvider value={setFooter}>
+                        {step.kind === 'hook' ? null : (
+                          <StepWidget step={step} restored={current} onComplete={onComplete} />
+                        )}
+                      </FooterProvider>
+                    </MarginSlotProvider>
                   </SeedBaseProvider>
                 </HighlightsProvider>
               </div>

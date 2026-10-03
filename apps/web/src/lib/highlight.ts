@@ -1,4 +1,4 @@
-import { codeToTokens } from 'shiki';
+import { codeToTokens, createCssVariablesTheme } from 'shiki';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import type { HighlightedLines, HighlightMap } from '@learn-code/widgets';
 
@@ -38,17 +38,37 @@ function blocks(step: Step): readonly Block[] {
   }
 }
 
+/**
+ * Tokens carry `var(--shiki-token-*)` colors, never literal colors. The notebook maps those
+ * variables to its own tokens in `packages/widgets/src/widgets.css` (light only, D15).
+ */
+const theme = createCssVariablesTheme({
+  name: 'notebook',
+  variablePrefix: '--shiki-',
+  variableDefaults: {},
+  fontStyle: true,
+});
+
+const KEYWORD = 'var(--shiki-token-keyword)';
+
 /** Highlights every code block of a lesson once, at build time, on the server. */
 export async function highlightLesson(l: Lesson): Promise<HighlightMap> {
   const entries = await Promise.all(
     l.steps.flatMap(blocks).map(async (b) => {
-      const { tokens } = await codeToTokens(b.code, {
-        lang: b.lang,
-        themes: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
-        defaultColor: false,
-      });
+      const { tokens } = await codeToTokens(b.code, { lang: b.lang, theme });
       const lines: HighlightedLines = tokens.map((line) =>
-        line.map((t) => ({ content: t.content, style: { ...(t.htmlStyle ?? {}) } })),
+        line.map((t) => {
+          const word = t.color === KEYWORD && /[a-z]/i.test(t.content);
+          // Word keywords are bold in the author's ink; operators stay plain ink.
+          const color = t.color === KEYWORD && !word ? 'var(--shiki-foreground)' : t.color;
+          return {
+            content: t.content,
+            style: {
+              ...(color === undefined ? {} : { color }),
+              ...(word ? { fontWeight: '600' } : {}),
+            },
+          };
+        }),
       );
       return [b.key, lines] as const;
     }),

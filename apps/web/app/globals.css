@@ -3,36 +3,6 @@
  * (tokens.css, ui.css); this file declares none of its own (D16, CL1).
  */
 
-/* Temporary bridge for the widgets, which still use the pre-notebook variable
-   names with fallbacks (packages/widgets/src/widgets.css). Task V4 restyles the
-   widgets and deletes this block. `--border` is a shorthand token in the notebook
-   system, so inside widgets it is remapped to a plain color. */
-.legacy-skin {
-  --text: var(--ink);
-  --muted: var(--ink-muted);
-  --surface: var(--card);
-  --border: var(--ink-faint);
-  --accent: var(--ink);
-  --accent-text: var(--paper);
-  --note: var(--author);
-  --font-sans: var(--font-body);
-  --font-code: var(--font-mono);
-  --font-note: var(--font-hand);
-}
-/* The notebook is light only (D15): neutralise the widgets' dark-mode rules. */
-.legacy-skin .w-tok,
-.legacy-skin .code-text span {
-  color: var(--shiki-light);
-}
-.legacy-skin .w-feedback p[data-correct='true'],
-.legacy-skin .w-tag-good {
-  color: var(--success);
-}
-.legacy-skin .w-feedback p[data-correct='false'],
-.legacy-skin .w-tag-bad {
-  color: var(--danger);
-}
-
 .home {
   max-width: 44rem;
   margin: 0 auto;
@@ -76,23 +46,32 @@
   }
 }
 
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+}
 .progress {
   display: flex;
-  gap: var(--space-4);
-  margin-bottom: var(--space-20);
+  gap: var(--space-6);
 }
 .seg {
-  flex: 1;
-  height: 8px;
+  width: 22px;
+  height: 10px;
   border: var(--border-thin);
-  border-radius: var(--radius-label);
-  background: var(--card);
+  border-radius: 5px;
+  background: transparent;
 }
 .seg[data-state='done'] {
   background: var(--ink);
 }
 .seg[data-state='current'] {
   background: var(--highlight);
+}
+
+.all-lessons {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .step {
@@ -104,14 +83,21 @@
     transform: translateY(6px);
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    animation: none;
+  }
+}
+/* The step heading is the focus target after each move; the step tag shows the same words. */
 .step-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-  font-size: 15px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  margin: 0 0 var(--space-16);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .step-title:focus {
   outline: none;
