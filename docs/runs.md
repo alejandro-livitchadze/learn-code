@@ -54,3 +54,10 @@
 - F6 (PR #24): worker left three compiler tests red (they edit joins-01 by string replacement); F6 Paths widened, fix round 1 done, merged, CI green, review APPROVE on af651a5.
 - Workers: 4 (F1, F2, F6, F6 fix round). Reviewers: 3. MAX_PARALLEL and MAX_TASKS_PER_RUN exceeded at the author's request.
 - Next ready: F3, F4, F5, F7 (F3 and F5 overlap each other; F4 and F7 are independent), F8 is author/orchestrator only.
+
+## 2026-10-03: F3, F4
+
+- F3 (PR #26): merged, CI green, review APPROVE on f71d17f.
+- F4 (PR #25): first CI run red (e2e job hung in `playwright install` on Node 26, cancelled at the 20 min timeout). Fix round 1 installed browsers under Node 22; CI green; merged, review APPROVE on b1ce79e.
+- Workers: 3 (F3, F4, F4 fix round). Reviewers: 2. CI on develop not re-checked after the merges. Integration PR #21 still open; no milestone this run.
+- Next ready: F5, F7 (F8 is author/orchestrator only), V1, C1.

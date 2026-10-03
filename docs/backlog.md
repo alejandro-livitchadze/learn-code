@@ -21,14 +21,16 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `reset()` gives a database identical to a fresh `open(seed)` after each of: an aborted transaction, an open transaction, a changed `search_path`, an extra schema, a changed session setting (close and recreate the database, or `rollback` plus `discard all` plus dropping non-system schemas); a failed reset leaves the session usable on the next call; tests cover each case on the inline adapter and one on the worker adapter.
 
 ## F3. One result comparer, one SQL path
-- Status: in_progress
+- Status: done
+- Note: merged via PR #26; CI green; reviewer APPROVE on f71d17f (minors: runPredictSql does not catch open() failure; testTimeout raised to 120s; COMPARE_CASES exported from package root; unused @electric-sql/pglite dep left in lesson-compiler).
 - Depends on: none
 - Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, `packages/lesson-compiler/**`
 - Source: `docs/audit-2026-10-03.md`, finding 3 (major)
 - Done when: `compareResults` lives in `packages/sql-engine` (pure, exported) and is the only comparer used by the widget and by `lesson check`; `sameSqlResult`, `sameResult` and `verify/sql.ts` are deleted; predict verification runs through the inline adapter; `lesson check` fails a `sqlLab` whose reference result exceeds the row cap; a test feeds the same pairs to the widget path and the check path.
 
 ## F4. Build and e2e in CI, e2e portable
-- Status: in_progress
+- Status: done
+- Note: merged via PR #25; CI green (check and e2e); reviewer APPROVE on b1ce79e (minors: e2e job repeats setup; macOS not run; install runs under Node 22 as a workaround, remove after bumping @playwright/test to 1.60+). README clause done via Paths widening.
 - Depends on: none
 - Paths: `.github/**`, `apps/web/e2e/**`, `apps/web/playwright.config.ts`, root, `README.md` (e2e section only; added by the orchestrator because the Done-when needs it)
 - Source: `docs/audit-2026-10-03.md`, finding 4 (major)
