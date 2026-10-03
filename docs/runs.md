@@ -68,3 +68,4 @@
 - F5: worker dispatched on `task/F5`, still running at this write. Stays `in_progress`; resume from the branch if it has no PR.
 - V1 notes for reviewer/V4: LEGACY_EXEMPT list in codeLint.ts and `.legacy-skin` block in globals.css must be removed by V4.
 - Update, same run: CI green on adbe8d8; fresh reviewer APPROVE; V1 (PR #27) squash-merged. F5 worker still running at this write; F5 stays `in_progress`.
+- Update, same run: F5 worker done; PR #28 opened (head f7a0f55); local typecheck and lint pass, sql-engine tests pass under both TZ values. CI running, no verdict yet. F5 stays `in_progress`. Next run: if CI green, review gate on f7a0f55. Note: F5 renders booleans as `t`/`f` (PostgreSQL raw text).
