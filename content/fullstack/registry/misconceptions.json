@@ -184,5 +184,29 @@
     "belief": "Row locks are released when the statement finishes.",
     "correction": "They are held until COMMIT or ROLLBACK.",
     "concepts": ["row-lock", "deadlock"]
+  },
+  {
+    "id": "alias-unusable-in-order-by",
+    "belief": "A SELECT alias cannot be used in ORDER BY.",
+    "correction": "ORDER BY runs after SELECT, so it can use the alias.",
+    "concepts": ["alias-scope"]
+  },
+  {
+    "id": "limit-before-where",
+    "belief": "LIMIT cuts the first rows, then WHERE filters them.",
+    "correction": "WHERE runs first; ORDER BY and LIMIT work on the rows that survived it.",
+    "concepts": ["query-execution-order"]
+  },
+  {
+    "id": "where-filters-groups",
+    "belief": "WHERE can filter on aggregates because it runs after GROUP BY.",
+    "correction": "WHERE runs before GROUP BY, so it never sees a sum; use HAVING for groups.",
+    "concepts": ["query-execution-order"]
+  },
+  {
+    "id": "having-filters-rows",
+    "belief": "HAVING filters single rows before they are grouped.",
+    "correction": "HAVING runs after GROUP BY and filters whole groups.",
+    "concepts": ["query-execution-order"]
   }
 ]
