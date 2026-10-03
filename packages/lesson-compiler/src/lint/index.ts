@@ -17,6 +17,7 @@ import {
   reviewCards,
   wrongOptionFeedback,
 } from './rules';
+import { DESIGN_RULES } from './design';
 import type { LintIssue, LintRule, Registries } from './types';
 
 export const LINT_RULES: readonly LintRule[] = [
@@ -36,6 +37,7 @@ export const LINT_RULES: readonly LintRule[] = [
   implementedKinds,
   stepCount,
   markdownSubset,
+  ...DESIGN_RULES,
 ];
 
 export interface LintOptions {
@@ -53,5 +55,6 @@ export function lintLesson(
   ).flatMap((rule) => rule(lesson, registries));
 }
 
+export * from './design';
 export * from './rules';
 export type { LintIssue, LintRule, Registries } from './types';

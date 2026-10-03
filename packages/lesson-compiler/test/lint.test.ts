@@ -3,6 +3,14 @@ import { lesson as lessonSchema } from '@learn-code/lesson-schema';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import {
   LINT_RULES,
+  annotationCount,
+  bugPlacement,
+  characterCount,
+  gotchaStopCount,
+  highlightLimits,
+  marginCount,
+  runtimePlacement,
+  wordLimits,
   RULE_IDS,
   annotationLines,
   conceptRepresentations,
@@ -26,6 +34,14 @@ const rulesById = {
   'wrong-option-feedback': wrongOptionFeedback,
   'concept-representations': conceptRepresentations,
   'review-cards': reviewCards,
+  'dl1-margin-count': marginCount,
+  'dl2-character-count': characterCount,
+  'dl3-bug-placement': bugPlacement,
+  'dl4-runtime-placement': runtimePlacement,
+  'dl5-word-limits': wordLimits,
+  'dl6-annotation-count': annotationCount,
+  'dl7-highlight-limits': highlightLimits,
+  'dl8-gotcha-stop-count': gotchaStopCount,
 } as const;
 
 const step = (id: string): Step => {
@@ -39,7 +55,7 @@ describe('valid lesson', () => {
   it('passes the schema and every rule', () => {
     expect(lessonSchema.safeParse(validLesson).success).toBe(true);
     expect(lintLesson(validLesson, registries, { allowUnbuilt: true })).toEqual([]);
-    expect(LINT_RULES).toHaveLength(16);
+    expect(LINT_RULES).toHaveLength(24);
   });
 });
 
@@ -134,6 +150,96 @@ describe('playable and solvable rules', () => {
       ),
     ).toHaveLength(1);
     expect(only(validLesson, 'step-count')).toEqual([]);
+  });
+});
+
+describe('design lint details', () => {
+  const margin = (id: string, m: Step['margin']): Lesson =>
+    withSteps(validSteps.map((s) => (s.id === id ? { ...s, margin: m } : s)));
+  const hookCharacter = (character: 'bug' | 'olha' | 'mrRuntime'): Lesson =>
+    withSteps(validSteps.map((s) => (s.kind === 'hook' ? { ...s, character } : s)));
+
+  it('allows the limits exactly', () => {
+    const l = margin('hook', [
+      { type: 'sticky', who: 'olha', label: 'says', text: Array(20).fill('w').join(' ') },
+      { type: 'gotcha', text: Array(30).fill('w').join(' ') },
+      { type: 'stopAndThink', text: Array(25).fill('w').join(' ') },
+    ]);
+    for (const rule of [marginCount, characterCount, wordLimits, gotchaStopCount])
+      expect(rule(l, registries)).toEqual([]);
+  });
+
+  it('counts each limit one over', () => {
+    const w = (n: number): string => Array(n).fill('w').join(' ');
+    const one = (m: NonNullable<Step['margin']>[number]): readonly string[] =>
+      wordLimits(margin('hook', [m]), registries).map((i) => i.message);
+    expect(one({ type: 'bubble', who: 'bug', text: w(21) })).toHaveLength(1);
+    expect(one({ type: 'gotcha', text: w(31) })).toHaveLength(1);
+    expect(one({ type: 'stopAndThink', text: w(26) })).toHaveLength(1);
+    const explain = step('explain');
+    if (explain.kind !== 'explain') throw new Error('shape');
+    const long = withSteps(
+      validSteps.map((s) =>
+        s.id === 'explain' ? { ...explain, annotations: [{ line: 1, text: w(9) }] } : s,
+      ),
+    );
+    expect(wordLimits(long, registries)).toHaveLength(1);
+    const ok = withSteps(
+      validSteps.map((s) =>
+        s.id === 'explain' ? { ...explain, annotations: [{ line: 1, text: w(8) }] } : s,
+      ),
+    );
+    expect(wordLimits(ok, registries)).toEqual([]);
+  });
+
+  it('counts the hook character as a speaker', () => {
+    expect(characterCount(hookCharacter('bug'), registries)).toEqual([]);
+    const l = withSteps(
+      validSteps.map((s) =>
+        s.kind === 'hook'
+          ? {
+              ...s,
+              character: 'olha',
+              margin: [{ type: 'sticky', who: 'olha', label: 'asks', text: 'Why?' }],
+            }
+          : s,
+      ),
+    );
+    expect(characterCount(l, registries)).toHaveLength(1);
+  });
+
+  it('places the characters by step kind', () => {
+    expect(bugPlacement(hookCharacter('bug'), registries)).toEqual([]);
+    expect(runtimePlacement(hookCharacter('mrRuntime'), registries)).toHaveLength(1);
+    expect(runtimePlacement(hookCharacter('bug'), registries)).toEqual([]);
+    const inRecap = margin('recap', [{ type: 'bubble', who: 'bug', text: 'Mine.' }]);
+    expect(bugPlacement(inRecap, registries)).toEqual([]);
+    const runtimeInLab = margin('lab', [{ type: 'bubble', who: 'runtime', text: 'Rule.' }]);
+    expect(runtimePlacement(runtimeInLab, registries)).toHaveLength(1);
+  });
+
+  it('limits highlights in titles and prose, ignoring code', () => {
+    const w = (n: number): string => Array(n).fill('w').join(' ');
+    const prose = (body: string): Lesson =>
+      withSteps(validSteps.map((s) => (s.id === 'hook' && s.kind === 'hook' ? { ...s, body } : s)));
+    expect(highlightLimits(prose('==a== and ==b==.'), registries)).toEqual([]);
+    expect(highlightLimits(prose('==a== ==b== ==c=='), registries)).toHaveLength(1);
+    expect(highlightLimits(prose(`==${w(7)}==`), registries)).toHaveLength(1);
+    expect(highlightLimits(prose(`==${w(6)}==`), registries)).toEqual([]);
+    const code = withSteps(
+      validSteps.map((s) => (s.kind === 'explain' ? { ...s, code: 'a == b == c == d == e' } : s)),
+    );
+    expect(highlightLimits(code, registries)).toEqual([]);
+    expect(highlightLimits({ ...validLesson, titleHighlights: ['Joins'] }, registries)).toEqual([]);
+    expect(highlightLimits({ ...validLesson, titleHighlights: [w(7)] }, registries)).toHaveLength(
+      1,
+    );
+  });
+
+  it('reports the step index', () => {
+    const [issue] = marginCount(brokenFixtures['dl1-margin-count'] as Lesson, registries);
+    expect(issue?.stepIndex).toBe(0);
+    expect(issue?.stepId).toBe('hook');
   });
 });
 

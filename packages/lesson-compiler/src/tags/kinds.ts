@@ -103,7 +103,37 @@ export const CHILD_TAGS: Record<string, { readonly attributes: Record<string, Sc
     },
     stage: { attributes: {} },
     point: { attributes: {} },
+    margin: { attributes: {} },
+    sticky: { attributes: { who: oneOf(['olha']), label: oneOf(['asks', 'says'], true) } },
+    bubble: { attributes: { who: oneOf(['bug', 'runtime'], true) } },
+    gotcha: { attributes: {} },
+    stop: { attributes: {} },
+    diagram: { attributes: { ref: str(true), caption: str(true) } },
   };
+
+/** Tags allowed inside `{% margin %}`. Every step tag may contain one `margin`. */
+export const MARGIN_CHILDREN: readonly string[] = ['sticky', 'bubble', 'gotcha', 'stop', 'diagram'];
+
+/** Plain margin item for one tag inside `{% margin %}`. */
+export function marginItem(name: string, c: BuildContext): Fields {
+  switch (name) {
+    case 'sticky':
+      return {
+        type: 'sticky',
+        who: c.attrs['who'] ?? 'olha',
+        label: c.attrs['label'],
+        text: c.body(),
+      };
+    case 'bubble':
+      return { type: 'bubble', who: c.attrs['who'], text: c.body() };
+    case 'gotcha':
+      return { type: 'gotcha', text: c.body() };
+    case 'stop':
+      return { type: 'stopAndThink', text: c.body() };
+    default:
+      return { type: 'diagram', ref: c.attrs['ref'], caption: c.attrs['caption'] };
+  }
+}
 
 /** One tag per step kind, keyed by the `kind` value in the schema. */
 export const KIND_TAGS: Record<string, TagSpec> = {

@@ -7,6 +7,8 @@ export const lesson = z.object({
   courseId: z.string().min(1),
   locale: z.string().default('en'),
   title: z.string().min(1),
+  /** Phrases of the title to draw with the highlighter. Each one is a part of `title`. */
+  titleHighlights: z.array(z.string().min(1)).readonly().optional(),
   concepts: z.array(z.string()).readonly(),
   steps: z.array(step).min(8).readonly(),
 });

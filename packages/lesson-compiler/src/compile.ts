@@ -2,8 +2,15 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import Markdoc, { type Node } from '@markdoc/markdoc';
 import { parse as parseYaml, YAMLParseError } from 'yaml';
-import { lesson as lessonSchema, type Lesson } from '@learn-code/lesson-schema';
-import { FILE_ATTRIBUTES, KIND_TAGS, markdocConfig, type BuildContext } from './tags';
+import { lesson as lessonSchema, splitHighlights, type Lesson } from '@learn-code/lesson-schema';
+import {
+  FILE_ATTRIBUTES,
+  KIND_TAGS,
+  MARGIN_CHILDREN,
+  markdocConfig,
+  marginItem,
+  type BuildContext,
+} from './tags';
 
 export interface CompileError {
   readonly file: string;
@@ -77,7 +84,11 @@ export function compileSource(source: string, path: string): CompileResult {
   if (errors.length > 0) return fail(errors);
 
   // 5. Zod is the final gate.
-  const parsed = lessonSchema.safeParse({ schemaVersion: 1, ...frontmatter, steps });
+  const parsed = lessonSchema.safeParse({
+    schemaVersion: 1,
+    ...withTitleHighlights(frontmatter),
+    steps,
+  });
   if (parsed.success) {
     const stepLines: Record<string, number> = {};
     for (const n of stepNodes) {
@@ -123,6 +134,16 @@ function readFrontmatter(
   return {};
 }
 
+/** `title: "Why your ==JOIN== lied"` becomes a plain title plus `titleHighlights`. */
+function withTitleHighlights(frontmatter: Record<string, unknown>): Record<string, unknown> {
+  const title = frontmatter['title'];
+  if (typeof title !== 'string') return frontmatter;
+  const { plain, highlights } = splitHighlights(title);
+  return highlights.length === 0
+    ? frontmatter
+    : { ...frontmatter, title: plain, titleHighlights: highlights };
+}
+
 function buildStep(node: Node, dir: string, add: (line: number, message: string) => void): unknown {
   const spec = KIND_TAGS[node.tag ?? ''];
   if (!spec) return {};
@@ -156,9 +177,36 @@ function buildStep(node: Node, dir: string, add: (line: number, message: string)
         add(lineOf(inner), `tag "${inner.tag}" must start on its own line, not inside a paragraph`);
       }
     }
-    if (c.type === 'tag' && !spec.children.includes(c.tag ?? '')) {
+    if (c.type === 'tag' && !spec.children.includes(c.tag ?? '') && c.tag !== 'margin') {
       add(lineOf(c), `tag "${c.tag}" is not allowed inside "${node.tag}"`);
     }
   }
-  return spec.build(ctx(node));
+  const margin = buildMargin(node, ctx, add);
+  const built = spec.build(ctx(node));
+  return margin.length > 0 ? { ...built, margin } : built;
+}
+
+function buildMargin(
+  node: Node,
+  ctx: (n: Node) => BuildContext,
+  add: (line: number, message: string) => void,
+): unknown[] {
+  const boxes = node.children.filter((c) => c.type === 'tag' && c.tag === 'margin');
+  if (boxes.length > 1) add(lineOf(boxes[1] ?? node), `"${node.tag}" has more than one margin tag`);
+  const items: unknown[] = [];
+  for (const box of boxes) {
+    for (const c of box.children) {
+      if (c.type === 'tag' && MARGIN_CHILDREN.includes(c.tag ?? '')) {
+        items.push(marginItem(c.tag ?? '', ctx(c)));
+      } else if (c.type === 'tag') {
+        add(lineOf(c), `tag "${c.tag}" is not allowed inside "margin"`);
+      } else {
+        add(
+          lineOf(c),
+          'text directly inside "margin"; put it in a sticky, bubble, gotcha, stop or diagram tag',
+        );
+      }
+    }
+  }
+  return items;
 }
