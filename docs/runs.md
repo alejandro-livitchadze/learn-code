@@ -104,3 +104,9 @@
 - Update, same run: CI e2e red on 81a490b (6 failures: footer action replaced the Continue button in gating assertions; unbuilt-kind fixture title contained the kind name). Fix round 1 pushed as 8e452a1 (2 files; 27 e2e passed locally with the preinstalled Chromium). CI on 8e452a1 pending; no review verdict for this head. V4 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, fresh review on 8e452a1 including the A1 to A4 visual check. Workers this run: 2.
 - Update, same run: CI green on 8e452a1; fresh reviewer CHANGES_REQUESTED (5 blockers: raw course id on home page; A2 reveal missing; A4 review cards and next lesson; A3 sqlLab hints, pk/fk, missing-column case, danger styling; broken MiniDiagram). Verdict posted on PR #34. Fix round 2 (last allowed) pushed as 269f145; scope checked. Worker reports the reveal and review cards are approximated (no `reveal` tag or recap review-card field in the schema; those are outside V4's paths). CI on 269f145 pending; no verdict for this head. V4 stays `in_progress` (2 of 2 fix rounds used; another failure sets it to `blocked`). MAX_TASKS_PER_RUN reached; stopping. Workers: 3. Reviewers: 1.
 - Update, same run: CI green on 269f145; fresh reviewer CHANGES_REQUESTED (1 blocker: sqlLab schema panel never shows the `pk` marker; the earlier blockers are fixed). Verdict posted on PR #34. Fix rounds exhausted (2 of 2), so V4 is `blocked` and PR #34 stays open. Reviewers this run: 2.
+
+## 2026-10-03 (seventh run): nothing started
+
+- V4 (PR #34) is still `blocked` (2 of 2 fix rounds used; pk-marker blocker open). L2, P9, M0 and everything after them wait on V4.
+- D6 was the only ready task, but djinni.co is unreachable from this sandbox (proxy CONNECT returns 403), so no refresh was possible. F8 is author/orchestrator only.
+- Workers: 0. Reviewers: 0. Integration PR #21 still open; no milestone.
