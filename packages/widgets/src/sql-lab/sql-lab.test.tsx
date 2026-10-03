@@ -36,19 +36,34 @@ describe('schema helpers', () => {
   it('groups information_schema rows by table in order', () => {
     const tables = groupSchema(
       res(
-        ['table_name', 'column_name', 'data_type', 'is_nullable'],
         [
-          ['authors', 'id', 'integer', 'NO'],
-          ['authors', 'name', 'text', 'YES'],
-          ['books', 'id', 'integer', 'NO'],
+          'table_name',
+          'column_name',
+          'data_type',
+          'is_nullable',
+          'is_primary',
+          'references_column',
+        ],
+        [
+          ['authors', 'id', 'integer', 'NO', true, null],
+          ['authors', 'name', 'text', 'YES', false, null],
+          ['books', 'id', 'integer', 'NO', true, null],
+          ['books', 'author_id', 'integer', 'NO', false, 'authors.id'],
         ],
       ),
     );
     expect(tables.map((t) => t.name)).toEqual(['authors', 'books']);
     expect(tables[0]?.columns).toEqual([
-      { name: 'id', type: 'integer', nullable: false },
-      { name: 'name', type: 'text', nullable: true },
+      { name: 'id', type: 'integer', nullable: false, primary: true },
+      { name: 'name', type: 'text', nullable: true, primary: false },
     ]);
+    expect(tables[1]?.columns[1]).toEqual({
+      name: 'author_id',
+      type: 'integer',
+      nullable: false,
+      primary: false,
+      references: 'authors.id',
+    });
   });
   it('detects statements that may change the schema', () => {
     expect(mayChangeSchema('CREATE TABLE t (a int)')).toBe(true);
@@ -115,7 +130,10 @@ describe('LabController', () => {
     expect(e.executed[0]).toBe(solution);
     expect(e.resets).toBe(1);
     expect(schema).toEqual([
-      { name: 'books', columns: [{ name: 'id', type: 'integer', nullable: false }] },
+      {
+        name: 'books',
+        columns: [{ name: 'id', type: 'integer', nullable: false, primary: false }],
+      },
     ]);
     await lab.close();
     expect(e.closed).toBe(1);

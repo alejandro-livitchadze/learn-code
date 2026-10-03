@@ -390,10 +390,6 @@
   color: var(--paper);
   font-weight: 400;
 }
-.sl-block[data-tone='expected'] .sl-grid th {
-  background: var(--danger-strong);
-  color: var(--card);
-}
 .sl-flag {
   text-decoration: underline wavy;
 }
@@ -447,4 +443,64 @@
 }
 .sl-col {
   display: block;
+}
+.sl-ref {
+  display: block;
+  padding-left: var(--space-12);
+}
+.sl-key {
+  color: var(--author);
+  font-weight: 600;
+}
+.sl-almost {
+  margin: 0;
+  color: var(--danger);
+  font: 700 28px/1.2 var(--font-hand);
+}
+
+.w-hand {
+  font: 500 24px/1.2 var(--font-hand);
+  color: var(--author);
+}
+.w-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.w-review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-14);
+}
+.w-tablefig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.w-tablefig figcaption {
+  font: 500 24px/1.2 var(--font-hand);
+  color: var(--author);
+}
+.w-tablefig-name {
+  font: 600 14px var(--font-mono);
+}
+.w-tablefig-op {
+  font: 600 24px/1 var(--font-mono);
+}
+.w-tablefig .sl-grid {
+  font-size: 14px;
+}
+.w-tablefig .sl-grid th,
+.w-tablefig .sl-grid td {
+  padding: var(--space-4) var(--space-10);
+}
+.w-tablefig [data-focus='true'] td {
+  background: var(--highlight);
+}
+.w-tablefig [data-focus='false'] td {
+  color: var(--ink-faint);
 }

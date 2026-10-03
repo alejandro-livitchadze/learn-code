@@ -3,7 +3,7 @@ export { SeedBaseProvider } from './sql-wiring';
 export { HighlightsProvider } from './Code';
 export { Predict } from './Predict';
 export { FillBlanks } from './FillBlanks';
-export { Cliffhanger, Explain, Hook, Pitfall, Recap } from './Passive';
+export { Cliffhanger, Explain, Hook, Pitfall, Recap, ReviewCardsProvider } from './Passive';
 export { Unimplemented } from './Unimplemented';
 export {
   checkFillBlanks,

@@ -362,6 +362,15 @@ function SqlLabView({
           )}
         </div>
       )}
+      {mismatch && diff.missingColumns.length > 0 && (
+        <p className="sl-almost" role="status">
+          Almost!{' '}
+          {diff.missingColumns.length === 1
+            ? 'One column is'
+            : `${diff.missingColumns.length} columns are`}{' '}
+          missing: {names(diff.missingColumns)}.
+        </p>
+      )}
       {mismatch && <DiffView diff={diff} />}
       <InMargin>
         {schema.length > 0 && (
@@ -377,6 +386,10 @@ function SqlLabView({
                     {t.columns.map((c) => (
                       <span key={c.name} className="sl-col">
                         {c.name} · {c.type}
+                        {c.primary ? <span className="sl-key"> · pk</span> : null}
+                        {c.references !== undefined ? (
+                          <span className="sl-key sl-ref">→ {c.references}</span>
+                        ) : null}
                       </span>
                     ))}
                   </InkCard>

@@ -84,7 +84,11 @@ export function Predict({ step, restored, onComplete, initialTried = [] }: Props
     ) : undefined;
 
   return (
-    <WidgetFrame kind="predict" {...(banner === undefined ? {} : { banner })}>
+    <WidgetFrame
+      kind="predict"
+      lead={<span className="w-hand">guess first, then we run it</span>}
+      {...(banner === undefined ? {} : { banner })}
+    >
       <p className="w-question">What does this print?</p>
       <Code code={step.code} highlightKey={`${step.id}:code`} label="Code to predict" />
       <fieldset

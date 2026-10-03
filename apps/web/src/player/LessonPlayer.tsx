@@ -17,6 +17,7 @@ import {
   FooterProvider,
   HighlightsProvider,
   HookLead,
+  ReviewCardsProvider,
   MarginItems,
   MarginSlotProvider,
   SeedBaseProvider,
@@ -34,6 +35,8 @@ import type { PlayerAction, PlayerState } from './types';
 interface Props {
   readonly lesson: Lesson;
   readonly highlights: HighlightMap;
+  /** Concept names by id, for the review cards on a recap. */
+  readonly conceptNames?: Readonly<Record<string, string>>;
   /** The lesson the last step leads to, when the cliffhanger names one that exists. */
   readonly next?: { readonly href: string; readonly title: string };
 }
@@ -58,7 +61,7 @@ function isTypingTarget(t: EventTarget | null): boolean {
   return t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(t.tagName);
 }
 
-export function LessonPlayer({ lesson, highlights, next: nextLesson }: Props) {
+export function LessonPlayer({ lesson, highlights, conceptNames = {}, next: nextLesson }: Props) {
   const lessonId = `${lesson.courseId}/${lesson.id}`;
   const steps = lesson.steps;
   const [state, dispatch] = useReducer(
@@ -272,9 +275,11 @@ export function LessonPlayer({ lesson, highlights, next: nextLesson }: Props) {
                   <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
                     <MarginSlotProvider value={marginSlot}>
                       <FooterProvider value={setFooter}>
-                        {step.kind === 'hook' ? null : (
-                          <StepWidget step={step} restored={current} onComplete={onComplete} />
-                        )}
+                        <ReviewCardsProvider value={conceptNames}>
+                          {step.kind === 'hook' ? null : (
+                            <StepWidget step={step} restored={current} onComplete={onComplete} />
+                          )}
+                        </ReviewCardsProvider>
                       </FooterProvider>
                     </MarginSlotProvider>
                   </SeedBaseProvider>

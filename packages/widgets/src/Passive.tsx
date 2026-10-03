@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Button, Cliffhanger as CliffhangerCard } from '@learn-code/ui';
+import { createContext, useContext, useState } from 'react';
+import { Button, Cliffhanger as CliffhangerCard, ReviewCard } from '@learn-code/ui';
 import { Code } from './Code';
 import { WidgetFrame } from './chrome';
 import { HookColumn } from './Margin';
@@ -44,7 +44,8 @@ export function Pitfall({ step }: StepComponentProps<StepOfKind<'pitfall'>>) {
 
 export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
   const total = step.annotations.length;
-  const [shown, setShown] = useState(0);
+  // The first note is open from the start, so the code never looks bare.
+  const [shown, setShown] = useState(Math.min(1, total));
   const notes = step.annotations.slice(0, shown);
   return (
     <WidgetFrame kind="explain">
@@ -63,11 +64,7 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
                 disabled={shown >= total}
                 onClick={() => setShown((n) => Math.min(n + 1, total))}
               >
-                {shown >= total
-                  ? 'All notes shown'
-                  : shown === 0
-                    ? 'Show first note'
-                    : 'Show next note'}
+                {shown >= total ? 'All notes shown' : 'Show next note'}
               </Button>
               <Button disabled={shown >= total} onClick={() => setShown(total)}>
                 Show all
@@ -83,7 +80,19 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
   );
 }
 
+const ReviewCardsContext = createContext<Readonly<Record<string, string>>>({});
+
+/** The host supplies the learner-facing concept names (by concept id) that become review cards. */
+export const ReviewCardsProvider = ReviewCardsContext.Provider;
+
+const DUE_TIMES = ['in 1 day', 'in 3 days', 'in 1 week', 'in 2 weeks'] as const;
+
 export function Recap({ step }: StepComponentProps<StepOfKind<'recap'>>) {
+  const names = useContext(ReviewCardsContext);
+  const cards = step.concepts.flatMap((id) => {
+    const name = Object.hasOwn(names, id) ? names[id] : undefined;
+    return name === undefined ? [] : [name];
+  });
   return (
     <WidgetFrame kind="recap">
       <ol className="w-points">
@@ -96,6 +105,21 @@ export function Recap({ step }: StepComponentProps<StepOfKind<'recap'>>) {
           </li>
         ))}
       </ol>
+      {cards.length > 0 ? (
+        <section className="w-reviews" aria-label="Review cards">
+          <h3 className="w-label">These come back as review cards</h3>
+          <ul className="w-review-list">
+            {cards.map((name, i) => (
+              <li key={name}>
+                <ReviewCard
+                  question={`Can you explain: ${name}?`}
+                  due={DUE_TIMES[Math.min(i, DUE_TIMES.length - 1)] ?? 'soon'}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </WidgetFrame>
   );
 }

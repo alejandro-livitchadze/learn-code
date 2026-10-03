@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { fixtures } from './fixtures';
 import { FooterProvider } from './chrome';
 import { Predict } from './Predict';
+import { ReviewCardsProvider } from './Passive';
 import { IMPLEMENTED_KINDS, widgetRegistry } from './registry';
 
 /** Text a learner can read: tags and attribute values removed. */
@@ -100,5 +101,32 @@ describe('rendering', () => {
   });
   it('does not show the real output before answering', () => {
     expect(html('predict-idle')).not.toContain('Real output');
+  });
+});
+
+describe('recap review cards and explain notes', () => {
+  it('shows a review card per known concept of the recap, and none without names', () => {
+    const f = fixtures.find((x) => x.id === 'recap-normal');
+    if (f === undefined || f.step.kind !== 'recap') throw new Error('no recap fixture');
+    const Recap = widgetRegistry.recap;
+    const concept = f.step.concepts[0] ?? 'none';
+    const withNames = renderToString(
+      <ReviewCardsProvider value={{ [concept]: 'Row multiplication' }}>
+        <Recap step={f.step} restored={undefined} onComplete={vi.fn()} />
+      </ReviewCardsProvider>,
+    );
+    expect(visibleText(withNames)).toContain('Can you explain: Row multiplication?');
+    expect(visibleText(withNames)).toContain('in 1 day');
+    const without = renderToString(
+      <Recap step={f.step} restored={undefined} onComplete={vi.fn()} />,
+    );
+    expect(without).not.toContain('review cards');
+  });
+  it('opens the first annotation of an explain step', () => {
+    const f = fixtures.find((x) => x.id === 'explain-normal');
+    if (f === undefined || f.step.kind !== 'explain') throw new Error('no explain fixture');
+    const first = f.step.annotations[0];
+    expect(first).toBeDefined();
+    expect(visibleText(html('explain-normal'))).toContain(first?.text);
   });
 });

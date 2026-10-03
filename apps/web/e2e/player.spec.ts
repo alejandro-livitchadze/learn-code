@@ -8,8 +8,11 @@ const TOTAL = 13;
 const heading = (page: Page) => page.getByTestId('step-heading');
 const continueBtn = (page: Page) => page.getByRole('button', { name: 'Continue' });
 /** The step is still open: no enabled Continue button (it is disabled or replaced by the step's own action). */
-const expectGated = (page: Page) =>
-  expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
+const expectGated = async (page: Page) => {
+  await expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
+  // The footer still shows its one primary control, and it is disabled.
+  await expect(page.locator('footer .ui-btn-primary:disabled')).toHaveCount(1);
+};
 /** The predict option whose printed output is exactly `output`. */
 const option = (page: Page, output: string) =>
   page
@@ -73,7 +76,11 @@ async function playToEnd(page: Page): Promise<void> {
     await continueBtn(page).click();
     await expect(heading(page)).toContainText(`step ${i + 1} of ${TOTAL}`);
   }
-  await page.getByRole('link', { name: 'Finish' }).click();
+  // The cliffhanger names the next lesson, so the footer offers it beside "All lessons".
+  await expect(
+    page.getByRole('link', { name: 'Next lesson: The query that runs backwards' }),
+  ).toHaveAttribute('href', '/fullstack/query-order-01');
+  await page.getByRole('link', { name: 'All lessons' }).last().click();
   await expect(page).toHaveURL('/');
 }
 

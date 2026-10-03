@@ -29,8 +29,10 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
   const completed = useRef(restoredAnswers !== undefined);
   const locked = check?.correct === true;
 
+  const incomplete = step.blanks.some((b) => (answers[b.id] ?? '').trim() === '');
+
   const submit = () => {
-    if (locked) return;
+    if (locked || incomplete) return;
     const result = checkFillBlanks(step, answers);
     setCheck(result);
     attempts.current += 1;
@@ -50,8 +52,8 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
     locked
       ? undefined
       : {
-          hint: 'press Enter to lock it in',
-          action: { label: 'Lock in answer', disabled: false, onAct: submit },
+          hint: incomplete ? 'fill every blank to continue' : 'press Enter to lock it in',
+          action: { label: 'Lock in answer', disabled: incomplete, onAct: submit },
         },
   );
   const number = (id: string) => step.blanks.findIndex((x) => x.id === id) + 1;
@@ -113,7 +115,7 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
         <p className="w-muted">Whitespace does not matter.</p>
         {!locked && !hosted ? (
           <div>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={incomplete}>
               Lock in answer
             </Button>
           </div>

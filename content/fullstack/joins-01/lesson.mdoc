@@ -36,13 +36,17 @@ A join never asks how many orders you have. It counts matching pairs.
 {% /predict %}
 
 {% explain id="e1" estSeconds=45 code="select o.id, i.sku\nfrom orders o\njoin items i on i.order_id = o.id" concepts=["inner-join"] %}
-A join returns one row for every matching pair. One order with four items gives four rows. An order with no items gives none.
+**What really happened:** a join returns one row for every matching pair. Order 7 has four items, so it appears four times, and its amount appears four times too. An order with no items gives none.
 
 {% annotation line=3 %}
 Each matching item adds another row.
 {% /annotation %}
 {% margin %}
-{% diagram ref="row-multiplication" caption="so one order becomes four rows" /%}
+{% diagram ref="orders-x-items" caption="follow order 7" /%}
+{% diagram ref="row-multiplication" caption="one becomes four" /%}
+{% gotcha %}
+**If you picked 100:** a join lists matching pairs, it does not add columns. **If you picked 420:** it pairs rows, it never stacks tables.
+{% /gotcha %}
 {% /margin %}
 {% /explain %}
 
@@ -88,7 +92,13 @@ Distinct order ids among the joined rows: only the 80 orders that have items.
 
 {% sqlLab id="s1" estSeconds=120 prompt="Return one row with one column named n: the number of orders that have at least one item." seedRef="default" starter="select count(*) as n from orders" solution="select count(distinct order_id) as n from items" concepts=["row-multiplication"] %}
 {% hint %}
-The starter counts every order, including empty carts. Count distinct order ids in items instead.
+The starter counts every order, including empty carts. Which table only has orders that have items?
+{% /hint %}
+{% hint %}
+Count the order ids in items, but each order id must be counted only once.
+{% /hint %}
+{% hint %}
+Use count with distinct on the column order_id, and read from items.
 {% /hint %}
 {% margin %}
 {% gotcha %}
@@ -108,7 +118,13 @@ Summing after the join is my favorite mistake. Don't tell finance.
 
 {% sqlLab id="s2" estSeconds=90 prompt="Return one row with one column named revenue: the true total amount of all orders." seedRef="default" starter="select sum(o.amount) as revenue from orders o join items i on i.order_id = o.id" solution="select sum(amount) as revenue from orders" concepts=["row-multiplication"] %}
 {% hint %}
-The amount lives in orders. You do not need items to add it up.
+The amount lives in orders. Do you need items to add it up?
+{% /hint %}
+{% hint %}
+Remove the join. Each order should be added once.
+{% /hint %}
+{% hint %}
+Sum the amount column, reading only from orders.
 {% /hint %}
 {% /sqlLab %}
 
@@ -147,4 +163,10 @@ A join does not stack 100 orders on top of 320 items.
 {% /option %}
 {% /predict %}
 
-{% cliffhanger id="c1" estSeconds=20 question="The left join kept 20 orders that have no items. What does i.sku look like on those rows, and what does count(i.id) give for them?" /%}
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="query-order-01" question="You write select first, but the database does not start there. Where does it start, and why does that break an alias in where?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next lesson I'm hiding in your alias. Good luck finding me.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}
