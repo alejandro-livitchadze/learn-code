@@ -177,7 +177,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `margin` and the title highlight are in the schema; Markdoc tags compile into them; rules DL1 to DL8 exist as pure functions with one failing fixture each; the sample lesson passes.
 
 ## V3. Characters and margin components
-- Status: in_progress
+- Status: done
+- Note: merged via PR #33; CI green; reviewer APPROVE on 7465d4e (minors: duplicate reduced-motion block in ui.css; no unit tests for ReviewCard, FeedbackBanner, Cliffhanger; no length limits on FeedbackBanner aside and Cliffhanger). Paths widened by the orchestrator to include pnpm-lock.yaml (3 lines, new workspace dependency).
 - Depends on: V2
 - Paths: `packages/ui/**`, `packages/widgets/**`, `apps/web/**`
 - Epic: E08 sections 4 and 5
@@ -253,6 +254,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 ## L1. Module 1, lesson 1
 - Status: in_progress
+- Note: PR #32 open, CI green on eb4e58a, reviewer CHANGES_REQUESTED (2 blockers, see the PR comment). Fix round 1 not started: MAX_TASKS_PER_RUN reached.
 - Depends on: C1, P8b
 - Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
 - Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.

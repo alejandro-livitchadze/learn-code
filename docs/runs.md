@@ -84,3 +84,7 @@
 - V2 (PR #31): merged, CI green, review APPROVE on cf4d96e. No fix rounds.
 - Workers: 1. Reviewers: 1. L1 was ready but its `content/**` Paths overlap V2, so it ran alone; no other task was ready in parallel. Integration PR #21 still open; no milestone this run.
 - Next ready: L1, V3 (V3 paths overlap L1 only through nothing: `packages/ui`, `packages/widgets`, `apps/web` vs `content/fullstack`; check next run). F8 is author/orchestrator only.
+- Update, same run: V3 (PR #33) worker done; CI green on 7465d4e; reviewer APPROVE; squash-merged. Paths widened to `pnpm-lock.yaml`.
+- Update, same run: L1 (PR #32, head eb4e58a) worker done; CI green; reviewer CHANGES_REQUESTED (predict samples show `-- Docs:` comments that state the answer; the alias rule says "only after SELECT" but GROUP BY also accepts output names). L1 stays `in_progress`; fix round 1 not started because MAX_TASKS_PER_RUN (V2, V3, L1) was reached. Next run: dispatch the fix round on `task/L1` with the PR comment as context, then re-review.
+- Workers: 3. Reviewers: 3. Integration PR #21 still open; no milestone this run.
+- Next ready: V4 (V3 done), L1 fix round; F8 is author/orchestrator only.
