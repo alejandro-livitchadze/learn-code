@@ -39,7 +39,7 @@ describe('valid lesson', () => {
   it('passes the schema and every rule', () => {
     expect(lessonSchema.safeParse(validLesson).success).toBe(true);
     expect(lintLesson(validLesson, registries, { allowUnbuilt: true })).toEqual([]);
-    expect(LINT_RULES).toHaveLength(15);
+    expect(LINT_RULES).toHaveLength(16);
   });
 });
 

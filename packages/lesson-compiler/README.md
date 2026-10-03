@@ -11,6 +11,18 @@ if (!result.ok) result.errors.forEach((e) => console.error(formatError(e))); // 
 
 `@markdoc/markdoc` 0.5.10 was published 2026-09-16; releases 0.5.5 to 0.5.10 landed between March and September 2026. It is maintained, so the E01 stop condition does not apply.
 
+## Markdown subset
+
+Step prose (`body`, recap `points`, cliffhanger `question`, sqlLab `prompt` and `hints`) is Markdown, rendered by `packages/widgets/src/markdown.tsx`. Only this subset is supported:
+
+- Paragraphs, separated by a blank line.
+- Lists whose every line starts with `- ` (no nesting, no numbers).
+- Fenced code blocks between lines that start with three backticks (an optional language name is ignored). Blank lines and markup characters inside are kept as written; the word-count rule does not count them.
+- Inline `` `code` ``, `**bold**`, `*italic*`.
+- Links `[text](url)` where `url` starts with `http://` or `https://`. They render with `rel="noreferrer"`. Any other scheme (such as `javascript:`) is never rendered as a link.
+
+Everything else is rejected by the lint rule `markdown-subset`, which prints `file:line: error [markdown-subset] <field>, line <n>: <construct> is not supported`. The file line is the step; `<n>` counts from 1 inside the field. Rejected: headings, blockquotes, numbered or nested lists, `*` and `+` bullets, horizontal rules, tables, tilde fences, indented code, images, HTML, strikethrough, `__bold__`, reference links, and links that are not http or https.
+
 ## CLI
 
 Run from the repository root:
