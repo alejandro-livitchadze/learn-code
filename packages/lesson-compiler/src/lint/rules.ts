@@ -23,6 +23,7 @@ export const RULE_IDS = {
   unknownMisconception: 'unknown-misconception',
   unbuiltKind: 'unbuilt-kind',
   stepCount: 'step-count',
+  markdownSubset: 'markdown-subset',
 } as const;
 
 export const MIN_ACTIVE_PERCENT = 60;
@@ -395,3 +396,100 @@ export const stepCount: LintRule = (lesson) =>
         ),
       ]
     : [];
+
+/** Every Markdown field a learner sees, with a label for messages. */
+function markdownFields(s: Step): readonly { readonly field: string; readonly text: string }[] {
+  switch (s.kind) {
+    case 'hook':
+    case 'explain':
+    case 'pitfall':
+      return [{ field: 'body', text: s.body }];
+    case 'reveal':
+      return [{ field: 'body', text: s.body }];
+    case 'recap':
+      return s.points.map((text, i) => ({ field: `point ${i + 1}`, text }));
+    case 'cliffhanger':
+      return [{ field: 'question', text: s.question }];
+    case 'sqlLab':
+      return [
+        { field: 'prompt', text: s.prompt },
+        ...s.hints.map((text, i) => ({ field: `hint ${i + 1}`, text })),
+      ];
+    default:
+      return [];
+  }
+}
+
+const BLOCK_CONSTRUCTS: readonly (readonly [RegExp, string])[] = [
+  [/^\s{0,3}#{1,6}(\s|$)/, 'heading'],
+  [/^\s{0,3}>/, 'blockquote'],
+  [/^\s*\d+[.)]\s/, 'numbered list'],
+  [/^\s*[*+]\s/, 'list with * or +'],
+  [/^\s+-\s/, 'indented or nested list'],
+  [/^\s*([-*_])(\s*\1){2,}\s*$/, 'horizontal rule'],
+  [/^\s*\|.*\|\s*$/, 'table'],
+  [/^\s*~~~/, 'tilde fence'],
+  [/^( {4}|\t)\S/, 'indented code block'],
+];
+
+const INLINE_CONSTRUCTS: readonly (readonly [RegExp, string])[] = [
+  [/<\/?[a-zA-Z!][^>]*>/, 'HTML'],
+  [/~~[^~]+~~/, 'strikethrough'],
+  [/(^|\s)__[^_]+__(\s|$)/, '__underscore__ emphasis'],
+  [/\[[^\]]*\]\[[^\]]*\]/, 'reference link'],
+  [/^\s*\[[^\]]+\]:\s/, 'link definition'],
+];
+
+const GOOD_LINK = /\[[^\]]+\]\(https?:\/\/[^)\s]+\)/g;
+const ANY_LINK = /\[[^\]]*\]\([^)]*\)/g;
+
+/** Problems in one Markdown text, as `line N: ...` (N counts from 1 inside the field). */
+export function markdownProblems(text: string): readonly string[] {
+  const problems: string[] = [];
+  const lines = text.split('\n');
+  let inFence = false;
+  let fenceLine = 0;
+  lines.forEach((raw, idx) => {
+    const n = idx + 1;
+    if (/^\s*```/.test(raw)) {
+      inFence = !inFence;
+      fenceLine = n;
+      return;
+    }
+    if (inFence) return;
+    for (const [re, name] of BLOCK_CONSTRUCTS) {
+      if (re.test(raw)) problems.push(`line ${n}: ${name} is not supported`);
+    }
+    if (/!\[[^\]]*\]\(/.test(raw.replace(/`[^`]*`/g, ''))) {
+      problems.push(`line ${n}: image is not supported`);
+    }
+    const line = raw
+      .replace(/`[^`]*`/g, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(GOOD_LINK, '')
+      .replace(/\*\*[^*]+\*\*/g, '');
+    for (const [re, name] of INLINE_CONSTRUCTS) {
+      if (re.test(line)) problems.push(`line ${n}: ${name} is not supported`);
+    }
+    for (const link of line.match(ANY_LINK) ?? []) {
+      if (!/^!/.test(link)) {
+        problems.push(`line ${n}: link ${link} must use an http or https address`);
+      }
+    }
+  });
+  if (inFence) problems.push(`line ${fenceLine}: fenced code block is never closed`);
+  return problems;
+}
+
+/** Rule 16: Markdown fields use only the supported subset (compiler README, "Markdown subset"). */
+export const markdownSubset: LintRule = (lesson) => {
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    for (const { field, text } of markdownFields(s)) {
+      for (const p of markdownProblems(text)) {
+        issues.push(at(RULE_IDS.markdownSubset, `${field}, ${p}`, i, s.id));
+      }
+    }
+  });
+  return issues;
+};

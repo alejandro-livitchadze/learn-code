@@ -7,6 +7,7 @@ import {
   implementedKinds,
   knownBlankMisconceptions,
   knownConcepts,
+  markdownSubset,
   stepCount,
   uniqueStepIds,
   minActiveRatio,
@@ -34,6 +35,7 @@ export const LINT_RULES: readonly LintRule[] = [
   knownBlankMisconceptions,
   implementedKinds,
   stepCount,
+  markdownSubset,
 ];
 
 export interface LintOptions {
