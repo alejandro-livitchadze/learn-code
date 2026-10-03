@@ -169,7 +169,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `packages/ui` exports tokens (CSS and typed), the four fonts via `next/font`, page shell (header, main, margin, footer) and the listed components; the dark theme is removed; the lesson page uses the shell; code lint CL1 and CL2 run in CI; catalogue shows each component; Playwright screenshots at 1280 and 1440 px are committed.
 
 ## V2. Margin schema, Markdoc tags, design lint
-- Status: in_progress
+- Status: done
+- Note: merged via PR #31; CI green; reviewer APPROVE on cf4d96e (minor: marginItem in tags/kinds.ts falls through to diagram without a never check). Highlight syntax is ==phrase== (renderer does not draw it yet: V3/V4). joins-01 annotation shortened for DL5.
 - Depends on: V1
 - Paths: `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E08 sections 5, 8 (lesson design lint) and 9

@@ -79,3 +79,8 @@
 - F7 (PR #29) and C1 (PR #30) merged. Stale remote branches `task/F7` and `task/C1` need deleting (delete failed from this environment).
 - Follow-up wanted: extend `roadmapLesson` and `roadmapModule` in `packages/lesson-schema/src/registry.ts` with `misconceptions`, `plannedStepKinds`, `interaction` and `note`, so the C1 roadmap is validated (not covered by any open task).
 - F7 minors: a list line right after paragraph text renders as one paragraph; recap and cliffhanger render inline only but lint allows lists and fences there.
+
+## 2026-10-03 (fourth run)
+
+- V2 (PR #31) merged. Stale remote branch `task/V2` needs deleting (delete not possible from this environment).
+- V2 minor: `marginItem` in `packages/lesson-compiler/src/tags/kinds.ts` has no explicit `diagram` case or `never` check.

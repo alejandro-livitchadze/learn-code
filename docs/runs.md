@@ -78,3 +78,9 @@
 - C1 (PR #30): merged, CI green, review APPROVE on 2fe4814.
 - Workers: 2. Reviewers: 2. No fix rounds. Integration PR #21 still open; no milestone this run.
 - Next ready: V2, L1 (C1 and P8b done); F8 is author/orchestrator only.
+
+## 2026-10-03 (fourth run): V2
+
+- V2 (PR #31): merged, CI green, review APPROVE on cf4d96e. No fix rounds.
+- Workers: 1. Reviewers: 1. L1 was ready but its `content/**` Paths overlap V2, so it ran alone; no other task was ready in parallel. Integration PR #21 still open; no milestone this run.
+- Next ready: L1, V3 (V3 paths overlap L1 only through nothing: `packages/ui`, `packages/widgets`, `apps/web` vs `content/fullstack`; check next run). F8 is author/orchestrator only.
