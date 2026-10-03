@@ -96,3 +96,8 @@
 - Workers: 1. Reviewers: 0. Integration PR #21 still open; no milestone this run.
 - Update, same run: a fix commit 8183533 appeared on `task/L1` (not from this run's workers); it removed the answer-revealing sample comments and narrowed the alias-scope wording. CI green; fresh reviewer APPROVE; L1 (PR #32) squash-merged. Reviewers this run: 4. L1 is `done`.
 - Next ready: V4, L2 (F8 is author/orchestrator only).
+
+## 2026-10-03 (sixth run): V4
+
+- V4 (PR #34, head 81a490b): worker done; scope checked, install, typecheck, lint, lesson check pass locally. e2e and visual check against A1 to A4 not run in the sandbox. CI running; no review verdict yet. V4 stays `in_progress`. Next run: if CI green, run a fresh review on 81a490b (reviewer must do the A1 to A4 visual check).
+- Workers: 1. Reviewers: 0. L2 was ready but its `content/**` overlap with V4 means it waits. Integration PR #21 still open; no milestone this run.

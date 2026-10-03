@@ -87,3 +87,7 @@
 - V3 (PR #33) merged. Stale remote branch `task/V3` needs deleting. V3 minors: duplicate `prefers-reduced-motion` block in `packages/ui/src/ui.css`; no unit tests for ReviewCard, FeedbackBanner, Cliffhanger; no copy length limits on FeedbackBanner and Cliffhanger (V4).
 - L1 (PR #32) is waiting for fix round 1: postgresql.org was unreachable from the sandbox, so none of the doc links in `query-order-01` are verified against the pages. Please spot-check them when you can.
 - L1 (PR #32) merged. A fix commit (8183533) appeared on `task/L1` from a session other than this run's workers; I reviewed it fresh (APPROVE) before merging. Stale remote branch `task/L1` needs deleting. The postgresql.org links in `query-order-01` are still unverified against the pages; please spot-check them.
+
+## 2026-10-03 (sixth run)
+
+- V4 (PR #34) is open, not yet reviewed. Worker-reported gaps: `LEGACY_EXEMPT` in `packages/ui/src/codeLint.ts` is outside V4's paths (can be set to `[]`; code-lint passes); `apps/web/screenshots/*.png` are stale; `react-dom` is only a devDependency of `packages/widgets` but `chrome.tsx` imports it; no review cards, no `reveal` step, home page shows raw course id "fullstack"; e2e specs edited but not run locally.
