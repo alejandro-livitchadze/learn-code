@@ -66,3 +66,8 @@
 - Please bump `@playwright/test` to 1.60 or later (outside any task's paths) and then remove the Node 22 install workaround in `.github/workflows/ci.yml`; Playwright 1.56 hung extracting Chromium on Node 26 (cause taken from the worker's report, not verified). Local e2e runs on Node 26 may hit the same hang.
 - F3 leftovers: `@electric-sql/pglite` is an unused dependency of `packages/lesson-compiler`; `COMPARE_CASES` fixtures are exported from the sql-engine root; `runPredictSql` does not catch `open()` failures (reported as "verification crashed").
 - F4 note: the macOS clause rests on `ControlOrMeta+A` only; nobody ran the suite on macOS.
+
+## 2026-10-03 (second run)
+
+- V1 merged (PR #27). Stale remote branch `task/V1` needs deleting. V4 must remove LEGACY_EXEMPT in `packages/ui/src/codeLint.ts` and the `.legacy-skin` block in `apps/web/app/globals.css`.
+- lesson-compiler tests hang locally in the sandbox (PGlite); CI is the only check for them.

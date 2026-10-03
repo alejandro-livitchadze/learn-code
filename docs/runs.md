@@ -67,3 +67,4 @@
 - V1 (PR #27, head adbe8d8): worker done; scope, install, typecheck, lint pass locally; lesson-compiler tests hang locally (PGlite), so CI decides. CI running; no review verdict yet. V1 stays `in_progress`. Next run: if CI green, run review gate on adbe8d8.
 - F5: worker dispatched on `task/F5`, still running at this write. Stays `in_progress`; resume from the branch if it has no PR.
 - V1 notes for reviewer/V4: LEGACY_EXEMPT list in codeLint.ts and `.legacy-skin` block in globals.css must be removed by V4.
+- Update, same run: CI green on adbe8d8; fresh reviewer APPROVE; V1 (PR #27) squash-merged. F5 worker still running at this write; F5 stays `in_progress`.

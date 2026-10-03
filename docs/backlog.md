@@ -159,7 +159,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `sqlLab` is registered in the widgets registry via `createSqlLab` with a lazy `getEngine` (`createWorkerEngine`, imported only on the first sqlLab step) and a `loadSeed` that provides `seeds/<seedRef>.sql`; `sqlLab` has fixtures and appears in the catalogue; CodeMirror and `@learn-code/sql-engine` dependencies live in `packages/widgets/package.json`, not the root; `@learn-code/sql-engine` is in `transpilePackages`; the sample lesson can be finished through the UI for sqlLab; a production build shows PGlite is a lazy chunk and pages without SQL steps do not fetch it; the Worker timeout path is checked in a real browser; `lesson check` runs the reference query (must match expected rows) and the starter (must not) through the sql-engine inline adapter. Added by the orchestrator from the P8 review follow-ups.
 
 ## V1. UI package: tokens, fonts, page shell
-- Status: in_progress
+- Status: done
+- Note: merged via PR #27; CI green; reviewer APPROVE on adbe8d8 (minors: V4 must empty LEGACY_EXEMPT, remove `.legacy-skin` bridge, dark rules in widgets.css and highlight.ts, and the kind name in the step heading).
 - Depends on: P8b
 - Paths: `packages/ui/**`, `apps/web/**`, root
 - Epic: E08 sections 2, 3, 7 and component Button, InkCard, StepTag, Highlight
