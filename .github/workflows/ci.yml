@@ -31,5 +31,17 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @learn-code/web build
+      # Playwright < 1.60 hangs while extracting browsers on Node >= 24.16 and
+      # Node 26 (yauzl stream bug, microsoft/playwright#40724). Run only the
+      # install under Node 22; remove once Playwright is bumped to >= 1.60.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - run: pnpm --filter @learn-code/web exec playwright install --with-deps chromium
+        timeout-minutes: 5
+        env:
+          DEBUG: pw:install
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
       - run: pnpm --filter @learn-code/web e2e
