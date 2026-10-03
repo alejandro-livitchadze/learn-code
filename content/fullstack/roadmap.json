@@ -1,0 +1,301 @@
+{
+  "courseId": "fullstack",
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "PostgreSQL",
+      "note": "Order and emphasis, with numbers from research/demand/report-js.md (158 vacancies where nodejs, typescript or javascript is required, published 2026-09-02 to 2026-10-02, required skills only). (1) PostgreSQL is the top backend-side skill: 77 vacancies, 48.7%, ahead of REST at 64 (40.5%). Module 1 is therefore a full module and the first one. (2) Demand does not drop with level: 46.4% of senior and lead vacancies (39 of 84) and 51.2% of junior and middle ones (22 of 43) require PostgreSQL. No lesson is written as an optional basics lesson. The audience is experienced, so lessons skip syntax and go straight to the behavior that surprises a frontend developer. (3) Plain SQL is required by 35 vacancies (22.2%, rank 8) next to PostgreSQL. MongoDB (27, 17.1%) and MySQL (19, 12.0%) show that employers do not all use PostgreSQL. Lessons 1 to 3 and 6 therefore teach portable query behavior first (execution order, NULL, grouping, joins); PostgreSQL-specific behavior (numeric, timestamptz, default isolation, deadlock detection) is named as such. (4) Queries come before design (lessons 1 to 3, then design and joins in lessons 4 to 7) because the sqlLab widget needs no design vocabulary and learners get hands-on work from lesson 1; design lessons then use the same tables for the running shop. Joins come after relations because a join needs a foreign key to explain. (5) Indexes (lesson 8) and transactions with locks (lessons 9 and 10) come last because they need tables, queries and joins, and because they hold the E07 signature interactions of the module. The report does not measure sub-topics such as indexes or transactions, so their emphasis comes from the E07 catalogue and the course outline, not from vacancy numbers. (6) ORMs are asked for less than SQL: typeorm 8 (5.1%), prisma 5 (3.2%), drizzle 4 (2.5%) of 158. They belong to module 4, after the learner can read the SQL they produce, so this module has no ORM lesson. (7) Redis (37, 23.4%) and Docker (48, 30.4%) have their own modules and are out of scope here.",
+      "lessons": [
+        {
+          "id": "query-order-01",
+          "title": "The query that runs backwards",
+          "concepts": ["query-execution-order", "alias-scope", "order-by-determinism"],
+          "misconceptions": [
+            "sql-runs-as-written",
+            "alias-usable-in-where",
+            "limit-gives-first-rows"
+          ],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "parsons",
+            "sqlLab",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "sqlLab",
+            "brainPower",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": {
+            "entry": "The query X-ray",
+            "engine": "beTheMachine",
+            "fallback": "parsons for the clause order, sqlLab for the intermediate tables until beTheMachine exists"
+          },
+          "dependsOn": []
+        },
+        {
+          "id": "nulls-01",
+          "title": "NULL is not a value",
+          "concepts": ["three-valued-logic", "is-null-test", "where-drops-unknown"],
+          "misconceptions": ["null-equals-null", "not-equal-keeps-nulls", "null-is-empty-or-zero"],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "fillBlanks",
+            "explain",
+            "sqlLab",
+            "predict",
+            "pitfall",
+            "sqlLab",
+            "matching",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": { "entry": "NULL is not a value", "engine": "predict with fillBlanks" },
+          "dependsOn": ["query-order-01"]
+        },
+        {
+          "id": "grouping-01",
+          "title": "Buckets: GROUP BY without the magic",
+          "concepts": [
+            "group-by-buckets",
+            "aggregate-functions",
+            "having-vs-where",
+            "count-star-vs-column"
+          ],
+          "misconceptions": [
+            "group-by-sorts",
+            "where-filters-aggregates",
+            "group-by-any-column",
+            "count-column-counts-rows"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "explain",
+            "beTheDatabase",
+            "sqlLab",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "sqlLab",
+            "firesideChat",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": {
+            "entry": "Buckets",
+            "engine": "beTheMachine",
+            "fallback": "beTheDatabase with a bucket variant, or predict plus sqlLab, until beTheMachine exists"
+          },
+          "dependsOn": ["nulls-01"]
+        },
+        {
+          "id": "schema-01",
+          "title": "Design the schema for an online shop",
+          "concepts": ["column-types", "money-as-numeric", "primary-key", "column-constraints"],
+          "misconceptions": [
+            "float-is-fine-for-money",
+            "app-validation-is-enough",
+            "email-as-primary-key"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "explain",
+            "schemaBuilder",
+            "pitfall",
+            "fillBlanks",
+            "sqlLab",
+            "namingReview",
+            "brainPower",
+            "schemaBuilder",
+            "recap"
+          ],
+          "interaction": null,
+          "dependsOn": ["grouping-01"]
+        },
+        {
+          "id": "relations-01",
+          "title": "Who owns the foreign key",
+          "concepts": [
+            "foreign-key",
+            "one-to-many",
+            "many-to-many-junction",
+            "referential-actions"
+          ],
+          "misconceptions": [
+            "foreign-key-on-the-one-side",
+            "array-column-for-many-to-many",
+            "delete-cascades-by-default"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "relationLab",
+            "explain",
+            "sqlLab",
+            "pitfall",
+            "predict",
+            "relationLab",
+            "sqlLab",
+            "matching",
+            "recap"
+          ],
+          "interaction": null,
+          "dependsOn": ["schema-01"]
+        },
+        {
+          "id": "joins-01",
+          "title": "Why your JOIN returned 400 rows",
+          "concepts": ["inner-join", "row-multiplication", "left-join", "left-join-filter-trap"],
+          "misconceptions": [
+            "join-keeps-row-count",
+            "join-counts-orders",
+            "join-is-union",
+            "left-join-where-keeps-rows"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "explain",
+            "beTheDatabase",
+            "sqlLab",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "sqlLab",
+            "firesideChat",
+            "recap"
+          ],
+          "interaction": null,
+          "dependsOn": ["relations-01"]
+        },
+        {
+          "id": "normalize-01",
+          "title": "The customer who changed her name five times",
+          "concepts": ["data-duplication-anomalies", "normalization", "denormalization-tradeoff"],
+          "misconceptions": ["copies-stay-in-sync", "wide-table-is-simpler"],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "normalizeLab",
+            "explain",
+            "migrationLab",
+            "fillBlanks",
+            "brainPower",
+            "firesideChat",
+            "sqlLab",
+            "matching",
+            "recap"
+          ],
+          "interaction": null,
+          "dependsOn": ["joins-01"]
+        },
+        {
+          "id": "indexes-01",
+          "title": "The index budget",
+          "concepts": [
+            "sequential-scan",
+            "btree-index",
+            "explain-plan",
+            "index-write-cost",
+            "planner-choice"
+          ],
+          "misconceptions": [
+            "more-indexes-always-better",
+            "index-always-used",
+            "index-fixes-every-query"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "beTheDatabase",
+            "explain",
+            "sqlLab",
+            "predict",
+            "pitfall",
+            "sqlLab",
+            "brainPower",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": {
+            "entry": "The index budget",
+            "engine": "inspector",
+            "fallback": "sqlLab with real EXPLAIN output shown as text until inspector exists"
+          },
+          "dependsOn": ["normalize-01"]
+        },
+        {
+          "id": "transactions-01",
+          "title": "Steal the money",
+          "concepts": ["transaction", "lost-update", "read-committed", "row-lock"],
+          "misconceptions": [
+            "two-statements-are-safe",
+            "select-then-update-is-safe",
+            "transaction-locks-everything",
+            "rollback-undoes-commit"
+          ],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "beTheDatabase",
+            "explain",
+            "sqlLab",
+            "pitfall",
+            "predict",
+            "sqlLab",
+            "fillBlanks",
+            "firesideChat",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": {
+            "entry": "Steal the money",
+            "engine": "timelineLab",
+            "fallback": "beTheDatabase transactions variant (E06) until timelineLab exists"
+          },
+          "dependsOn": ["indexes-01"]
+        },
+        {
+          "id": "deadlocks-01",
+          "title": "Make a deadlock",
+          "concepts": ["deadlock", "consistent-lock-order"],
+          "misconceptions": ["deadlock-hangs-forever", "locks-end-with-statement"],
+          "plannedStepKinds": [
+            "recall",
+            "hook",
+            "predict",
+            "explain",
+            "beTheDatabase",
+            "sqlLab",
+            "pitfall",
+            "predict",
+            "sqlLab",
+            "brainPower",
+            "sqlLab",
+            "recap"
+          ],
+          "interaction": {
+            "entry": "Make a deadlock",
+            "engine": "timelineLab",
+            "fallback": "beTheDatabase transactions variant (E06) until timelineLab exists"
+          },
+          "dependsOn": ["transactions-01"]
+        }
+      ]
+    }
+  ]
+}

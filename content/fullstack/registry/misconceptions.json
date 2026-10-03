@@ -16,5 +16,173 @@
     "belief": "A join stacks the rows of both tables.",
     "correction": "A join pairs rows side by side; a union stacks them.",
     "concepts": ["inner-join"]
+  },
+  {
+    "id": "sql-runs-as-written",
+    "belief": "SQL runs top to bottom in the order it is written.",
+    "correction": "The database runs FROM first and SELECT near the end.",
+    "concepts": ["query-execution-order"]
+  },
+  {
+    "id": "alias-usable-in-where",
+    "belief": "An alias defined in SELECT can be used in WHERE.",
+    "correction": "WHERE runs before SELECT, so the alias does not exist yet.",
+    "concepts": ["alias-scope"]
+  },
+  {
+    "id": "limit-gives-first-rows",
+    "belief": "LIMIT 10 without ORDER BY returns the first ten rows inserted.",
+    "correction": "Without ORDER BY the row order is not defined and can change between runs.",
+    "concepts": ["order-by-determinism"]
+  },
+  {
+    "id": "null-equals-null",
+    "belief": "NULL = NULL is true.",
+    "correction": "The result is unknown, so WHERE drops the row; use IS NULL.",
+    "concepts": ["three-valued-logic", "is-null-test"]
+  },
+  {
+    "id": "not-equal-keeps-nulls",
+    "belief": "WHERE x <> 5 also returns rows where x is NULL.",
+    "correction": "NULL <> 5 is unknown, so those rows are dropped.",
+    "concepts": ["where-drops-unknown"]
+  },
+  {
+    "id": "null-is-empty-or-zero",
+    "belief": "NULL is the same as 0 or an empty string.",
+    "correction": "NULL means no known value; it is not equal to anything, not even to 0.",
+    "concepts": ["three-valued-logic"]
+  },
+  {
+    "id": "group-by-sorts",
+    "belief": "GROUP BY returns the groups sorted by key.",
+    "correction": "The order of groups is not defined; add ORDER BY.",
+    "concepts": ["group-by-buckets"]
+  },
+  {
+    "id": "where-filters-aggregates",
+    "belief": "WHERE sum(total) > 100 filters groups.",
+    "correction": "WHERE runs before grouping and cannot see aggregates; use HAVING.",
+    "concepts": ["having-vs-where"]
+  },
+  {
+    "id": "group-by-any-column",
+    "belief": "With GROUP BY you can select any column.",
+    "correction": "A selected column must be in GROUP BY or inside an aggregate, because a bucket has many values for it.",
+    "concepts": ["group-by-buckets"]
+  },
+  {
+    "id": "count-column-counts-rows",
+    "belief": "count(column) counts rows like count(*).",
+    "correction": "It skips rows where the column is NULL.",
+    "concepts": ["count-star-vs-column"]
+  },
+  {
+    "id": "float-is-fine-for-money",
+    "belief": "A float column is fine for prices.",
+    "correction": "Floating point cannot store 0.1 exactly; use numeric or integer cents.",
+    "concepts": ["money-as-numeric"]
+  },
+  {
+    "id": "app-validation-is-enough",
+    "belief": "Validation in the application is enough; the database just stores.",
+    "correction": "Other writers, scripts and bugs bypass the app, so constraints are the last line of defense.",
+    "concepts": ["column-constraints"]
+  },
+  {
+    "id": "email-as-primary-key",
+    "belief": "A natural value such as an email is a good primary key.",
+    "correction": "Natural values change, and every foreign key copying it must change too.",
+    "concepts": ["primary-key"]
+  },
+  {
+    "id": "foreign-key-on-the-one-side",
+    "belief": "The foreign key goes on the table that is the one in one-to-many.",
+    "correction": "It goes on the many side, because a single column holds one value.",
+    "concepts": ["one-to-many"]
+  },
+  {
+    "id": "array-column-for-many-to-many",
+    "belief": "A many-to-many relation can be a list of ids in one column.",
+    "correction": "A list column cannot be checked by a foreign key; use a junction table.",
+    "concepts": ["many-to-many-junction", "foreign-key"]
+  },
+  {
+    "id": "delete-cascades-by-default",
+    "belief": "Deleting a parent row silently deletes its children.",
+    "correction": "By default the delete fails; cascading must be requested with ON DELETE CASCADE.",
+    "concepts": ["referential-actions"]
+  },
+  {
+    "id": "left-join-where-keeps-rows",
+    "belief": "Adding WHERE on the right table of a LEFT JOIN keeps unmatched left rows.",
+    "correction": "The NULL-filled rows fail the condition and vanish; put it in ON.",
+    "concepts": ["left-join-filter-trap"]
+  },
+  {
+    "id": "copies-stay-in-sync",
+    "belief": "Duplicated data is fine because the code updates all copies.",
+    "correction": "Any missed update or crash leaves the copies different.",
+    "concepts": ["data-duplication-anomalies"]
+  },
+  {
+    "id": "wide-table-is-simpler",
+    "belief": "One wide table is simpler than several small ones.",
+    "correction": "It is simpler to read and harder to change correctly.",
+    "concepts": ["normalization"]
+  },
+  {
+    "id": "more-indexes-always-better",
+    "belief": "More indexes always make the database faster.",
+    "correction": "Each index slows writes and uses space, and many are never used.",
+    "concepts": ["index-write-cost"]
+  },
+  {
+    "id": "index-always-used",
+    "belief": "If an index exists, the database uses it.",
+    "correction": "The planner uses it only when it estimates a lower cost than a scan.",
+    "concepts": ["planner-choice"]
+  },
+  {
+    "id": "index-fixes-every-query",
+    "belief": "An index makes any slow query fast.",
+    "correction": "It helps queries that select few rows by the indexed value, not those that read most of the table.",
+    "concepts": ["btree-index", "planner-choice"]
+  },
+  {
+    "id": "two-statements-are-safe",
+    "belief": "Two statements in a row run as one unit.",
+    "correction": "Another session can run between them; only a transaction groups them.",
+    "concepts": ["transaction", "lost-update"]
+  },
+  {
+    "id": "select-then-update-is-safe",
+    "belief": "Reading a balance and then writing the new balance is safe.",
+    "correction": "Another session can change the row between the read and the write.",
+    "concepts": ["lost-update", "row-lock"]
+  },
+  {
+    "id": "transaction-locks-everything",
+    "belief": "BEGIN locks the whole database for other sessions.",
+    "correction": "Only rows touched for writing, or locked on purpose, block others.",
+    "concepts": ["transaction", "row-lock"]
+  },
+  {
+    "id": "rollback-undoes-commit",
+    "belief": "ROLLBACK can undo a transaction that already committed.",
+    "correction": "After COMMIT the change is durable; only uncommitted work can be rolled back.",
+    "concepts": ["transaction"]
+  },
+  {
+    "id": "deadlock-hangs-forever",
+    "belief": "A deadlock hangs the database until someone restarts it.",
+    "correction": "PostgreSQL detects the cycle and aborts one transaction with an error.",
+    "concepts": ["deadlock"]
+  },
+  {
+    "id": "locks-end-with-statement",
+    "belief": "Row locks are released when the statement finishes.",
+    "correction": "They are held until COMMIT or ROLLBACK.",
+    "concepts": ["row-lock", "deadlock"]
   }
 ]
