@@ -53,7 +53,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `joins-01` uses only kinds in `IMPLEMENTED_KINDS`, includes a `pitfall` and a `cliffhanger`, and has 12 to 20 steps; the seed has orders without items and an `amount` column, and a sample shows the inflated sum; `lesson check` proves `select count(*) from orders` does not match the reference; the prompt names the expected column; the e2e plays the lesson with no `localStorage` seeding. The author decides whether recall, brainPower, matching, parsons and firesideChat get tasks or leave the 3-month scope, and the backlog says so.
 
 ## F7. One Markdown contract
-- Status: in_progress
+- Status: done
+- Note: merged via PR #29; CI green; reviewer APPROVE on 413527f (minors: list line right after paragraph text renders as one paragraph; recap and cliffhanger render inline only but lint allows lists and fences; `_italic_` and unmatched `*` not flagged).
 - Depends on: none
 - Paths: `packages/widgets/src/markdown.tsx`, `packages/widgets/src/*.test.*`, `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
 - Source: `docs/audit-2026-10-03.md`, finding 7 (major)
