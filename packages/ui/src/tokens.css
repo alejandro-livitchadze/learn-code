@@ -1,0 +1,67 @@
+/* Design tokens for the notebook look (E08 section 2). Light only (D15). */
+:root {
+  color-scheme: light;
+
+  /* Colors, each with one job. */
+  --paper: #f7f3ea;
+  --rule: #e4dccb;
+  --ink: #1e1b16;
+  --ink-muted: #5b5446;
+  --ink-faint: #8a8270;
+  --card: #ffffff;
+  --margin-rule: #b9ae97;
+  --author: #2346a0;
+  --author-strong: #16306f;
+  --highlight: #ffe45c;
+  --sticky: #fff3a8;
+  --danger: #c2410c;
+  --danger-strong: #9a3412;
+  --danger-bg: #fff7f0;
+  --bug: #e8590c;
+  --success: #1e6b34;
+  --success-bg: #e6f4ea;
+  --disabled-bg: #cfc6b3;
+  --disabled-ink: #4a4436;
+
+  /* Shape. */
+  --border-width: 2.5px;
+  --border-width-thin: 2px;
+  --border: var(--border-width) solid var(--ink);
+  --border-thin: var(--border-width-thin) solid var(--ink);
+  --radius-card: 10px;
+  --radius-chip: 8px;
+  --radius-bubble: 18px;
+  --radius-label: 4px;
+
+  /* Depth. */
+  --shadow-hard: 4px 4px 0 var(--ink);
+  --shadow-primary: 4px 4px 0 var(--bug);
+  --shadow-soft: 0 6px 14px rgba(30, 27, 22, 0.18);
+
+  /* Spacing scale. */
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-22: 22px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+
+  /* Layout. */
+  --page-max: 1344px;
+  --margin-width: 280px;
+
+  /* Font families. The --font-* variables are set by next/font (fonts.ts). */
+  --font-display: var(--font-display-face), 'Arial Black', sans-serif;
+  --font-body: var(--font-body-face), system-ui, sans-serif;
+  --font-hand: var(--font-hand-face), 'Comic Sans MS', cursive;
+  --font-mono: var(--font-mono-face), ui-monospace, monospace;
+}
