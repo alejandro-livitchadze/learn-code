@@ -91,3 +91,4 @@
 ## 2026-10-03 (sixth run)
 
 - V4 (PR #34) is open, not yet reviewed. Worker-reported gaps: `LEGACY_EXEMPT` in `packages/ui/src/codeLint.ts` is outside V4's paths (can be set to `[]`; code-lint passes); `apps/web/screenshots/*.png` are stale; `react-dom` is only a devDependency of `packages/widgets` but `chrome.tsx` imports it; no review cards, no `reveal` step, home page shows raw course id "fullstack"; e2e specs edited but not run locally.
+- V4 (PR #34) after review round 1: out-of-path follow-ups from the worker: add a `reveal` Markdoc tag in the compiler, a `reviewCards` field on the recap schema, a ui table `DiagramElement`, and a shared DataTable in packages/ui; empty `LEGACY_EXEMPT` in `packages/ui/src/codeLint.ts`. V4's reveal and review cards are approximations built from existing components.
