@@ -243,7 +243,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output; built only from `packages/ui` components and tokens, following E08.
 
 ## C1. Module 1 roadmap
-- Status: in_progress
+- Status: done
+- Note: merged via PR #30; CI green; reviewer APPROVE on 2fe4814 (minor: roadmap schema does not declare misconceptions, plannedStepKinds, interaction or module note, so they are not validated).
 - Depends on: D5
 - Paths: `content/fullstack/roadmap.json`, `content/fullstack/registry/**`
 - Epic: E07 (module 1 entries), `00-context.md` sections 2 to 4

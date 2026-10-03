@@ -71,3 +71,10 @@
 - Update, same run: F5 worker done; PR #28 opened (head f7a0f55); local typecheck and lint pass, sql-engine tests pass under both TZ values. CI running, no verdict yet. F5 stays `in_progress`. Next run: if CI green, review gate on f7a0f55. Note: F5 renders booleans as `t`/`f` (PostgreSQL raw text).
 - Update, same run: F5 (PR #28) CI red on f7a0f55 (prettier on `pg-text.test.ts`); fix round 1 pushed as 9b3dedb (format only; format, lint, typecheck, sql-engine tests pass locally). CI on 9b3dedb pending; no review verdict for this head. F5 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, review gate on 9b3dedb. Workers this run: 2 (F5, V1) plus 1 fix round; reviewers: 1 (V1).
 - Update, same run: CI green on 9b3dedb; fresh reviewer APPROVE; F5 (PR #28) squash-merged. Reviewers this run: 2. MAX_TASKS_PER_RUN reached; stopping. Next ready: F7, C1 (F8 is author/orchestrator only), V2.
+
+## 2026-10-03 (third run): F7, C1
+
+- F7 (PR #29): merged, CI green, review APPROVE on 413527f.
+- C1 (PR #30): merged, CI green, review APPROVE on 2fe4814.
+- Workers: 2. Reviewers: 2. No fix rounds. Integration PR #21 still open; no milestone this run.
+- Next ready: V2, L1 (C1 and P8b done); F8 is author/orchestrator only.

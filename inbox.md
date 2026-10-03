@@ -73,3 +73,9 @@
 - lesson-compiler tests hang locally in the sandbox (PGlite); CI is the only check for them.
 
 - F5 merged (PR #28). Stale remote branches `task/F5` needs deleting. Booleans now print as `t`/`f` (PostgreSQL raw text); tell me if lessons should show true/false.
+
+## 2026-10-03 (third run)
+
+- F7 (PR #29) and C1 (PR #30) merged. Stale remote branches `task/F7` and `task/C1` need deleting (delete failed from this environment).
+- Follow-up wanted: extend `roadmapLesson` and `roadmapModule` in `packages/lesson-schema/src/registry.ts` with `misconceptions`, `plannedStepKinds`, `interaction` and `note`, so the C1 roadmap is validated (not covered by any open task).
+- F7 minors: a list line right after paragraph text renders as one paragraph; recap and cliffhanger render inline only but lint allows lists and fences there.
