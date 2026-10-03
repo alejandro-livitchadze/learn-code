@@ -177,7 +177,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `margin` and the title highlight are in the schema; Markdoc tags compile into them; rules DL1 to DL8 exist as pure functions with one failing fixture each; the sample lesson passes.
 
 ## V3. Characters and margin components
-- Status: todo
+- Status: in_progress
 - Depends on: V2
 - Paths: `packages/ui/**`, `packages/widgets/**`, `apps/web/**`
 - Epic: E08 sections 4 and 5
@@ -252,7 +252,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `roadmap.json` lists 8 to 10 lessons for module 1 (PostgreSQL) in order, each with id, title, concepts, misconceptions, planned step kinds, and the E07 interaction it uses if any; lesson order and emphasis are justified in a short note that cites numbers from `research/demand/report-js.md`; `concepts.json` and `misconceptions.json` contain every id the roadmap uses; all files pass schema validation.
 
 ## L1. Module 1, lesson 1
-- Status: todo
+- Status: in_progress
 - Depends on: C1, P8b
 - Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
 - Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.
