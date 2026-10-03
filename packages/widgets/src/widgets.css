@@ -293,6 +293,8 @@
 
 .sl-frame {
   margin: calc(var(--space-16) * -1) calc(var(--space-20) * -1);
+  overflow: hidden;
+  border-radius: var(--radius-chip);
 }
 .sl-bar {
   display: flex;

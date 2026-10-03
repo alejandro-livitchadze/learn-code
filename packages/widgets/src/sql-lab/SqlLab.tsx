@@ -303,11 +303,7 @@ function SqlLabView({
               <Button onClick={() => void reset()} disabled={running || loading}>
                 Reset database
               </Button>
-              <Button
-                variant="primary"
-                onClick={() => void run()}
-                disabled={running || loading}
-              >
+              <Button variant="primary" onClick={() => void run()} disabled={running || loading}>
                 {running ? 'Running…' : 'Run · Ctrl+Enter'}
               </Button>
             </div>
@@ -349,7 +345,9 @@ function SqlLabView({
             more={result.rows.length > shownRows.length}
             flagged={diff?.extraColumns ?? []}
             caption={`Your result · ${plural(result.rowCount, 'row')}${
-              result.rowCount > result.rows.length ? `, showing the first ${result.rows.length}` : ''
+              result.rowCount > result.rows.length
+                ? `, showing the first ${result.rows.length}`
+                : ''
             }`}
           />
           {mismatch && expected !== undefined && (

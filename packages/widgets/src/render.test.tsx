@@ -1,7 +1,14 @@
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { fixtures } from './fixtures';
+import { FooterProvider } from './chrome';
+import { Predict } from './Predict';
 import { IMPLEMENTED_KINDS, widgetRegistry } from './registry';
+
+/** Text a learner can read: tags and attribute values removed. */
+function visibleText(markup: string): string {
+  return markup.replace(/<[^>]*>/g, ' ');
+}
 
 function html(id: string, onComplete = vi.fn()): string {
   const f = fixtures.find((x) => x.id === id);
@@ -22,8 +29,53 @@ describe('rendering', () => {
     const kinds = new Set(fixtures.map((f) => f.step.kind));
     for (const k of IMPLEMENTED_KINDS) expect(kinds.has(k)).toBe(true);
   });
-  it('renders a visible placeholder for unbuilt kinds', () => {
-    expect(html('unbuilt-parsons')).toContain('has not been built yet');
+  it('renders a short notice for unbuilt kinds, without naming the kind', () => {
+    const out = html('unbuilt-parsons');
+    expect(out).toContain('coming soon');
+    expect(visibleText(out)).not.toMatch(/parsons|built yet|placeholder/i);
+  });
+  it('never shows an internal kind name, id or placeholder wording to the learner', () => {
+    for (const f of fixtures) {
+      const text = visibleText(html(f.id));
+      expect(text, f.id).not.toMatch(/fillBlanks|sqlLab|beTheRuntime|beTheDatabase|firesideChat/);
+      expect(text, f.id).not.toMatch(/placeholder|not built yet/i);
+    }
+  });
+  it('puts the step tag text from E08 section 6 on each step', () => {
+    expect(html('predict-idle')).toContain('>Predict<');
+    expect(html('fill-idle')).toContain('>Your turn<');
+    expect(html('sql-idle')).toContain('>Your turn<');
+    expect(html('explain-normal')).toContain('>Here&#x27;s the thing<');
+    expect(html('recap-normal')).toContain('>Pin this to your brain<');
+    expect(html('pitfall-normal')).toContain('>Gotcha<');
+    expect(html('hook-normal')).not.toContain('ui-steptag');
+  });
+  it('shows its own Lock in answer button without a host, and none with a host', () => {
+    expect(html('predict-idle')).toContain('Lock in answer');
+    expect(html('fill-idle')).toContain('Lock in answer');
+    const f = fixtures.find((x) => x.id === 'predict-idle');
+    if (f === undefined || f.step.kind !== 'predict') throw new Error('fixture');
+    const hosted = renderToString(
+      <FooterProvider value={() => undefined}>
+        <Predict step={f.step} restored={undefined} onComplete={() => undefined} />
+      </FooterProvider>,
+    );
+    expect(hosted).not.toContain('Lock in answer');
+  });
+  it('shows the feedback banner at the top after a wrong try', () => {
+    const f = fixtures.find((x) => x.id === 'predict-wrong');
+    if (f === undefined || f.step.kind !== 'predict') throw new Error('fixture');
+    const out = renderToString(
+      <Predict
+        step={f.step}
+        restored={undefined}
+        onComplete={() => undefined}
+        initialTried={f.preset?.tried ?? []}
+      />,
+    );
+    expect(out.indexOf('ui-feedback')).toBeGreaterThan(-1);
+    expect(out.indexOf('ui-feedback')).toBeLessThan(out.indexOf('ui-steptag'));
+    expect(out).toContain('data-correct="false"');
   });
   it('shows the answered state when restored, without calling onComplete', () => {
     const done = vi.fn();
@@ -37,18 +89,16 @@ describe('rendering', () => {
   it('renders sqlLab as the real widget, with its editor frame and no engine started', () => {
     const out = html('sql-idle');
     expect(out).toContain('data-kind="sqlLab"');
-    expect(out).toContain('Run (Ctrl+Enter)');
+    expect(out).toContain('Run · Ctrl+Enter');
     expect(out).toContain('Reset database');
     expect(out).not.toContain('has not been built yet');
   });
   it('shows a solved sqlLab when restored, without calling onComplete', () => {
     const done = vi.fn();
-    expect(html('sql-restored', done)).toContain(
-      'Correct. Your query returns the expected result.',
-    );
+    expect(html('sql-restored', done)).toContain('Your query returns the expected result.');
     expect(done).not.toHaveBeenCalled();
   });
-  it('does not show a run button or answer before answering', () => {
-    expect(html('predict-idle')).not.toContain('Run it');
+  it('does not show the real output before answering', () => {
+    expect(html('predict-idle')).not.toContain('Real output');
   });
 });

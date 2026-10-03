@@ -12,7 +12,8 @@ import { compareResults } from '@learn-code/sql-engine/compare';
 import { LabController } from './controller';
 import { diagnosticRange } from './editor-range';
 import { SCHEMA_QUERY, groupSchema, mayChangeSchema } from './schema';
-import { DiffView, createSqlLab } from './SqlLab';
+import { DiffView, createSqlLab, diffMessage } from './SqlLab';
+import { sqlSpans } from './keywords';
 
 const res = (columns: string[], rows: unknown[][], rowCount = rows.length): SqlResult => ({
   columns,
@@ -170,9 +171,9 @@ describe('SqlLab widget', () => {
       />,
     );
     expect(html).toContain('Reset database');
-    expect(html).toContain('Run (Ctrl+Enter)');
+    expect(html).toContain('Run · Ctrl+Enter');
     expect(html).toContain('<strong>book</strong>');
-    expect(html).toContain('Correct. Your query returns the expected result.');
+    expect(html).toContain('Your query returns the expected result.');
   });
 });
 
@@ -210,4 +211,41 @@ describe('shared comparer cases', () => {
     },
     60_000,
   );
+});
+
+describe('diffMessage', () => {
+  const diffOf = (e: SqlResult, a: SqlResult, order = false) => compareResults(e, a, order);
+  it('names a missing column', () => {
+    const d = diffOf(res(['id', 'total', 'items'], []), res(['id', 'items'], []));
+    expect(diffMessage(d)).toContain('missing: total');
+  });
+  it('names an unexpected column', () => {
+    const d = diffOf(res(['id'], []), res(['id', 'x'], []));
+    expect(diffMessage(d)).toContain('not expected: x');
+  });
+  it('counts differing rows when the columns match', () => {
+    const d = diffOf(res(['a'], [['1'], ['2']]), res(['a'], [['1']]));
+    expect(diffMessage(d)).toContain('1 row missing, 0 rows extra');
+  });
+  it('says when only the order is wrong', () => {
+    const d = diffOf(res(['a'], [['1'], ['2']]), res(['a'], [['2'], ['1']]), true);
+    expect(diffMessage(d)).toContain('specific order');
+  });
+  it('shows no row grids for column problems', () => {
+    const d = diffOf(res(['id', 'total'], [['1', '2']]), res(['id'], [['1']]));
+    expect(renderToString(<DiffView diff={d} />)).toBe('');
+  });
+});
+
+describe('sqlSpans', () => {
+  it('marks keywords, comments and strings, and ignores words inside them', () => {
+    const text = "select 'from here' -- where\nfrom orders";
+    const spans = sqlSpans(text).map((s) => [text.slice(s.from, s.to), s.kind]);
+    expect(spans).toEqual([
+      ['select', 'keyword'],
+      ["'from here'", 'string'],
+      ['-- where', 'comment'],
+      ['from', 'keyword'],
+    ]);
+  });
 });

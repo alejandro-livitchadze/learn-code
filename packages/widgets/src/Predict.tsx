@@ -110,7 +110,9 @@ export function Predict({ step, restored, onComplete, initialTried = [] }: Props
             return (
               <li key={i} className="w-opt" data-state={state}>
                 <InkCard
-                  state={state === 'selected' ? 'selected' : state === 'correct' ? 'lifted' : 'default'}
+                  state={
+                    state === 'selected' ? 'selected' : state === 'correct' ? 'lifted' : 'default'
+                  }
                 >
                   <button
                     type="button"
