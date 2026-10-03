@@ -2,7 +2,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import { runNode } from './node';
-import { runSql, showSql, type SqlResult } from './sql';
+import { createInlineEngine } from '@learn-code/sql-engine';
+import { formatRows } from './format';
 import { checkSqlLab } from './sql-lab';
 
 export interface VerifyIssue {
@@ -20,11 +21,18 @@ function readSeed(lessonDir: string, name: string): string | undefined {
 
 const message = (e: unknown): string => (e instanceof Error ? e.message : String(e));
 
-async function tryQuery(seed: string | undefined, sql: string): Promise<SqlResult | Error> {
+/** Run a predict sample through the inline sql-engine adapter and print it as a declared output. */
+export async function runPredictSql(
+  seed: string | undefined,
+  sql: string,
+): Promise<string | Error> {
+  const session = await createInlineEngine().open(seed ?? '');
   try {
-    return await runSql(seed, sql);
-  } catch (e) {
-    return e instanceof Error ? e : new Error(String(e));
+    const outcome = await session.execute(sql);
+    if (!outcome.ok) return new Error(outcome.message);
+    return formatRows(outcome.result.columns, outcome.result.rows);
+  } finally {
+    await session.close();
   }
 }
 
@@ -36,9 +44,8 @@ async function verifyPredict(
   if (correct === undefined) return [];
   const fail = (m: string): VerifyIssue[] => [{ stepId: s.id, message: m }];
   if (s.language === 'sql') {
-    const r = await tryQuery(readSeed(lessonDir, DEFAULT_SEED), s.code);
-    if (r instanceof Error) return fail(`sample failed to run: ${r.message}`);
-    const actual = showSql(r);
+    const actual = await runPredictSql(readSeed(lessonDir, DEFAULT_SEED), s.code);
+    if (actual instanceof Error) return fail(`sample failed to run: ${actual.message}`);
     return actual === correct.output.trim()
       ? []
       : fail(`declared output "${correct.output}" but the sample printed "${actual}"`);
@@ -86,7 +93,5 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
 }
 
 export { formatRows } from './format';
-export { closeSql, runSql, sameResult, showSql } from './sql';
-export { checkSqlLab, sameSqlResult } from './sql-lab';
-export type { SqlResult } from './sql';
+export { checkSqlLab } from './sql-lab';
 export { runNode, NODE_TIMEOUT_MS } from './node';

@@ -2,8 +2,6 @@ export { createSqlLab } from './SqlLab';
 export type { SqlLabDeps } from './SqlLab';
 export { SqlEditor } from './SqlEditor';
 export type { EditorError } from './SqlEditor';
-export { compareResults } from './compare';
-export type { ResultDiff } from './compare';
 export { LabController } from './controller';
 export type { LabConfig, RunReport } from './controller';
 export { diagnosticRange } from './editor-range';

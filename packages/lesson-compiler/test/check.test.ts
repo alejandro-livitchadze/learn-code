@@ -12,16 +12,14 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { checkLesson, formatIssue, loadRegistries, verifySamples } from '../src';
-import { closeSql, runNode, runSql } from '../src/verify';
+import { runNode, runPredictSql } from '../src/verify';
 import { compileLesson } from '../src/compile';
 import { formatRows } from '../src/verify/format';
-import { sameResult } from '../src/verify/sql';
 
 const contentRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../../content');
 const sourceCourse = join(contentRoot, 'fullstack');
 const tmp = mkdtempSync(join(tmpdir(), 'lesson-check-'));
 afterAll(async () => {
-  await closeSql();
   rmSync(tmp, { recursive: true, force: true });
 });
 
@@ -377,12 +375,10 @@ describe('sample verification', () => {
       ),
     ).toBe('a | b\n1 | NULL\n2 | {"k":1}');
     expect(formatRows(['d'], [[new Date(0)], [undefined]])).toContain('1970-01-01T00:00:00.000Z');
-    const a = await runSql(undefined, 'select 1 as x union all select 2');
-    const b = await runSql(undefined, 'select 2 as x union all select 1');
-    expect(sameResult(a, b, false)).toBe(true);
-    expect(sameResult(a, b, true)).toBe(false);
-    expect((await runSql('  ', 'create table t (a int)')).rows).toEqual([]);
-    expect((await runSql(undefined, '')).rows).toEqual([]);
+    expect(await runPredictSql(undefined, 'select 1 as x union all select 2')).toBe('x\n1\n2');
+    expect(await runPredictSql('  ', 'create table t (a int)')).toBe('');
+    expect(await runPredictSql(undefined, '')).toBe('');
+    expect(await runPredictSql(undefined, 'select nope')).toBeInstanceOf(Error);
   });
 });
 

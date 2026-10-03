@@ -1,5 +1,5 @@
 import type { SqlEngine, SqlOutcome, SqlResult, SqlSession } from '@learn-code/sql-engine';
-import { compareResults, type ResultDiff } from './compare';
+import { compareResults, type ResultDiff } from '@learn-code/sql-engine/compare';
 import { SCHEMA_QUERY, groupSchema, mayChangeSchema, type SchemaTable } from './schema';
 
 export interface LabConfig {

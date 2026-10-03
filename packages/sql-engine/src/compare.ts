@@ -1,4 +1,4 @@
-import type { SqlResult } from '@learn-code/sql-engine';
+import type { SqlResult } from './types';
 
 export interface ResultDiff {
   readonly match: boolean;

@@ -10,3 +10,7 @@ export type { WorkerEngineOptions } from './client';
 export { createWorkerHandler } from './handler';
 export type { WorkerLike, WorkerRequest, WorkerResponse } from './protocol';
 export type { DatabaseLike } from './runner';
+export { compareResults } from './compare';
+export type { ResultDiff } from './compare';
+export { COMPARE_CASES } from './compare-cases';
+export type { CompareCase } from './compare-cases';

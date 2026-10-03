@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
 import type { SqlEngine, SqlResult } from '@learn-code/sql-engine';
+import type { ResultDiff } from '@learn-code/sql-engine/compare';
 import { Markdown } from '../markdown';
 import type { StepComponentProps, StepOfKind } from '../types';
-import type { ResultDiff } from './compare';
 import { LabController, type RunReport } from './controller';
 import { SqlEditor, type EditorError } from './SqlEditor';
 import type { SchemaTable } from './schema';
