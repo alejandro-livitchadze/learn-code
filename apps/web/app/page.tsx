@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Highlight } from '@learn-code/ui';
 import { listLessonRefs, loadLesson } from '../src/lib/lessons';
 import { HomeProgress } from '../src/player/HomeProgress';
 
@@ -7,7 +8,9 @@ export default function Home() {
   const courses = [...new Set(lessons.map((l) => l.ref.course))];
   return (
     <main className="home">
-      <h1>Learn fullstack</h1>
+      <h1 className="ui-title">
+        Learn <Highlight>fullstack</Highlight>
+      </h1>
       <p className="lead">Short, hands-on lessons for frontend developers.</p>
       {courses.map((course) => (
         <section key={course} aria-labelledby={`c-${course}`}>

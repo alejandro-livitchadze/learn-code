@@ -1,0 +1,218 @@
+/* Base styles, page shell and components (E08 sections 2, 3, 4, 7). */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.5;
+  background-color: var(--paper);
+  /* Ruled paper: one thin line every 32 px. A hard-stop stripe, not a gradient. */
+  background-image: linear-gradient(
+    to bottom,
+    transparent 31px,
+    var(--rule) 31px,
+    var(--rule) 32px
+  );
+  background-size: 100% 32px;
+}
+
+a {
+  color: var(--author);
+}
+a:hover {
+  color: var(--author-strong);
+}
+
+:focus-visible {
+  outline: 3px solid var(--author);
+  outline-offset: 2px;
+}
+
+/* ---------- Page shell ---------- */
+
+.ui-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-32) var(--space-48) var(--space-48);
+}
+
+.ui-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding-bottom: var(--space-16);
+  border-bottom: 3px solid var(--ink);
+}
+.ui-module {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--author);
+  text-decoration: none;
+}
+.ui-module:hover {
+  text-decoration: underline;
+}
+.ui-title {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+}
+.ui-counter {
+  flex: none;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--author);
+  white-space: nowrap;
+}
+
+.ui-body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-24);
+  padding: var(--space-28) 0;
+}
+.ui-main {
+  flex: 999 1 640px;
+  min-width: 0;
+}
+.ui-margin {
+  flex: 1 1 var(--margin-width);
+  max-width: 300px;
+  min-width: 260px;
+  padding-left: var(--space-24);
+  border-left: 2px dashed var(--margin-rule);
+  font-size: 16px;
+}
+
+.ui-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding-top: var(--space-20);
+  border-top: 3px solid var(--ink);
+}
+.ui-footer-hint {
+  flex: 1;
+  text-align: right;
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--ink-muted);
+}
+
+/* ---------- Button ---------- */
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-8) var(--space-24);
+  border: var(--border);
+  border-radius: var(--radius-chip);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ui-btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-primary);
+}
+.ui-btn-primary:hover {
+  color: var(--paper);
+}
+.ui-btn-secondary {
+  background: transparent;
+  color: var(--ink);
+}
+.ui-btn-secondary:hover {
+  color: var(--ink);
+  background: var(--card);
+}
+.ui-btn:disabled,
+.ui-btn[aria-disabled='true'] {
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
+  border-color: var(--disabled-ink);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- InkCard ---------- */
+
+.ui-card {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  padding: var(--space-16) var(--space-20);
+}
+.ui-card[data-state='lifted'] {
+  box-shadow: var(--shadow-hard);
+}
+.ui-card[data-state='selected'] {
+  background: var(--highlight);
+  box-shadow: var(--shadow-hard);
+}
+
+/* ---------- StepTag ---------- */
+
+.ui-steptag {
+  display: inline-block;
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-label);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* ---------- Highlight ---------- */
+
+.ui-highlight {
+  color: inherit;
+  padding: 0 0.12em;
+  /* A highlighter stroke covering 70% of the line height (hard stops, no blend). */
+  background: linear-gradient(
+    to bottom,
+    transparent 15%,
+    var(--highlight) 15%,
+    var(--highlight) 85%,
+    transparent 85%
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

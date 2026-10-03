@@ -8,11 +8,12 @@
   "scripts": {
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "lint": "eslint .",
+    "lint": "eslint . && pnpm code-lint",
     "lesson": "tsx packages/lesson-compiler/src/cli.ts",
     "demand": "pnpm --filter @learn-code/demand-scanner demand",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "code-lint": "tsx packages/ui/scripts/code-lint.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

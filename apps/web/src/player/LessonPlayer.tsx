@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { isActive, type Lesson } from '@learn-code/lesson-schema';
+import { Button, buttonClass, PageFooter, PageHeader, PageShell, StepTag } from '@learn-code/ui';
 import {
   HighlightsProvider,
   SeedBaseProvider,
@@ -121,18 +122,57 @@ export function LessonPlayer({ lesson, highlights }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [ready, next, back, isLast, open, router]);
 
+  const hint = open ? 'Answer this step to continue.' : '';
+  const finish = isLast ? (
+    open || !ready ? (
+      <Button variant="primary" disabled aria-describedby="gate-hint">
+        Finish
+      </Button>
+    ) : (
+      <Link href="/" className={buttonClass('primary')}>
+        Finish
+      </Link>
+    )
+  ) : (
+    <Button variant="primary" onClick={next} disabled={open || !ready} aria-describedby="gate-hint">
+      Continue
+    </Button>
+  );
+
   return (
     <>
       <p className="notice" role="note">
         This course needs a desktop browser at least 1024 px wide. Please widen your window or
         switch to a computer.
       </p>
-      <main className="player" aria-busy={!ready}>
-        <header className="player-head">
-          <Link href="/" className="crumb">
-            All lessons
-          </Link>
-          <h1 className="lesson-title">{lesson.title}</h1>
+      <div className="player-root" aria-busy={!ready}>
+        <PageShell
+          header={
+            <PageHeader
+              module="All lessons"
+              moduleHref="/"
+              renderLink={({ href, className, children }) => (
+                <Link href={href} className={className}>
+                  {children}
+                </Link>
+              )}
+              title={lesson.title}
+              counter={`step ${state.index + 1} of ${steps.length}`}
+            />
+          }
+          footer={
+            <PageFooter
+              back={
+                <Button onClick={back} disabled={state.index === 0}>
+                  Back
+                </Button>
+              }
+              hint={hint}
+              hintId="gate-hint"
+              primary={finish}
+            />
+          }
+        >
           <div
             className="progress"
             role="progressbar"
@@ -150,57 +190,32 @@ export function LessonPlayer({ lesson, highlights }: Props) {
               />
             ))}
           </div>
-        </header>
-
-        <section className="stage" aria-label="Current step">
-          {ready && step ? (
-            <div className="step" key={step.id}>
-              <h2 ref={headingRef} tabIndex={-1} className="step-title" data-testid="step-heading">
-                Step {state.index + 1} of {steps.length}: {step.kind}
-              </h2>
-              <HighlightsProvider value={highlights}>
-                <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
-                  <StepWidget step={step} restored={current} onComplete={onComplete} />
-                </SeedBaseProvider>
-              </HighlightsProvider>
-            </div>
-          ) : (
-            <p role="status" className="loading">
-              Loading your progress…
-            </p>
-          )}
-        </section>
-
-        <footer className="controls">
-          <button type="button" className="secondary" onClick={back} disabled={state.index === 0}>
-            Back
-          </button>
-          <span className="hint" id="gate-hint">
-            {open ? 'Answer this step to continue.' : ''}
-          </span>
-          {isLast ? (
-            open || !ready ? (
-              <button type="button" className="primary" disabled aria-describedby="gate-hint">
-                Finish
-              </button>
+          <section className="legacy-skin" aria-label="Current step">
+            {ready && step ? (
+              <div className="step" key={step.id}>
+                <StepTag kind={step.kind} />
+                <h2
+                  ref={headingRef}
+                  tabIndex={-1}
+                  className="step-title"
+                  data-testid="step-heading"
+                >
+                  Step {state.index + 1} of {steps.length}: {step.kind}
+                </h2>
+                <HighlightsProvider value={highlights}>
+                  <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
+                    <StepWidget step={step} restored={current} onComplete={onComplete} />
+                  </SeedBaseProvider>
+                </HighlightsProvider>
+              </div>
             ) : (
-              <Link href="/" className="primary">
-                Finish
-              </Link>
-            )
-          ) : (
-            <button
-              type="button"
-              className="primary"
-              onClick={next}
-              disabled={open || !ready}
-              aria-describedby="gate-hint"
-            >
-              Continue
-            </button>
-          )}
-        </footer>
-      </main>
+              <p role="status" className="loading">
+                Loading your progress…
+              </p>
+            )}
+          </section>
+        </PageShell>
+      </div>
     </>
   );
 }
