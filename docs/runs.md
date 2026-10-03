@@ -94,3 +94,5 @@
 - L1 (PR #32): fix round 1 worker done, head 8183533 (both blockers fixed; scope checked, only `content/fullstack/query-order-01/**` and `registry/**` changed). Worker ran install, typecheck, lint and `lesson check` (pass); `pnpm test` hangs locally (PGlite), CI decides. CI running on 8183533; no review verdict for this head yet. L1 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, run a fresh review on 8183533.
 - V4 was ready but its `content/**` Paths overlap L1, so it waits.
 - Workers: 1. Reviewers: 0. Integration PR #21 still open; no milestone this run.
+- Update, same run: a fix commit 8183533 appeared on `task/L1` (not from this run's workers); it removed the answer-revealing sample comments and narrowed the alias-scope wording. CI green; fresh reviewer APPROVE; L1 (PR #32) squash-merged. Reviewers this run: 4. L1 is `done`.
+- Next ready: V4, L2 (F8 is author/orchestrator only).

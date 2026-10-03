@@ -253,8 +253,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `roadmap.json` lists 8 to 10 lessons for module 1 (PostgreSQL) in order, each with id, title, concepts, misconceptions, planned step kinds, and the E07 interaction it uses if any; lesson order and emphasis are justified in a short note that cites numbers from `research/demand/report-js.md`; `concepts.json` and `misconceptions.json` contain every id the roadmap uses; all files pass schema validation.
 
 ## L1. Module 1, lesson 1
-- Status: in_progress
-- Note: PR #32 open, CI green on eb4e58a, reviewer CHANGES_REQUESTED (2 blockers, see the PR comment). Fix round 1 not started: MAX_TASKS_PER_RUN reached.
+- Status: done
+- Note: merged via PR #32; CI green; reviewer APPROVE on 8183533 after a first CHANGES_REQUESTED on eb4e58a (answer-revealing sample comments, alias-scope wording). The fix commit 8183533 was pushed by a session other than this run's workers. Minors: p2 option 2 explanation is loose; postgresql.org links unverified (unreachable from the sandbox).
 - Depends on: C1, P8b
 - Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
 - Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.

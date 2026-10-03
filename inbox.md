@@ -86,3 +86,4 @@
 - V2 minor: `marginItem` in `packages/lesson-compiler/src/tags/kinds.ts` has no explicit `diagram` case or `never` check.
 - V3 (PR #33) merged. Stale remote branch `task/V3` needs deleting. V3 minors: duplicate `prefers-reduced-motion` block in `packages/ui/src/ui.css`; no unit tests for ReviewCard, FeedbackBanner, Cliffhanger; no copy length limits on FeedbackBanner and Cliffhanger (V4).
 - L1 (PR #32) is waiting for fix round 1: postgresql.org was unreachable from the sandbox, so none of the doc links in `query-order-01` are verified against the pages. Please spot-check them when you can.
+- L1 (PR #32) merged. A fix commit (8183533) appeared on `task/L1` from a session other than this run's workers; I reviewed it fresh (APPROVE) before merging. Stale remote branch `task/L1` needs deleting. The postgresql.org links in `query-order-01` are still unverified against the pages; please spot-check them.
