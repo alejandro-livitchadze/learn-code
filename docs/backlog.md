@@ -53,7 +53,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `joins-01` uses only kinds in `IMPLEMENTED_KINDS`, includes a `pitfall` and a `cliffhanger`, and has 12 to 20 steps; the seed has orders without items and an `amount` column, and a sample shows the inflated sum; `lesson check` proves `select count(*) from orders` does not match the reference; the prompt names the expected column; the e2e plays the lesson with no `localStorage` seeding. The author decides whether recall, brainPower, matching, parsons and firesideChat get tasks or leave the 3-month scope, and the backlog says so.
 
 ## F7. One Markdown contract
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `packages/widgets/src/markdown.tsx`, `packages/widgets/src/*.test.*`, `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
 - Source: `docs/audit-2026-10-03.md`, finding 7 (major)
@@ -242,7 +242,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output; built only from `packages/ui` components and tokens, following E08.
 
 ## C1. Module 1 roadmap
-- Status: todo
+- Status: in_progress
 - Depends on: D5
 - Paths: `content/fullstack/roadmap.json`, `content/fullstack/registry/**`
 - Epic: E07 (module 1 entries), `00-context.md` sections 2 to 4
