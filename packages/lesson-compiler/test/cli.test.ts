@@ -6,15 +6,13 @@ import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { checkLesson, lessonTemplate, scaffoldLesson } from '../src';
 import { compileSource } from '../src/compile';
-import { closeSql } from '../src/verify';
 import { findLessons, run } from '../src/cli';
 
 const repoContent = resolve(dirname(fileURLToPath(import.meta.url)), '../../../content');
 const tmp = mkdtempSync(join(tmpdir(), 'lesson-cli-'));
 const cwd = process.cwd();
 beforeAll(() => process.chdir(tmp));
-afterAll(async () => {
-  await closeSql();
+afterAll(() => {
   process.chdir(cwd);
   rmSync(tmp, { recursive: true, force: true });
 });
