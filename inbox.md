@@ -71,3 +71,5 @@
 
 - V1 merged (PR #27). Stale remote branch `task/V1` needs deleting. V4 must remove LEGACY_EXEMPT in `packages/ui/src/codeLint.ts` and the `.legacy-skin` block in `apps/web/app/globals.css`.
 - lesson-compiler tests hang locally in the sandbox (PGlite); CI is the only check for them.
+
+- F5 merged (PR #28). Stale remote branches `task/F5` needs deleting. Booleans now print as `t`/`f` (PostgreSQL raw text); tell me if lessons should show true/false.

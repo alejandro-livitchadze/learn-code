@@ -37,7 +37,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: CI runs `pnpm --filter @learn-code/web build`, installs the pinned Chromium and runs `pnpm --filter @learn-code/web e2e`, with `timeout-minutes` set on the job; `typeSql` uses `ControlOrMeta+A`; the suite passes on macOS and Linux; README says how to run it.
 
 ## F5. Show SQL values as PostgreSQL prints them
-- Status: in_progress
+- Status: done
+- Note: merged via PR #28; CI green; reviewer APPROVE on 9b3dedb (1 fix round: prettier; minor: doc comment wrapping in pglite.ts). Booleans print as `t`/`f`.
 - Depends on: none
 - Paths: `packages/sql-engine/**`, `packages/lesson-compiler/**`
 - Source: `docs/audit-2026-10-03.md`, finding 5 (major)
