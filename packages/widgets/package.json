@@ -21,6 +21,7 @@
     "@codemirror/view": "^6.43.13",
     "@learn-code/lesson-schema": "workspace:*",
     "@learn-code/sql-engine": "workspace:*",
+    "@learn-code/ui": "workspace:*",
     "react": "^19.3.0"
   },
   "devDependencies": {

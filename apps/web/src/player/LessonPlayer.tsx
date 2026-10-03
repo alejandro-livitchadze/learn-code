@@ -7,6 +7,8 @@ import { isActive, type Lesson } from '@learn-code/lesson-schema';
 import { Button, buttonClass, PageFooter, PageHeader, PageShell, StepTag } from '@learn-code/ui';
 import {
   HighlightsProvider,
+  HookLead,
+  MarginItems,
   SeedBaseProvider,
   StepWidget,
   type HighlightMap,
@@ -147,6 +149,12 @@ export function LessonPlayer({ lesson, highlights }: Props) {
       </p>
       <div className="player-root" aria-busy={!ready}>
         <PageShell
+          lead={ready && step?.kind === 'hook' ? <HookLead key={step.id} step={step} /> : undefined}
+          margin={
+            ready && step?.margin !== undefined && step.margin.length > 0 ? (
+              <MarginItems key={step.id} items={step.margin} />
+            ) : undefined
+          }
           header={
             <PageHeader
               module="All lessons"
@@ -204,7 +212,9 @@ export function LessonPlayer({ lesson, highlights }: Props) {
                 </h2>
                 <HighlightsProvider value={highlights}>
                   <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
-                    <StepWidget step={step} restored={current} onComplete={onComplete} />
+                    {step.kind === 'hook' ? null : (
+                      <StepWidget step={step} restored={current} onComplete={onComplete} />
+                    )}
                   </SeedBaseProvider>
                 </HighlightsProvider>
               </div>

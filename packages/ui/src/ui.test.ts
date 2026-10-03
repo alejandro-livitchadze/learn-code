@@ -1,6 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { Highlight, MAX_HIGHLIGHT_WORDS, wordCount } from './Highlight';
+import {
+  Annotation,
+  MAX_DIAGRAM_ELEMENTS,
+  limitDiagramElements,
+  type DiagramElement,
+} from './margin';
 import { STEP_TAGS, stepTagText } from './StepTag';
 import { colors, spacing } from './tokens';
 
@@ -59,5 +65,28 @@ describe('Highlight component', () => {
       'one two three four five six seven',
     );
     expect(Highlight({ children: 'two words' })).toMatchObject({ type: 'mark' });
+  });
+});
+
+describe('Annotation', () => {
+  it('renders notes of up to eight words and drops longer ones', () => {
+    expect(Annotation({ children: 'one two three four five six seven eight' })).not.toBeNull();
+    expect(Annotation({ children: 'one two three four five six seven eight nine' })).toBeNull();
+  });
+});
+
+describe('MiniDiagram element limit', () => {
+  const chip = (text: string): DiagramElement => ({ type: 'chip', text });
+  it('keeps at most eight elements, counting each card of a group', () => {
+    expect(MAX_DIAGRAM_ELEMENTS).toBe(8);
+    const ten = Array.from({ length: 10 }, (_, i) => chip(String(i)));
+    expect(limitDiagramElements(ten)).toHaveLength(8);
+    const withCards: DiagramElement[] = [
+      chip('a'),
+      { type: 'cards', texts: ['1', '2', '3', '4', '5', '6'] },
+      chip('b'),
+      chip('c'),
+    ];
+    expect(limitDiagramElements(withCards)).toHaveLength(3);
   });
 });

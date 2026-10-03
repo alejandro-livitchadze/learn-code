@@ -22,3 +22,5 @@ export type {
   StepResult,
   WidgetRegistry,
 } from './types';
+export { HookColumn, HookLead, MarginItems } from './Margin';
+export { DIAGRAMS, diagramFor } from './diagrams';

@@ -116,6 +116,16 @@ test('every step of the lesson has a real widget, none is a placeholder', async 
   await expect(heading(page)).toContainText('cliffhanger');
 });
 
+test('the hook step puts its character and bubble in the left column', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(URL);
+  const lead = page.getByRole('complementary', { name: 'Character' });
+  await expect(lead.getByRole('img', { name: 'The Bug' })).toBeVisible();
+  await expect(lead.locator('.ui-bubble')).not.toBeEmpty();
+  await continueBtn(page).click();
+  await expect(lead).toHaveCount(0);
+});
+
 test('shows a notice instead of the player below 1024px', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 });
   await page.goto(URL);

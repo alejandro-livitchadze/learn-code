@@ -1,11 +1,29 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { Button, Highlight, InkCard, StepTag, buttonClass } from '@learn-code/ui';
+import {
+  Annotation,
+  Button,
+  Character,
+  Cliffhanger,
+  FeedbackBanner,
+  Gotcha,
+  Highlight,
+  HintLadder,
+  InkCard,
+  MiniDiagram,
+  ReviewCard,
+  SpeechBubble,
+  StepTag,
+  StickyNote,
+  StopAndThink,
+  buttonClass,
+} from '@learn-code/ui';
 import {
   FillBlanks,
   HighlightsProvider,
   IMPLEMENTED_KINDS,
+  MarginItems,
   Predict,
   SeedBaseProvider,
   StepWidget,
@@ -142,6 +160,79 @@ function UiComponents() {
           A join keeps <Highlight>every matching pair</Highlight>, so rows can multiply.
         </p>
       </Story>
+      <Story id="ui-characters" title="Characters">
+        <Character who="bug" />
+        <Character who="olha" />
+        <Character who="runtime" />
+      </Story>
+      <Story id="ui-sticky" title="StickyNote">
+        <StickyNote label="Olha asks">Wait, doesn&apos;t a join just add more columns?</StickyNote>
+        <StickyNote label="Olha says">Oh. It counts pairs.</StickyNote>
+      </Story>
+      <Story id="ui-bubble" title="SpeechBubble">
+        <SpeechBubble>Friday, 18:40. I may have helped.</SpeechBubble>
+      </Story>
+      <Story id="ui-gotcha" title="Gotcha">
+        <Gotcha>A join never asks how many orders you have. It counts matching pairs.</Gotcha>
+      </Story>
+      <Story id="ui-stop" title="StopAndThink">
+        <StopAndThink>Take one order. What does that single order turn into?</StopAndThink>
+      </Story>
+      <Story id="ui-annotation" title="Annotation">
+        <Annotation>100 rows in here</Annotation>
+        <Annotation curve="down">the matching rule</Annotation>
+      </Story>
+      <Story id="ui-feedback" title="FeedbackBanner">
+        <FeedbackBanner correct title="400 rows. You got it." aside="picked 100? see the note">
+          Every order shows up once per matching item: 100 x 4.
+        </FeedbackBanner>
+        <FeedbackBanner correct={false} title="Not quite.">
+          A join keeps pairs, not orders.
+        </FeedbackBanner>
+      </Story>
+      <Story id="ui-diagram" title="MiniDiagram">
+        <MiniDiagram
+          caption="one order, four items"
+          elements={[
+            { type: 'chip', text: 'order 7', tone: 'ink' },
+            { type: 'arrow' },
+            { type: 'cards', texts: ['mug', 'tee', 'cap', 'pin'] },
+          ]}
+        />
+      </Story>
+      <Story id="ui-review" title="ReviewCard">
+        <ReviewCard
+          question="An order with 3 items, joined to items. How many rows?"
+          due="in 3 days"
+        />
+      </Story>
+      <Story id="ui-cliffhanger" title="Cliffhanger">
+        <Cliffhanger>
+          Order 12 has no items. It just vanished from your report. Where did it go?
+        </Cliffhanger>
+      </Story>
+      <Story id="ui-hints" title="HintLadder">
+        <HintLadder
+          hints={[
+            'Look at the join condition.',
+            'Count the matches for one order.',
+            'It is 4 per order.',
+          ]}
+        />
+      </Story>
+      <Story id="ui-margin" title="Margin items from lesson data">
+        <div className="cat-margin">
+          <MarginItems
+            items={[
+              { type: 'sticky', who: 'olha', label: 'asks', text: 'Is that really 400?' },
+              { type: 'bubble', who: 'runtime', text: 'Rules are rules.' },
+              { type: 'gotcha', text: 'Pairs, not orders.' },
+              { type: 'stopAndThink', text: 'What does one order become?' },
+              { type: 'diagram', ref: 'one-order-four-items', caption: 'one order, four items' },
+            ]}
+          />
+        </div>
+      </Story>
     </section>
   );
 }
@@ -182,6 +273,7 @@ export function Catalogue({ highlights }: { readonly highlights: HighlightMap })
         .cat-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
         .cat-prose { margin: 0; }
         .cat-stage { min-width: 0; }
+        .cat-margin { display: flex; flex-direction: column; gap: var(--space-22); width: 280px; }
       `}</style>
     </HighlightsProvider>
   );
