@@ -9,6 +9,8 @@ concepts: [query-execution-order, alias-scope, order-by-determinism]
 # - HAVING filters groups after GROUP BY, WHERE filters rows before it:
 #   https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP
 # - ORDER BY may use output column names: https://www.postgresql.org/docs/current/queries-order.html
+# - GROUP BY may also use output column names (special case, not a general alias rule):
+#   https://www.postgresql.org/docs/current/sql-select.html
 # - Without ORDER BY the order of returned rows is unspecified, and LIMIT then returns an unpredictable subset:
 #   https://www.postgresql.org/docs/current/queries-limit.html
 ---
@@ -30,7 +32,7 @@ Those are the first three paid rows by id. The ORDER BY sorts before LIMIT cuts,
 {% /predict %}
 
 {% explain id="e1" estSeconds=60 code="select customer, sum(amount) as total\nfrom orders\nwhere status = 'paid'\ngroup by customer\nhaving sum(amount) > 30\norder by total desc\nlimit 2" concepts=["query-execution-order", "alias-scope"] %}
-The database runs the clauses in this order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT. You write SELECT first, but it runs fifth. An alias is born in SELECT, so only the stages after it can use it.
+The database runs the clauses in this order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT. You write SELECT first, but it runs fifth. An alias is born in SELECT, so WHERE and HAVING, which run before it, cannot see it. ORDER BY (and GROUP BY) are special-cased: PostgreSQL lets them use output column names.
 
 {% annotation line=2 %}
 Runs first: pick the table.
@@ -106,7 +108,7 @@ WHERE cannot see sums. Filter the paid rows in WHERE, then filter the groups in 
 A query runs FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT, not in the order you write it.
 {% /point %}
 {% point %}
-An alias made in SELECT works in ORDER BY but not in WHERE or HAVING.
+WHERE and HAVING run before the alias exists, so they cannot use it. ORDER BY is special-cased and can.
 {% /point %}
 {% point %}
 Without ORDER BY, LIMIT returns some rows, not the first ones.
