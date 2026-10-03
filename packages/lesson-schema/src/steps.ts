@@ -1,9 +1,29 @@
 import { z } from 'zod';
 
+/** An aside shown in the margin of a step (E08 section 9). */
+export const marginItem = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('sticky'),
+    who: z.literal('olha'),
+    label: z.enum(['asks', 'says']),
+    text: z.string().min(1),
+  }),
+  z.object({
+    type: z.literal('bubble'),
+    who: z.enum(['bug', 'runtime']),
+    text: z.string().min(1),
+  }),
+  z.object({ type: z.literal('gotcha'), text: z.string().min(1) }),
+  z.object({ type: z.literal('stopAndThink'), text: z.string().min(1) }),
+  z.object({ type: z.literal('diagram'), ref: z.string().min(1), caption: z.string().min(1) }),
+]);
+export type MarginItem = z.infer<typeof marginItem>;
+
 const stepBase = z.object({
   id: z.string().min(1),
   estSeconds: z.number().int().positive(),
   concepts: z.array(z.string()).readonly(),
+  margin: z.array(marginItem).readonly().optional(),
 });
 
 const codeLanguage = z.enum(['ts', 'js', 'sql', 'http']);

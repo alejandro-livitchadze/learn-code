@@ -23,6 +23,12 @@ Step prose (`body`, recap `points`, cliffhanger `question`, sqlLab `prompt` and 
 
 Everything else is rejected by the lint rule `markdown-subset`, which prints `file:line: error [markdown-subset] <field>, line <n>: <construct> is not supported`. The file line is the step; `<n>` counts from 1 inside the field. Rejected: headings, blockquotes, numbered or nested lists, `*` and `+` bullets, horizontal rules, tables, tilde fences, indented code, images, HTML, strikethrough, `__bold__`, reference links, and links that are not http or https.
 
+## Margin items, highlights and design lint
+
+Any step tag may contain one `{% margin %}` with `{% sticky label="asks|says" %}`, `{% bubble who="bug|runtime" %}`, `{% gotcha %}`, `{% stop %}` (text in the body) and `{% diagram ref="..." caption="..." /%}`. They compile to the step's `margin` array. A phrase between `==` marks in the frontmatter title becomes `titleHighlights` and the marks are removed from `title`; in step prose the marks stay for the renderer.
+
+The design rules DL1 to DL8 (E08 section 8) live in `src/lint/design.ts` with the rule ids `dl1-margin-count` to `dl8-gotcha-stop-count`.
+
 ## CLI
 
 Run from the repository root:

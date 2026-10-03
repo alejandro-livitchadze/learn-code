@@ -283,3 +283,25 @@ describe('registry, roadmap and status files', () => {
     expect(lessonStatus.safeParse({ ...ok, updatedAt: 'yesterday' }).success).toBe(false);
   });
 });
+
+describe('margin and title highlights', () => {
+  it('parses every margin item type and rejects bad ones', async () => {
+    const { marginItem, splitHighlights } = await import('./index');
+    const ok = [
+      { type: 'sticky', who: 'olha', label: 'asks', text: 'Why?' },
+      { type: 'bubble', who: 'runtime', text: 'Rule.' },
+      { type: 'gotcha', text: 'Careful.' },
+      { type: 'stopAndThink', text: 'Hm.' },
+      { type: 'diagram', ref: 'rows', caption: 'Rows' },
+    ];
+    for (const m of ok) expect(marginItem.safeParse(m).success).toBe(true);
+    expect(
+      marginItem.safeParse({ type: 'sticky', who: 'bug', label: 'asks', text: 'x' }).success,
+    ).toBe(false);
+    expect(marginItem.safeParse({ type: 'gotcha', text: '' }).success).toBe(false);
+    expect(splitHighlights('a ==b c== d ==e==')).toEqual({
+      plain: 'a b c d e',
+      highlights: ['b c', 'e'],
+    });
+  });
+});

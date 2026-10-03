@@ -44,6 +44,70 @@ describe('compileLesson', () => {
     });
   });
 
+  it('compiles margin tags into margin items', () => {
+    const r = compileLesson(path);
+    if (!r.ok) throw new Error(r.errors.map(formatError).join('\n'));
+    expect(r.lesson.steps[2]?.margin).toEqual([
+      { type: 'sticky', who: 'olha', label: 'asks', text: 'So the join multiplies rows?' },
+      { type: 'gotcha', text: 'Count the rows before you trust a sum.' },
+    ]);
+    expect(r.lesson.steps[0]?.margin).toBeUndefined();
+  });
+
+  it('compiles bubble, stop and diagram items', () => {
+    const errors = compileSource(
+      valid.replace(
+        '{% /hook %}',
+        [
+          '{% margin %}',
+          '{% bubble who="bug" %}',
+          'Mine.',
+          '{% /bubble %}',
+          '{% stop %}',
+          'Why?',
+          '{% /stop %}',
+          '{% diagram ref="rows" caption="Rows grow" /%}',
+          '{% /margin %}',
+          '{% /hook %}',
+        ].join('\n'),
+      ),
+      path,
+    );
+    if (!errors.ok) throw new Error(errors.errors.map(formatError).join('\n'));
+    expect(errors.lesson.steps[0]?.margin).toEqual([
+      { type: 'bubble', who: 'bug', text: 'Mine.' },
+      { type: 'stopAndThink', text: 'Why?' },
+      { type: 'diagram', ref: 'rows', caption: 'Rows grow' },
+    ]);
+  });
+
+  it('rejects bad margin content, with its line', () => {
+    const errors = broken(
+      '{% /annotation %}\n',
+      '{% /annotation %}\n{% margin %}\nLoose text.\n{% hint %}\nx\n{% /hint %}\n{% /margin %}\n',
+    );
+    const messages = errors.map((e) => e.message);
+    expect(messages).toContainEqual(expect.stringContaining('text directly inside "margin"'));
+    expect(messages).toContainEqual(
+      expect.stringContaining('"hint" is not allowed inside "margin"'),
+    );
+  });
+
+  it('rejects an unknown sticky label', () => {
+    const errors = broken('label="asks"', 'label="shouts"');
+    expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it('turns ==marks== in the title into titleHighlights', () => {
+    const r = compileSource(
+      valid.replace('Why your JOIN returned', 'Why your ==JOIN== returned'),
+      path,
+    );
+    if (!r.ok) throw new Error(r.errors.map(formatError).join('\n'));
+    expect(r.lesson.title).toBe('Why your JOIN returned 400 rows');
+    expect(r.lesson.titleHighlights).toEqual(['JOIN']);
+  });
+
   it('reports an unreadable file', () => {
     const r = compileLesson(join(dir, 'nope.mdoc'));
     expect(r).toMatchObject({ ok: false });

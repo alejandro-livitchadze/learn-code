@@ -213,4 +213,54 @@ export const brokenFixtures: Readonly<Record<string, Lesson>> = {
   'review-cards': withSteps(
     replaceStep('recap', (s) => (s.kind === 'recap' ? { ...s, concepts: J } : s)),
   ),
+  'dl1-margin-count': withSteps(
+    replaceStep('hook', (s) => ({
+      ...s,
+      margin: [1, 2, 3, 4].map((n) => ({ type: 'diagram', ref: `d${n}`, caption: 'c' })),
+    })),
+  ),
+  'dl2-character-count': withSteps(
+    replaceStep('hook', (s) => ({
+      ...s,
+      kind: 'hook',
+      body: 'x',
+      character: 'bug',
+      margin: [{ type: 'bubble', who: 'bug', text: 'Mine.' }],
+    })),
+  ),
+  'dl3-bug-placement': withSteps(
+    replaceStep('predict', (s) => ({
+      ...s,
+      margin: [{ type: 'bubble', who: 'bug', text: 'Mine.' }],
+    })),
+  ),
+  'dl4-runtime-placement': withSteps(
+    replaceStep('hook', (s) => ({
+      ...s,
+      margin: [{ type: 'bubble', who: 'runtime', text: 'Rule 4.' }],
+    })),
+  ),
+  'dl5-word-limits': withSteps(
+    replaceStep('hook', (s) => ({
+      ...s,
+      margin: [{ type: 'sticky', who: 'olha', label: 'asks', text: words(21) }],
+    })),
+  ),
+  'dl6-annotation-count': withSteps(
+    replaceStep('explain', (s) =>
+      s.kind === 'explain'
+        ? { ...s, annotations: [1, 2, 1, 2].map((line) => ({ line, text: 'note' })) }
+        : s,
+    ),
+  ),
+  'dl7-highlight-limits': withSteps(validSteps, { titleHighlights: ['Joins', 'Joins again'] }),
+  'dl8-gotcha-stop-count': withSteps(
+    replaceStep('hook', (s) => ({
+      ...s,
+      margin: [
+        { type: 'gotcha', text: 'One.' },
+        { type: 'gotcha', text: 'Two.' },
+      ],
+    })),
+  ),
 };
