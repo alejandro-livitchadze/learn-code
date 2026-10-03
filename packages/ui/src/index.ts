@@ -23,4 +23,5 @@ export {
   limitDiagramElements,
 } from './margin';
 export type { DiagramElement } from './margin';
-export { Cliffhanger, FeedbackBanner, HintLadder, ReviewCard } from './cards';
+export { Cliffhanger, FeedbackBanner, ReviewCard } from './cards';
+export { HintLadder } from './HintLadder';

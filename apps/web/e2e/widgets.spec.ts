@@ -28,6 +28,39 @@ for (const width of [1024, 1440]) {
       expect(overflow).toBeLessThanOrEqual(0);
     });
 
+    test('every UI component has a story, including the characters and margin items', async ({
+      page,
+    }) => {
+      for (const id of [
+        'ui-characters',
+        'ui-sticky',
+        'ui-bubble',
+        'ui-gotcha',
+        'ui-stop',
+        'ui-annotation',
+        'ui-feedback',
+        'ui-diagram',
+        'ui-review',
+        'ui-cliffhanger',
+        'ui-hints',
+        'ui-margin',
+      ]) {
+        await expect(page.locator(`#${id}`)).toBeVisible();
+      }
+      for (const name of ['The Bug', 'Olha', 'Mr. Runtime']) {
+        await expect(page.locator('#ui-characters').getByRole('img', { name })).toBeVisible();
+      }
+    });
+
+    test('hint ladder unlocks one hint at a time', async ({ page }) => {
+      const ladder = page.locator('#ui-hints');
+      await expect(ladder.getByRole('button', { name: 'Show hint 1' })).toBeEnabled();
+      await expect(ladder.getByRole('button', { name: /Hint 2 \(locked\)/ })).toBeDisabled();
+      await ladder.getByRole('button', { name: 'Show hint 1' }).click();
+      await expect(ladder.getByText('Look at the join condition.')).toBeVisible();
+      await expect(ladder.getByRole('button', { name: 'Show hint 2' })).toBeEnabled();
+    });
+
     test('predict: wrong answer does not complete, correct answer completes once', async ({
       page,
     }) => {
