@@ -87,8 +87,8 @@ describe('PGlite inline adapter', () => {
     );
     expect(r.columns).toEqual(['name', 'title', 'price', 'added']);
     expect(r.rows).toEqual([
-      ['Ada', 'Notes', '12.50', '2026-01-02T03:04:05.000Z'],
-      ['Ada', 'More Notes', '9.99', '2026-02-02T03:04:05.000Z'],
+      ['Ada', 'Notes', '12.50', '2026-01-02 03:04:05+00'],
+      ['Ada', 'More Notes', '9.99', '2026-02-02 03:04:05+00'],
     ]);
   });
 
