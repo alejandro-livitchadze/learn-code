@@ -7,6 +7,9 @@ const TOTAL = 13;
 
 const heading = (page: Page) => page.getByTestId('step-heading');
 const continueBtn = (page: Page) => page.getByRole('button', { name: 'Continue' });
+/** The step is still open: no enabled Continue button (it is disabled or replaced by the step's own action). */
+const expectGated = (page: Page) =>
+  expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
 /** The predict option whose printed output is exactly `output`. */
 const option = (page: Page, output: string) =>
   page
@@ -64,7 +67,7 @@ async function playToEnd(page: Page): Promise<void> {
   for (let i = await stepNumber(page); i < TOTAL; i += 1) {
     const kind = await kindOf(page);
     if (ANSWERS[i] !== undefined) {
-      await expect(continueBtn(page)).toBeDisabled();
+      await expectGated(page);
       await answerCurrent(page, kind);
     }
     await continueBtn(page).click();
@@ -106,7 +109,7 @@ test('a wrong answer does not complete the step; the right one does', async ({ p
   await page.getByRole('button', { name: 'Lock in answer' }).click();
   await expect(page.locator('.ui-feedback[data-correct="false"]')).toContainText('Not quite.');
   await expect(page.locator('.w-opt[data-state="wrong"]')).toHaveCount(1);
-  await expect(continueBtn(page)).toBeDisabled();
+  await expectGated(page);
   await answerCurrent(page, 'predict');
   await expect(continueBtn(page)).toBeEnabled();
 });
@@ -160,7 +163,7 @@ test('an active step cannot be skipped by button, keyboard or URL', async ({ pag
   await page.goto(URL);
   await continueBtn(page).click();
   await expect(heading(page)).toContainText('step 2 of');
-  await expect(continueBtn(page)).toBeDisabled();
+  await expectGated(page);
   await page.keyboard.press('Enter');
   await page.keyboard.press('ArrowRight');
   await expect(heading(page)).toContainText('step 2 of');
@@ -178,7 +181,7 @@ test('an active step cannot be skipped by button, keyboard or URL', async ({ pag
   }, KEY);
   await page.reload();
   await expect(heading(page)).toContainText('step 2 of');
-  await expect(continueBtn(page)).toBeDisabled();
+  await expectGated(page);
 });
 
 test('keyboard: arrows and Enter move through passive steps, focus lands on the heading', async ({
