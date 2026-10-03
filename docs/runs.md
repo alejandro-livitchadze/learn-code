@@ -61,3 +61,9 @@
 - F4 (PR #25): first CI run red (e2e job hung in `playwright install` on Node 26, cancelled at the 20 min timeout). Fix round 1 installed browsers under Node 22; CI green; merged, review APPROVE on b1ce79e.
 - Workers: 3 (F3, F4, F4 fix round). Reviewers: 2. CI on develop not re-checked after the merges. Integration PR #21 still open; no milestone this run.
 - Next ready: F5, F7 (F8 is author/orchestrator only), V1, C1.
+
+## 2026-10-03 (second run): F5, V1
+
+- V1 (PR #27, head adbe8d8): worker done; scope, install, typecheck, lint pass locally; lesson-compiler tests hang locally (PGlite), so CI decides. CI running; no review verdict yet. V1 stays `in_progress`. Next run: if CI green, run review gate on adbe8d8.
+- F5: worker dispatched on `task/F5`, still running at this write. Stays `in_progress`; resume from the branch if it has no PR.
+- V1 notes for reviewer/V4: LEGACY_EXEMPT list in codeLint.ts and `.legacy-skin` block in globals.css must be removed by V4.
