@@ -185,7 +185,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: The Bug, Olha and Mr. Runtime exist as SVG components; StickyNote, SpeechBubble, Gotcha, StopAndThink, FeedbackBanner, Annotation, MiniDiagram, ReviewCard, Cliffhanger, HintLadder are built and in the catalogue; the player renders `margin` items and the hook's left character column.
 
 ## V4. Restyle every existing widget and the sample lesson
-- Status: in_progress
+- Status: blocked
 - Depends on: V3
 - Paths: `packages/widgets/**`, `content/**`, `apps/web/**`
 - Epic: E08 whole file; mockups A1 to A4
