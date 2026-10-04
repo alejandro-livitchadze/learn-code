@@ -110,3 +110,7 @@
 - V4 (PR #34) is still `blocked` (2 of 2 fix rounds used; pk-marker blocker open). L2, P9, M0 and everything after them wait on V4.
 - D6 was the only ready task, but djinni.co is unreachable from this sandbox (proxy CONNECT returns 403), so no refresh was possible. F8 is author/orchestrator only.
 - Workers: 0. Reviewers: 0. Integration PR #21 still open; no milestone.
+
+## 2026-10-04 (eighth run): nothing started
+
+- No change since the seventh run: V4 (PR #34, head 269f145) is `blocked` awaiting the author's decision on a third fix round; D6 still needs djinni.co. Workers: 0. Reviewers: 0.
