@@ -114,3 +114,7 @@
 ## 2026-10-04 (eighth run): nothing started
 
 - No change since the seventh run: V4 (PR #34, head 269f145) is `blocked` awaiting the author's decision on a third fix round; D6 still needs djinni.co. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (ninth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
