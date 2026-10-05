@@ -64,4 +64,8 @@
   --font-body: var(--font-body-face), system-ui, sans-serif;
   --font-hand: var(--font-hand-face), 'Comic Sans MS', cursive;
   --font-mono: var(--font-mono-face), ui-monospace, monospace;
+
+  /* Font sizes. */
+  --font-size-16: 16px;
+  --font-size-18: 18px;
 }
