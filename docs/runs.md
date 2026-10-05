@@ -144,3 +144,8 @@
 - No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
 - Update, 2026-10-05: the author pushed dfd027b (pk marker fix) to `task/V4`; CI green; fresh reviewer APPROVE; V4 (PR #34) squash-merged. V4 is `done`. Reviewers this run: 3. Integration PR #21 still open; no milestone.
 - Next ready: L2 (V4 done, L1 done), P9; F8 is author/orchestrator only.
+
+## 2026-10-05 (sixteenth run)
+
+- L2 (nulls-01): worker done, commit 90d1888 on `task/L2`; PR #35 opened. Local: typecheck, lint, lesson check pass; `pnpm test` hangs locally (PGlite). CI was queued at the end of the run; review gate next run. Status stays `in_progress`.
+- M0 not started: its official sources (module-federation.io) are unreachable from the sandbox (000); P9 skipped because its paths overlap L2. Workers: 1. Reviewers: 0.
