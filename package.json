@@ -11,6 +11,7 @@
     "lint": "eslint . && pnpm code-lint",
     "lesson": "tsx packages/lesson-compiler/src/cli.ts",
     "demand": "pnpm --filter @learn-code/demand-scanner demand",
+    "traces": "pnpm --filter @learn-code/lesson-compiler traces",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "code-lint": "tsx packages/ui/scripts/code-lint.ts"
