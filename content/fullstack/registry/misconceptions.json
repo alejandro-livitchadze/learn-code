@@ -208,5 +208,11 @@
     "belief": "HAVING filters single rows before they are grouped.",
     "correction": "HAVING runs after GROUP BY and filters whole groups.",
     "concepts": ["query-execution-order"]
+  },
+  {
+    "id": "unknown-poisons-or",
+    "belief": "If one side of an OR is NULL, the whole OR is NULL.",
+    "correction": "Unknown OR true is true; only unknown OR false stays unknown.",
+    "concepts": ["three-valued-logic"]
   }
 ]
