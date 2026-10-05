@@ -131,3 +131,7 @@
 
 - F12 (PR #42) merged; delete stale remote branch `task/F12`.
 - F13 (PR #41) merged; delete stale remote branches `task/F12` and `task/F13`.
+
+## 2026-10-05 (twenty-second run, milestone)
+
+- Milestone P10 is on main. What to try by hand: run `pnpm --filter web dev`, open `/dev/widgets` and use the beTheDatabase widget (join-inner, join-left, join-multiply traces); play joins-01 and schema-01. No lesson uses beTheDatabase yet (F16).

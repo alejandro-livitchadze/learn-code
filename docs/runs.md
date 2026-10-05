@@ -184,3 +184,4 @@
 
 - Update, 2026-10-05: F12 (PR #42) CI green on d3392fa after one prettier fix round, fresh reviewer APPROVE, squash-merged; F12 is `done`. F13 (PR #41): review 1 on aae9e68 CHANGES_REQUESTED (missing tests); fix round 1 pushed as a6828a9, CI and review next run. Paths widened to verify.test.ts; F15 absorbed. Reviewers: 2. Workers: 3.
 - Update, 2026-10-05: F13 (PR #41) CI green on a6828a9, fresh reviewer APPROVE, squash-merged; F13 is `done`. Added F17 (minors). Milestone step for P10 follows.
+- Update, 2026-10-05: milestone P10: CI on develop green, integration reviewer APPROVE on f840130, Integration PR #21 merged into main (merge commit de44fcc). Added F18 (e2e minors). Reviewers: 4 total this run. A new Integration PR from develop into main is needed next run.
