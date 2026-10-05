@@ -270,7 +270,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
 
 ## L3. Module 1, lesson 3
-- Status: todo
+- Status: in_progress
 - Depends on: L2
 - Paths: `content/fullstack/<id of roadmap lesson 3>/**`, `content/fullstack/registry/**`
 - Done when: same as L2, for roadmap lesson 3.
@@ -370,7 +370,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
 
 ## F14. Root `traces` script
-- Status: todo
+- Status: in_progress
 - Depends on: F13
 - Paths: root
 - Source: F13 worker report
