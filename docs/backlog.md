@@ -232,7 +232,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
 
 ## P9. Schema builder
-- Status: todo
+- Status: in_progress
 - Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
