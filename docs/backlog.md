@@ -329,14 +329,14 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 After P10 and D5 the orchestrator only runs D6 and triage. New platform work needs the author.
 
 ## F9. Wire schemaBuilder into the player
-- Status: todo
+- Status: in_progress
 - Depends on: P9
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/sql-wiring.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `packages/ui/src/StepTag.tsx`, `content/fullstack/**`
 - Source: P9 worker report
 - Done when: `schemaBuilder` maps to `createSchemaBuilder({ getEngine: getLazyEngine })` and is in `IMPLEMENTED_KINDS`; a fixture exists; `StepTag` has a `schemaBuilder` entry (no sqlLab stand-in); a `schema-01` lesson of 12 to 20 steps uses `design="./design/shop.json"` and passes `lesson check`.
 
 ## F10. P9 minors: error narrowing and design.css tokens
-- Status: todo
+- Status: in_progress
 - Depends on: P9
 - Paths: `packages/lesson-compiler/src/tags/kinds.ts`, `packages/lesson-compiler/src/compile.ts`, `packages/widgets/src/design/design.css`
 - Source: P9 reviewer minors
