@@ -42,7 +42,13 @@ export function compileLesson(path: string): CompileResult {
   try {
     source = readFileSync(path, 'utf8');
   } catch (e) {
-    return fail([{ file: path, line: 1, message: `cannot read file: ${(e instanceof Error ? e.message : String(e))}` }]);
+    return fail([
+      {
+        file: path,
+        line: 1,
+        message: `cannot read file: ${e instanceof Error ? e.message : String(e)}`,
+      },
+    ]);
   }
   return compileSource(source, path);
 }
@@ -130,7 +136,10 @@ function readFrontmatter(
   } catch (e) {
     // The first line of the block is line 2 of the file.
     const line = e instanceof YAMLParseError ? (e.linePos?.[0].line ?? 1) + 1 : 1;
-    add(line, `invalid frontmatter YAML: ${(e instanceof Error ? e.message : String(e)).split('\n')[0]}`);
+    add(
+      line,
+      `invalid frontmatter YAML: ${(e instanceof Error ? e.message : String(e)).split('\n')[0]}`,
+    );
   }
   return {};
 }
@@ -187,7 +196,7 @@ function buildStep(node: Node, dir: string, add: (line: number, message: string)
   try {
     built = spec.build(ctx(node));
   } catch (e) {
-    add(lineOf(node), `step "${node.tag}": ${(e instanceof Error ? e.message : String(e))}`);
+    add(lineOf(node), `step "${node.tag}": ${e instanceof Error ? e.message : String(e)}`);
     return {};
   }
   return margin.length > 0 ? { ...built, margin } : built;
