@@ -261,7 +261,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.
 
 ## L2. Module 1, lesson 2
-- Status: in_progress
+- Status: done
+- Note: merged via PR #35 (419b9a5); CI green; reviewer APPROVE on fcdcb04 (minors: recap "only IS NULL / IS NOT NULL" contradicts the IS DISTINCT FROM line; postgresql.org links unverified; e1 "Discount 0" wording; "NULL = NULL" never run). No recall step: widget not built.
 - Depends on: L1
 - Paths: `content/fullstack/<id of roadmap lesson 2>/**`, `content/fullstack/registry/**`
 - Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.

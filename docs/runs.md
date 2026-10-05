@@ -153,3 +153,5 @@
 ## 2026-10-05 (seventeenth run): nothing started
 
 - GitHub Actions still fails on every run in about 4 seconds with no steps (latest: run 309 on `main`, 07:45 UTC), so no PR can reach green CI. L2 (PR #35, head 90d1888) stays `in_progress`, no review gate. Workers: 0. Reviewers: 0.
+- Update, 2026-10-05: the author made the repository public, which restored CI. L2 (PR #35) was reviewed fresh (APPROVE on fcdcb04), CI green after one re-run of a flaky e2e keyboard test (`player.spec.ts:247`, passed on the same commit in the PR run), and squash-merged. L2 is `done`. Reviewers this run: 1. Integration PR #21 still open; no milestone.
+- Next ready: M0 (needs module-federation.io reachable), P9, L3.
