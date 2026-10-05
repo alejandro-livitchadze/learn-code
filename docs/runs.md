@@ -177,3 +177,7 @@
 ## 2026-10-05 (twenty-first run)
 
 - P10 (PR #40) CI green on 6e70871 (one flaky e2e on the first run, `player.spec.ts:247`, passed on the second), fresh reviewer APPROVE, squash-merged. P10 is `done`. Reviewers: 1. Workers: 0. Integration PR #21 still open; no milestone. Stopped to leave room for the next run; F12, F13, L3 are ready (M0 still blocked on module-federation.io).
+
+## 2026-10-05 (twenty-second run)
+
+- F12: worker done (0274d9b), PR opened; typecheck and lint pass; lesson-compiler tests minus sql-lab pass locally (sql-lab too slow, CI decides). F13: worker done (aae9e68), PR #41 opened; typecheck and lint pass, lesson check ok. CI running at end of run; review gate next run. Added F14 to F16 (follow-ups). P10 milestone still deferred until F13 merges. Workers: 2. Reviewers: 0.

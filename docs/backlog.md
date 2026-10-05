@@ -366,3 +366,24 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`
 - Source: P10 worker report
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
+
+## F14. Root `traces` script
+- Status: todo
+- Depends on: F13
+- Paths: root
+- Source: F13 worker report
+- Done when: root `package.json` has `"traces": "pnpm --filter @learn-code/lesson-compiler traces"`; checks pass.
+
+## F15. Test verifyBeTheDatabase
+- Status: todo
+- Depends on: F13
+- Paths: `packages/lesson-compiler/src/verify.test.ts`
+- Source: F13 worker report
+- Done when: tests cover a missing trace, a stale trace, and a step whose tables or query differ from the trace; checks pass.
+
+## F16. Use beTheDatabase in a lesson
+- Status: todo
+- Depends on: F13
+- Paths: `content/fullstack/joins-01/**`
+- Source: F13 worker report
+- Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
