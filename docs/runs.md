@@ -166,3 +166,5 @@
 
 - F9: worker done (head b63af2b), PR #37 opened; ui.test.ts added to its paths. Local: typecheck, lint, lesson check pass; compiler tests too slow locally. CI running at end of run; review gate next run. F10: worker done (head 59c5848), PR #38 opened; CI running. Added F11 (font-size tokens). M0 still blocked on module-federation.io; L3 and P10 skipped (overlap F9 on `content/**`). Workers: 2. Reviewers: 0.
 - Update, 2026-10-05: F9 (PR #37) CI green on b63af2b, fresh reviewer APPROVE, squash-merged. F9 is `done`. F10 (PR #38): CI failed on prettier, fixed in 0689b98; CI re-running, review gate next run. Reviewers this run: 1.
+- Update, 2026-10-05: F10 (PR #38) CI green on 0689b98, fresh reviewer APPROVE, squash-merged. F10 is `done`. Added F12 (remaining `as Error`). Reviewers this run: 2. Integration PR #21 still open; no milestone.
+- Next ready: L3, P10, F11, F12; M0 still needs module-federation.io.

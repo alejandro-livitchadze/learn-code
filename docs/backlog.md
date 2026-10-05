@@ -337,7 +337,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `schemaBuilder` maps to `createSchemaBuilder({ getEngine: getLazyEngine })` and is in `IMPLEMENTED_KINDS`; a fixture exists; `StepTag` has a `schemaBuilder` entry (no sqlLab stand-in); a `schema-01` lesson of 12 to 20 steps uses `design="./design/shop.json"` and passes `lesson check`.
 
 ## F10. P9 minors: error narrowing and design.css tokens
-- Status: in_progress
+- Status: done
+- Note: merged via PR #38 (de2965a); CI green; reviewer APPROVE on 0689b98 (minors: `22px` in design.css could use `--space-22`; `as Error` remains in cli.ts:40 and registries.ts:15, see F12).
 - Depends on: P9
 - Paths: `packages/lesson-compiler/src/tags/kinds.ts`, `packages/lesson-compiler/src/compile.ts`, `packages/widgets/src/design/design.css`
 - Source: P9 reviewer minors
@@ -349,3 +350,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/ui/src/tokens.css`, `packages/widgets/src/design/design.css`
 - Source: F10 worker report
 - Done when: font-size tokens (for example 16px and 18px) exist in `tokens.css`; `design.css` uses them instead of its five literal `font-size: 16px`; checks pass.
+
+## F12. Narrow caught errors in CLI and registries
+- Status: todo
+- Depends on: F10
+- Paths: `packages/lesson-compiler/src/cli.ts`, `packages/lesson-compiler/src/registries.ts`
+- Source: F10 reviewer minor
+- Done when: `as Error` at `cli.ts:40` and `registries.ts:15` is replaced by `e instanceof Error ? e.message : String(e)`; checks pass.
