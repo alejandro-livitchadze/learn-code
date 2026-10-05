@@ -419,6 +419,42 @@ export const fixtures: readonly Fixture[] = [
     },
   },
   {
+    id: 'be-the-database-idle',
+    title: 'Be the database, inner join, untouched',
+    step: {
+      ...base,
+      id: 'fx-bd-1',
+      kind: 'beTheDatabase',
+      query:
+        'select c.name, o.item from customers c inner join orders o on o.customer_id = c.id order by c.id, o.id',
+      traceRef: 'join-inner',
+      prompt: 'Pair the rows of **customers** and **orders** the way the join would.',
+      tables: [
+        {
+          name: 'customers',
+          columns: ['id', 'name'],
+          rows: [
+            ['1', 'Anna'],
+            ['2', 'Boris'],
+            ['3', 'Chloe'],
+            ['4', 'Dmytro'],
+          ],
+        },
+        {
+          name: 'orders',
+          columns: ['id', 'customer_id', 'item'],
+          rows: [
+            ['11', '1', 'lamp'],
+            ['12', '1', 'desk'],
+            ['13', '2', 'chair'],
+            ['14', '2', 'mug'],
+            ['15', '4', 'plant'],
+          ],
+        },
+      ],
+    },
+  },
+  {
     id: 'unbuilt-parsons',
     title: 'Unbuilt kind shows a short notice',
     step: {

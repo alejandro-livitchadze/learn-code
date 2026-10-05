@@ -4,6 +4,7 @@ import { Predict } from './Predict';
 import { FillBlanks } from './FillBlanks';
 import { SqlLabWidget, getLazyEngine } from './sql-wiring';
 import { createSchemaBuilder } from './design';
+import { BeTheDatabaseWidget } from './be-the-database';
 import { IMPLEMENTED_KINDS, type Step } from '@learn-code/lesson-schema';
 import type { StepComponentProps, WidgetRegistry } from './types';
 
@@ -17,7 +18,7 @@ export const widgetRegistry: WidgetRegistry = {
   reveal: Unimplemented,
   explain: Explain,
   beTheRuntime: Unimplemented,
-  beTheDatabase: Unimplemented,
+  beTheDatabase: BeTheDatabaseWidget,
   parsons: Unimplemented,
   fillBlanks: FillBlanks,
   firesideChat: Unimplemented,

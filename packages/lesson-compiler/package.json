@@ -6,6 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "lesson": "tsx src/cli.ts",
+    "traces": "tsx src/traces/cli.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --coverage"
   },

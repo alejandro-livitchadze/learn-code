@@ -21,6 +21,7 @@ import {
   MarginItems,
   MarginSlotProvider,
   SeedBaseProvider,
+  TraceBaseProvider,
   StepWidget,
   type HighlightMap,
   type StepFooter,
@@ -273,15 +274,17 @@ export function LessonPlayer({ lesson, highlights, conceptNames = {}, next: next
                 </h2>
                 <HighlightsProvider value={highlights}>
                   <SeedBaseProvider value={`/seeds/${lesson.courseId}/${lesson.id}`}>
-                    <MarginSlotProvider value={marginSlot}>
-                      <FooterProvider value={setFooter}>
-                        <ReviewCardsProvider value={conceptNames}>
-                          {step.kind === 'hook' ? null : (
-                            <StepWidget step={step} restored={current} onComplete={onComplete} />
-                          )}
-                        </ReviewCardsProvider>
-                      </FooterProvider>
-                    </MarginSlotProvider>
+                    <TraceBaseProvider value={`/traces/${lesson.courseId}/${lesson.id}`}>
+                      <MarginSlotProvider value={marginSlot}>
+                        <FooterProvider value={setFooter}>
+                          <ReviewCardsProvider value={conceptNames}>
+                            {step.kind === 'hook' ? null : (
+                              <StepWidget step={step} restored={current} onComplete={onComplete} />
+                            )}
+                          </ReviewCardsProvider>
+                        </FooterProvider>
+                      </MarginSlotProvider>
+                    </TraceBaseProvider>
                   </SeedBaseProvider>
                 </HighlightsProvider>
               </div>
