@@ -161,3 +161,7 @@
 - P9: worker done (head 0e4f29d), PR #36 opened; typecheck and lint pass; PGlite tests too slow locally (compiler suite run per file, pass). CI running at end of run; review gate next run. Follow-up F9 added (wiring outside P9 paths). M0 still blocked on module-federation.io (403); L3 skipped because it overlaps P9 on `content/**`. Workers: 1. Reviewers: 0.
 - Update, 2026-10-05: P9 (PR #36) CI green on 0e4f29d, fresh reviewer APPROVE, squash-merged. P9 is `done`. Added F10 (minors). Reviewers this run: 1. Integration PR #21 still open; no milestone.
 - Next ready: F9, F10, L3, P10 (P9 done); M0 still needs module-federation.io.
+
+## 2026-10-05 (nineteenth run)
+
+- F9: worker done (head b63af2b), PR #37 opened; ui.test.ts added to its paths. Local: typecheck, lint, lesson check pass; compiler tests too slow locally. CI running at end of run; review gate next run. F10: worker done (head 59c5848), PR #38 opened; CI running. Added F11 (font-size tokens). M0 still blocked on module-federation.io; L3 and P10 skipped (overlap F9 on `content/**`). Workers: 2. Reviewers: 0.

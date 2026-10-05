@@ -341,3 +341,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/lesson-compiler/src/tags/kinds.ts`, `packages/lesson-compiler/src/compile.ts`, `packages/widgets/src/design/design.css`
 - Source: P9 reviewer minors
 - Done when: caught values are narrowed with `e instanceof Error ? e.message : String(e)` instead of `as Error`; `design.css` uses E08 spacing and type tokens where equivalents exist; checks pass.
+
+## F11. Font-size tokens for design.css
+- Status: todo
+- Depends on: F10
+- Paths: `packages/ui/src/tokens.css`, `packages/widgets/src/design/design.css`
+- Source: F10 worker report
+- Done when: font-size tokens (for example 16px and 18px) exist in `tokens.css`; `design.css` uses them instead of its five literal `font-size: 16px`; checks pass.
