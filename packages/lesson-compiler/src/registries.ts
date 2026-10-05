@@ -12,7 +12,7 @@ function readJson(file: string): { value?: unknown; error?: string } {
   try {
     return { value: JSON.parse(readFileSync(file, 'utf8')) };
   } catch (e) {
-    return { error: `${file}: invalid JSON: ${(e as Error).message}` };
+    return { error: `${file}: invalid JSON: ${e instanceof Error ? e.message : String(e)}` };
   }
 }
 
