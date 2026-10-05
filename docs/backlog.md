@@ -345,7 +345,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: caught values are narrowed with `e instanceof Error ? e.message : String(e)` instead of `as Error`; `design.css` uses E08 spacing and type tokens where equivalents exist; checks pass.
 
 ## F11. Font-size tokens for design.css
-- Status: in_progress
+- Status: done
+- Note: PR #39; design.css had three literals, not five; `--font-size-18` unused for now.
 - Depends on: F10
 - Paths: `packages/ui/src/tokens.css`, `packages/widgets/src/design/design.css`
 - Source: F10 worker report
