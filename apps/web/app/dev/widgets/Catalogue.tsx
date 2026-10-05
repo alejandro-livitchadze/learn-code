@@ -240,6 +240,7 @@ export function Catalogue({ highlights }: { readonly highlights: HighlightMap })
   return (
     <HighlightsProvider value={highlights}>
       <SeedBaseProvider value={CATALOGUE_SEEDS}>
+        {/* Borrows the recorded traces of the fullstack/joins-01 lesson. */}
         <TraceBaseProvider value="/traces/fullstack/joins-01">
           <main className="cat">
             <h1>Widget catalogue</h1>
