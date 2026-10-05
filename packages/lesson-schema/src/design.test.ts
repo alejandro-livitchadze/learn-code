@@ -30,12 +30,17 @@ const col = (name: string, over: Partial<ColumnDraft> = {}): ColumnDraft => ({
 
 const shop: SchemaDraft = {
   tables: [
-    { name: 'customers', columns: [col('id', { primaryKey: true }), col('email', { type: 'text', unique: true })] },
+    {
+      name: 'customers',
+      columns: [col('id', { primaryKey: true }), col('email', { type: 'text', unique: true })],
+    },
     {
       name: 'orders',
       columns: [
         col('id', { primaryKey: true }),
-        col('customer_id', { references: { table: 'customers', column: 'id', onDelete: 'restrict' } }),
+        col('customer_id', {
+          references: { table: 'customers', column: 'id', onDelete: 'restrict' },
+        }),
         col('note', { type: 'text' }),
       ],
     },
@@ -58,12 +63,18 @@ describe('draftToDdl', () => {
   });
   it('writes a composite primary key as a table constraint', () => {
     const ddl = draftToDdl({
-      tables: [{ name: 'link', columns: [col('a', { primaryKey: true }), col('b', { primaryKey: true })] }],
+      tables: [
+        { name: 'link', columns: [col('a', { primaryKey: true }), col('b', { primaryKey: true })] },
+      ],
     });
-    expect(ddl).toEqual(['create table "link" (\n  "a" integer,\n  "b" integer,\n  primary key ("a", "b")\n)']);
+    expect(ddl).toEqual([
+      'create table "link" (\n  "a" integer,\n  "b" integer,\n  primary key ("a", "b")\n)',
+    ]);
   });
   it('keeps nullable columns nullable and escapes hostile names', () => {
-    const [sql] = draftToDdl({ tables: [{ name: 'we"ird', columns: [col('x', { nullable: true })] }] });
+    const [sql] = draftToDdl({
+      tables: [{ name: 'we"ird', columns: [col('x', { nullable: true })] }],
+    });
     expect(sql).toBe('create table "we""ird" (\n  "x" integer\n)');
   });
   it('relaxes columns that no role names, but never keys or named columns', () => {
@@ -98,24 +109,37 @@ describe('validateDraft', () => {
   });
   it('counts bytes, not characters', () => {
     const name = 'é'.repeat(32);
-    expect(validateDraft({ tables: [{ name, columns: [col('a')] }] }).join()).toContain('longer than 63 bytes');
+    expect(validateDraft({ tables: [{ name, columns: [col('a')] }] }).join()).toContain(
+      'longer than 63 bytes',
+    );
   });
   it('explains a foreign key that points nowhere or at a non-key', () => {
     const nowhere: SchemaDraft = {
-      tables: [{ name: 'a', columns: [col('x', { references: { table: 'zzz', column: 'id', onDelete: 'cascade' } })] }],
+      tables: [
+        {
+          name: 'a',
+          columns: [col('x', { references: { table: 'zzz', column: 'id', onDelete: 'cascade' } })],
+        },
+      ],
     };
     expect(validateDraft(nowhere).join()).toContain('"zzz", which is not in your design');
     const nonKey: SchemaDraft = {
       tables: [
         { name: 'p', columns: [col('id', { primaryKey: true }), col('v')] },
-        { name: 'c', columns: [col('x', { references: { table: 'p', column: 'v', onDelete: 'cascade' } })] },
+        {
+          name: 'c',
+          columns: [col('x', { references: { table: 'p', column: 'v', onDelete: 'cascade' } })],
+        },
       ],
     };
     expect(validateDraft(nonKey).join()).toContain('primary key or unique');
     const partial: SchemaDraft = {
       tables: [
         { name: 'p', columns: [col('a', { primaryKey: true }), col('b', { primaryKey: true })] },
-        { name: 'c', columns: [col('x', { references: { table: 'p', column: 'a', onDelete: 'cascade' } })] },
+        {
+          name: 'c',
+          columns: [col('x', { references: { table: 'p', column: 'a', onDelete: 'cascade' } })],
+        },
       ],
     };
     expect(validateDraft(partial).join()).toContain('composite primary key');
@@ -129,22 +153,40 @@ const roles: readonly DesignRole[] = [
   { id: 'orders', label: 'the orders table', kind: 'table' },
   { id: 'orderCustomer', label: "the order's customer", kind: 'column', table: 'orders' },
 ];
-const map = { customers: 'customers', customerId: 'id', orders: 'orders', orderCustomer: 'customer_id' };
+const map = {
+  customers: 'customers',
+  customerId: 'id',
+  orders: 'orders',
+  orderCustomer: 'customer_id',
+};
 
 describe('roles', () => {
   it('accepts a complete mapping and reports each gap in plain language', () => {
     expect(checkRoleMap(roles, shop, map)).toEqual([]);
-    const problems = checkRoleMap(roles, shop, { customers: 'nope', orders: 'orders', orderCustomer: 'zzz' }).join('\n');
+    const problems = checkRoleMap(roles, shop, {
+      customers: 'nope',
+      orders: 'orders',
+      orderCustomer: 'zzz',
+    }).join('\n');
     expect(problems).toContain('"nope" is not a table in your design');
     expect(problems).toContain('Pick your table or column for "the customer key"');
     expect(problems).toContain('"zzz" is not a column of "orders"');
   });
   it('refuses one column for two roles', () => {
-    const twice = { ...map, orderCustomer: 'id' };
-    expect(checkRoleMap(roles, shop, twice).join()).toContain('for both');
+    const more: readonly DesignRole[] = [
+      ...roles,
+      { id: 'orderId', label: "the order's key", kind: 'column', table: 'orders' },
+    ];
+    expect(checkRoleMap(more, shop, { ...map, orderId: 'customer_id' }).join()).toContain(
+      'for both',
+    );
+    expect(checkRoleMap(more, shop, { ...map, orderId: 'id' })).toEqual([]);
   });
   it('lists the mapped columns with their tables', () => {
-    expect([...mappedColumns(roles, map)].sort()).toEqual(['customers\u0000id', 'orders\u0000customer_id']);
+    expect([...mappedColumns(roles, map)].sort()).toEqual([
+      'customers\u0000id',
+      'orders\u0000customer_id',
+    ]);
   });
   it('fills templates with quoted names and refuses an unmapped role', () => {
     expect(fillTemplate('insert into {{orders}} ({{orderCustomer}}) values (1)', map)).toBe(
@@ -153,7 +195,10 @@ describe('roles', () => {
     expect(() => fillTemplate('select {{missing}}', map)).toThrow(/not mapped/);
   });
   it('finds the roles a scenario uses', () => {
-    const s = { setupSql: ['select {{a}}'], probeSql: 'select {{b}}, {{a}}' } as unknown as Scenario;
+    const s = {
+      setupSql: ['select {{a}}'],
+      probeSql: 'select {{b}}, {{a}}',
+    } as unknown as Scenario;
     expect(rolesUsed(s)).toEqual(['a', 'b']);
   });
 });
@@ -242,7 +287,9 @@ describe('runScenarios', () => {
     expect(report).toMatchObject({ phase: 'ran', allPassed: true });
   });
   it('fails a scenario with the story, the statement, the answer and the hint', async () => {
-    const { engine } = stubEngine(() => Promise.resolve({ ok: true as const, result: { rows: [], rowCount: 0 } }));
+    const { engine } = stubEngine(() =>
+      Promise.resolve({ ok: true as const, result: { rows: [], rowCount: 0 } }),
+    );
     const report = await runScenarios({ engine, draft: shop, roles, map, scenarios: [fkScenario] });
     if (report.phase !== 'ran') throw new Error('expected a run');
     expect(report.allPassed).toBe(false);
@@ -258,10 +305,15 @@ describe('runScenarios', () => {
   it('reports a setup that cannot run instead of a pass', async () => {
     const { engine } = stubEngine((sql) =>
       Promise.resolve(
-        sql.startsWith('insert') ? { ok: false as const, sqlState: '23502', message: 'null value' } : { ok: true as const, result: { rows: [], rowCount: 0 } },
+        sql.startsWith('insert')
+          ? { ok: false as const, sqlState: '23502', message: 'null value' }
+          : { ok: true as const, result: { rows: [], rowCount: 0 } },
       ),
     );
-    const withSetup: Scenario = { ...fkScenario, setupSql: ['insert into {{customers}} ({{customerId}}) values (1)'] };
+    const withSetup: Scenario = {
+      ...fkScenario,
+      setupSql: ['insert into {{customers}} ({{customerId}}) values (1)'],
+    };
     const report = await runScenarios({ engine, draft: shop, roles, map, scenarios: [withSetup] });
     if (report.phase !== 'ran') throw new Error('expected a run');
     expect(report.results[0]?.status).toBe('failed');
@@ -269,7 +321,9 @@ describe('runScenarios', () => {
     expect(report.results[0]?.answer).toContain('23502');
   });
   it('reports a database that refuses the DDL', async () => {
-    const engine: ScenarioEngine = { open: () => Promise.reject(new Error('relation does not exist')) };
+    const engine: ScenarioEngine = {
+      open: () => Promise.reject(new Error('relation does not exist')),
+    };
     const report = await runScenarios({ engine, draft: shop, roles, map, scenarios: [fkScenario] });
     expect(report).toEqual({ phase: 'ddlFailed', message: 'relation does not exist' });
   });
@@ -294,7 +348,10 @@ describe('verifyDesignTask', () => {
     const problems = await verifyDesignTask(accepting.engine, task);
     expect(problems).toEqual(['wrong draft "no fk" does not fail scenario "fk"']);
     expect(
-      await verifyDesignTask(accepting.engine, { ...task, wrongDrafts: [{ ...task.wrongDrafts[0]!, fails: 'zzz' }] }),
+      await verifyDesignTask(accepting.engine, {
+        ...task,
+        wrongDrafts: [{ ...task.wrongDrafts[0]!, fails: 'zzz' }],
+      }),
     ).toEqual(['wrong draft "no fk" names the unknown scenario "zzz"']);
     expect(
       await verifyDesignTask(accepting.engine, {

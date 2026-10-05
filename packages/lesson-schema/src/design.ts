@@ -63,7 +63,10 @@ export type RoleMap = Readonly<Record<string, string>>;
 export const expectation = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('succeeds') }),
   z.object({ kind: z.literal('fails'), sqlState: z.string().length(5) }),
-  z.object({ kind: z.literal('returns'), rows: z.array(z.array(z.unknown()).readonly()).readonly() }),
+  z.object({
+    kind: z.literal('returns'),
+    rows: z.array(z.array(z.unknown()).readonly()).readonly(),
+  }),
 ]);
 export type Expectation = z.infer<typeof expectation>;
 
@@ -116,15 +119,17 @@ export const quoteIdent = (name: string): string => `"${name.replaceAll('"', '""
 export function nameProblem(name: string, what: string): string | undefined {
   if (name.trim() === '') return `A ${what} has no name yet.`;
   // eslint-disable-next-line no-control-regex
-  if (/[\u0000-\u001f\u007f]/.test(name)) return `The ${what} name "${name}" has a control character.`;
+  if (/[\u0000-\u001f\u007f]/.test(name))
+    return `The ${what} name "${name}" has a control character.`;
   if (new TextEncoder().encode(name).length > MAX_IDENTIFIER_BYTES) {
     return `The ${what} name "${name.slice(0, 20)}..." is longer than ${MAX_IDENTIFIER_BYTES} bytes; PostgreSQL cuts longer names.`;
   }
   return undefined;
 }
 
-const dupes = (names: readonly string[]): readonly string[] =>
-  [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
+const dupes = (names: readonly string[]): readonly string[] => [
+  ...new Set(names.filter((n, i) => names.indexOf(n) !== i)),
+];
 
 /**
  * Problems found before anything is sent to the database. Empty means the draft can become DDL.
@@ -155,9 +160,13 @@ export function validateDraft(draft: SchemaDraft): readonly string[] {
       const target = draft.tables.find((x) => x.name === ref.table);
       const targetColumn = target?.columns.find((x) => x.name === ref.column);
       if (target === undefined) {
-        problems.push(`"${t.name}.${c.name}" points at the table "${ref.table}", which is not in your design.`);
+        problems.push(
+          `"${t.name}.${c.name}" points at the table "${ref.table}", which is not in your design.`,
+        );
       } else if (targetColumn === undefined) {
-        problems.push(`"${t.name}.${c.name}" points at "${ref.table}.${ref.column}", which does not exist.`);
+        problems.push(
+          `"${t.name}.${c.name}" points at "${ref.table}.${ref.column}", which does not exist.`,
+        );
       } else {
         const soloKey =
           targetColumn.primaryKey && target.columns.filter((x) => x.primaryKey).length === 1;
@@ -187,7 +196,12 @@ export interface DdlOptions {
 /** Key used in `DdlOptions.mapped`. */
 export const columnKey = (table: string, column: string): string => `${table}\u0000${column}`;
 
-function columnSql(t: TableDraft, c: ColumnDraft, options: DdlOptions, compositeKey: boolean): string {
+function columnSql(
+  t: TableDraft,
+  c: ColumnDraft,
+  options: DdlOptions,
+  compositeKey: boolean,
+): string {
   const relaxed =
     options.mapped !== undefined && !options.mapped.has(columnKey(t.name, c.name)) && !c.primaryKey;
   const parts = [quoteIdent(c.name), c.type];
@@ -285,7 +299,8 @@ export function mappedColumns(roles: readonly DesignRole[], map: RoleMap): Reado
 export function fillTemplate(sql: string, map: RoleMap): string {
   return sql.replace(/\{\{\s*([A-Za-z][A-Za-z0-9_]*)\s*\}\}/g, (_all, id: string) => {
     const name = map[id];
-    if (name === undefined) throw new Error(`the scenario uses the role "${id}", which is not mapped`);
+    if (name === undefined)
+      throw new Error(`the scenario uses the role "${id}", which is not mapped`);
     return quoteIdent(name);
   });
 }
@@ -304,7 +319,13 @@ export function rolesUsed(s: Scenario): readonly string[] {
 /** The part of `SqlSession` the runner needs, so this package does not depend on the engine. */
 export interface ScenarioSession {
   execute(sql: string): Promise<
-    | { readonly ok: true; readonly result: { readonly rows: readonly (readonly unknown[])[]; readonly rowCount: number } }
+    | {
+        readonly ok: true;
+        readonly result: {
+          readonly rows: readonly (readonly unknown[])[];
+          readonly rowCount: number;
+        };
+      }
     | { readonly ok: false; readonly sqlState: string; readonly message: string }
   >;
   reset(): Promise<void>;
@@ -331,7 +352,11 @@ export interface ScenarioResult {
 export type DesignReport =
   | { readonly phase: 'invalid'; readonly problems: readonly string[] }
   | { readonly phase: 'ddlFailed'; readonly message: string }
-  | { readonly phase: 'ran'; readonly allPassed: boolean; readonly results: readonly ScenarioResult[] };
+  | {
+      readonly phase: 'ran';
+      readonly allPassed: boolean;
+      readonly results: readonly ScenarioResult[];
+    };
 
 const STATE_MEANING: Readonly<Record<string, string>> = {
   '23503': 'a value pointed at a row that does not exist (foreign key)',
@@ -343,9 +368,7 @@ const STATE_MEANING: Readonly<Record<string, string>> = {
 };
 
 /** One line on what the database answered. */
-export function describeAnswer(
-  outcome: Awaited<ReturnType<ScenarioSession['execute']>>,
-): string {
+export function describeAnswer(outcome: Awaited<ReturnType<ScenarioSession['execute']>>): string {
   if (outcome.ok) {
     return outcome.result.rows.length > 0
       ? `Accepted. Rows: ${JSON.stringify(outcome.result.rows)}`
@@ -359,7 +382,8 @@ const cell = (v: unknown): string | null => (v === null || v === undefined ? nul
 export const sameRows = (
   a: readonly (readonly unknown[])[],
   b: readonly (readonly unknown[])[],
-): boolean => JSON.stringify(a.map((r) => r.map(cell))) === JSON.stringify(b.map((r) => r.map(cell)));
+): boolean =>
+  JSON.stringify(a.map((r) => r.map(cell))) === JSON.stringify(b.map((r) => r.map(cell)));
 
 /** Judge one outcome against an expectation. Returns an explanation when it does not match. */
 export function judge(
@@ -368,9 +392,7 @@ export function judge(
 ): string | undefined {
   switch (expected.kind) {
     case 'succeeds':
-      return outcome.ok
-        ? undefined
-        : 'Your design refused a statement that should have worked.';
+      return outcome.ok ? undefined : 'Your design refused a statement that should have worked.';
     case 'fails':
       if (outcome.ok) return 'Your design accepted a statement that should have been refused.';
       return outcome.sqlState === expected.sqlState
@@ -388,7 +410,8 @@ export function judge(
   }
 }
 
-const SETUP_FAILED = 'The test rows could not be created in your design, so this rule could not be checked.';
+const SETUP_FAILED =
+  'The test rows could not be created in your design, so this rule could not be checked.';
 
 /**
  * Run every scenario against the draft. The draft becomes DDL (columns that no role names are
@@ -501,15 +524,25 @@ export async function verifyDesignTask(
   if (problems.length > 0) return problems;
 
   const run = (m: MappedDraft) =>
-    runScenarios({ engine, draft: m.draft, roles: task.roles, map: m.roles, scenarios: task.scenarios });
+    runScenarios({
+      engine,
+      draft: m.draft,
+      roles: task.roles,
+      map: m.roles,
+      scenarios: task.scenarios,
+    });
 
   for (const ref of task.references) {
     const report = await run(ref);
-    if (report.phase === 'invalid') problems.push(`reference "${ref.name}": ${report.problems.join(' ')}`);
-    else if (report.phase === 'ddlFailed') problems.push(`reference "${ref.name}": ${report.message}`);
+    if (report.phase === 'invalid')
+      problems.push(`reference "${ref.name}": ${report.problems.join(' ')}`);
+    else if (report.phase === 'ddlFailed')
+      problems.push(`reference "${ref.name}": ${report.message}`);
     else {
       for (const r of report.results.filter((x) => x.status === 'failed')) {
-        problems.push(`reference "${ref.name}" fails scenario "${r.id}": ${r.explanation ?? ''} ${r.answer}`);
+        problems.push(
+          `reference "${ref.name}" fails scenario "${r.id}": ${r.explanation ?? ''} ${r.answer}`,
+        );
       }
     }
   }
@@ -519,12 +552,15 @@ export async function verifyDesignTask(
       continue;
     }
     const report = await run(wrong);
-    if (report.phase === 'invalid') problems.push(`wrong draft "${wrong.name}": ${report.problems.join(' ')}`);
-    else if (report.phase === 'ddlFailed') problems.push(`wrong draft "${wrong.name}": ${report.message}`);
+    if (report.phase === 'invalid')
+      problems.push(`wrong draft "${wrong.name}": ${report.problems.join(' ')}`);
+    else if (report.phase === 'ddlFailed')
+      problems.push(`wrong draft "${wrong.name}": ${report.message}`);
     else if (report.results.find((r) => r.id === wrong.fails)?.status !== 'failed') {
       problems.push(`wrong draft "${wrong.name}" does not fail scenario "${wrong.fails}"`);
     }
   }
-  if (task.wrongDrafts.length === 0) problems.push('the step lists no wrong draft; add one that fails a scenario');
+  if (task.wrongDrafts.length === 0)
+    problems.push('the step lists no wrong draft; add one that fails a scenario');
   return problems;
 }

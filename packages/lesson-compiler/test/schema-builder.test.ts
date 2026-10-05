@@ -8,7 +8,10 @@ import { lintLesson } from '../src/lint';
 import { checkSchemaBuilder } from '../src/verify/schema-builder';
 
 const lessonPath = join(import.meta.dirname, '../../../content/fullstack/schema-01/lesson.mdoc');
-const designPath = join(import.meta.dirname, '../../../content/fullstack/schema-01/design/shop.json');
+const designPath = join(
+  import.meta.dirname,
+  '../../../content/fullstack/schema-01/design/shop.json',
+);
 
 const task: DesignTask = designTask.parse(JSON.parse(readFileSync(designPath, 'utf8')));
 
@@ -50,7 +53,10 @@ describe('schemaBuilder lint', () => {
     if (first?.kind !== 'schemaBuilder') throw new Error('unexpected step');
     return { ...result.lesson, steps: [{ ...first, scenarios }, ...rest] };
   };
-  const registries = { concepts: [], misconceptions: task.scenarios.map((s) => ({ id: s.misconception })) };
+  const registries = {
+    concepts: [],
+    misconceptions: task.scenarios.map((s) => ({ id: s.misconception })),
+  };
   const rules = (scenarios: DesignTask['scenarios']) =>
     lintLesson(lesson(scenarios), registries as never, { allowUnbuilt: true })
       .filter((i) => i.rule.startsWith('schema-builder'))
@@ -101,7 +107,10 @@ describe('sample task on PostgreSQL (PGlite)', () => {
     if (ref === undefined) throw new Error('no reference');
     const tables = ref.draft.tables.map((t) =>
       t.name === 'orders'
-        ? { ...t, columns: t.columns.map((c) => (c.name === 'customer_id' ? { ...c, unique: true } : c)) }
+        ? {
+            ...t,
+            columns: t.columns.map((c) => (c.name === 'customer_id' ? { ...c, unique: true } : c)),
+          }
         : t,
     );
     const report = await runScenarios({
