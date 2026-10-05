@@ -37,7 +37,7 @@ export async function run(argv: readonly string[], log: Log = console.log): Prom
       log(`created ${scaffoldLesson('content', course, id)}`);
       return 0;
     } catch (e) {
-      return fail(log, (e as Error).message);
+      return fail(log, (e instanceof Error ? e.message : String(e)));
     }
   }
   if (command !== 'build' && command !== 'check') return fail(log, USAGE);
