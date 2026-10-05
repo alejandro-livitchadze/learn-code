@@ -232,8 +232,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
 
 ## P9. Schema builder
-- Status: in_progress
-- Note: PR #36 open, worker head 0e4f29d; CI running at end of run, review gate next run. Wiring is task F9.
+- Status: done
+- Note: merged via PR #36 (7937951); CI green; reviewer APPROVE on 0e4f29d (minors: `as Error` in lesson-compiler kinds.ts/compile.ts; literal px in design.css; no schema-01 lesson.mdoc, see F9). Widget not wired yet: F9.
 - Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
@@ -334,3 +334,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/sql-wiring.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `packages/ui/src/StepTag.tsx`, `content/fullstack/**`
 - Source: P9 worker report
 - Done when: `schemaBuilder` maps to `createSchemaBuilder({ getEngine: getLazyEngine })` and is in `IMPLEMENTED_KINDS`; a fixture exists; `StepTag` has a `schemaBuilder` entry (no sqlLab stand-in); a `schema-01` lesson of 12 to 20 steps uses `design="./design/shop.json"` and passes `lesson check`.
+
+## F10. P9 minors: error narrowing and design.css tokens
+- Status: todo
+- Depends on: P9
+- Paths: `packages/lesson-compiler/src/tags/kinds.ts`, `packages/lesson-compiler/src/compile.ts`, `packages/widgets/src/design/design.css`
+- Source: P9 reviewer minors
+- Done when: caught values are narrowed with `e instanceof Error ? e.message : String(e)` instead of `as Error`; `design.css` uses E08 spacing and type tokens where equivalents exist; checks pass.

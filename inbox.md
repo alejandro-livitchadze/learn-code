@@ -110,3 +110,7 @@
 - Needs the author: GitHub Actions runs fail within seconds with no steps (since about 04:48 UTC; last green 04:37 UTC). Likely runners, quota or billing. Check the repository's Actions settings and billing. L2 (PR #35) and all further merges wait on green CI.
 
 - L2 (PR #35) merged. Stale remote branch `task/L2` deleted if the push succeeded, otherwise delete it. Flaky e2e: `apps/web/e2e/player.spec.ts:247` (Enter on step 1 did not advance once; passed on re-run). L2 minors are in the PR comment and the backlog note.
+
+## 2026-10-05 (eighteenth run)
+
+- P9 (PR #36) merged. Stale remote branch `task/P9` needs deleting if the delete fails from this environment.
