@@ -354,14 +354,14 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: font-size tokens (for example 16px and 18px) exist in `tokens.css`; `design.css` uses them instead of its five literal `font-size: 16px`; checks pass.
 
 ## F12. Narrow caught errors in CLI and registries
-- Status: todo
+- Status: in_progress
 - Depends on: F10
 - Paths: `packages/lesson-compiler/src/cli.ts`, `packages/lesson-compiler/src/registries.ts`
 - Source: F10 reviewer minor
 - Done when: `as Error` at `cli.ts:40` and `registries.ts:15` is replaced by `e instanceof Error ? e.message : String(e)`; checks pass.
 
 ## F13. Wire beTheDatabase into the player and lesson check
-- Status: todo
+- Status: in_progress
 - Depends on: P10
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`
 - Source: P10 worker report
