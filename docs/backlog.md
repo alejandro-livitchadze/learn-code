@@ -354,7 +354,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: font-size tokens (for example 16px and 18px) exist in `tokens.css`; `design.css` uses them instead of its five literal `font-size: 16px`; checks pass.
 
 ## F12. Narrow caught errors in CLI and registries
-- Status: in_progress
+- Status: done
+- Note: merged via PR #42; CI green; reviewer APPROVE on d3392fa (one prettier fix round).
 - Depends on: F10
 - Paths: `packages/lesson-compiler/src/cli.ts`, `packages/lesson-compiler/src/registries.ts`
 - Source: F10 reviewer minor

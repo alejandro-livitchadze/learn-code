@@ -126,3 +126,7 @@
 ## 2026-10-05 (twenty-first run, addendum)
 
 - Decided without the author: P10 is in MILESTONES, but the milestone step was not run when PR #40 merged. I defer it until F13 (wiring `beTheDatabase` into the player and `lesson check`) is merged, because the integration check needs the widget to render end to end. Integration PR #21 stays open.
+
+## 2026-10-05 (twenty-second run)
+
+- F12 (PR #42) merged; delete stale remote branch `task/F12`.

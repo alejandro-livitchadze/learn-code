@@ -181,3 +181,5 @@
 ## 2026-10-05 (twenty-second run)
 
 - F12: worker done (0274d9b), PR opened; typecheck and lint pass; lesson-compiler tests minus sql-lab pass locally (sql-lab too slow, CI decides). F13: worker done (aae9e68), PR #41 opened; typecheck and lint pass, lesson check ok. CI running at end of run; review gate next run. Added F14 to F16 (follow-ups). P10 milestone still deferred until F13 merges. Workers: 2. Reviewers: 0.
+
+- Update, 2026-10-05: F12 (PR #42) CI green on d3392fa after one prettier fix round, fresh reviewer APPROVE, squash-merged; F12 is `done`. F13 (PR #41): review 1 on aae9e68 CHANGES_REQUESTED (missing tests); fix round 1 pushed as a6828a9, CI and review next run. Paths widened to verify.test.ts; F15 absorbed. Reviewers: 2. Workers: 3.
