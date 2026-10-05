@@ -5,6 +5,7 @@ export type TaggedStepKind =
   | 'explain'
   | 'fillBlanks'
   | 'sqlLab'
+  | 'schemaBuilder'
   | 'bugHunt'
   | 'parsons'
   | 'firesideChat'
@@ -22,6 +23,7 @@ export const STEP_TAGS: Readonly<Record<TaggedStepKind, string>> = {
   explain: "Here's the thing",
   fillBlanks: 'Your turn',
   sqlLab: 'Your turn',
+  schemaBuilder: 'Your turn',
   bugHunt: 'Your turn',
   parsons: 'Put it in order',
   firesideChat: "Who's right?",

@@ -344,5 +344,6 @@ export const IMPLEMENTED_KINDS = [
   'predict',
   'fillBlanks',
   'sqlLab',
+  'schemaBuilder',
 ] as const satisfies readonly StepKind[];
 export type ImplementedKind = (typeof IMPLEMENTED_KINDS)[number];

@@ -2,9 +2,12 @@ import { Unimplemented } from './Unimplemented';
 import { Cliffhanger, Explain, Hook, Pitfall, Recap } from './Passive';
 import { Predict } from './Predict';
 import { FillBlanks } from './FillBlanks';
-import { SqlLabWidget } from './sql-wiring';
+import { SqlLabWidget, getLazyEngine } from './sql-wiring';
+import { createSchemaBuilder } from './design';
 import { IMPLEMENTED_KINDS, type Step } from '@learn-code/lesson-schema';
 import type { StepComponentProps, WidgetRegistry } from './types';
+
+const SchemaBuilder = createSchemaBuilder({ getEngine: getLazyEngine });
 
 /** One component per step kind. Kinds without a real widget map to a visible placeholder. */
 export const widgetRegistry: WidgetRegistry = {
@@ -22,7 +25,7 @@ export const widgetRegistry: WidgetRegistry = {
   matching: Unimplemented,
   pitfall: Pitfall,
   sqlLab: SqlLabWidget,
-  schemaBuilder: Unimplemented,
+  schemaBuilder: SchemaBuilder,
   relationLab: Unimplemented,
   normalizeLab: Unimplemented,
   namingReview: Unimplemented,
