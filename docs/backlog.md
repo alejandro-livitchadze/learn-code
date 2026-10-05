@@ -185,7 +185,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: The Bug, Olha and Mr. Runtime exist as SVG components; StickyNote, SpeechBubble, Gotcha, StopAndThink, FeedbackBanner, Annotation, MiniDiagram, ReviewCard, Cliffhanger, HintLadder are built and in the catalogue; the player renders `margin` items and the hook's left character column.
 
 ## V4. Restyle every existing widget and the sample lesson
-- Status: blocked
+- Status: done
+- Note: merged via PR #34; CI green; reviewer APPROVE on dfd027b after two CHANGES_REQUESTED rounds (8e452a1, 269f145). Commit dfd027b (pk marker fix) was pushed by the repo author, not a worker. Minors: A2 reveal and A4 review cards approximated (no schema fields); LEGACY_EXEMPT in packages/ui/src/codeLint.ts not emptied (outside Paths).
 - Depends on: V3
 - Paths: `packages/widgets/**`, `content/**`, `apps/web/**`
 - Epic: E08 whole file; mockups A1 to A4

@@ -98,3 +98,4 @@
 
 - Nothing could run: V4 (PR #34) is blocked and everything else depends on it, except D6, which needs djinni.co (403 from this sandbox's proxy).
 - Decision needed: allow a manual third fix round on V4 (small: sqlLab schema panel `pk` marker, `packages/widgets/src/sql-lab/schema.ts:3-12` and `SqlLab.tsx:389`) by resetting V4 to `todo`/`in_progress`, or tell me otherwise. Also allow djinni.co in the environment network policy if D6 should run.
+- V4 (PR #34) merged after the author's pk fix dfd027b (reviewed fresh, APPROVE). Stale remote branch `task/V4` needs deleting. Follow-ups: empty `LEGACY_EXEMPT` in `packages/ui/src/codeLint.ts`; add `reveal` tag, recap `reviewCards` field and a table `DiagramElement` to the schema/compiler/ui so A2 and A4 become real content.

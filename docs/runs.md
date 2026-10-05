@@ -142,3 +142,5 @@
 ## 2026-10-05 (fifteenth run): nothing started
 
 - No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+- Update, 2026-10-05: the author pushed dfd027b (pk marker fix) to `task/V4`; CI green; fresh reviewer APPROVE; V4 (PR #34) squash-merged. V4 is `done`. Reviewers this run: 3. Integration PR #21 still open; no milestone.
+- Next ready: L2 (V4 done, L1 done), P9; F8 is author/orchestrator only.
