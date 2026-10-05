@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "ref": "join-multiply",
+  "query": "select p.name, o.label from people p inner join offices o on o.city = p.city order by p.id, o.id",
+  "joinKind": "inner",
+  "on": "r.city = l.city",
+  "left": {
+    "name": "people",
+    "columns": ["id", "name", "city"],
+    "rows": [
+      ["1", "Olha", "Kyiv"],
+      ["2", "Ivan", "Lviv"],
+      ["3", "Mia", "Kyiv"]
+    ]
+  },
+  "right": {
+    "name": "offices",
+    "columns": ["id", "city", "label"],
+    "rows": [
+      ["21", "Kyiv", "Podil"],
+      ["22", "Kyiv", "Obolon"],
+      ["23", "Lviv", "Centre"]
+    ]
+  },
+  "pairs": [
+    {
+      "left": 0,
+      "right": 0
+    },
+    {
+      "left": 0,
+      "right": 1
+    },
+    {
+      "left": 1,
+      "right": 2
+    },
+    {
+      "left": 2,
+      "right": 0
+    },
+    {
+      "left": 2,
+      "right": 1
+    }
+  ],
+  "result": {
+    "columns": ["name", "label"],
+    "rows": [
+      ["Olha", "Podil"],
+      ["Olha", "Obolon"],
+      ["Ivan", "Centre"],
+      ["Mia", "Podil"],
+      ["Mia", "Obolon"]
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "ref": "join-multiply",
+  "seed": "pairing",
+  "query": "select p.name, o.label from people p inner join offices o on o.city = p.city order by p.id, o.id",
+  "joinKind": "inner",
+  "on": "r.city = l.city",
+  "left": { "table": "people", "id": "id" },
+  "right": { "table": "offices", "id": "id" }
+}
