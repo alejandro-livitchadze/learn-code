@@ -5,6 +5,7 @@ import { runNode } from './node';
 import { createInlineEngine } from '@learn-code/sql-engine';
 import { formatRows } from './format';
 import { checkSqlLab } from './sql-lab';
+import { checkSchemaBuilder } from './schema-builder';
 
 export interface VerifyIssue {
   readonly stepId: string;
@@ -85,6 +86,10 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
     try {
       if (s.kind === 'predict') issues.push(...(await verifyPredict(s, lessonDir)));
       else if (s.kind === 'sqlLab') issues.push(...(await verifySqlLab(s, lessonDir)));
+      else if (s.kind === 'schemaBuilder') {
+        const problems = await checkSchemaBuilder(s);
+        issues.push(...problems.map((m) => ({ stepId: s.id, message: m })));
+      }
     } catch (e) {
       issues.push({ stepId: s.id, message: `verification crashed: ${message(e)}` });
     }
@@ -94,4 +99,5 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
 
 export { formatRows } from './format';
 export { checkSqlLab } from './sql-lab';
+export { checkSchemaBuilder } from './schema-builder';
 export { runNode, NODE_TIMEOUT_MS } from './node';

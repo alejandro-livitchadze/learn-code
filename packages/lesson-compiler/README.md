@@ -29,6 +29,10 @@ Any step tag may contain one `{% margin %}` with `{% sticky label="asks|says" %}
 
 The design rules DL1 to DL8 (E08 section 8) live in `src/lint/design.ts` with the rule ids `dl1-margin-count` to `dl8-gotcha-stop-count`.
 
+## Design labs: `schemaBuilder`
+
+`{% schemaBuilder id="..." estSeconds=120 prompt="..." design="./design/<name>.json" /%}` reads the loose fields, roles, scenarios, reference drafts and wrong drafts from a JSON file (shape: `designTask` in `@learn-code/lesson-schema`; example: `content/fullstack/schema-01/design/shop.json`). `lesson check` runs it on PGlite: every reference draft must pass every scenario, every wrong draft must fail the scenario it names, and the step lists at least one wrong draft. The lint rule `schema-builder-scenario-count` needs 3 to 7 scenarios, and `schema-builder-misconception` needs every scenario to name a misconception from `misconceptions.json`.
+
 ## CLI
 
 Run from the repository root:

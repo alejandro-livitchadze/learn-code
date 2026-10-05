@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { designTask } from './design';
 
 /** An aside shown in the margin of a step (E08 section 9). */
 export const marginItem = z.discriminatedUnion('type', [
@@ -218,13 +219,8 @@ export const sqlLabStep = stepBase.extend({
 export const schemaBuilderStep = stepBase.extend({
   kind: z.literal('schemaBuilder'),
   prompt: z.string().min(1),
-  scenario: z.string().min(1),
-  expectedTables: z
-    .array(
-      z.object({ name: z.string().min(1), columns: z.array(z.string().min(1)).min(1).readonly() }),
-    )
-    .min(1)
-    .readonly(),
+  /** Loose fields, roles, scenarios and the reference and wrong drafts (E06). */
+  ...designTask.shape,
 });
 
 export const relationLabStep = stepBase.extend({

@@ -18,6 +18,7 @@ import {
   wrongOptionFeedback,
 } from './rules';
 import { DESIGN_RULES } from './design';
+import { schemaBuilderScenarios } from './schema-builder';
 import type { LintIssue, LintRule, Registries } from './types';
 
 export const LINT_RULES: readonly LintRule[] = [
@@ -37,6 +38,7 @@ export const LINT_RULES: readonly LintRule[] = [
   implementedKinds,
   stepCount,
   markdownSubset,
+  schemaBuilderScenarios,
   ...DESIGN_RULES,
 ];
 
@@ -56,5 +58,6 @@ export function lintLesson(
 }
 
 export * from './design';
+export * from './schema-builder';
 export * from './rules';
 export type { LintIssue, LintRule, Registries } from './types';

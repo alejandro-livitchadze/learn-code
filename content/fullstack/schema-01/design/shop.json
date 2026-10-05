@@ -1,0 +1,693 @@
+{
+  "looseFields": [
+    "email",
+    "order total",
+    "created at",
+    "customer name",
+    "order number",
+    "customer number"
+  ],
+  "roles": [
+    {
+      "id": "customers",
+      "label": "the table that holds customers",
+      "kind": "table"
+    },
+    {
+      "id": "customerId",
+      "label": "the customer's key",
+      "kind": "column",
+      "table": "customers"
+    },
+    {
+      "id": "customerEmail",
+      "label": "the customer's email",
+      "kind": "column",
+      "table": "customers"
+    },
+    {
+      "id": "orders",
+      "label": "the table that holds orders",
+      "kind": "table"
+    },
+    {
+      "id": "orderId",
+      "label": "the order's key",
+      "kind": "column",
+      "table": "orders"
+    },
+    {
+      "id": "orderCustomer",
+      "label": "the order's customer",
+      "kind": "column",
+      "table": "orders"
+    },
+    {
+      "id": "orderTotal",
+      "label": "the order's total",
+      "kind": "column",
+      "table": "orders"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "order-needs-customer",
+      "story": "An order must belong to a customer that exists.",
+      "setupSql": [
+        "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (1, 'ada@example.com')"
+      ],
+      "probeSql": "insert into {{orders}} ({{orderId}}, {{orderCustomer}}, {{orderTotal}}) values (1, 999, 10)",
+      "expect": {
+        "kind": "fails",
+        "sqlState": "23503"
+      },
+      "hintOnFail": "Nothing connects an order to a customer yet. Make the order's customer column a foreign key that points at the customers' key.",
+      "misconception": "app-validation-is-enough"
+    },
+    {
+      "id": "customer-can-reorder",
+      "story": "A customer can place more than one order.",
+      "setupSql": [
+        "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (1, 'ada@example.com')",
+        "insert into {{orders}} ({{orderId}}, {{orderCustomer}}, {{orderTotal}}) values (1, 1, 10)"
+      ],
+      "probeSql": "insert into {{orders}} ({{orderId}}, {{orderCustomer}}, {{orderTotal}}) values (2, 1, 10)",
+      "expect": {
+        "kind": "succeeds"
+      },
+      "hintOnFail": "The second order of the same customer was refused. The customer column on an order must not be unique: the foreign key lives on the many side.",
+      "misconception": "foreign-key-on-the-one-side"
+    },
+    {
+      "id": "email-is-unique",
+      "story": "Two customers cannot share one email address.",
+      "setupSql": [
+        "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (1, 'ada@example.com')"
+      ],
+      "probeSql": "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (2, 'ada@example.com')",
+      "expect": {
+        "kind": "fails",
+        "sqlState": "23505"
+      },
+      "hintOnFail": "The same email was accepted twice. Mark the email column as unique.",
+      "misconception": "app-validation-is-enough"
+    },
+    {
+      "id": "email-is-required",
+      "story": "A customer without an email address is refused.",
+      "setupSql": [],
+      "probeSql": "insert into {{customers}} ({{customerId}}) values (1)",
+      "expect": {
+        "kind": "fails",
+        "sqlState": "23502"
+      },
+      "hintOnFail": "A customer with no email was accepted. Make the email column required (not nullable).",
+      "misconception": "app-validation-is-enough"
+    },
+    {
+      "id": "total-is-required",
+      "story": "An order always has a total.",
+      "setupSql": [
+        "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (1, 'ada@example.com')"
+      ],
+      "probeSql": "insert into {{orders}} ({{orderId}}, {{orderCustomer}}) values (1, 1)",
+      "expect": {
+        "kind": "fails",
+        "sqlState": "23502"
+      },
+      "hintOnFail": "An order without a total was accepted. Make the total column required (not nullable).",
+      "misconception": "app-validation-is-enough"
+    },
+    {
+      "id": "email-can-change",
+      "story": "A customer can change their email without breaking their orders.",
+      "setupSql": [
+        "insert into {{customers}} ({{customerId}}, {{customerEmail}}) values (1, 'ada@example.com')",
+        "insert into {{orders}} ({{orderId}}, {{orderCustomer}}, {{orderTotal}}) values (1, 1, 10)"
+      ],
+      "probeSql": "update {{customers}} set {{customerEmail}} = 'grace@example.com' where {{customerId}} = 1",
+      "expect": {
+        "kind": "succeeds"
+      },
+      "hintOnFail": "Changing the email was refused. Orders should point at a key that never changes, not at the email.",
+      "misconception": "email-as-primary-key"
+    }
+  ],
+  "references": [
+    {
+      "name": "customers and orders",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false,
+                "references": {
+                  "table": "customers",
+                  "column": "id",
+                  "onDelete": "restrict"
+                }
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    },
+    {
+      "name": "shoppers and purchases, total in cents",
+      "draft": {
+        "tables": [
+          {
+            "name": "shoppers",
+            "columns": [
+              {
+                "name": "shopper_id",
+                "type": "bigint",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "mail",
+                "type": "text",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "purchases",
+            "columns": [
+              {
+                "name": "purchase_id",
+                "type": "bigint",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "shopper_id",
+                "type": "bigint",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false,
+                "references": {
+                  "table": "shoppers",
+                  "column": "shopper_id",
+                  "onDelete": "cascade"
+                }
+              },
+              {
+                "name": "total_cents",
+                "type": "bigint",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "note",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "shoppers",
+        "customerId": "shopper_id",
+        "customerEmail": "mail",
+        "orders": "purchases",
+        "orderId": "purchase_id",
+        "orderCustomer": "shopper_id",
+        "orderTotal": "total_cents"
+      }
+    }
+  ],
+  "wrongDrafts": [
+    {
+      "name": "no foreign key",
+      "fails": "order-needs-customer",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    },
+    {
+      "name": "one order per customer",
+      "fails": "customer-can-reorder",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false,
+                "references": {
+                  "table": "customers",
+                  "column": "id",
+                  "onDelete": "restrict"
+                }
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    },
+    {
+      "name": "email not unique",
+      "fails": "email-is-unique",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false,
+                "references": {
+                  "table": "customers",
+                  "column": "id",
+                  "onDelete": "restrict"
+                }
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    },
+    {
+      "name": "email optional",
+      "fails": "email-is-required",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": true,
+                "unique": true,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false,
+                "references": {
+                  "table": "customers",
+                  "column": "id",
+                  "onDelete": "restrict"
+                }
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    },
+    {
+      "name": "total optional",
+      "fails": "total-is-required",
+      "draft": {
+        "tables": [
+          {
+            "name": "customers",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "email",
+                "type": "text",
+                "nullable": false,
+                "unique": true,
+                "primaryKey": false
+              },
+              {
+                "name": "name",
+                "type": "text",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          },
+          {
+            "name": "orders",
+            "columns": [
+              {
+                "name": "id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": true
+              },
+              {
+                "name": "customer_id",
+                "type": "integer",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false,
+                "references": {
+                  "table": "customers",
+                  "column": "id",
+                  "onDelete": "restrict"
+                }
+              },
+              {
+                "name": "total",
+                "type": "numeric",
+                "nullable": true,
+                "unique": false,
+                "primaryKey": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "nullable": false,
+                "unique": false,
+                "primaryKey": false
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "customers": "customers",
+        "customerId": "id",
+        "customerEmail": "email",
+        "orders": "orders",
+        "orderId": "id",
+        "orderCustomer": "customer_id",
+        "orderTotal": "total"
+      }
+    }
+  ]
+}
