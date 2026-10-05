@@ -110,8 +110,36 @@ const fixtures: Record<StepKind, unknown> = {
     id: 'a',
     kind: 'schemaBuilder',
     prompt: 'p',
-    scenario: 's',
-    expectedTables: [{ name: 't', columns: ['id'] }],
+    roles: [
+      { id: 'things', label: 'the things table', kind: 'table' },
+      { id: 'thingId', label: 'the thing id', kind: 'column', table: 'things' },
+    ],
+    scenarios: [
+      {
+        id: 's1',
+        story: 'A thing has an id.',
+        probeSql: 'select 1',
+        expect: { kind: 'succeeds' },
+        hintOnFail: 'h',
+        misconception: 'm1',
+      },
+    ],
+    references: [
+      {
+        name: 'r',
+        draft: {
+          tables: [
+            {
+              name: 't',
+              columns: [
+                { name: 'id', type: 'integer', nullable: false, unique: false, primaryKey: true },
+              ],
+            },
+          ],
+        },
+        roles: { things: 't', thingId: 'id' },
+      },
+    ],
   },
   relationLab: {
     ...base,
