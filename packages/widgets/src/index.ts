@@ -26,3 +26,4 @@ export { HookColumn, HookLead, MarginItems } from './Margin';
 export { DIAGRAMS, diagramFor } from './diagrams';
 export { FooterProvider, InMargin, MarginSlotProvider, WidgetFrame } from './chrome';
 export type { StepFooter } from './chrome';
+export { TraceBaseProvider } from './be-the-database';

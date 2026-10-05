@@ -26,6 +26,7 @@ import {
   MarginItems,
   Predict,
   SeedBaseProvider,
+  TraceBaseProvider,
   StepWidget,
   type HighlightMap,
   type StepResult,
@@ -239,26 +240,29 @@ export function Catalogue({ highlights }: { readonly highlights: HighlightMap })
   return (
     <HighlightsProvider value={highlights}>
       <SeedBaseProvider value={CATALOGUE_SEEDS}>
-        <main className="cat">
-          <h1>Widget catalogue</h1>
-          <p className="lead">
-            Every widget built so far, in its idle, wrong, restored and long-content states. Built:{' '}
-            {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a short notice.
-          </p>
-          <UiComponents />
-          <nav aria-label="Fixtures">
-            <ul className="cat-nav">
-              {fixtures.map((f) => (
-                <li key={f.id}>
-                  <a href={`#${f.id}`}>{f.title}</a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          {fixtures.map((f) => (
-            <Entry key={f.id} fixture={f} />
-          ))}
-        </main>
+        {/* Borrows the recorded traces of the fullstack/joins-01 lesson. */}
+        <TraceBaseProvider value="/traces/fullstack/joins-01">
+          <main className="cat">
+            <h1>Widget catalogue</h1>
+            <p className="lead">
+              Every widget built so far, in its idle, wrong, restored and long-content states.
+              Built: {IMPLEMENTED_KINDS.join(', ')}. Other kinds show a short notice.
+            </p>
+            <UiComponents />
+            <nav aria-label="Fixtures">
+              <ul className="cat-nav">
+                {fixtures.map((f) => (
+                  <li key={f.id}>
+                    <a href={`#${f.id}`}>{f.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            {fixtures.map((f) => (
+              <Entry key={f.id} fixture={f} />
+            ))}
+          </main>
+        </TraceBaseProvider>
       </SeedBaseProvider>
       <style>{`
         .cat { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; display: grid; gap: 1.5rem; }
