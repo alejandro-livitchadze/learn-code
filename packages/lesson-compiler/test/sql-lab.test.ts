@@ -1,38 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { checkSqlLab, sameSqlResult } from '../src/verify/sql-lab';
-
-const result = (columns: string[], rows: unknown[][]) => ({
-  columns,
-  rows,
-  rowCount: rows.length,
-});
-
-describe('sameSqlResult', () => {
-  it('ignores case and column order, and row order unless it matters', () => {
-    const a = result(
-      ['Id', 'name'],
-      [
-        ['1', 'a'],
-        ['2', 'b'],
-      ],
-    );
-    const b = result(
-      ['NAME', 'id'],
-      [
-        ['b', '2'],
-        ['a', '1'],
-      ],
-    );
-    expect(sameSqlResult(a, b, false)).toBe(true);
-    expect(sameSqlResult(a, b, true)).toBe(false);
-  });
-  it('rejects different columns, row counts and duplicated rows', () => {
-    const a = result(['id'], [['1'], ['1'], ['2']]);
-    expect(sameSqlResult(a, result(['x'], [['1'], ['1'], ['2']]), false)).toBe(false);
-    expect(sameSqlResult(a, result(['id'], [['1'], ['2']]), false)).toBe(false);
-    expect(sameSqlResult(a, result(['id'], [['1'], ['2'], ['2']]), false)).toBe(false);
-  });
-});
+import { COMPARE_CASES } from '@learn-code/sql-engine';
+import { checkSqlLab } from '../src/verify/sql-lab';
 
 const seed = 'create table t (id int); insert into t values (1), (2), (3);';
 
@@ -85,4 +53,32 @@ describe('checkSqlLab (inline sql-engine adapter)', () => {
     expect(await checkSqlLab({ ...base, starter: 'select nope' })).toEqual([]);
     expect(await checkSqlLab({ ...base, starter: '' })).toEqual([]);
   });
+});
+
+describe('checkSqlLab uses the shared comparer', () => {
+  it.each(COMPARE_CASES)(
+    'check path: $name',
+    async (c) => {
+      const issues = await checkSqlLab({
+        seed: c.seed,
+        solution: c.solution,
+        starter: c.attempt,
+        orderMatters: c.orderMatters,
+      });
+      // A starter that matches the reference is reported; one that differs is accepted.
+      expect(issues.includes('the starter already passes; it must fail')).toBe(c.match);
+    },
+    60_000,
+  );
+
+  it('fails a reference result above the row cap', async () => {
+    const issues = await checkSqlLab({
+      seed: '',
+      solution: 'select g from generate_series(1, 501) g',
+      starter: '',
+      orderMatters: false,
+    });
+    expect(issues).toHaveLength(1);
+    expect(issues[0]).toContain('row cap');
+  }, 60_000);
 });

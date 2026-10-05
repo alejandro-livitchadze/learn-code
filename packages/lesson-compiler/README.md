@@ -11,6 +11,28 @@ if (!result.ok) result.errors.forEach((e) => console.error(formatError(e))); // 
 
 `@markdoc/markdoc` 0.5.10 was published 2026-09-16; releases 0.5.5 to 0.5.10 landed between March and September 2026. It is maintained, so the E01 stop condition does not apply.
 
+## Markdown subset
+
+Step prose (`body`, recap `points`, cliffhanger `question`, sqlLab `prompt` and `hints`) is Markdown, rendered by `packages/widgets/src/markdown.tsx`. Only this subset is supported:
+
+- Paragraphs, separated by a blank line.
+- Lists whose every line starts with `- ` (no nesting, no numbers).
+- Fenced code blocks between lines that start with three backticks (an optional language name is ignored). Blank lines and markup characters inside are kept as written; the word-count rule does not count them.
+- Inline `` `code` ``, `**bold**`, `*italic*`.
+- Links `[text](url)` where `url` starts with `http://` or `https://`. They render with `rel="noreferrer"`. Any other scheme (such as `javascript:`) is never rendered as a link.
+
+Everything else is rejected by the lint rule `markdown-subset`, which prints `file:line: error [markdown-subset] <field>, line <n>: <construct> is not supported`. The file line is the step; `<n>` counts from 1 inside the field. Rejected: headings, blockquotes, numbered or nested lists, `*` and `+` bullets, horizontal rules, tables, tilde fences, indented code, images, HTML, strikethrough, `__bold__`, reference links, and links that are not http or https.
+
+## Margin items, highlights and design lint
+
+Any step tag may contain one `{% margin %}` with `{% sticky label="asks|says" %}`, `{% bubble who="bug|runtime" %}`, `{% gotcha %}`, `{% stop %}` (text in the body) and `{% diagram ref="..." caption="..." /%}`. They compile to the step's `margin` array. A phrase between `==` marks in the frontmatter title becomes `titleHighlights` and the marks are removed from `title`; in step prose the marks stay for the renderer.
+
+The design rules DL1 to DL8 (E08 section 8) live in `src/lint/design.ts` with the rule ids `dl1-margin-count` to `dl8-gotcha-stop-count`.
+
+## Design labs: `schemaBuilder`
+
+`{% schemaBuilder id="..." estSeconds=120 prompt="..." design="./design/<name>.json" /%}` reads the loose fields, roles, scenarios, reference drafts and wrong drafts from a JSON file (shape: `designTask` in `@learn-code/lesson-schema`; example: `content/fullstack/schema-01/design/shop.json`). `lesson check` runs it on PGlite: every reference draft must pass every scenario, every wrong draft must fail the scenario it names, and the step lists at least one wrong draft. The lint rule `schema-builder-scenario-count` needs 3 to 7 scenarios, and `schema-builder-misconception` needs every scenario to name a misconception from `misconceptions.json`.
+
 ## CLI
 
 Run from the repository root:

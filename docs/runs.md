@@ -45,3 +45,142 @@
 - P8b (PR #20, head a18cfb9): the branch was already complete (final commit 91287c5, develop merged in by another session). I ran install, typecheck, lint, prettier and test locally: all pass; only `root` files outside the app/package paths changed. CI was still running when this run ended; no review verdict exists for this head. P8b stays `in_progress`. Next run: if CI is green, run the review gate on a18cfb9.
 - Workers: 0. Reviewers: 0. Integration PR #16 stays open (milestone D5 step pending; see backlog).
 - Update, same run: CI green on a18cfb9; fresh reviewer gave APPROVE; P8b (PR #20) squash-merged into develop. Reviewers: 1. Workers: 0.
+- Milestone D5: CI green on develop (13e0b20); integration reviewer APPROVE; PR #16 merged into main (merge commit 7bd1c27); main synced back into develop. Reviewers this run: 2 (task P8b, integration). Workers: 0. Next: C1 is ready (depends on D5); P9 is ready (depends on P8).
+
+## 2026-10-02 (sixth run): F1, F2, F6
+
+- F2 (PR #22): merged, CI green, review APPROVE on 0890164.
+- F1 (PR #23): merged, CI green, review APPROVE on e69f87e. Unbuilt-kind and step-count rules were warnings for joins-01 via LEGACY_LESSONS until F6.
+- F6 (PR #24): worker left three compiler tests red (they edit joins-01 by string replacement); F6 Paths widened, fix round 1 done, merged, CI green, review APPROVE on af651a5.
+- Workers: 4 (F1, F2, F6, F6 fix round). Reviewers: 3. MAX_PARALLEL and MAX_TASKS_PER_RUN exceeded at the author's request.
+- Next ready: F3, F4, F5, F7 (F3 and F5 overlap each other; F4 and F7 are independent), F8 is author/orchestrator only.
+
+## 2026-10-03: F3, F4
+
+- F3 (PR #26): merged, CI green, review APPROVE on f71d17f.
+- F4 (PR #25): first CI run red (e2e job hung in `playwright install` on Node 26, cancelled at the 20 min timeout). Fix round 1 installed browsers under Node 22; CI green; merged, review APPROVE on b1ce79e.
+- Workers: 3 (F3, F4, F4 fix round). Reviewers: 2. CI on develop not re-checked after the merges. Integration PR #21 still open; no milestone this run.
+- Next ready: F5, F7 (F8 is author/orchestrator only), V1, C1.
+
+## 2026-10-03 (second run): F5, V1
+
+- V1 (PR #27, head adbe8d8): worker done; scope, install, typecheck, lint pass locally; lesson-compiler tests hang locally (PGlite), so CI decides. CI running; no review verdict yet. V1 stays `in_progress`. Next run: if CI green, run review gate on adbe8d8.
+- F5: worker dispatched on `task/F5`, still running at this write. Stays `in_progress`; resume from the branch if it has no PR.
+- V1 notes for reviewer/V4: LEGACY_EXEMPT list in codeLint.ts and `.legacy-skin` block in globals.css must be removed by V4.
+- Update, same run: CI green on adbe8d8; fresh reviewer APPROVE; V1 (PR #27) squash-merged. F5 worker still running at this write; F5 stays `in_progress`.
+- Update, same run: F5 worker done; PR #28 opened (head f7a0f55); local typecheck and lint pass, sql-engine tests pass under both TZ values. CI running, no verdict yet. F5 stays `in_progress`. Next run: if CI green, review gate on f7a0f55. Note: F5 renders booleans as `t`/`f` (PostgreSQL raw text).
+- Update, same run: F5 (PR #28) CI red on f7a0f55 (prettier on `pg-text.test.ts`); fix round 1 pushed as 9b3dedb (format only; format, lint, typecheck, sql-engine tests pass locally). CI on 9b3dedb pending; no review verdict for this head. F5 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, review gate on 9b3dedb. Workers this run: 2 (F5, V1) plus 1 fix round; reviewers: 1 (V1).
+- Update, same run: CI green on 9b3dedb; fresh reviewer APPROVE; F5 (PR #28) squash-merged. Reviewers this run: 2. MAX_TASKS_PER_RUN reached; stopping. Next ready: F7, C1 (F8 is author/orchestrator only), V2.
+
+## 2026-10-03 (third run): F7, C1
+
+- F7 (PR #29): merged, CI green, review APPROVE on 413527f.
+- C1 (PR #30): merged, CI green, review APPROVE on 2fe4814.
+- Workers: 2. Reviewers: 2. No fix rounds. Integration PR #21 still open; no milestone this run.
+- Next ready: V2, L1 (C1 and P8b done); F8 is author/orchestrator only.
+
+## 2026-10-03 (fourth run): V2
+
+- V2 (PR #31): merged, CI green, review APPROVE on cf4d96e. No fix rounds.
+- Workers: 1. Reviewers: 1. L1 was ready but its `content/**` Paths overlap V2, so it ran alone; no other task was ready in parallel. Integration PR #21 still open; no milestone this run.
+- Next ready: L1, V3 (V3 paths overlap L1 only through nothing: `packages/ui`, `packages/widgets`, `apps/web` vs `content/fullstack`; check next run). F8 is author/orchestrator only.
+- Update, same run: V3 (PR #33) worker done; CI green on 7465d4e; reviewer APPROVE; squash-merged. Paths widened to `pnpm-lock.yaml`.
+- Update, same run: L1 (PR #32, head eb4e58a) worker done; CI green; reviewer CHANGES_REQUESTED (predict samples show `-- Docs:` comments that state the answer; the alias rule says "only after SELECT" but GROUP BY also accepts output names). L1 stays `in_progress`; fix round 1 not started because MAX_TASKS_PER_RUN (V2, V3, L1) was reached. Next run: dispatch the fix round on `task/L1` with the PR comment as context, then re-review.
+- Workers: 3. Reviewers: 3. Integration PR #21 still open; no milestone this run.
+- Next ready: V4 (V3 done), L1 fix round; F8 is author/orchestrator only.
+
+## 2026-10-03 (fifth run): L1 fix round 1
+
+- L1 (PR #32): fix round 1 worker done, head 8183533 (both blockers fixed; scope checked, only `content/fullstack/query-order-01/**` and `registry/**` changed). Worker ran install, typecheck, lint and `lesson check` (pass); `pnpm test` hangs locally (PGlite), CI decides. CI running on 8183533; no review verdict for this head yet. L1 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, run a fresh review on 8183533.
+- V4 was ready but its `content/**` Paths overlap L1, so it waits.
+- Workers: 1. Reviewers: 0. Integration PR #21 still open; no milestone this run.
+- Update, same run: a fix commit 8183533 appeared on `task/L1` (not from this run's workers); it removed the answer-revealing sample comments and narrowed the alias-scope wording. CI green; fresh reviewer APPROVE; L1 (PR #32) squash-merged. Reviewers this run: 4. L1 is `done`.
+- Next ready: V4, L2 (F8 is author/orchestrator only).
+
+## 2026-10-03 (sixth run): V4
+
+- V4 (PR #34, head 81a490b): worker done; scope checked, install, typecheck, lint, lesson check pass locally. e2e and visual check against A1 to A4 not run in the sandbox. CI running; no review verdict yet. V4 stays `in_progress`. Next run: if CI green, run a fresh review on 81a490b (reviewer must do the A1 to A4 visual check).
+- Workers: 1. Reviewers: 0. L2 was ready but its `content/**` overlap with V4 means it waits. Integration PR #21 still open; no milestone this run.
+- Update, same run: CI e2e red on 81a490b (6 failures: footer action replaced the Continue button in gating assertions; unbuilt-kind fixture title contained the kind name). Fix round 1 pushed as 8e452a1 (2 files; 27 e2e passed locally with the preinstalled Chromium). CI on 8e452a1 pending; no review verdict for this head. V4 stays `in_progress` (1 of 2 fix rounds used). Next run: if CI green, fresh review on 8e452a1 including the A1 to A4 visual check. Workers this run: 2.
+- Update, same run: CI green on 8e452a1; fresh reviewer CHANGES_REQUESTED (5 blockers: raw course id on home page; A2 reveal missing; A4 review cards and next lesson; A3 sqlLab hints, pk/fk, missing-column case, danger styling; broken MiniDiagram). Verdict posted on PR #34. Fix round 2 (last allowed) pushed as 269f145; scope checked. Worker reports the reveal and review cards are approximated (no `reveal` tag or recap review-card field in the schema; those are outside V4's paths). CI on 269f145 pending; no verdict for this head. V4 stays `in_progress` (2 of 2 fix rounds used; another failure sets it to `blocked`). MAX_TASKS_PER_RUN reached; stopping. Workers: 3. Reviewers: 1.
+- Update, same run: CI green on 269f145; fresh reviewer CHANGES_REQUESTED (1 blocker: sqlLab schema panel never shows the `pk` marker; the earlier blockers are fixed). Verdict posted on PR #34. Fix rounds exhausted (2 of 2), so V4 is `blocked` and PR #34 stays open. Reviewers this run: 2.
+
+## 2026-10-03 (seventh run): nothing started
+
+- V4 (PR #34) is still `blocked` (2 of 2 fix rounds used; pk-marker blocker open). L2, P9, M0 and everything after them wait on V4.
+- D6 was the only ready task, but djinni.co is unreachable from this sandbox (proxy CONNECT returns 403), so no refresh was possible. F8 is author/orchestrator only.
+- Workers: 0. Reviewers: 0. Integration PR #21 still open; no milestone.
+
+## 2026-10-04 (eighth run): nothing started
+
+- No change since the seventh run: V4 (PR #34, head 269f145) is `blocked` awaiting the author's decision on a third fix round; D6 still needs djinni.co. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (ninth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (tenth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (eleventh run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (twelfth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (thirteenth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-04 (fourteenth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+
+## 2026-10-05 (fifteenth run): nothing started
+
+- No change: V4 (PR #34) still `blocked`, awaiting the author; D6 needs djinni.co; F8 is author-only. Workers: 0. Reviewers: 0.
+- Update, 2026-10-05: the author pushed dfd027b (pk marker fix) to `task/V4`; CI green; fresh reviewer APPROVE; V4 (PR #34) squash-merged. V4 is `done`. Reviewers this run: 3. Integration PR #21 still open; no milestone.
+- Next ready: L2 (V4 done, L1 done), P9; F8 is author/orchestrator only.
+
+## 2026-10-05 (sixteenth run)
+
+- L2 (nulls-01): worker done, commit 90d1888 on `task/L2`; PR #35 opened. Local: typecheck, lint, lesson check pass; `pnpm test` hangs locally (PGlite). CI was queued at the end of the run; review gate next run. Status stays `in_progress`.
+- M0 not started: its official sources (module-federation.io) are unreachable from the sandbox (000); P9 skipped because its paths overlap L2. Workers: 1. Reviewers: 0.
+
+## 2026-10-05 (seventeenth run): nothing started
+
+- GitHub Actions still fails on every run in about 4 seconds with no steps (latest: run 309 on `main`, 07:45 UTC), so no PR can reach green CI. L2 (PR #35, head 90d1888) stays `in_progress`, no review gate. Workers: 0. Reviewers: 0.
+- Update, 2026-10-05: the author made the repository public, which restored CI. L2 (PR #35) was reviewed fresh (APPROVE on fcdcb04), CI green after one re-run of a flaky e2e keyboard test (`player.spec.ts:247`, passed on the same commit in the PR run), and squash-merged. L2 is `done`. Reviewers this run: 1. Integration PR #21 still open; no milestone.
+- Next ready: M0 (needs module-federation.io reachable), P9, L3.
+
+## 2026-10-05 (eighteenth run)
+
+- P9: worker done (head 0e4f29d), PR #36 opened; typecheck and lint pass; PGlite tests too slow locally (compiler suite run per file, pass). CI running at end of run; review gate next run. Follow-up F9 added (wiring outside P9 paths). M0 still blocked on module-federation.io (403); L3 skipped because it overlaps P9 on `content/**`. Workers: 1. Reviewers: 0.
+- Update, 2026-10-05: P9 (PR #36) CI green on 0e4f29d, fresh reviewer APPROVE, squash-merged. P9 is `done`. Added F10 (minors). Reviewers this run: 1. Integration PR #21 still open; no milestone.
+- Next ready: F9, F10, L3, P10 (P9 done); M0 still needs module-federation.io.
+
+## 2026-10-05 (nineteenth run)
+
+- F9: worker done (head b63af2b), PR #37 opened; ui.test.ts added to its paths. Local: typecheck, lint, lesson check pass; compiler tests too slow locally. CI running at end of run; review gate next run. F10: worker done (head 59c5848), PR #38 opened; CI running. Added F11 (font-size tokens). M0 still blocked on module-federation.io; L3 and P10 skipped (overlap F9 on `content/**`). Workers: 2. Reviewers: 0.
+- Update, 2026-10-05: F9 (PR #37) CI green on b63af2b, fresh reviewer APPROVE, squash-merged. F9 is `done`. F10 (PR #38): CI failed on prettier, fixed in 0689b98; CI re-running, review gate next run. Reviewers this run: 1.
+- Update, 2026-10-05: F10 (PR #38) CI green on 0689b98, fresh reviewer APPROVE, squash-merged. F10 is `done`. Added F12 (remaining `as Error`). Reviewers this run: 2. Integration PR #21 still open; no milestone.
+- Next ready: L3, P10, F11, F12; M0 still needs module-federation.io.
+
+## 2026-10-05 (twentieth run)
+
+- F11: worker done (f6a2fb2), PR #39 opened; typecheck and lint pass. P10: worker done (6e70871), PR #40 opened; typecheck and lint pass (worker also ran full tests). CI running at end of run; review gate next run. Added F13 (wiring outside P10 paths). M0 still blocked on module-federation.io (403); L3 skipped (overlaps P10), F12 not started (task limit of two parallel). Workers: 2. Reviewers: 0.
+- Update, 2026-10-05: F11 (PR #39) CI green on f6a2fb2, fresh reviewer APPROVE, squash-merged. F11 is `done`. P10 (PR #40) review gate next run. Reviewers this run: 1.
+
+## 2026-10-05 (twenty-first run)
+
+- P10 (PR #40) CI green on 6e70871 (one flaky e2e on the first run, `player.spec.ts:247`, passed on the second), fresh reviewer APPROVE, squash-merged. P10 is `done`. Reviewers: 1. Workers: 0. Integration PR #21 still open; no milestone. Stopped to leave room for the next run; F12, F13, L3 are ready (M0 still blocked on module-federation.io).
+
+## 2026-10-05 (twenty-second run)
+
+- F12: worker done (0274d9b), PR opened; typecheck and lint pass; lesson-compiler tests minus sql-lab pass locally (sql-lab too slow, CI decides). F13: worker done (aae9e68), PR #41 opened; typecheck and lint pass, lesson check ok. CI running at end of run; review gate next run. Added F14 to F16 (follow-ups). P10 milestone still deferred until F13 merges. Workers: 2. Reviewers: 0.
+
+- Update, 2026-10-05: F12 (PR #42) CI green on d3392fa after one prettier fix round, fresh reviewer APPROVE, squash-merged; F12 is `done`. F13 (PR #41): review 1 on aae9e68 CHANGES_REQUESTED (missing tests); fix round 1 pushed as a6828a9, CI and review next run. Paths widened to verify.test.ts; F15 absorbed. Reviewers: 2. Workers: 3.
+- Update, 2026-10-05: F13 (PR #41) CI green on a6828a9, fresh reviewer APPROVE, squash-merged; F13 is `done`. Added F17 (minors). Milestone step for P10 follows.

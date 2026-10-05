@@ -1,9 +1,30 @@
 import { z } from 'zod';
+import { designTask } from './design';
+
+/** An aside shown in the margin of a step (E08 section 9). */
+export const marginItem = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('sticky'),
+    who: z.literal('olha'),
+    label: z.enum(['asks', 'says']),
+    text: z.string().min(1),
+  }),
+  z.object({
+    type: z.literal('bubble'),
+    who: z.enum(['bug', 'runtime']),
+    text: z.string().min(1),
+  }),
+  z.object({ type: z.literal('gotcha'), text: z.string().min(1) }),
+  z.object({ type: z.literal('stopAndThink'), text: z.string().min(1) }),
+  z.object({ type: z.literal('diagram'), ref: z.string().min(1), caption: z.string().min(1) }),
+]);
+export type MarginItem = z.infer<typeof marginItem>;
 
 const stepBase = z.object({
   id: z.string().min(1),
   estSeconds: z.number().int().positive(),
   concepts: z.array(z.string()).readonly(),
+  margin: z.array(marginItem).readonly().optional(),
 });
 
 const codeLanguage = z.enum(['ts', 'js', 'sql', 'http']);
@@ -198,13 +219,8 @@ export const sqlLabStep = stepBase.extend({
 export const schemaBuilderStep = stepBase.extend({
   kind: z.literal('schemaBuilder'),
   prompt: z.string().min(1),
-  scenario: z.string().min(1),
-  expectedTables: z
-    .array(
-      z.object({ name: z.string().min(1), columns: z.array(z.string().min(1)).min(1).readonly() }),
-    )
-    .min(1)
-    .readonly(),
+  /** Loose fields, roles, scenarios and the reference and wrong drafts (E06). */
+  ...designTask.shape,
 });
 
 export const relationLabStep = stepBase.extend({
@@ -317,3 +333,18 @@ const passiveSet: ReadonlySet<StepKind> = new Set<StepKind>(PASSIVE_KINDS);
 export function isActive(s: { readonly kind: StepKind }): boolean {
   return !passiveSet.has(s.kind);
 }
+
+/** Kinds that have a real widget in the player. The rest render a placeholder and cannot be played. */
+export const IMPLEMENTED_KINDS = [
+  'hook',
+  'explain',
+  'recap',
+  'cliffhanger',
+  'pitfall',
+  'predict',
+  'fillBlanks',
+  'sqlLab',
+  'schemaBuilder',
+  'beTheDatabase',
+] as const satisfies readonly StepKind[];
+export type ImplementedKind = (typeof IMPLEMENTED_KINDS)[number];

@@ -361,8 +361,102 @@ export const fixtures: readonly Fixture[] = [
     },
   },
   {
+    id: 'schema-idle',
+    title: 'schemaBuilder, empty canvas',
+    step: {
+      ...base,
+      id: 'fx-schema-1',
+      kind: 'schemaBuilder',
+      estSeconds: 120,
+      prompt: 'Design a table for **customers**. Every customer has a key and an email.',
+      looseFields: ['email', 'customer number'],
+      roles: [
+        { id: 'customers', label: 'the table that holds customers', kind: 'table' },
+        { id: 'customerId', label: "the customer's key", kind: 'column', table: 'customers' },
+        { id: 'customerEmail', label: "the customer's email", kind: 'column', table: 'customers' },
+      ],
+      scenarios: [
+        {
+          id: 'email-is-required',
+          story: 'A customer without an email address is refused.',
+          setupSql: [],
+          probeSql: 'insert into {{customers}} ({{customerId}}) values (1)',
+          expect: { kind: 'fails', sqlState: '23502' },
+          hintOnFail: 'The email column accepts a missing value. Make it required.',
+          misconception: 'app-validation-is-enough',
+        },
+      ],
+      references: [
+        {
+          name: 'customers',
+          draft: {
+            tables: [
+              {
+                name: 'customers',
+                columns: [
+                  {
+                    name: 'id',
+                    type: 'integer',
+                    nullable: false,
+                    unique: false,
+                    primaryKey: true,
+                  },
+                  {
+                    name: 'email',
+                    type: 'text',
+                    nullable: false,
+                    unique: true,
+                    primaryKey: false,
+                  },
+                ],
+              },
+            ],
+          },
+          roles: { customers: 'customers', customerId: 'id', customerEmail: 'email' },
+        },
+      ],
+      wrongDrafts: [],
+    },
+  },
+  {
+    id: 'be-the-database-idle',
+    title: 'Be the database, inner join, untouched',
+    step: {
+      ...base,
+      id: 'fx-bd-1',
+      kind: 'beTheDatabase',
+      query:
+        'select c.name, o.item from customers c inner join orders o on o.customer_id = c.id order by c.id, o.id',
+      traceRef: 'join-inner',
+      prompt: 'Pair the rows of **customers** and **orders** the way the join would.',
+      tables: [
+        {
+          name: 'customers',
+          columns: ['id', 'name'],
+          rows: [
+            ['1', 'Anna'],
+            ['2', 'Boris'],
+            ['3', 'Chloe'],
+            ['4', 'Dmytro'],
+          ],
+        },
+        {
+          name: 'orders',
+          columns: ['id', 'customer_id', 'item'],
+          rows: [
+            ['11', '1', 'lamp'],
+            ['12', '1', 'desk'],
+            ['13', '2', 'chair'],
+            ['14', '2', 'mug'],
+            ['15', '4', 'plant'],
+          ],
+        },
+      ],
+    },
+  },
+  {
     id: 'unbuilt-parsons',
-    title: 'Unbuilt kind shows a placeholder (parsons)',
+    title: 'Unbuilt kind shows a short notice',
     step: {
       ...base,
       id: 'fx-parsons-1',

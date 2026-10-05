@@ -1,0 +1,9 @@
+{
+  "ref": "join-left",
+  "seed": "pairing",
+  "query": "select c.name, o.item from customers c left join orders o on o.customer_id = c.id order by c.id, o.id",
+  "joinKind": "left",
+  "on": "r.customer_id = l.id",
+  "left": { "table": "customers", "id": "id" },
+  "right": { "table": "orders", "id": "id" }
+}

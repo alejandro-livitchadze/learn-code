@@ -1,0 +1,145 @@
+/*
+ * Layout for the schema builder. Colors, sizes and depth come from the tokens and components of
+ * @learn-code/ui (E08, D16); this file only arranges them.
+ */
+
+.sb-tables,
+.sb-results,
+.sb-problems,
+.sb-cols,
+.sb-chips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sb-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  padding: var(--space-4);
+}
+.sb-table-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-12);
+}
+.sb-grow {
+  flex: 1 1 240px;
+}
+.sb-col {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-10) var(--space-14);
+  padding-bottom: var(--space-14);
+  border-bottom: var(--border-width-thin) dashed var(--margin-rule);
+}
+.sb-col:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.sb-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.sb-input {
+  min-height: 44px;
+  padding: var(--space-6) var(--space-10);
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--font-size-16);
+}
+.sb-input:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
+}
+.sb-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 44px;
+  font-size: var(--font-size-16);
+}
+.sb-check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--ink);
+}
+.sb-roles {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.sb-roles legend {
+  padding: 0;
+  margin-bottom: var(--space-8);
+}
+.sb-role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-14);
+  margin-top: var(--space-12);
+}
+.sb-role {
+  font-size: var(--font-size-16);
+}
+.sb-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.sb-result[data-status='failed'] {
+  border-left: var(--space-6) solid var(--danger);
+  padding-left: var(--space-12);
+}
+.sb-result[data-status='passed'] .w-label {
+  color: var(--success);
+}
+.sb-result[data-status='failed'] .w-label:first-child {
+  color: var(--danger-strong);
+}
+.sb-story {
+  margin: 0;
+  font-weight: 700;
+}
+.sb-sql {
+  margin: 0;
+  padding: var(--space-8) var(--space-10);
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--paper);
+}
+.sb-hint {
+  margin: 0;
+}
+.sb-problems li {
+  padding: var(--space-8) var(--space-12);
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--danger-bg);
+}
+.sb-pile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.sb-chips {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+.sb-chip {
+  padding: var(--space-4) var(--space-10);
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--sticky);
+  cursor: grab;
+}

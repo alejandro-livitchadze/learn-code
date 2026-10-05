@@ -1,62 +1,18 @@
-:root {
-  --bg: #fbfaf7;
-  --surface: #ffffff;
-  --text: #1c1b1a;
-  --muted: #55524d;
-  --border: #d9d5cc;
-  --accent: #1d4ed8;
-  --accent-text: #ffffff;
-  --note: #8a3b00;
-  --seg-todo: #d9d5cc;
-  --seg-done: #15803d;
-  --seg-current: #1d4ed8;
-  --font-sans: var(--font-body), system-ui, sans-serif;
-  --font-code: var(--font-mono), ui-monospace, monospace;
-  --font-note: var(--font-hand), 'Comic Sans MS', cursive;
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14130f;
-    --surface: #1d1c18;
-    --text: #f2efe8;
-    --muted: #b9b4a8;
-    --border: #3a372f;
-    --accent: #7aa2ff;
-    --accent-text: #0b1020;
-    --note: #ffb36b;
-    --seg-todo: #3a372f;
-    --seg-done: #4ade80;
-    --seg-current: #7aa2ff;
-  }
-}
-
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-sans);
-  line-height: 1.5;
-}
-a {
-  color: var(--accent);
-}
-:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
-}
+/*
+ * App-level layout only. Colors, fonts and shadows come from @learn-code/ui
+ * (tokens.css, ui.css); this file declares none of its own (D16, CL1).
+ */
 
 .home {
   max-width: 44rem;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: var(--space-48) var(--space-24);
+}
+.home h1 {
+  margin: 0 0 var(--space-8);
 }
 .lead {
-  color: var(--muted);
+  color: var(--ink-muted);
 }
 .lesson-list {
   list-style: none;
@@ -65,68 +21,59 @@ a {
 .lesson-list li {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border);
+  gap: var(--space-16);
+  padding: var(--space-12) 0;
+  border-bottom: var(--border-thin);
 }
 .progress-label {
-  color: var(--muted);
+  color: var(--ink-muted);
 }
 
 .notice {
   display: none;
-  margin: 3rem 1.5rem;
-  padding: 1rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-}
-.player {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 62rem;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
+  margin: var(--space-40) var(--space-24);
+  padding: var(--space-16);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
 }
 @media (max-width: 1023.98px) {
   .notice {
     display: block;
   }
-  .player {
+  .player-root {
     display: none;
   }
 }
 
-.crumb {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-.lesson-title {
-  margin: 0.25rem 0 1rem;
-  font-size: 1.5rem;
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
 }
 .progress {
   display: flex;
-  gap: 4px;
+  gap: var(--space-6);
 }
 .seg {
-  flex: 1;
-  height: 8px;
-  border-radius: 4px;
-  background: var(--seg-todo);
+  width: 22px;
+  height: 10px;
+  border: var(--border-thin);
+  border-radius: 5px;
+  background: transparent;
 }
 .seg[data-state='done'] {
-  background: var(--seg-done);
+  background: var(--ink);
 }
 .seg[data-state='current'] {
-  background: var(--seg-current);
+  background: var(--highlight);
 }
 
-.stage {
-  flex: 1;
-  padding: 2rem 0;
+.all-lessons {
+  font-size: 18px;
+  font-weight: 700;
 }
+
 .step {
   animation: enter 150ms ease-out;
 }
@@ -140,107 +87,25 @@ a {
   .step {
     animation: none;
   }
-  * {
-    transition: none !important;
-  }
 }
+/* The step heading is the focus target after each move; the step tag shows the same words. */
 .step-title {
-  font-size: 1.25rem;
-  margin: 0 0 1rem;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .step-title:focus {
   outline: none;
 }
 .step-title:focus-visible {
-  outline: 3px solid var(--accent);
-}
-.badge {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-.json {
-  max-height: 22rem;
-  overflow: auto;
-  padding: 1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font: 0.85rem/1.5 var(--font-code);
-  white-space: pre-wrap;
+  outline: 3px solid var(--author);
+  outline-offset: 2px;
 }
 .loading {
-  color: var(--muted);
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-}
-.hint {
-  flex: 1;
-  text-align: right;
-  color: var(--muted);
-}
-button,
-.primary {
-  font: inherit;
-  padding: 0.6rem 1.4rem;
-  border-radius: 8px;
-  border: 2px solid var(--accent);
-  cursor: pointer;
-  text-decoration: none;
-}
-.primary {
-  background: var(--accent);
-  color: var(--accent-text);
-  font-weight: 600;
-}
-.secondary {
-  background: transparent;
-  color: var(--accent);
-}
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.code {
-  margin: 1rem 0;
-}
-.code pre {
-  margin: 0;
-  padding: 1rem;
-  overflow-x: auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font: 0.9rem/1.7 var(--font-code);
-}
-.code-line {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-}
-.code-text {
-  white-space: pre;
-}
-.code-text span {
-  color: var(--shiki-light);
-}
-@media (prefers-color-scheme: dark) {
-  .code-text span {
-    color: var(--shiki-dark);
-  }
-}
-.note {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-left: auto;
-  color: var(--note);
-  font-family: var(--font-note);
-  font-size: 1.15rem;
+  color: var(--ink-muted);
 }

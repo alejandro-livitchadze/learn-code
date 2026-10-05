@@ -4,6 +4,69 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
+## F1. Lesson check: playable and solvable
+- Status: done
+- Note: merged via PR #23; CI green; reviewer APPROVE on e69f87e (minors: LEGACY_LESSONS also downgrades unbuilt-kind for joins-01, removed in F6; new rules lack brokenFixtures entries).
+- Depends on: none
+- Paths: `packages/lesson-compiler/**`, `packages/lesson-schema/**`, `packages/widgets/src/check.ts`, `packages/widgets/src/registry.tsx`, root
+- Source: `docs/audit-2026-10-03.md`, finding 1 (blocker)
+- Done when: `lesson check` fails, with file and line, on each of: duplicate step ids; a `fillBlanks` whose template markers and `blanks` ids differ; a `fillBlanks` whose first accepted answers do not pass `checkFillBlanks`; a lesson or step concept id missing from `concepts.json`; a blank misconception id missing from `misconceptions.json`; a step kind not in `IMPLEMENTED_KINDS` (error for content, with a `--allow-unbuilt` flag used only by compiler fixtures); frontmatter `id` or `courseId` different from the folder names; fewer than 12 or more than 20 steps (warning for `joins-01` until F6). One failing fixture per rule; the existing seven fixtures still fail exactly their rule.
+
+## F2. SQL session reset that always works
+- Status: done
+- Note: merged via PR #22; CI green; reviewer APPROVE on 0890164 (2 minors: re-export of DatabaseFactory in handler.ts, worker test covers two cases).
+- Depends on: none
+- Paths: `packages/sql-engine/**`
+- Source: `docs/audit-2026-10-03.md`, finding 2 (major)
+- Done when: `reset()` gives a database identical to a fresh `open(seed)` after each of: an aborted transaction, an open transaction, a changed `search_path`, an extra schema, a changed session setting (close and recreate the database, or `rollback` plus `discard all` plus dropping non-system schemas); a failed reset leaves the session usable on the next call; tests cover each case on the inline adapter and one on the worker adapter.
+
+## F3. One result comparer, one SQL path
+- Status: done
+- Note: merged via PR #26; CI green; reviewer APPROVE on f71d17f (minors: runPredictSql does not catch open() failure; testTimeout raised to 120s; COMPARE_CASES exported from package root; unused @electric-sql/pglite dep left in lesson-compiler).
+- Depends on: none
+- Paths: `packages/sql-engine/**`, `packages/widgets/src/sql-lab/**`, `packages/lesson-compiler/**`
+- Source: `docs/audit-2026-10-03.md`, finding 3 (major)
+- Done when: `compareResults` lives in `packages/sql-engine` (pure, exported) and is the only comparer used by the widget and by `lesson check`; `sameSqlResult`, `sameResult` and `verify/sql.ts` are deleted; predict verification runs through the inline adapter; `lesson check` fails a `sqlLab` whose reference result exceeds the row cap; a test feeds the same pairs to the widget path and the check path.
+
+## F4. Build and e2e in CI, e2e portable
+- Status: done
+- Note: merged via PR #25; CI green (check and e2e); reviewer APPROVE on b1ce79e (minors: e2e job repeats setup; macOS not run; install runs under Node 22 as a workaround, remove after bumping @playwright/test to 1.60+). README clause done via Paths widening.
+- Depends on: none
+- Paths: `.github/**`, `apps/web/e2e/**`, `apps/web/playwright.config.ts`, root, `README.md` (e2e section only; added by the orchestrator because the Done-when needs it)
+- Source: `docs/audit-2026-10-03.md`, finding 4 (major)
+- Done when: CI runs `pnpm --filter @learn-code/web build`, installs the pinned Chromium and runs `pnpm --filter @learn-code/web e2e`, with `timeout-minutes` set on the job; `typeSql` uses `ControlOrMeta+A`; the suite passes on macOS and Linux; README says how to run it.
+
+## F5. Show SQL values as PostgreSQL prints them
+- Status: done
+- Note: merged via PR #28; CI green; reviewer APPROVE on 9b3dedb (1 fix round: prettier; minor: doc comment wrapping in pglite.ts). Booleans print as `t`/`f`.
+- Depends on: none
+- Paths: `packages/sql-engine/**`, `packages/lesson-compiler/**`
+- Source: `docs/audit-2026-10-03.md`, finding 5 (major)
+- Done when: date, timestamp, timestamptz, time, interval, numeric, bigint, boolean, arrays and json come back as PostgreSQL's text output (configure PGlite parsers to return raw text, session time zone fixed to UTC); a test asserts the exact strings for each type and passes under `TZ=Europe/Kyiv` and `TZ=UTC`; a predict fixture with a date output passes with `2024-03-10`.
+
+## F6. Sample lesson: finishable and truthful
+- Status: done
+- Note: merged via PR #24; CI green; reviewer APPROVE on af651a5 (minors: lesson title still says 400 rows; weak 1920 distractor). The author decision on recall, brainPower, matching, parsons and firesideChat is still open.
+- Depends on: none
+- Paths: `content/fullstack/joins-01/**`, `apps/web/e2e/**`, `docs/backlog.md` (orchestrator); also `packages/lesson-compiler/src/check.ts` and `packages/lesson-compiler/test/check.test.ts`, `packages/lesson-compiler/test/cli.test.ts` (remove `LEGACY_LESSONS`, fix tests that edit joins-01 by string replacement)
+- Source: `docs/audit-2026-10-03.md`, finding 6 (major)
+- Done when: `joins-01` uses only kinds in `IMPLEMENTED_KINDS`, includes a `pitfall` and a `cliffhanger`, and has 12 to 20 steps; the seed has orders without items and an `amount` column, and a sample shows the inflated sum; `lesson check` proves `select count(*) from orders` does not match the reference; the prompt names the expected column; the e2e plays the lesson with no `localStorage` seeding. The author decides whether recall, brainPower, matching, parsons and firesideChat get tasks or leave the 3-month scope, and the backlog says so.
+
+## F7. One Markdown contract
+- Status: done
+- Note: merged via PR #29; CI green; reviewer APPROVE on 413527f (minors: list line right after paragraph text renders as one paragraph; recap and cliffhanger render inline only but lint allows lists and fences; `_italic_` and unmatched `*` not flagged).
+- Depends on: none
+- Paths: `packages/widgets/src/markdown.tsx`, `packages/widgets/src/*.test.*`, `packages/lesson-compiler/src/lint/**`, `packages/lesson-compiler/test/**`
+- Source: `docs/audit-2026-10-03.md`, finding 7 (major)
+- Done when: the supported subset is written in the compiler README; the renderer supports links (http and https only, `rel="noreferrer"`), emphasis and fenced code; a lint rule rejects any other construct with file and line; tests cover each supported construct, a `javascript:` link, and one rejected construct.
+
+## F8. Make the specs agree
+- Status: todo
+- Depends on: none
+- Paths: `docs/**`, `CLAUDE.md`, `README.md` (author or orchestrator only)
+- Source: `docs/audit-2026-10-03.md`, finding 8 (major)
+- Done when: every item listed in audit finding 8 is fixed or deleted; `CLAUDE.md` section 10 has an M5 integration check (the three lessons build, play to the end in the e2e, and every linked source was opened); superseded docs carry a first-line "superseded by" note; README lists the commands for lesson check, build and e2e.
+
 ## R0. Recovery and migration
 - Status: done
 - Depends on: none
@@ -98,62 +161,110 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `sqlLab` is registered in the widgets registry via `createSqlLab` with a lazy `getEngine` (`createWorkerEngine`, imported only on the first sqlLab step) and a `loadSeed` that provides `seeds/<seedRef>.sql`; `sqlLab` has fixtures and appears in the catalogue; CodeMirror and `@learn-code/sql-engine` dependencies live in `packages/widgets/package.json`, not the root; `@learn-code/sql-engine` is in `transpilePackages`; the sample lesson can be finished through the UI for sqlLab; a production build shows PGlite is a lazy chunk and pages without SQL steps do not fetch it; the Worker timeout path is checked in a real browser; `lesson check` runs the reference query (must match expected rows) and the starter (must not) through the sql-engine inline adapter. Added by the orchestrator from the P8 review follow-ups.
 
 ## V1. UI package: tokens, fonts, page shell
-- Status: todo
+- Status: done
+- Note: merged via PR #27; CI green; reviewer APPROVE on adbe8d8 (minors: V4 must empty LEGACY_EXEMPT, remove `.legacy-skin` bridge, dark rules in widgets.css and highlight.ts, and the kind name in the step heading).
 - Depends on: P8b
 - Paths: `packages/ui/**`, `apps/web/**`, root
 - Epic: E08 sections 2, 3, 7 and component Button, InkCard, StepTag, Highlight
 - Done when: `packages/ui` exports tokens (CSS and typed), the four fonts via `next/font`, page shell (header, main, margin, footer) and the listed components; the dark theme is removed; the lesson page uses the shell; code lint CL1 and CL2 run in CI; catalogue shows each component; Playwright screenshots at 1280 and 1440 px are committed.
 
 ## V2. Margin schema, Markdoc tags, design lint
-- Status: todo
+- Status: done
+- Note: merged via PR #31; CI green; reviewer APPROVE on cf4d96e (minor: marginItem in tags/kinds.ts falls through to diagram without a never check). Highlight syntax is ==phrase== (renderer does not draw it yet: V3/V4). joins-01 annotation shortened for DL5.
 - Depends on: V1
 - Paths: `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E08 sections 5, 8 (lesson design lint) and 9
 - Done when: `margin` and the title highlight are in the schema; Markdoc tags compile into them; rules DL1 to DL8 exist as pure functions with one failing fixture each; the sample lesson passes.
 
 ## V3. Characters and margin components
-- Status: todo
+- Status: done
+- Note: merged via PR #33; CI green; reviewer APPROVE on 7465d4e (minors: duplicate reduced-motion block in ui.css; no unit tests for ReviewCard, FeedbackBanner, Cliffhanger; no length limits on FeedbackBanner aside and Cliffhanger). Paths widened by the orchestrator to include pnpm-lock.yaml (3 lines, new workspace dependency).
 - Depends on: V2
 - Paths: `packages/ui/**`, `packages/widgets/**`, `apps/web/**`
 - Epic: E08 sections 4 and 5
 - Done when: The Bug, Olha and Mr. Runtime exist as SVG components; StickyNote, SpeechBubble, Gotcha, StopAndThink, FeedbackBanner, Annotation, MiniDiagram, ReviewCard, Cliffhanger, HintLadder are built and in the catalogue; the player renders `margin` items and the hook's left character column.
 
 ## V4. Restyle every existing widget and the sample lesson
-- Status: todo
+- Status: done
+- Note: merged via PR #34; CI green; reviewer APPROVE on dfd027b after two CHANGES_REQUESTED rounds (8e452a1, 269f145). Commit dfd027b (pk marker fix) was pushed by the repo author, not a worker. Minors: A2 reveal and A4 review cards approximated (no schema fields); LEGACY_EXEMPT in packages/ui/src/codeLint.ts not emptied (outside Paths).
 - Depends on: V3
 - Paths: `packages/widgets/**`, `content/**`, `apps/web/**`
 - Epic: E08 whole file; mockups A1 to A4
 - Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
 
-## P9. Schema builder
+## M0. Course setup and current-state sources
 - Status: todo
+- Depends on: V4
+- Paths: `content/frontend-architecture/**`
+- Epic: E09, correctness rules 1 and 2
+- Done when: `content/frontend-architecture/sources.md` records, with dated links to official documentation, the current Module Federation version and packages, supported bundlers and meta-frameworks, and deprecated setups; the course is registered so the home page lists it.
+
+## M1. Working example project
+- Status: todo
+- Depends on: M0
+- Paths: `content/frontend-architecture/examples/**`, root, `.github/**`
+- Epic: E09, correctness rule 3
+- Done when: a host and two remotes built with the currently recommended Module Federation setup from `sources.md`; CI builds them; a script records the runtime outputs that lessons will use (including the duplicate-React failure and its fix).
+
+## M2. Microfrontends roadmap
+- Status: todo
+- Depends on: M1
+- Paths: `content/frontend-architecture/roadmap.json`, `content/frontend-architecture/registry/**`
+- Epic: E09 roadmap; E07 method (section 1)
+- Done when: 8 to 10 lessons with concepts, misconceptions and planned step kinds; every misconception from the E09 draft roadmap is covered.
+
+## M3. Lesson 1
+- Status: todo
+- Depends on: M2
+- Paths: `content/frontend-architecture/<roadmap lesson 1 id>/**`, `content/frontend-architecture/registry/**`
+- Done when: 12 to 20 steps following the roadmap entry, E08 and the E09 correctness rules; every tool claim links official docs; `pnpm lesson check` passes. The reviewer opens each linked source and confirms it supports the claim.
+
+## M4. Lesson 2
+- Status: todo
+- Depends on: M3
+- Paths: `content/frontend-architecture/<roadmap lesson 2 id>/**`, `content/frontend-architecture/registry/**`
+- Done when: same as M3 for lesson 2.
+
+## M5. Lesson 3
+- Status: todo
+- Depends on: M4
+- Paths: `content/frontend-architecture/<roadmap lesson 3 id>/**`, `content/frontend-architecture/registry/**`
+- Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
+
+## P9. Schema builder
+- Status: done
+- Note: merged via PR #36 (7937951); CI green; reviewer APPROVE on 0e4f29d (minors: `as Error` in lesson-compiler kinds.ts/compile.ts; literal px in design.css; no schema-01 lesson.mdoc, see F9). Widget not wired yet: F9.
 - Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
 - Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested; built only from `packages/ui` components and tokens, following E08.
 
 ## P10. Be the database: joins
-- Status: todo
+- Status: done
+- Note: merged via PR #40; CI green; reviewer APPROVE on 6e70871 (minors: orders row label shows the foreign key; grids render step.tables while pairs index trace rows; wiring in F13).
 - Depends on: P9
 - Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
 - Epic: E06 (`beTheDatabase`, join variant)
 - Done when: traces generated in CI from PGlite; the widget checks the learner's row pairing for INNER, LEFT and a row-multiplying join; results match the recorded output; built only from `packages/ui` components and tokens, following E08.
 
 ## C1. Module 1 roadmap
-- Status: todo
+- Status: done
+- Note: merged via PR #30; CI green; reviewer APPROVE on 2fe4814 (minor: roadmap schema does not declare misconceptions, plannedStepKinds, interaction or module note, so they are not validated).
 - Depends on: D5
 - Paths: `content/fullstack/roadmap.json`, `content/fullstack/registry/**`
 - Epic: E07 (module 1 entries), `00-context.md` sections 2 to 4
 - Done when: `roadmap.json` lists 8 to 10 lessons for module 1 (PostgreSQL) in order, each with id, title, concepts, misconceptions, planned step kinds, and the E07 interaction it uses if any; lesson order and emphasis are justified in a short note that cites numbers from `research/demand/report-js.md`; `concepts.json` and `misconceptions.json` contain every id the roadmap uses; all files pass schema validation.
 
 ## L1. Module 1, lesson 1
-- Status: todo
+- Status: done
+- Note: merged via PR #32; CI green; reviewer APPROVE on 8183533 after a first CHANGES_REQUESTED on eb4e58a (answer-revealing sample comments, alias-scope wording). The fix commit 8183533 was pushed by a session other than this run's workers. Minors: p2 option 2 explanation is loose; postgresql.org links unverified (unreachable from the sandbox).
 - Depends on: C1, P8b
 - Paths: `content/fullstack/<id of roadmap lesson 1>/**`, `content/fullstack/registry/**`
 - Done when: `lesson.mdoc` follows its roadmap entry; 12 to 20 steps; uses only step kinds that have a real widget (no placeholders); voice follows `00-context.md` section 4; every SQL sample runs on PGlite in `lesson check`; every claim about PostgreSQL behavior has a comment linking the relevant page on postgresql.org/docs; `pnpm lesson check` passes. The reviewer also runs each sample and checks the explanation matches the actual result.
 
 ## L2. Module 1, lesson 2
-- Status: todo
+- Status: done
+- Note: merged via PR #35 (419b9a5); CI green; reviewer APPROVE on fcdcb04 (minors: recap "only IS NULL / IS NOT NULL" contradicts the IS DISTINCT FROM line; postgresql.org links unverified; e1 "Discount 0" wording; "NULL = NULL" never run). No recall step: widget not built.
 - Depends on: L1
 - Paths: `content/fullstack/<id of roadmap lesson 2>/**`, `content/fullstack/registry/**`
 - Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
@@ -217,3 +328,72 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 ## Stop point
 
 After P10 and D5 the orchestrator only runs D6 and triage. New platform work needs the author.
+
+## F9. Wire schemaBuilder into the player
+- Status: done
+- Note: merged via PR #37 (2fd65f6); CI green; reviewer APPROVE on b63af2b (minor: p2 option 3 shares misconception tag with option 1).
+- Depends on: P9
+- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/sql-wiring.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `packages/ui/src/StepTag.tsx`, `packages/ui/src/ui.test.ts`, `content/fullstack/**`
+- Source: P9 worker report
+- Done when: `schemaBuilder` maps to `createSchemaBuilder({ getEngine: getLazyEngine })` and is in `IMPLEMENTED_KINDS`; a fixture exists; `StepTag` has a `schemaBuilder` entry (no sqlLab stand-in); a `schema-01` lesson of 12 to 20 steps uses `design="./design/shop.json"` and passes `lesson check`.
+
+## F10. P9 minors: error narrowing and design.css tokens
+- Status: done
+- Note: merged via PR #38 (de2965a); CI green; reviewer APPROVE on 0689b98 (minors: `22px` in design.css could use `--space-22`; `as Error` remains in cli.ts:40 and registries.ts:15, see F12).
+- Depends on: P9
+- Paths: `packages/lesson-compiler/src/tags/kinds.ts`, `packages/lesson-compiler/src/compile.ts`, `packages/widgets/src/design/design.css`
+- Source: P9 reviewer minors
+- Done when: caught values are narrowed with `e instanceof Error ? e.message : String(e)` instead of `as Error`; `design.css` uses E08 spacing and type tokens where equivalents exist; checks pass.
+
+## F11. Font-size tokens for design.css
+- Status: done
+- Note: PR #39; design.css had three literals, not five; `--font-size-18` unused for now.
+- Depends on: F10
+- Paths: `packages/ui/src/tokens.css`, `packages/widgets/src/design/design.css`
+- Source: F10 worker report
+- Done when: font-size tokens (for example 16px and 18px) exist in `tokens.css`; `design.css` uses them instead of its five literal `font-size: 16px`; checks pass.
+
+## F12. Narrow caught errors in CLI and registries
+- Status: done
+- Note: merged via PR #42; CI green; reviewer APPROVE on d3392fa (one prettier fix round).
+- Depends on: F10
+- Paths: `packages/lesson-compiler/src/cli.ts`, `packages/lesson-compiler/src/registries.ts`
+- Source: F10 reviewer minor
+- Done when: `as Error` at `cli.ts:40` and `registries.ts:15` is replaced by `e instanceof Error ? e.message : String(e)`; checks pass.
+
+## F13. Wire beTheDatabase into the player and lesson check
+- Status: done
+- Note: merged via PR #41; CI green; reviewer APPROVE on a6828a9 after one fix round (tests added; F15 absorbed). Minors: Catalogue hard-codes joins-01 trace base; sameJson relies on key order.
+- Depends on: P10
+- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`, `packages/lesson-compiler/src/verify.test.ts`
+- Source: P10 worker report
+- Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
+
+## F14. Root `traces` script
+- Status: todo
+- Depends on: F13
+- Paths: root
+- Source: F13 worker report
+- Done when: root `package.json` has `"traces": "pnpm --filter @learn-code/lesson-compiler traces"`; checks pass.
+
+## F15. Test verifyBeTheDatabase
+- Status: done
+- Note: absorbed into F13 fix round
+- Depends on: F13
+- Paths: `packages/lesson-compiler/src/verify.test.ts`
+- Source: F13 worker report
+- Done when: tests cover a missing trace, a stale trace, and a step whose tables or query differ from the trace; checks pass.
+
+## F16. Use beTheDatabase in a lesson
+- Status: todo
+- Depends on: F13
+- Paths: `content/fullstack/joins-01/**`
+- Source: F13 worker report
+- Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
+
+## F17. Catalogue trace base and deep-equal for traces
+- Status: todo
+- Depends on: F13
+- Paths: `apps/web/app/dev/widgets/Catalogue.tsx`, `packages/lesson-compiler/src/verify/index.ts`
+- Source: F13 reviewer minors
+- Done when: Catalogue derives its trace base from a named constant; `sameJson` in verify uses structural deep-equal; checks pass.

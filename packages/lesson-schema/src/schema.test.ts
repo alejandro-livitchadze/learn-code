@@ -110,8 +110,36 @@ const fixtures: Record<StepKind, unknown> = {
     id: 'a',
     kind: 'schemaBuilder',
     prompt: 'p',
-    scenario: 's',
-    expectedTables: [{ name: 't', columns: ['id'] }],
+    roles: [
+      { id: 'things', label: 'the things table', kind: 'table' },
+      { id: 'thingId', label: 'the thing id', kind: 'column', table: 'things' },
+    ],
+    scenarios: [
+      {
+        id: 's1',
+        story: 'A thing has an id.',
+        probeSql: 'select 1',
+        expect: { kind: 'succeeds' },
+        hintOnFail: 'h',
+        misconception: 'm1',
+      },
+    ],
+    references: [
+      {
+        name: 'r',
+        draft: {
+          tables: [
+            {
+              name: 't',
+              columns: [
+                { name: 'id', type: 'integer', nullable: false, unique: false, primaryKey: true },
+              ],
+            },
+          ],
+        },
+        roles: { things: 't', thingId: 'id' },
+      },
+    ],
   },
   relationLab: {
     ...base,
@@ -281,5 +309,27 @@ describe('registry, roadmap and status files', () => {
     expect(lessonStatus.safeParse(ok).success).toBe(true);
     expect(lessonStatus.safeParse({ ...ok, state: 'bogus' }).success).toBe(false);
     expect(lessonStatus.safeParse({ ...ok, updatedAt: 'yesterday' }).success).toBe(false);
+  });
+});
+
+describe('margin and title highlights', () => {
+  it('parses every margin item type and rejects bad ones', async () => {
+    const { marginItem, splitHighlights } = await import('./index');
+    const ok = [
+      { type: 'sticky', who: 'olha', label: 'asks', text: 'Why?' },
+      { type: 'bubble', who: 'runtime', text: 'Rule.' },
+      { type: 'gotcha', text: 'Careful.' },
+      { type: 'stopAndThink', text: 'Hm.' },
+      { type: 'diagram', ref: 'rows', caption: 'Rows' },
+    ];
+    for (const m of ok) expect(marginItem.safeParse(m).success).toBe(true);
+    expect(
+      marginItem.safeParse({ type: 'sticky', who: 'bug', label: 'asks', text: 'x' }).success,
+    ).toBe(false);
+    expect(marginItem.safeParse({ type: 'gotcha', text: '' }).success).toBe(false);
+    expect(splitHighlights('a ==b c== d ==e==')).toEqual({
+      plain: 'a b c d e',
+      highlights: ['b c', 'e'],
+    });
   });
 });

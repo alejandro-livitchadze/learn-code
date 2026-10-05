@@ -1,0 +1,533 @@
+/* Base styles, page shell and components (E08 sections 2, 3, 4, 7). */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.5;
+  background-color: var(--paper);
+  /* Ruled paper: one thin line every 32 px. A hard-stop stripe, not a gradient. */
+  background-image: linear-gradient(
+    to bottom,
+    transparent 31px,
+    var(--rule) 31px,
+    var(--rule) 32px
+  );
+  background-size: 100% 32px;
+}
+
+a {
+  color: var(--author);
+}
+a:hover {
+  color: var(--author-strong);
+}
+
+:focus-visible {
+  outline: 3px solid var(--author);
+  outline-offset: 2px;
+}
+
+/* ---------- Page shell ---------- */
+
+.ui-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-32) var(--space-48) var(--space-48);
+}
+
+.ui-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding-bottom: var(--space-16);
+  border-bottom: 3px solid var(--ink);
+}
+.ui-module {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--author);
+  text-decoration: none;
+}
+.ui-module:hover {
+  text-decoration: underline;
+}
+.ui-title {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+}
+.ui-counter {
+  flex: none;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--author);
+  white-space: nowrap;
+}
+
+.ui-body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-24);
+  padding: var(--space-28) 0;
+}
+.ui-main {
+  flex: 999 1 640px;
+  min-width: 0;
+}
+.ui-margin {
+  flex: 1 1 var(--margin-width);
+  max-width: 300px;
+  min-width: 260px;
+  padding-left: var(--space-24);
+  border-left: 2px dashed var(--margin-rule);
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-22);
+}
+
+.ui-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding-top: var(--space-20);
+  border-top: 3px solid var(--ink);
+}
+.ui-footer-hint {
+  flex: 1;
+  text-align: right;
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--ink-muted);
+}
+
+/* ---------- Button ---------- */
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-8) var(--space-24);
+  border: var(--border);
+  border-radius: var(--radius-chip);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ui-btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-primary);
+}
+.ui-btn-primary:hover {
+  color: var(--paper);
+}
+.ui-btn-secondary {
+  background: transparent;
+  color: var(--ink);
+}
+.ui-btn-secondary:hover {
+  color: var(--ink);
+  background: var(--card);
+}
+.ui-btn:disabled,
+.ui-btn[aria-disabled='true'] {
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
+  border-color: var(--disabled-ink);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- InkCard ---------- */
+
+.ui-card {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  padding: var(--space-16) var(--space-20);
+}
+.ui-card[data-state='lifted'] {
+  box-shadow: var(--shadow-hard);
+}
+.ui-card[data-state='selected'] {
+  background: var(--highlight);
+  box-shadow: var(--shadow-hard);
+}
+
+/* ---------- StepTag ---------- */
+
+.ui-steptag {
+  display: inline-block;
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-label);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* ---------- Highlight ---------- */
+
+.ui-highlight {
+  color: inherit;
+  padding: 0 0.12em;
+  /* A highlighter stroke covering 70% of the line height (hard stops, no blend). */
+  background: linear-gradient(
+    to bottom,
+    transparent 15%,
+    var(--highlight) 15%,
+    var(--highlight) 85%,
+    transparent 85%
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ---------- Left character column (hook steps) ---------- */
+
+.ui-lead {
+  flex: 1 1 240px;
+  max-width: 260px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-10);
+}
+
+/* ---------- Characters ---------- */
+
+.ui-char {
+  display: block;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ui-char .ui-char-bug {
+  fill: var(--bug);
+}
+.ui-char .ui-char-ink {
+  fill: var(--ink);
+}
+.ui-char .ui-char-paper {
+  fill: var(--card);
+}
+.ui-char .ui-char-sticky {
+  fill: var(--sticky);
+}
+.ui-char .ui-char-suit {
+  fill: var(--ink-muted);
+}
+
+/* ---------- Margin components ---------- */
+
+.ui-sticky {
+  transform: rotate(-2deg);
+  background: var(--sticky);
+  padding: var(--space-16) var(--space-18) var(--space-20);
+  box-shadow: var(--shadow-soft);
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+}
+.ui-sticky-label {
+  margin-bottom: var(--space-6);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ui-bubble {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius-bubble);
+  padding: var(--space-14) var(--space-16);
+  box-shadow: var(--shadow-hard);
+  font-size: 17px;
+  line-height: 1.45;
+}
+.ui-bubble p {
+  margin: 0;
+}
+.ui-bubble p + p {
+  margin-top: var(--space-8);
+}
+
+.ui-speaker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-10);
+}
+
+.ui-gotcha {
+  border: var(--border);
+  border-color: var(--danger);
+  border-radius: var(--radius-chip);
+  padding: var(--space-12) var(--space-14);
+  background: var(--danger-bg);
+}
+.ui-gotcha-label {
+  font-weight: 700;
+  color: var(--danger-strong);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ui-gotcha p {
+  margin: var(--space-6) 0 0;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.ui-stop {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.ui-stop-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ui-stop-label svg {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ui-stop p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.ui-annotation {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--author);
+}
+.ui-annotation svg {
+  flex: none;
+  fill: none;
+  stroke: var(--author);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.ui-diagram {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.ui-diagram-caption {
+  order: -1;
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--author);
+}
+.ui-diagram-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-10);
+}
+.ui-diagram-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+.ui-diagram-arrow {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.ui-chip {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: var(--space-6) var(--space-8);
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--card);
+}
+.ui-chip[data-tone='ink'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- Cards ---------- */
+
+.ui-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-14) var(--space-20);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  background: var(--success-bg);
+}
+.ui-feedback[data-correct='false'] {
+  background: var(--danger-bg);
+}
+.ui-feedback svg {
+  flex: none;
+  fill: none;
+  stroke: var(--success);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ui-feedback[data-correct='false'] svg {
+  stroke: var(--danger);
+}
+.ui-feedback p {
+  flex: 1 1 400px;
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+}
+.ui-feedback-aside {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--success);
+}
+.ui-feedback[data-correct='false'] .ui-feedback-aside {
+  color: var(--danger-strong);
+}
+
+.ui-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.ui-review-q {
+  font-size: 16px;
+  line-height: 1.4;
+}
+.ui-review-due {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--author);
+}
+
+.ui-cliff {
+  transform: rotate(-1.5deg);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-card);
+  padding: var(--space-18) var(--space-20);
+}
+.ui-cliff-title {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--highlight);
+}
+.ui-cliff p {
+  margin: var(--space-8) 0 0;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.ui-hints {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.ui-hints .ui-btn {
+  width: 100%;
+}
+.ui-hint-open {
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--card);
+  padding: var(--space-10) var(--space-14);
+  font-size: 16px;
+}
+.ui-hint-n {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ui-hint-locked {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-8) var(--space-24);
+  border: 2px dashed var(--margin-rule);
+  border-radius: var(--radius-chip);
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 18px;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-sticky,
+  .ui-cliff {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

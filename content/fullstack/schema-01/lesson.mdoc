@@ -1,0 +1,120 @@
+---
+id: schema-01
+courseId: fullstack
+title: "Design the schema for an online ==shop=="
+concepts: [column-types, money-as-numeric, primary-key, column-constraints]
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["money-as-numeric"] %}
+Month end. The shop's total is off by ==three cents== and nobody touched a price. The column type is the only suspect left.
+{% margin %}
+{% stop %}
+Which column type could lose a cent on its own?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/float.sql" language="sql" concepts=["money-as-numeric"] %}
+{% option output="true" misconception="float-is-fine-for-money" %}
+0.1 + 0.2 is 0.3 on paper, but a float stores a close binary value, not the exact decimal.
+{% /option %}
+{% option output="false" correct=true %}
+Floats keep binary approximations. 0.1 + 0.2 comes out as 0.30000000000000004, so the comparison fails.
+{% /option %}
+{% option output="error" misconception="float-is-fine-for-money" %}
+There is no error. The query runs, and it quietly gives the wrong answer.
+{% /option %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=45 code="select 0.1::float8 + 0.2::float8 as f,\n       0.1::numeric + 0.2::numeric as n" concepts=["money-as-numeric", "column-types"] %}
+**What really happened:** the type of a column decides how a value is stored. `double precision` keeps a binary approximation, so most decimal fractions are slightly off. `numeric` keeps decimal digits exactly. For money, use `numeric(10, 2)` or whole cents in an `integer`.
+
+{% annotation line=1 %}
+A binary approximation: errors add up.
+{% /annotation %}
+{% annotation line=2 %}
+Exact decimal digits: 0.1 + 0.2 is 0.3.
+{% /annotation %}
+{% /explain %}
+
+{% sqlLab id="s1" estSeconds=90 prompt="The table `charges` holds 1000 charges of 0.10, once as a float and once as numeric. Return one row with one column named total: the exact sum of all charges." seedRef="default" starter="select sum(price_float) as total from charges" solution="select sum(price_numeric) as total from charges" concepts=["money-as-numeric"] %}
+{% hint %}
+Run the starter first. Is the total exactly 100?
+{% /hint %}
+{% hint %}
+Which of the two price columns stores exact decimal digits?
+{% /hint %}
+{% hint %}
+Sum the price_numeric column instead.
+{% /hint %}
+{% /sqlLab %}
+
+{% fillBlanks id="f1" estSeconds=45 template="create table products (\n  id integer primary key,\n  price ___t___(10, 2) not null\n);" language="sql" concepts=["column-types", "money-as-numeric"] %}
+{% blank id="t" accepted=["numeric", "decimal"] misconception="float-is-fine-for-money" %}
+numeric keeps exact decimal digits: 10 digits in total, 2 after the point.
+{% /blank %}
+{% /fillBlanks %}
+
+{% pitfall id="pf1" estSeconds=40 language="sql" badCode="create table customers (\n  email text\n);" goodCode="create table customers (\n  email text not null unique\n);" concepts=["column-constraints"] %}
+The app checks the email today. A script, an import or a bug in another service skips that check. Only a constraint in the table refuses bad data from every writer.
+{% /pitfall %}
+
+{% predict id="p2" estSeconds=60 code="./samples/duplicate.sql" language="sql" concepts=["column-constraints"] %}
+{% option output="1" misconception="null-equals-null" %}
+Two missing emails are not "the same email". Unique only compares values that exist.
+{% /option %}
+{% option output="2" correct=true %}
+unique treats each missing value as unknown, so it never counts as a duplicate. To force an email, add not null too.
+{% /option %}
+{% option output="error" misconception="null-equals-null" %}
+There is no error. A missing value is never equal to another missing value, so nothing is duplicated.
+{% /option %}
+{% /predict %}
+
+{% sqlLab id="s2" estSeconds=90 prompt="The table `signups` was filled without a not null rule. Return one row with one column named n: how many signups have no email." seedRef="default" starter="select count(email) as n from signups" solution="select count(*) as n from signups where email is null" concepts=["column-constraints"] %}
+{% hint %}
+count(email) skips the missing values, so it counts the wrong rows.
+{% /hint %}
+{% hint %}
+You need the rows where the email is missing. Which test works for null?
+{% /hint %}
+{% hint %}
+Use count(*) with where email is null.
+{% /hint %}
+{% /sqlLab %}
+
+{% schemaBuilder id="sb1" estSeconds=240 prompt="Design the first two tables of the **shop**: customers and their orders. Every customer has a key and an email, every order has a key, a customer and a total. Put each field where it belongs, choose its type and its rules, then test your design." design="./design/shop.json" concepts=["primary-key", "column-types", "column-constraints", "money-as-numeric"] %}
+{% /schemaBuilder %}
+
+{% fillBlanks id="f2" estSeconds=45 template="create table customers (\n  id integer ___k___ key,\n  email text not null unique\n);" language="sql" concepts=["primary-key"] %}
+{% blank id="k" accepted=["primary"] misconception="email-as-primary-key" %}
+A primary key is unique and never null. It identifies exactly one row.
+{% /blank %}
+{% /fillBlanks %}
+
+{% recap id="rc1" estSeconds=30 concepts=["column-types", "money-as-numeric", "primary-key", "column-constraints"] %}
+{% point %}
+The column type decides how a value is stored. Money is ==numeric== or whole cents, never a float.
+{% /point %}
+{% point %}
+A primary key identifies one row. Use a key that never changes, not an email.
+{% /point %}
+{% point %}
+not null and unique let the database refuse bad data from every writer.
+{% /point %}
+{% /recap %}
+
+{% predict id="p3" estSeconds=60 code="./samples/email-key.sql" language="sql" concepts=["primary-key"] %}
+{% option output="0" misconception="copies-stay-in-sync" %}
+The order stores only the customer id, not a copy of the email. The new email is found through the join.
+{% /option %}
+{% option output="1" correct=true %}
+The key is a number that never changes, so Ada can change her email and her order still finds her.
+{% /option %}
+{% option output="error" misconception="email-as-primary-key" %}
+Here the email is not the key, so changing it breaks nothing. It would, if orders pointed at the email.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="relations-01" question="Each order stores its customer. Who may point at whom, and what should the database do when a customer is deleted?" %}
+{% /cliffhanger %}

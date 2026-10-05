@@ -2,8 +2,11 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import { runNode } from './node';
-import { runSql, showSql, type SqlResult } from './sql';
+import { createInlineEngine } from '@learn-code/sql-engine';
+import { formatRows } from './format';
 import { checkSqlLab } from './sql-lab';
+import { checkSchemaBuilder } from './schema-builder';
+import { generateFromFiles } from '../traces';
 
 export interface VerifyIssue {
   readonly stepId: string;
@@ -20,11 +23,18 @@ function readSeed(lessonDir: string, name: string): string | undefined {
 
 const message = (e: unknown): string => (e instanceof Error ? e.message : String(e));
 
-async function tryQuery(seed: string | undefined, sql: string): Promise<SqlResult | Error> {
+/** Run a predict sample through the inline sql-engine adapter and print it as a declared output. */
+export async function runPredictSql(
+  seed: string | undefined,
+  sql: string,
+): Promise<string | Error> {
+  const session = await createInlineEngine().open(seed ?? '');
   try {
-    return await runSql(seed, sql);
-  } catch (e) {
-    return e instanceof Error ? e : new Error(String(e));
+    const outcome = await session.execute(sql);
+    if (!outcome.ok) return new Error(outcome.message);
+    return formatRows(outcome.result.columns, outcome.result.rows);
+  } finally {
+    await session.close();
   }
 }
 
@@ -36,9 +46,8 @@ async function verifyPredict(
   if (correct === undefined) return [];
   const fail = (m: string): VerifyIssue[] => [{ stepId: s.id, message: m }];
   if (s.language === 'sql') {
-    const r = await tryQuery(readSeed(lessonDir, DEFAULT_SEED), s.code);
-    if (r instanceof Error) return fail(`sample failed to run: ${r.message}`);
-    const actual = showSql(r);
+    const actual = await runPredictSql(readSeed(lessonDir, DEFAULT_SEED), s.code);
+    if (actual instanceof Error) return fail(`sample failed to run: ${actual.message}`);
     return actual === correct.output.trim()
       ? []
       : fail(`declared output "${correct.output}" but the sample printed "${actual}"`);
@@ -71,6 +80,51 @@ async function verifySqlLab(
   return problems.map((message) => ({ stepId: s.id, message }));
 }
 
+const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * The recorded trace must exist, match a fresh PGlite run of its spec, and agree with the step
+ * (query and both tables), so the widget grades against what PostgreSQL really does.
+ */
+async function verifyBeTheDatabase(
+  s: Extract<Step, { kind: 'beTheDatabase' }>,
+  lessonDir: string,
+): Promise<VerifyIssue[]> {
+  const fail = (m: string): VerifyIssue[] => [{ stepId: s.id, message: m }];
+  const dir = join(lessonDir, 'traces');
+  const specPath = join(dir, `${s.traceRef}.spec.json`);
+  const tracePath = join(dir, `${s.traceRef}.trace.json`);
+  if (!existsSync(specPath))
+    return fail(`trace spec "traces/${s.traceRef}.spec.json" does not exist`);
+  if (!existsSync(tracePath)) {
+    return fail(
+      `trace "traces/${s.traceRef}.trace.json" is missing; run "pnpm --filter @learn-code/lesson-compiler traces"`,
+    );
+  }
+  const fresh = await generateFromFiles({ specPath, tracePath, seedDir: join(lessonDir, 'seeds') });
+  const recorded: unknown = JSON.parse(readFileSync(tracePath, 'utf8'));
+  const issues: VerifyIssue[] = [];
+  if (!sameJson(recorded, fresh)) {
+    issues.push(
+      ...fail(
+        `trace "${s.traceRef}" differs from what PostgreSQL produces now; run "pnpm --filter @learn-code/lesson-compiler traces"`,
+      ),
+    );
+  }
+  if (s.query.trim() !== fresh.query.trim()) {
+    issues.push(...fail(`query differs from the query of trace "${s.traceRef}"`));
+  }
+  for (const t of [fresh.left, fresh.right]) {
+    const shown = s.tables.find((x) => x.name === t.name);
+    if (shown === undefined)
+      issues.push(...fail(`table "${t.name}" of the trace is not shown in the step`));
+    else if (!sameJson({ c: shown.columns, r: shown.rows }, { c: t.columns, r: t.rows })) {
+      issues.push(...fail(`table "${t.name}" in the step differs from the trace`));
+    }
+  }
+  return issues;
+}
+
 /** Execute every code sample with a declared output and compare exactly. */
 export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<VerifyIssue[]> {
   const issues: VerifyIssue[] = [];
@@ -78,6 +132,12 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
     try {
       if (s.kind === 'predict') issues.push(...(await verifyPredict(s, lessonDir)));
       else if (s.kind === 'sqlLab') issues.push(...(await verifySqlLab(s, lessonDir)));
+      else if (s.kind === 'beTheDatabase')
+        issues.push(...(await verifyBeTheDatabase(s, lessonDir)));
+      else if (s.kind === 'schemaBuilder') {
+        const problems = await checkSchemaBuilder(s);
+        issues.push(...problems.map((m) => ({ stepId: s.id, message: m })));
+      }
     } catch (e) {
       issues.push({ stepId: s.id, message: `verification crashed: ${message(e)}` });
     }
@@ -86,7 +146,6 @@ export async function verifySamples(lesson: Lesson, lessonDir: string): Promise<
 }
 
 export { formatRows } from './format';
-export { closeSql, runSql, sameResult, showSql } from './sql';
-export { checkSqlLab, sameSqlResult } from './sql-lab';
-export type { SqlResult } from './sql';
+export { checkSqlLab } from './sql-lab';
+export { checkSchemaBuilder } from './schema-builder';
 export { runNode, NODE_TIMEOUT_MS } from './node';

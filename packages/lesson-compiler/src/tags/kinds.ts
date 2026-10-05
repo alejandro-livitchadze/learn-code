@@ -32,6 +32,7 @@ export const FILE_ATTRIBUTES: ReadonlySet<string> = new Set([
   'ddl',
   'before',
   'after',
+  'design',
 ]);
 
 /** Copy the named attributes that are present, preserving their values. */
@@ -46,6 +47,21 @@ function pick(c: BuildContext, ...names: string[]): Fields {
 
 function stepBase(c: BuildContext): Fields {
   return { ...pick(c, 'id', 'estSeconds'), concepts: c.attrs['concepts'] ?? [] };
+}
+
+/** Parse the JSON of a `design` attribute. A broken file stops the step with a readable message. */
+function readDesign(raw: unknown): Fields {
+  if (typeof raw !== 'string') return {};
+  let data: unknown;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`design is not valid JSON: ${e instanceof Error ? e.message : String(e)}`);
+  }
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) {
+    throw new Error('design must be a JSON object');
+  }
+  return { ...data };
 }
 
 const texts = (c: BuildContext, name: string): string[] =>
@@ -103,7 +119,37 @@ export const CHILD_TAGS: Record<string, { readonly attributes: Record<string, Sc
     },
     stage: { attributes: {} },
     point: { attributes: {} },
+    margin: { attributes: {} },
+    sticky: { attributes: { who: oneOf(['olha']), label: oneOf(['asks', 'says'], true) } },
+    bubble: { attributes: { who: oneOf(['bug', 'runtime'], true) } },
+    gotcha: { attributes: {} },
+    stop: { attributes: {} },
+    diagram: { attributes: { ref: str(true), caption: str(true) } },
   };
+
+/** Tags allowed inside `{% margin %}`. Every step tag may contain one `margin`. */
+export const MARGIN_CHILDREN: readonly string[] = ['sticky', 'bubble', 'gotcha', 'stop', 'diagram'];
+
+/** Plain margin item for one tag inside `{% margin %}`. */
+export function marginItem(name: string, c: BuildContext): Fields {
+  switch (name) {
+    case 'sticky':
+      return {
+        type: 'sticky',
+        who: c.attrs['who'] ?? 'olha',
+        label: c.attrs['label'],
+        text: c.body(),
+      };
+    case 'bubble':
+      return { type: 'bubble', who: c.attrs['who'], text: c.body() };
+    case 'gotcha':
+      return { type: 'gotcha', text: c.body() };
+    case 'stop':
+      return { type: 'stopAndThink', text: c.body() };
+    default:
+      return { type: 'diagram', ref: c.attrs['ref'], caption: c.attrs['caption'] };
+  }
+}
 
 /** One tag per step kind, keyed by the `kind` value in the schema. */
 export const KIND_TAGS: Record<string, TagSpec> = {
@@ -275,13 +321,15 @@ export const KIND_TAGS: Record<string, TagSpec> = {
     }),
   },
   schemaBuilder: {
-    attributes: { ...common, prompt: str(true), scenario: str(true) },
-    children: ['table'],
+    // `design` is a `./design/<name>.json` file: loose fields, roles, scenarios, reference and
+    // wrong drafts. Its shape is validated by the `designTask` schema.
+    attributes: { ...common, prompt: str(true), design: str(true) },
+    children: [],
     build: (c) => ({
       ...stepBase(c),
       kind: 'schemaBuilder',
-      ...pick(c, 'prompt', 'scenario'),
-      expectedTables: table(c, false),
+      ...pick(c, 'prompt'),
+      ...readDesign(c.attrs['design']),
     }),
   },
   relationLab: {

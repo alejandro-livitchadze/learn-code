@@ -1,82 +1,54 @@
 'use client';
 
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+import { Button, Cliffhanger as CliffhangerCard, ReviewCard } from '@learn-code/ui';
 import { Code } from './Code';
+import { WidgetFrame } from './chrome';
+import { HookColumn } from './Margin';
 import { Markdown, renderInline } from './markdown';
 import type { StepComponentProps, StepOfKind } from './types';
-
-type Character = NonNullable<StepOfKind<'hook'>['character']> | 'careful';
-
-const CHARACTERS: Readonly<Record<Character, { readonly name: string; readonly mark: string }>> = {
-  bug: { name: 'Bug', mark: 'B' },
-  olha: { name: 'Olha', mark: 'O' },
-  mrRuntime: { name: 'Mr. Runtime', mark: 'R' },
-  careful: { name: 'Careful', mark: '!' },
-};
-
-function Speech({
-  character,
-  children,
-}: {
-  readonly character: Character;
-  readonly children: React.ReactNode;
-}) {
-  const c = CHARACTERS[character];
-  return (
-    <div className="w-speech" data-character={character}>
-      <div className="w-avatar" aria-hidden="true">
-        {c.mark}
-      </div>
-      <div className="w-bubble">
-        <p className="w-speaker">{c.name}</p>
-        {children}
-      </div>
-    </div>
-  );
-}
 
 export function Hook({ step }: StepComponentProps<StepOfKind<'hook'>>) {
   return (
     <div className="w-widget" data-kind="hook">
-      <Speech character={step.character ?? 'bug'}>
+      <HookColumn character={step.character}>
         <Markdown text={step.body} />
-      </Speech>
+      </HookColumn>
     </div>
   );
 }
 
 export function Pitfall({ step }: StepComponentProps<StepOfKind<'pitfall'>>) {
   return (
-    <div className="w-widget" data-kind="pitfall">
-      <Speech character="careful">
-        <Markdown text={step.body} />
-      </Speech>
+    <WidgetFrame kind="pitfall">
+      <Markdown text={step.body} />
       {step.badCode !== undefined || step.goodCode !== undefined ? (
         <div className="w-compare">
           {step.badCode !== undefined ? (
-            <div>
-              <p className="w-tag w-tag-bad">Avoid</p>
+            <div className="w-compare-side">
+              <p className="w-label w-label-bad">Avoid</p>
               <Code code={step.badCode} highlightKey={`${step.id}:badCode`} label="Code to avoid" />
             </div>
           ) : null}
           {step.goodCode !== undefined ? (
-            <div>
-              <p className="w-tag w-tag-good">Prefer</p>
+            <div className="w-compare-side">
+              <p className="w-label w-label-good">Prefer</p>
               <Code code={step.goodCode} highlightKey={`${step.id}:goodCode`} label="Better code" />
             </div>
           ) : null}
         </div>
       ) : null}
-    </div>
+    </WidgetFrame>
   );
 }
 
 export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
   const total = step.annotations.length;
-  const [shown, setShown] = useState(0);
+  // The first note is open from the start, so the code never looks bare.
+  const [shown, setShown] = useState(Math.min(1, total));
   const notes = step.annotations.slice(0, shown);
   return (
-    <div className="w-widget" data-kind="explain">
+    <WidgetFrame kind="explain">
       <Markdown text={step.body} />
       {step.code !== undefined ? (
         <>
@@ -88,26 +60,15 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
           />
           {total > 0 ? (
             <div className="w-row">
-              <button
-                type="button"
-                className="w-btn"
+              <Button
                 disabled={shown >= total}
                 onClick={() => setShown((n) => Math.min(n + 1, total))}
               >
-                {shown >= total
-                  ? 'All notes shown'
-                  : shown === 0
-                    ? 'Show first note'
-                    : 'Show next note'}
-              </button>
-              <button
-                type="button"
-                className="w-btn w-btn-quiet"
-                disabled={shown >= total}
-                onClick={() => setShown(total)}
-              >
+                {shown >= total ? 'All notes shown' : 'Show next note'}
+              </Button>
+              <Button disabled={shown >= total} onClick={() => setShown(total)}>
                 Show all
-              </button>
+              </Button>
               <span className="w-muted" role="status">
                 {shown} of {total} notes
               </span>
@@ -115,54 +76,60 @@ export function Explain({ step }: StepComponentProps<StepOfKind<'explain'>>) {
           ) : null}
         </>
       ) : null}
-    </div>
+    </WidgetFrame>
   );
 }
 
+const ReviewCardsContext = createContext<Readonly<Record<string, string>>>({});
+
+/** The host supplies the learner-facing concept names (by concept id) that become review cards. */
+export const ReviewCardsProvider = ReviewCardsContext.Provider;
+
+const DUE_TIMES = ['in 1 day', 'in 3 days', 'in 1 week', 'in 2 weeks'] as const;
+
 export function Recap({ step }: StepComponentProps<StepOfKind<'recap'>>) {
-  const total = step.points.length;
-  const [shown, setShown] = useState(1);
+  const names = useContext(ReviewCardsContext);
+  const cards = step.concepts.flatMap((id) => {
+    const name = Object.hasOwn(names, id) ? names[id] : undefined;
+    return name === undefined ? [] : [name];
+  });
   return (
-    <div className="w-widget" data-kind="recap">
-      <h3 className="w-h">What to remember</h3>
-      <ul className="w-recap">
-        {step.points.slice(0, shown).map((p, i) => (
-          <li key={i}>{renderInline(p)}</li>
+    <WidgetFrame kind="recap">
+      <ol className="w-points">
+        {step.points.map((p, i) => (
+          <li key={i}>
+            <span className="w-point-n" aria-hidden="true">
+              {i + 1}
+            </span>
+            <p>{renderInline(p)}</p>
+          </li>
         ))}
-      </ul>
-      <div className="w-row">
-        <button
-          type="button"
-          className="w-btn"
-          disabled={shown >= total}
-          onClick={() => setShown((n) => Math.min(n + 1, total))}
-        >
-          {shown >= total ? 'All points shown' : 'Show next point'}
-        </button>
-        <button
-          type="button"
-          className="w-btn w-btn-quiet"
-          disabled={shown >= total}
-          onClick={() => setShown(total)}
-        >
-          Show all
-        </button>
-        <span className="w-muted" role="status">
-          {shown} of {total} points
-        </span>
-      </div>
-    </div>
+      </ol>
+      {cards.length > 0 ? (
+        <section className="w-reviews" aria-label="Review cards">
+          <h3 className="w-label">These come back as review cards</h3>
+          <ul className="w-review-list">
+            {cards.map((name, i) => (
+              <li key={name}>
+                <ReviewCard
+                  question={`Can you explain: ${name}?`}
+                  due={DUE_TIMES[Math.min(i, DUE_TIMES.length - 1)] ?? 'soon'}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </WidgetFrame>
   );
 }
 
 export function Cliffhanger({ step }: StepComponentProps<StepOfKind<'cliffhanger'>>) {
   return (
-    <div className="w-widget" data-kind="cliffhanger">
-      <p className="w-tag">Next time</p>
-      <p className="w-cliff">{renderInline(step.question)}</p>
-      {step.nextLessonId !== undefined ? (
-        <p className="w-muted">Continues in lesson {step.nextLessonId}.</p>
-      ) : null}
-    </div>
+    <WidgetFrame kind="cliffhanger">
+      <div className="w-cliff">
+        <CliffhangerCard>{renderInline(step.question)}</CliffhangerCard>
+      </div>
+    </WidgetFrame>
   );
 }

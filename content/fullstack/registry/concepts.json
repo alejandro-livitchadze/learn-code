@@ -10,5 +10,209 @@
     "name": "Row multiplication",
     "description": "A join returns one row per matching pair, so the result can have more rows than either table.",
     "prerequisites": ["inner-join"]
+  },
+  {
+    "id": "query-execution-order",
+    "name": "Query execution order",
+    "description": "A query runs FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT, which is not the order it is written in.",
+    "prerequisites": []
+  },
+  {
+    "id": "alias-scope",
+    "name": "Alias scope",
+    "description": "A column alias made in SELECT exists only in the stages after SELECT, so WHERE cannot use it but ORDER BY can.",
+    "prerequisites": ["query-execution-order"]
+  },
+  {
+    "id": "order-by-determinism",
+    "name": "Row order is not guaranteed",
+    "description": "A table has no inherent row order; without ORDER BY, LIMIT returns some rows, not the first ones.",
+    "prerequisites": ["query-execution-order"]
+  },
+  {
+    "id": "three-valued-logic",
+    "name": "Three-valued logic",
+    "description": "A comparison with NULL is neither true nor false but unknown, and AND, OR and NOT follow a truth table with three values.",
+    "prerequisites": []
+  },
+  {
+    "id": "is-null-test",
+    "name": "IS NULL test",
+    "description": "IS NULL and IS NOT NULL are the only comparisons that answer true or false for NULL.",
+    "prerequisites": ["three-valued-logic"]
+  },
+  {
+    "id": "where-drops-unknown",
+    "name": "WHERE drops unknown rows",
+    "description": "WHERE keeps only rows where the condition is true, so rows with an unknown result disappear, including for <>.",
+    "prerequisites": ["three-valued-logic", "query-execution-order"]
+  },
+  {
+    "id": "group-by-buckets",
+    "name": "GROUP BY buckets",
+    "description": "GROUP BY puts rows into buckets by key and collapses each bucket into one row; it does not promise any order.",
+    "prerequisites": ["query-execution-order"]
+  },
+  {
+    "id": "aggregate-functions",
+    "name": "Aggregate functions",
+    "description": "count, sum, avg, min and max turn the many rows of a bucket into one value.",
+    "prerequisites": ["group-by-buckets"]
+  },
+  {
+    "id": "having-vs-where",
+    "name": "HAVING versus WHERE",
+    "description": "WHERE filters rows before grouping; HAVING filters buckets after aggregation.",
+    "prerequisites": ["group-by-buckets", "query-execution-order"]
+  },
+  {
+    "id": "count-star-vs-column",
+    "name": "count(*) versus count(column)",
+    "description": "count(*) counts rows; count(column) counts rows where that column is not NULL.",
+    "prerequisites": ["aggregate-functions", "three-valued-logic"]
+  },
+  {
+    "id": "column-types",
+    "name": "Column types",
+    "description": "The type of a column decides which values are stored, compared and sorted, for example text, integer, numeric, timestamptz and boolean.",
+    "prerequisites": []
+  },
+  {
+    "id": "money-as-numeric",
+    "name": "Money as numeric",
+    "description": "Exact amounts use numeric or integer cents, because floating point types cannot store most decimal fractions exactly.",
+    "prerequisites": ["column-types"]
+  },
+  {
+    "id": "primary-key",
+    "name": "Primary key",
+    "description": "A primary key is a column or set of columns that is unique and not NULL and identifies exactly one row.",
+    "prerequisites": ["column-types"]
+  },
+  {
+    "id": "column-constraints",
+    "name": "Column constraints",
+    "description": "NOT NULL, UNIQUE and CHECK let the database refuse bad data no matter which application wrote it.",
+    "prerequisites": ["column-types"]
+  },
+  {
+    "id": "foreign-key",
+    "name": "Foreign key",
+    "description": "A foreign key makes the database refuse a value that points to a row that does not exist.",
+    "prerequisites": ["primary-key"]
+  },
+  {
+    "id": "one-to-many",
+    "name": "One-to-many relation",
+    "description": "The foreign key lives on the many side: each order row points to one customer, a customer has many orders.",
+    "prerequisites": ["foreign-key"]
+  },
+  {
+    "id": "many-to-many-junction",
+    "name": "Junction table",
+    "description": "A many-to-many relation needs a third table with one foreign key to each side, usually with a composite primary key.",
+    "prerequisites": ["one-to-many"]
+  },
+  {
+    "id": "referential-actions",
+    "name": "Referential actions",
+    "description": "ON DELETE decides what happens to child rows when a parent row is deleted; the default refuses the delete.",
+    "prerequisites": ["foreign-key"]
+  },
+  {
+    "id": "left-join",
+    "name": "Left join",
+    "description": "A left join keeps every row of the left table and fills the right side with NULL when nothing matches.",
+    "prerequisites": ["inner-join", "three-valued-logic"]
+  },
+  {
+    "id": "left-join-filter-trap",
+    "name": "Filtering a left join",
+    "description": "A WHERE condition on a right-table column removes the NULL-filled rows and turns a left join into an inner join; the condition belongs in ON.",
+    "prerequisites": ["left-join", "where-drops-unknown"]
+  },
+  {
+    "id": "data-duplication-anomalies",
+    "name": "Update and delete anomalies",
+    "description": "Facts stored in several rows can drift apart on update, and deleting a row can destroy an unrelated fact.",
+    "prerequisites": ["primary-key"]
+  },
+  {
+    "id": "normalization",
+    "name": "Normalization",
+    "description": "Each fact lives in exactly one place, so one change touches one row.",
+    "prerequisites": ["data-duplication-anomalies", "foreign-key"]
+  },
+  {
+    "id": "denormalization-tradeoff",
+    "name": "Denormalization trade-off",
+    "description": "Copying data on purpose can speed up reads, but it makes the copies your job to keep in sync.",
+    "prerequisites": ["normalization"]
+  },
+  {
+    "id": "sequential-scan",
+    "name": "Sequential scan",
+    "description": "Without a usable index the database reads every row of the table, so the cost grows with table size.",
+    "prerequisites": ["query-execution-order"]
+  },
+  {
+    "id": "btree-index",
+    "name": "B-tree index",
+    "description": "A B-tree index keeps values sorted in a tree, so finding one value takes a few steps instead of a full scan.",
+    "prerequisites": ["sequential-scan"]
+  },
+  {
+    "id": "explain-plan",
+    "name": "Execution plan",
+    "description": "EXPLAIN shows the plan the planner chose and its estimated costs; EXPLAIN ANALYZE also runs the query and shows real times.",
+    "prerequisites": ["sequential-scan"]
+  },
+  {
+    "id": "index-write-cost",
+    "name": "Index write cost",
+    "description": "Every index must be updated on each insert, update and delete of an indexed value, and it takes disk space.",
+    "prerequisites": ["btree-index"]
+  },
+  {
+    "id": "planner-choice",
+    "name": "Planner choice",
+    "description": "The planner picks the cheapest plan it estimates, so it may ignore an index on a tiny table or a query that matches most rows.",
+    "prerequisites": ["btree-index", "explain-plan"]
+  },
+  {
+    "id": "transaction",
+    "name": "Transaction",
+    "description": "BEGIN to COMMIT groups statements so they succeed together or, after ROLLBACK, not at all.",
+    "prerequisites": []
+  },
+  {
+    "id": "lost-update",
+    "name": "Lost update",
+    "description": "Two sessions that read a value, compute and write it back can overwrite each other, so money or stock vanishes.",
+    "prerequisites": ["transaction"]
+  },
+  {
+    "id": "read-committed",
+    "name": "Read committed isolation",
+    "description": "In PostgreSQL default isolation a statement sees only committed data, but two statements in one transaction can see different data.",
+    "prerequisites": ["transaction"]
+  },
+  {
+    "id": "row-lock",
+    "name": "Row lock",
+    "description": "SELECT ... FOR UPDATE or an UPDATE locks the row until the transaction ends, so other writers wait instead of overwriting.",
+    "prerequisites": ["lost-update"]
+  },
+  {
+    "id": "deadlock",
+    "name": "Deadlock",
+    "description": "Two transactions each hold a lock the other needs; PostgreSQL detects the cycle and aborts one of them with an error.",
+    "prerequisites": ["row-lock"]
+  },
+  {
+    "id": "consistent-lock-order",
+    "name": "Consistent lock order",
+    "description": "If every transaction takes locks in the same order, a cycle cannot form.",
+    "prerequisites": ["deadlock"]
   }
 ]

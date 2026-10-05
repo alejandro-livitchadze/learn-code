@@ -11,14 +11,14 @@ async function openSqlStep(page: Page): Promise<void> {
   await page.goto(URL);
   await expect(page.getByTestId('step-heading')).toBeVisible();
   await page.evaluate((key) => {
-    const ids = ['p1', 'f1', 'r1'];
+    const ids = ['p1', 'p2', 'f1', 'p3'];
     const results = Object.fromEntries(
       ids.map((id) => [id, { status: 'answered', correct: true, attempts: 1, payload: null }]),
     );
     localStorage.setItem(
       key,
       JSON.stringify({
-        state: { lessonId: 'fullstack/joins-01', index: 5, results },
+        state: { lessonId: 'fullstack/joins-01', index: 6, results },
         completed: false,
       }),
     );
@@ -39,7 +39,7 @@ test('pages without SQL steps do not fetch PGlite; the first sqlLab step does', 
   });
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL);
-  await expect(page.getByTestId('step-heading')).toContainText('Step 1 of');
+  await expect(page.getByTestId('step-heading')).toContainText('step 1 of');
   await page.getByRole('button', { name: 'Continue' }).click(); // predict, still no SQL step
   await page.waitForLoadState('networkidle');
   await page.goto('/');
@@ -61,9 +61,9 @@ test('a wrong query shows a difference, a syntax error shows the PostgreSQL mess
   await openSqlStep(page);
   await expect(page.getByRole('list', { name: 'Tables in the database' })).toBeVisible(BOOT);
 
-  await typeSql(page, 'select count(*) from orders o join items i on i.order_id = o.id');
+  await typeSql(page, 'select count(*) as n from orders');
   await run(page).click();
-  await expect(page.getByText('Not the expected result yet')).toBeVisible();
+  await expect(page.locator('.ui-feedback[data-correct="false"]')).toContainText('Not quite.');
   await expect(page.getByRole('button', { name: 'Continue' })).toBeDisabled();
 
   await typeSql(page, 'selec 1');
@@ -81,12 +81,7 @@ test('a runaway query hits the Worker timeout and the next query works', async (
   await run(page).click();
   await expect(page.locator('p.sl-error')).toContainText('timed out', { timeout: 60_000 });
 
-  await typeSql(
-    page,
-    'select count(distinct o.id) from orders o join items i on i.order_id = o.id',
-  );
+  await typeSql(page, 'select count(distinct order_id) as n from items');
   await run(page).click();
-  await expect(page.getByText('Correct. Your query returns the expected result.')).toBeVisible(
-    BOOT,
-  );
+  await expect(page.getByText('Your query returns the expected result.')).toBeVisible(BOOT);
 });

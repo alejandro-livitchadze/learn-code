@@ -3,7 +3,7 @@ export type { CompileError, CompileResult } from './compile';
 export { KIND_TAGS, CHILD_TAGS, markdocConfig } from './tags';
 export * from './lint';
 export { checkLesson, formatIssue } from './check';
-export type { CheckIssue } from './check';
+export type { CheckIssue, CheckOptions } from './check';
 export { loadRegistries } from './registries';
 export type { RegistryResult } from './registries';
 export { scaffoldLesson, lessonTemplate } from './scaffold';

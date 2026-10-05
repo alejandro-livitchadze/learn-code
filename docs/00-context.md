@@ -66,7 +66,7 @@ Guidance that is not linted:
 ## 5. Decisions already made
 
 - **D1. Language:** English. A `locale` field exists in the schema from day one.
-- **D2. Topic:** frontend to fullstack.
+- **D2. Topics:** frontend to fullstack (course `fullstack`), and frontend architecture (course `frontend-architecture`, E09). Course 2 is built first because the author needs it now.
 - **D3. Lesson format:** Markdoc source compiled to a validated JSON step tree. All renderers consume the JSON, never the source.
 - **D4. Node.js code execution is postponed.** The first module needs none. Before the Node.js module starts, a spike compares a local Docker run service with WebContainers (see E04, part B). WebContainers need a commercial license for for-profit production use.
 - **D5. SQL:** PGlite (PostgreSQL compiled to WebAssembly) in the browser, behind a `SqlEngine` interface.

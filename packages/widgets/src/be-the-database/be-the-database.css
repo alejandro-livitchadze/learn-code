@@ -1,0 +1,109 @@
+/*
+ * Layout for the "be the database" join widget. Colors, sizes and depth come from the tokens and
+ * components of @learn-code/ui (E08, D16); this file only arranges them.
+ */
+
+.bd-tables {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-24);
+  align-items: start;
+}
+.bd-grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+.bd-grid caption {
+  padding: var(--space-8) var(--space-12) 0;
+  text-align: left;
+}
+.bd-grid th,
+.bd-grid td {
+  padding: var(--space-6) var(--space-12);
+  text-align: left;
+  white-space: nowrap;
+}
+.bd-grid th {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 400;
+}
+.bd-grid tbody tr[data-on='true'] td {
+  background: var(--sticky);
+}
+.bd-pick {
+  min-width: 44px;
+  min-height: 44px;
+  border: var(--border-thin);
+  border-radius: var(--radius-chip);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.bd-pick[aria-pressed='true'] {
+  background: var(--highlight);
+}
+.bd-pick:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
+  cursor: default;
+}
+.bd-pick:focus-visible {
+  outline: 3px solid var(--author);
+  outline-offset: 2px;
+}
+.bd-null {
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.bd-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.bd-help {
+  margin: 0;
+  color: var(--ink-muted);
+}
+.bd-problems {
+  margin: 0;
+  padding: var(--space-14) var(--space-18) var(--space-14) var(--space-32);
+  border: var(--border-thin) solid var(--danger);
+  border-radius: var(--radius-chip);
+  background: var(--danger-bg);
+}
+.bd-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.bd-pairs h3,
+.bd-pairs p {
+  margin: 0;
+}
+.bd-pairs ol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bd-pairs li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-12);
+}
+.bd-result {
+  margin: 0;
+}
+.bd-runtime {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  align-items: flex-start;
+}

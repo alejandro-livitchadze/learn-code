@@ -1,5 +1,5 @@
 import type { SqlEngine, SqlOutcome, SqlResult, SqlSession } from '@learn-code/sql-engine';
-import { compareResults, type ResultDiff } from './compare';
+import { compareResults, type ResultDiff } from '@learn-code/sql-engine/compare';
 import { SCHEMA_QUERY, groupSchema, mayChangeSchema, type SchemaTable } from './schema';
 
 export interface LabConfig {
@@ -15,6 +15,8 @@ export interface RunReport {
   readonly diff: ResultDiff | undefined;
   readonly correct: boolean;
   readonly attempts: number;
+  /** The reference result, for showing the learner what was expected. */
+  readonly expected: SqlResult;
 }
 
 /**
@@ -61,7 +63,13 @@ export class LabController {
       : undefined;
     const schema = outcome.ok && mayChangeSchema(sql) ? await this.loadSchema() : undefined;
     return {
-      report: { outcome, diff, correct: diff?.match === true, attempts: this.attemptCount },
+      report: {
+        outcome,
+        diff,
+        correct: diff?.match === true,
+        attempts: this.attemptCount,
+        expected,
+      },
       schema,
     };
   }

@@ -1,7 +1,7 @@
 import type { Config } from '@markdoc/markdoc';
 import { CHILD_TAGS, KIND_TAGS } from './kinds';
 
-export { CHILD_TAGS, FILE_ATTRIBUTES, KIND_TAGS } from './kinds';
+export { CHILD_TAGS, FILE_ATTRIBUTES, KIND_TAGS, MARGIN_CHILDREN, marginItem } from './kinds';
 export type { BuildContext, Fields, TagSpec } from './types';
 
 /** Markdoc validation config: every step tag and every nested helper tag. */

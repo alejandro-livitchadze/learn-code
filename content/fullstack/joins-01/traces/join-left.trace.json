@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "ref": "join-left",
+  "query": "select c.name, o.item from customers c left join orders o on o.customer_id = c.id order by c.id, o.id",
+  "joinKind": "left",
+  "on": "r.customer_id = l.id",
+  "left": {
+    "name": "customers",
+    "columns": ["id", "name"],
+    "rows": [
+      ["1", "Anna"],
+      ["2", "Boris"],
+      ["3", "Chloe"],
+      ["4", "Dmytro"]
+    ]
+  },
+  "right": {
+    "name": "orders",
+    "columns": ["id", "customer_id", "item"],
+    "rows": [
+      ["11", "1", "lamp"],
+      ["12", "1", "desk"],
+      ["13", "2", "chair"],
+      ["14", "2", "mug"],
+      ["15", "4", "plant"]
+    ]
+  },
+  "pairs": [
+    {
+      "left": 0,
+      "right": 0
+    },
+    {
+      "left": 0,
+      "right": 1
+    },
+    {
+      "left": 1,
+      "right": 2
+    },
+    {
+      "left": 1,
+      "right": 3
+    },
+    {
+      "left": 2,
+      "right": null
+    },
+    {
+      "left": 3,
+      "right": 4
+    }
+  ],
+  "result": {
+    "columns": ["name", "item"],
+    "rows": [
+      ["Anna", "lamp"],
+      ["Anna", "desk"],
+      ["Boris", "chair"],
+      ["Boris", "mug"],
+      ["Chloe", "NULL"],
+      ["Dmytro", "plant"]
+    ]
+  }
+}

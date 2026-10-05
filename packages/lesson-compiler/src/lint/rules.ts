@@ -1,4 +1,9 @@
-import { isActive } from '@learn-code/lesson-schema';
+import {
+  IMPLEMENTED_KINDS,
+  checkFillBlanks,
+  isActive,
+  parseTemplate,
+} from '@learn-code/lesson-schema';
 import type { Step, StepKind } from '@learn-code/lesson-schema';
 import type { LintIssue, LintRule } from './types';
 
@@ -11,11 +16,21 @@ export const RULE_IDS = {
   representations: 'concept-representations',
   reviewCards: 'review-cards',
   annotationLines: 'annotation-lines',
+  uniqueIds: 'unique-step-ids',
+  blankMarkers: 'fill-blanks-markers',
+  blankSolvable: 'fill-blanks-solvable',
+  unknownConcept: 'unknown-concept',
+  unknownMisconception: 'unknown-misconception',
+  unbuiltKind: 'unbuilt-kind',
+  stepCount: 'step-count',
+  markdownSubset: 'markdown-subset',
 } as const;
 
 export const MIN_ACTIVE_PERCENT = 60;
 export const MAX_PASSIVE_WORDS = 80;
 export const MIN_REPRESENTATIONS = 2;
+export const MIN_STEPS = 12;
+export const MAX_STEPS = 20;
 
 const err = (rule: string, message: string, stepId?: string): LintIssue =>
   stepId === undefined
@@ -235,3 +250,246 @@ export const annotationLines: LintRule = (lesson) =>
         ),
       );
   });
+
+const at = (rule: string, message: string, stepIndex: number, stepId: string): LintIssue => ({
+  rule,
+  stepId,
+  stepIndex,
+  message,
+  severity: 'error',
+});
+
+/** Rule 9: step ids are unique. Results are keyed by id, so a twin would complete with its sibling. */
+export const uniqueStepIds: LintRule = (lesson) => {
+  const first = new Map<string, number>();
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    const earlier = first.get(s.id);
+    if (earlier === undefined) first.set(s.id, i);
+    else {
+      issues.push(
+        at(
+          RULE_IDS.uniqueIds,
+          `duplicate step id "${s.id}" (first used by step ${earlier + 1})`,
+          i,
+          s.id,
+        ),
+      );
+    }
+  });
+  return issues;
+};
+
+/** Rule 10: the `___id___` markers of a fillBlanks template and its `blank` ids are the same set. */
+export const fillBlanksMarkers: LintRule = (lesson) => {
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    if (s.kind !== 'fillBlanks') return;
+    const markers = parseTemplate(s.template).flatMap((p) => (p.kind === 'blank' ? [p.id] : []));
+    const ids = s.blanks.map((b) => b.id);
+    const problems = [
+      ...markers
+        .filter((m, j) => markers.indexOf(m) !== j)
+        .map((m) => `marker ___${m}___ appears more than once`),
+      ...ids.filter((b, j) => ids.indexOf(b) !== j).map((b) => `blank "${b}" is defined twice`),
+      ...[...new Set(markers)]
+        .filter((m) => !ids.includes(m))
+        .map((m) => `marker ___${m}___ has no blank`),
+      ...ids.filter((b) => !markers.includes(b)).map((b) => `blank "${b}" has no marker`),
+    ];
+    for (const p of problems) issues.push(at(RULE_IDS.blankMarkers, p, i, s.id));
+  });
+  return issues;
+};
+
+/** Rule 11: the first accepted answer of every blank passes `checkFillBlanks`. */
+export const fillBlanksSolvable: LintRule = (lesson) => {
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    if (s.kind !== 'fillBlanks') return;
+    const answers = Object.fromEntries(s.blanks.map((b) => [b.id, b.accepted[0] ?? '']));
+    const result = checkFillBlanks(s, answers);
+    if (!result.correct) {
+      const wrong = result.blanks.filter((b) => !b.correct).map((b) => `"${b.id}"`);
+      issues.push(
+        at(
+          RULE_IDS.blankSolvable,
+          `the first accepted answers do not pass checkFillBlanks (blank ${wrong.join(', ')})`,
+          i,
+          s.id,
+        ),
+      );
+    }
+  });
+  return issues;
+};
+
+/** Rule 12: concept ids of the lesson and of every step exist in `concepts.json`. */
+export const knownConcepts: LintRule = (lesson, registries) => {
+  const known = new Set(registries.concepts.map((c) => c.id));
+  const issues: LintIssue[] = [];
+  for (const c of lesson.concepts) {
+    if (!known.has(c)) {
+      issues.push(err(RULE_IDS.unknownConcept, `lesson concept "${c}" is not in concepts.json`));
+    }
+  }
+  lesson.steps.forEach((s, i) => {
+    for (const c of s.concepts) {
+      if (!known.has(c)) {
+        issues.push(
+          at(RULE_IDS.unknownConcept, `step concept "${c}" is not in concepts.json`, i, s.id),
+        );
+      }
+    }
+  });
+  return issues;
+};
+
+/** Rule 13: misconception ids on fillBlanks blanks exist in `misconceptions.json`. */
+export const knownBlankMisconceptions: LintRule = (lesson, registries) => {
+  const known = new Set(registries.misconceptions.map((m) => m.id));
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    if (s.kind !== 'fillBlanks') return;
+    for (const b of s.blanks) {
+      if (b.misconception !== undefined && !known.has(b.misconception)) {
+        issues.push(
+          at(
+            RULE_IDS.unknownMisconception,
+            `blank "${b.id}" uses unknown misconception "${b.misconception}"`,
+            i,
+            s.id,
+          ),
+        );
+      }
+    }
+  });
+  return issues;
+};
+
+/** Rule 14: every step kind has a real widget (`IMPLEMENTED_KINDS`). */
+export const implementedKinds: LintRule = (lesson) => {
+  const built: readonly StepKind[] = IMPLEMENTED_KINDS;
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    if (!built.includes(s.kind)) {
+      issues.push(
+        at(
+          RULE_IDS.unbuiltKind,
+          `step kind "${s.kind}" has no widget yet; it cannot be played`,
+          i,
+          s.id,
+        ),
+      );
+    }
+  });
+  return issues;
+};
+
+/** Rule 15: a lesson has 12 to 20 steps. */
+export const stepCount: LintRule = (lesson) =>
+  lesson.steps.length < MIN_STEPS || lesson.steps.length > MAX_STEPS
+    ? [
+        err(
+          RULE_IDS.stepCount,
+          `lesson has ${lesson.steps.length} steps; it needs ${MIN_STEPS} to ${MAX_STEPS}`,
+        ),
+      ]
+    : [];
+
+/** Every Markdown field a learner sees, with a label for messages. */
+function markdownFields(s: Step): readonly { readonly field: string; readonly text: string }[] {
+  switch (s.kind) {
+    case 'hook':
+    case 'explain':
+    case 'pitfall':
+      return [{ field: 'body', text: s.body }];
+    case 'reveal':
+      return [{ field: 'body', text: s.body }];
+    case 'recap':
+      return s.points.map((text, i) => ({ field: `point ${i + 1}`, text }));
+    case 'cliffhanger':
+      return [{ field: 'question', text: s.question }];
+    case 'sqlLab':
+      return [
+        { field: 'prompt', text: s.prompt },
+        ...s.hints.map((text, i) => ({ field: `hint ${i + 1}`, text })),
+      ];
+    default:
+      return [];
+  }
+}
+
+const BLOCK_CONSTRUCTS: readonly (readonly [RegExp, string])[] = [
+  [/^\s{0,3}#{1,6}(\s|$)/, 'heading'],
+  [/^\s{0,3}>/, 'blockquote'],
+  [/^\s*\d+[.)]\s/, 'numbered list'],
+  [/^\s*[*+]\s/, 'list with * or +'],
+  [/^\s+-\s/, 'indented or nested list'],
+  [/^\s*([-*_])(\s*\1){2,}\s*$/, 'horizontal rule'],
+  [/^\s*\|.*\|\s*$/, 'table'],
+  [/^\s*~~~/, 'tilde fence'],
+  [/^( {4}|\t)\S/, 'indented code block'],
+];
+
+const INLINE_CONSTRUCTS: readonly (readonly [RegExp, string])[] = [
+  [/<\/?[a-zA-Z!][^>]*>/, 'HTML'],
+  [/~~[^~]+~~/, 'strikethrough'],
+  [/(^|\s)__[^_]+__(\s|$)/, '__underscore__ emphasis'],
+  [/\[[^\]]*\]\[[^\]]*\]/, 'reference link'],
+  [/^\s*\[[^\]]+\]:\s/, 'link definition'],
+];
+
+const GOOD_LINK = /\[[^\]]+\]\(https?:\/\/[^)\s]+\)/g;
+const ANY_LINK = /\[[^\]]*\]\([^)]*\)/g;
+
+/** Problems in one Markdown text, as `line N: ...` (N counts from 1 inside the field). */
+export function markdownProblems(text: string): readonly string[] {
+  const problems: string[] = [];
+  const lines = text.split('\n');
+  let inFence = false;
+  let fenceLine = 0;
+  lines.forEach((raw, idx) => {
+    const n = idx + 1;
+    if (/^\s*```/.test(raw)) {
+      inFence = !inFence;
+      fenceLine = n;
+      return;
+    }
+    if (inFence) return;
+    for (const [re, name] of BLOCK_CONSTRUCTS) {
+      if (re.test(raw)) problems.push(`line ${n}: ${name} is not supported`);
+    }
+    if (/!\[[^\]]*\]\(/.test(raw.replace(/`[^`]*`/g, ''))) {
+      problems.push(`line ${n}: image is not supported`);
+    }
+    const line = raw
+      .replace(/`[^`]*`/g, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(GOOD_LINK, '')
+      .replace(/\*\*[^*]+\*\*/g, '');
+    for (const [re, name] of INLINE_CONSTRUCTS) {
+      if (re.test(line)) problems.push(`line ${n}: ${name} is not supported`);
+    }
+    for (const link of line.match(ANY_LINK) ?? []) {
+      if (!/^!/.test(link)) {
+        problems.push(`line ${n}: link ${link} must use an http or https address`);
+      }
+    }
+  });
+  if (inFence) problems.push(`line ${fenceLine}: fenced code block is never closed`);
+  return problems;
+}
+
+/** Rule 16: Markdown fields use only the supported subset (compiler README, "Markdown subset"). */
+export const markdownSubset: LintRule = (lesson) => {
+  const issues: LintIssue[] = [];
+  lesson.steps.forEach((s, i) => {
+    for (const { field, text } of markdownFields(s)) {
+      for (const p of markdownProblems(text)) {
+        issues.push(at(RULE_IDS.markdownSubset, `${field}, ${p}`, i, s.id));
+      }
+    }
+  });
+  return issues;
+};

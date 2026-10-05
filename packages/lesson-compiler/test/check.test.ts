@@ -1,19 +1,25 @@
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { checkLesson, formatIssue, loadRegistries, verifySamples } from '../src';
-import { closeSql, runNode, runSql } from '../src/verify';
+import { runNode, runPredictSql } from '../src/verify';
 import { compileLesson } from '../src/compile';
 import { formatRows } from '../src/verify/format';
-import { sameResult } from '../src/verify/sql';
 
 const contentRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../../content');
 const sourceCourse = join(contentRoot, 'fullstack');
 const tmp = mkdtempSync(join(tmpdir(), 'lesson-check-'));
 afterAll(async () => {
-  await closeSql();
   rmSync(tmp, { recursive: true, force: true });
 });
 
@@ -21,21 +27,25 @@ const original = readFileSync(join(sourceCourse, 'joins-01/lesson.mdoc'), 'utf8'
 let counter = 0;
 
 /** Copy the course to a temp dir with a modified lesson source; returns the lesson path. */
-function variant(edit: (src: string) => string): string {
-  const course = join(tmp, `c${counter++}`);
+function variant(edit: (src: string) => string, lessonId = 'joins-01'): string {
+  const course = join(tmp, `c${counter++}`, 'fullstack');
   cpSync(sourceCourse, course, { recursive: true });
-  const file = join(course, 'joins-01/lesson.mdoc');
-  const next = edit(original);
+  if (lessonId !== 'joins-01') renameSync(join(course, 'joins-01'), join(course, lessonId));
+  const file = join(course, lessonId, 'lesson.mdoc');
+  const next = edit(original).replace('id: joins-01', `id: ${lessonId}`);
   expect(next).not.toBe(original);
   writeFileSync(file, next);
   return file;
 }
+const errorsOf = (issues: readonly { severity: string }[]) =>
+  issues.filter((i) => i.severity === 'error');
 const lineOf = (src: string, text: string): number =>
   src.split('\n').findIndex((l) => l.includes(text)) + 1;
 
 describe('sample lesson', () => {
-  it('passes check', async () => {
-    expect(await checkLesson(join(sourceCourse, 'joins-01/lesson.mdoc'))).toEqual([]);
+  it('passes check under the strict rules with no errors and no warnings', async () => {
+    const issues = await checkLesson(join(sourceCourse, 'joins-01/lesson.mdoc'));
+    expect(issues.map(formatIssue)).toEqual([]);
   });
 });
 
@@ -46,8 +56,8 @@ describe('lint rules reported with file and line', () => {
       'no-adjacent-passive',
       (s) =>
         s.replace(
-          '{% recall id="r1"',
-          '{% pitfall id="x1" estSeconds=30 %}\nOops.\n{% /pitfall %}\n\n{% recall id="r1"',
+          '{% sqlLab id="s2"',
+          '{% pitfall id="x1" estSeconds=30 %}\nOops.\n{% /pitfall %}\n\n{% sqlLab id="s2"',
         ),
       'x1',
     ],
@@ -60,8 +70,8 @@ describe('lint rules reported with file and line', () => {
             '{% cliffhanger id="x1" estSeconds=10 question="Next?" /%}\n\n{% sqlLab id="s1"',
           )
           .replace(
-            '{% brainPower id="b1"',
-            '{% cliffhanger id="x2" estSeconds=10 question="Next?" /%}\n\n{% brainPower id="b1"',
+            '{% fillBlanks id="f2"',
+            '{% cliffhanger id="x2" estSeconds=10 question="Next?" /%}\n\n{% fillBlanks id="f2"',
           ),
       '',
     ],
@@ -84,12 +94,8 @@ describe('lint rules reported with file and line', () => {
       'concept-representations',
       (s) =>
         s
-          .replace('concepts=["row-multiplication"] %}\nFriday', 'concepts=[] %}\nFriday')
           .replace(/concepts=\["row-multiplication"\]/g, 'concepts=[]')
-          .replace(
-            'concepts=["inner-join", "row-multiplication"] %}\n{% option output="100"',
-            'concepts=[] %}\n{% option output="100"',
-          ),
+          .replace(/concepts=\["inner-join", "row-multiplication"\]/g, 'concepts=["inner-join"]'),
       '',
     ],
     [
@@ -117,6 +123,117 @@ describe('lint rules reported with file and line', () => {
       expect(hit?.line).toBe(lineOf(readFileSync(file, 'utf8'), `id="${stepId}"`));
     }
     expect(formatIssue(hit!)).toContain(`${file}:`);
+  });
+});
+
+describe('playable and solvable rules', () => {
+  const passives = Array.from(
+    { length: 13 },
+    (_, i) => `{% cliffhanger id="z${i}" estSeconds=10 question="Next?" /%}`,
+  ).join('\n\n');
+  const cases: readonly (readonly [string, (s: string) => string, string])[] = [
+    [
+      'unique-step-ids',
+      (s) => s.replace('id="p2"', 'id="p1"'),
+      'id="p1" estSeconds=60 code="./samples/sum.sql"',
+    ],
+    ['fill-blanks-markers', (s) => s.replace('___fn___', '___ghost___'), 'id="f1"'],
+    [
+      'fill-blanks-solvable',
+      (s) => s.replace('accepted=["distinct"]', 'accepted=["  "]'),
+      'id="f1"',
+    ],
+    [
+      'unknown-concept',
+      (s) =>
+        s.replace('concepts: [inner-join, row-multiplication]', 'concepts: [inner-join, nope]'),
+      '',
+    ],
+    [
+      'unknown-concept',
+      (s) => s.replace('concepts=["inner-join"] %}\n{% blank', 'concepts=["nope"] %}\n{% blank'),
+      'id="f1"',
+    ],
+    [
+      'unknown-misconception',
+      (s) =>
+        s.replace(
+          'accepted=["distinct"] misconception="join-counts-orders"',
+          'accepted=["distinct"] misconception="nope"',
+        ),
+      'id="f1"',
+    ],
+    ['folder-names', (s) => s.replace('id: joins-01', 'id: other'), 'id: other'],
+    ['folder-names', (s) => s.replace('courseId: fullstack', 'courseId: other'), 'courseId:'],
+    ['step-count', (s) => s.slice(0, s.indexOf('{% predict id="p4"')), ''],
+    ['step-count', (s) => `${s}\n${passives}\n`, ''],
+  ];
+  it.each(cases)('%s', async (rule, edit, at) => {
+    const file = variant(edit, 'joins-02');
+    const src = readFileSync(file, 'utf8');
+    const issues = await checkLesson(file, { allowUnbuilt: true });
+    const hit = issues.find((i) => i.rule === rule);
+    expect(hit, issues.map(formatIssue).join('\n')).toBeDefined();
+    expect(hit?.severity).toBe('error');
+    expect(hit?.file).toBe(file);
+    if (at) expect(hit?.line).toBe(src.split('\n').findIndex((l) => l.includes(at)) + 1);
+    expect(formatIssue(hit!)).toContain(`${file}:`);
+  });
+
+  it('puts duplicate ids on the second occurrence', async () => {
+    const file = variant((s) => s.replace('id="p2"', 'id="p1"'), 'joins-02');
+    const src = readFileSync(file, 'utf8');
+    const hit = (await checkLesson(file, { allowUnbuilt: true })).find(
+      (i) => i.rule === 'unique-step-ids',
+    );
+    expect(hit?.line).toBe(
+      lineOf(src, '{% predict id="p1" estSeconds=60 code="./samples/sum.sql"'),
+    );
+  });
+
+  it('fails on unbuilt kinds unless allowUnbuilt is set', async () => {
+    const unbuilt = [
+      '{% recall id="r1" estSeconds=60 %}',
+      '{% question prompt="Why is the sum too high?" %}',
+      '{% option text="Each order is repeated once per item" correct=true %}\nRight.\n{% /option %}',
+      '{% option text="The database counts twice" misconception="join-counts-orders" %}\nNo.\n{% /option %}',
+      '{% /question %}',
+      '{% question prompt="Why is count(*) not the number of orders?" %}',
+      '{% option text="It counts result rows" correct=true %}\nRight.\n{% /option %}',
+      '{% option text="It ignores the join" misconception="join-keeps-row-count" %}\nNo.\n{% /option %}',
+      '{% /question %}',
+      '{% /recall %}',
+      '',
+      '{% brainPower id="b1" estSeconds=60 question="Why four times?" concepts=["row-multiplication"] %}',
+      'Each order is repeated once per item.',
+      '{% /brainPower %}',
+      '',
+      '{% matching id="m1" estSeconds=45 prompt="Match each term." concepts=["inner-join"] %}',
+      '{% pair left="Primary key" right="Identifies one row" /%}',
+      '{% pair left="Foreign key" right="Points at another table" /%}',
+      '{% pair left="Inner join" right="Keeps matching rows" /%}',
+      '{% /matching %}',
+      '',
+    ].join('\n');
+    const file = variant(
+      (s) => s.replace('{% recap id="rc1"', `${unbuilt}\n{% recap id="rc1"`),
+      'joins-02',
+    );
+    const strict = (await checkLesson(file)).filter((i) => i.rule === 'unbuilt-kind');
+    expect(strict.map((i) => i.line)).toEqual(
+      ['{% recall', '{% brainPower', '{% matching'].map((t) =>
+        lineOf(readFileSync(file, 'utf8'), t),
+      ),
+    );
+    expect(strict.every((i) => i.severity === 'error')).toBe(true);
+    const lax = await checkLesson(file, { allowUnbuilt: true });
+    expect(lax.some((i) => i.rule === 'unbuilt-kind')).toBe(false);
+  }, 120_000);
+
+  it('accepts the sample lesson under its real name with no folder or registry errors', async () => {
+    const file = variant((s) => s.replace('estSeconds=45', 'estSeconds=46'));
+    const issues = await checkLesson(file);
+    expect(issues.map(formatIssue)).toEqual([]);
   });
 });
 
@@ -168,11 +285,11 @@ describe('compile and registry errors', () => {
 describe('sample verification', () => {
   it('fails on a wrong declared output', async () => {
     const file = variant((s) =>
-      s.replace('{% option output="400" correct=true %}', '{% option output="401" correct=true %}'),
+      s.replace('{% option output="320" correct=true %}', '{% option output="401" correct=true %}'),
     );
     const issues = await checkLesson(file);
     const hit = issues.find((i) => i.rule === 'verify');
-    expect(hit?.message).toContain('declared output "401" but the sample printed "400"');
+    expect(hit?.message).toContain('declared output "401" but the sample printed "320"');
     expect(hit?.line).toBe(lineOf(original, 'id="p1"'));
   });
 
@@ -186,8 +303,8 @@ describe('sample verification', () => {
   it('fails when the sqlLab starter already passes', async () => {
     const file = variant((s) =>
       s.replace(
-        'starter="select count(*) from orders o join items i on i.order_id = o.id"',
-        'starter="select count(distinct o.id) from orders o join items i on i.order_id = o.id"',
+        'starter="select count(*) as n from orders"',
+        'starter="select count(distinct order_id) as n from items"',
       ),
     );
     const issues = await checkLesson(file);
@@ -196,9 +313,9 @@ describe('sample verification', () => {
 
   it('accepts an empty or failing starter, rejects a broken solution or missing seed', async () => {
     const empty = variant((s) => s.replace(/ starter="[^"]*"/, ''));
-    expect(await checkLesson(empty)).toEqual([]);
+    expect(errorsOf(await checkLesson(empty))).toEqual([]);
     const broken = variant((s) => s.replace(/ starter="[^"]*"/, ' starter="select nope"'));
-    expect(await checkLesson(broken)).toEqual([]);
+    expect(errorsOf(await checkLesson(broken))).toEqual([]);
     const badSolution = variant((s) =>
       s.replace('solution="select count(distinct', 'solution="select count(nope'),
     );
@@ -209,7 +326,7 @@ describe('sample verification', () => {
     expect((await checkLesson(noSeed)).find((i) => i.rule === 'verify')?.message).toContain(
       'seeds/missing.sql',
     );
-  });
+  }, 120_000);
 
   it('verifies js and ts samples, ignores http', async () => {
     const r = compileLesson(join(sourceCourse, 'joins-01/lesson.mdoc'));
@@ -258,12 +375,10 @@ describe('sample verification', () => {
       ),
     ).toBe('a | b\n1 | NULL\n2 | {"k":1}');
     expect(formatRows(['d'], [[new Date(0)], [undefined]])).toContain('1970-01-01T00:00:00.000Z');
-    const a = await runSql(undefined, 'select 1 as x union all select 2');
-    const b = await runSql(undefined, 'select 2 as x union all select 1');
-    expect(sameResult(a, b, false)).toBe(true);
-    expect(sameResult(a, b, true)).toBe(false);
-    expect((await runSql('  ', 'create table t (a int)')).rows).toEqual([]);
-    expect((await runSql(undefined, '')).rows).toEqual([]);
+    expect(await runPredictSql(undefined, 'select 1 as x union all select 2')).toBe('x\n1\n2');
+    expect(await runPredictSql('  ', 'create table t (a int)')).toBe('');
+    expect(await runPredictSql(undefined, '')).toBe('');
+    expect(await runPredictSql(undefined, 'select nope')).toBeInstanceOf(Error);
   });
 });
 

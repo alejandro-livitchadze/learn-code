@@ -2,6 +2,14 @@ import type { Lesson } from '@learn-code/lesson-schema';
 import {
   annotationLines,
   conceptRepresentations,
+  fillBlanksMarkers,
+  fillBlanksSolvable,
+  implementedKinds,
+  knownBlankMisconceptions,
+  knownConcepts,
+  markdownSubset,
+  stepCount,
+  uniqueStepIds,
   minActiveRatio,
   noAdjacentPassive,
   passiveWordLimit,
@@ -9,6 +17,8 @@ import {
   reviewCards,
   wrongOptionFeedback,
 } from './rules';
+import { DESIGN_RULES } from './design';
+import { schemaBuilderScenarios } from './schema-builder';
 import type { LintIssue, LintRule, Registries } from './types';
 
 export const LINT_RULES: readonly LintRule[] = [
@@ -20,11 +30,34 @@ export const LINT_RULES: readonly LintRule[] = [
   conceptRepresentations,
   reviewCards,
   annotationLines,
+  uniqueStepIds,
+  fillBlanksMarkers,
+  fillBlanksSolvable,
+  knownConcepts,
+  knownBlankMisconceptions,
+  implementedKinds,
+  stepCount,
+  markdownSubset,
+  schemaBuilderScenarios,
+  ...DESIGN_RULES,
 ];
 
-export function lintLesson(lesson: Lesson, registries: Registries): readonly LintIssue[] {
-  return LINT_RULES.flatMap((rule) => rule(lesson, registries));
+export interface LintOptions {
+  /** Skip the unbuilt-kind rule. Only for compiler fixtures. */
+  readonly allowUnbuilt?: boolean;
 }
 
+export function lintLesson(
+  lesson: Lesson,
+  registries: Registries,
+  options: LintOptions = {},
+): readonly LintIssue[] {
+  return LINT_RULES.filter(
+    (rule) => !(options.allowUnbuilt === true && rule === implementedKinds),
+  ).flatMap((rule) => rule(lesson, registries));
+}
+
+export * from './design';
+export * from './schema-builder';
 export * from './rules';
 export type { LintIssue, LintRule, Registries } from './types';

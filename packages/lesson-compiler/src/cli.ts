@@ -7,7 +7,7 @@ import { scaffoldLesson } from './scaffold';
 
 const USAGE = `usage:
   lesson build <path>              compile to dist/lessons/<course>/<lesson>.json
-  lesson check <path>              compile, lint and verify samples
+  lesson check <path> [--allow-unbuilt]  compile, lint and verify samples (flag: compiler fixtures only)
   lesson new <course> <lesson-id>  scaffold content/<course>/<lesson-id>/
 <path> is a lesson.mdoc, a lesson folder, or a folder containing lessons (default: content).`;
 
@@ -27,7 +27,9 @@ export function findLessons(path: string): string[] {
 type Log = (line: string) => void;
 
 export async function run(argv: readonly string[], log: Log = console.log): Promise<number> {
-  const [command, ...args] = argv;
+  const [command, ...rest] = argv;
+  const allowUnbuilt = rest.includes('--allow-unbuilt');
+  const args = rest.filter((a) => a !== '--allow-unbuilt');
   if (command === 'new') {
     const [course, id] = args;
     if (!course || !id) return fail(log, 'new needs <course> <lesson-id>');
@@ -35,7 +37,7 @@ export async function run(argv: readonly string[], log: Log = console.log): Prom
       log(`created ${scaffoldLesson('content', course, id)}`);
       return 0;
     } catch (e) {
-      return fail(log, (e as Error).message);
+      return fail(log, e instanceof Error ? e.message : String(e));
     }
   }
   if (command !== 'build' && command !== 'check') return fail(log, USAGE);
@@ -51,7 +53,7 @@ export async function run(argv: readonly string[], log: Log = console.log): Prom
   let failed = false;
   for (const file of lessons) {
     if (command === 'check') {
-      const issues = await checkLesson(file);
+      const issues = await checkLesson(file, { allowUnbuilt });
       issues.forEach((i) => log(formatIssue(i)));
       const errors = issues.filter((i) => i.severity === 'error').length;
       if (errors > 0) failed = true;
