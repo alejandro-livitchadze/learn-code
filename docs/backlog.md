@@ -240,7 +240,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested; built only from `packages/ui` components and tokens, following E08.
 
 ## P10. Be the database: joins
-- Status: in_progress
+- Status: done
+- Note: merged via PR #40; CI green; reviewer APPROVE on 6e70871 (minors: orders row label shows the foreign key; grids render step.tables while pairs index trace rows; wiring in F13).
 - Depends on: P9
 - Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
 - Epic: E06 (`beTheDatabase`, join variant)
