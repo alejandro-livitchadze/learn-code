@@ -1,0 +1,126 @@
+---
+id: nulls-01
+courseId: fullstack
+title: "NULL is not a value"
+concepts: [three-valued-logic, is-null-test, where-drops-unknown]
+# Sources for every claim about PostgreSQL behavior (the SQL samples carry their own links).
+# Unverified: written from knowledge, postgresql.org was unreachable when this lesson was authored.
+# - A comparison with NULL (=, <>) returns NULL, meaning unknown; IS NULL and IS NOT NULL return true or false;
+#   IS DISTINCT FROM treats NULL as an ordinary comparable value:
+#   https://www.postgresql.org/docs/current/functions-comparison.html
+# - AND, OR and NOT follow a three-valued truth table (unknown OR true is true, unknown AND true is unknown, NOT unknown is unknown):
+#   https://www.postgresql.org/docs/current/functions-logical.html
+# - WHERE keeps only the rows for which the condition returns true:
+#   https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-WHERE
+# - NULL means a missing or unknown value, a column may hold it unless declared NOT NULL:
+#   https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-NOT-NULL
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["three-valued-logic"] %}
+Monday, 09:10. The "customers outside Kyiv" export has 2 rows. Sales swears there are 4. The Bug hid two customers in a column that holds no value at all, and it is sitting on them.
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/eq-null.sql" language="sql" concepts=["three-valued-logic", "where-drops-unknown"] %}
+{% option output="2" misconception="null-equals-null" %}
+Two customers have no city, so NULL = NULL must be true for them. It is not. The comparison is unknown.
+{% /option %}
+{% option output="0" correct=true %}
+city = NULL is never true, not even for rows where city is NULL. The result is unknown, and WHERE drops unknown rows.
+{% /option %}
+{% option output="6" misconception="null-is-empty-or-zero" %}
+That would count every row. WHERE keeps only rows where the condition is true, and this one never is.
+{% /option %}
+{% /predict %}
+
+{% fillBlanks id="f1" estSeconds=45 template="select name from customers where city ___kw___ null" language="sql" concepts=["is-null-test"] %}
+{% blank id="kw" accepted=["is"] misconception="null-equals-null" %}
+IS NULL is the test that answers true or false for NULL. An equals sign answers unknown.
+{% /blank %}
+{% /fillBlanks %}
+
+{% explain id="e1" estSeconds=60 code="select name\nfrom customers\nwhere city = 'Kyiv'\n  or discount = 0" concepts=["three-valued-logic", "where-drops-unknown"] %}
+NULL means "no known value". Any comparison with it returns a third answer: unknown. AND, OR and NOT work with three values. Unknown OR true is true. Unknown AND true is unknown. NOT unknown is unknown. WHERE keeps a row only if the condition is true, so unknown rows vanish, just like false ones.
+
+{% annotation line=3 %}
+For a NULL city this is unknown.
+{% /annotation %}
+{% annotation line=4 %}
+Discount 0 makes this true.
+{% /annotation %}
+{% /explain %}
+
+{% sqlLab id="s1" estSeconds=75 prompt="The starter returns nothing. Fix it: return the name of every customer whose city is unknown, ordered by id." seedRef="default" starter="select name from customers where city = null order by id" solution="select name from customers where city is null order by id" orderMatters=true concepts=["is-null-test"] %}
+{% hint %}
+An equals sign with NULL is never true. Use the dedicated test.
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p2" estSeconds=60 code="./samples/not-equal.sql" language="sql" concepts=["where-drops-unknown"] %}
+{% option output="name\nbo\ncy\ned\nfay" misconception="not-equal-keeps-nulls" %}
+Cy and Fay have no city, so you expect them to be "not Kyiv". But NULL <> 'Kyiv' is unknown, and WHERE drops it.
+{% /option %}
+{% option output="name\nbo\ned" correct=true %}
+Only rows with a known city that differs from Kyiv are true. The two NULL cities give unknown and disappear.
+{% /option %}
+{% option output="name\nana\ndi" misconception="not-equal-keeps-nulls" %}
+That is the Kyiv rows, the opposite of the filter. The condition keeps cities that are not Kyiv.
+{% /option %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 language="sql" badCode="select * from customers\nwhere city <> 'Kyiv'" goodCode="select * from customers\nwhere city is distinct from 'Kyiv'" concepts=["where-drops-unknown"] %}
+The export said "everyone outside Kyiv" and nobody checked the NULL cities. Those customers got no newsletter for a quarter. IS DISTINCT FROM treats NULL as a normal value, so it keeps them.
+{% /pitfall %}
+
+{% sqlLab id="s2" estSeconds=90 prompt="Return the name of every customer outside Kyiv, including those whose city is unknown, ordered by id." seedRef="default" starter="select name from customers where city <> 'Kyiv' order by id" solution="select name from customers where city is distinct from 'Kyiv' order by id" orderMatters=true concepts=["where-drops-unknown", "is-null-test"] %}
+{% hint %}
+Either add "or city is null" or use IS DISTINCT FROM.
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p3" estSeconds=60 code="./samples/zero.sql" language="sql" concepts=["three-valued-logic"] %}
+{% option output="name\nbo\ncy\ndi\nfay" misconception="null-is-empty-or-zero" %}
+That treats NULL as 0. NULL is not equal to anything, not even to 0. Only the real zero matches.
+{% /option %}
+{% option output="cy" correct=true %}
+Cy has discount 0. For the NULL discounts the comparison is unknown, so they are dropped.
+{% /option %}
+{% option output="" misconception="null-is-empty-or-zero" %}
+Cy's discount is a real 0, which equals 0. A zero is a value, unlike NULL.
+{% /option %}
+{% /predict %}
+
+{% fillBlanks id="f2" estSeconds=45 template="select name from customers where discount is ___kw___ null" language="sql" concepts=["is-null-test"] %}
+{% blank id="kw" accepted=["not"] misconception="null-is-empty-or-zero" %}
+IS NOT NULL keeps rows that have a known value, and that includes the 0.
+{% /blank %}
+{% /fillBlanks %}
+
+{% sqlLab id="s3" estSeconds=90 prompt="Return the name of every customer who has a known discount, including a discount of 0, ordered by id." seedRef="default" starter="select name from customers where discount <> null order by id" solution="select name from customers where discount is not null order by id" orderMatters=true concepts=["is-null-test", "where-drops-unknown"] %}
+{% hint %}
+Do not compare with NULL using an operator. Use IS NOT NULL.
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p4" estSeconds=75 code="./samples/or-true.sql" language="sql" concepts=["three-valued-logic"] %}
+{% option output="name\nana\ndi" misconception="unknown-poisons-or" %}
+That drops Cy because city is NULL. But Cy's discount is 0, so the right side is true, and unknown OR true is true.
+{% /option %}
+{% option output="name\nana\ncy\ndi" correct=true %}
+Ana and Di are in Kyiv. Cy has a NULL city (unknown) but discount 0 (true), and unknown OR true is true.
+{% /option %}
+{% option output="name\nana\ncy\ndi\nfay" misconception="null-equals-null" %}
+Fay has NULL for both columns. Both comparisons are unknown, so unknown OR unknown stays unknown and WHERE drops her.
+{% /option %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=30 concepts=["three-valued-logic", "is-null-test", "where-drops-unknown"] %}
+{% point %}
+A comparison with NULL is unknown, not false. NULL = NULL is unknown too.
+{% /point %}
+{% point %}
+Only IS NULL and IS NOT NULL answer true or false for NULL. IS DISTINCT FROM treats NULL as a value.
+{% /point %}
+{% point %}
+WHERE keeps only true rows, so unknown rows vanish, including with <>.
+{% /point %}
+{% /recap %}
