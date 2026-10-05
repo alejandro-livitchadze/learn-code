@@ -56,7 +56,7 @@ function readDesign(raw: unknown): Fields {
   try {
     data = JSON.parse(raw);
   } catch (e) {
-    throw new Error(`design is not valid JSON: ${(e as Error).message}`);
+    throw new Error(`design is not valid JSON: ${(e instanceof Error ? e.message : String(e))}`);
   }
   if (typeof data !== 'object' || data === null || Array.isArray(data)) {
     throw new Error('design must be a JSON object');

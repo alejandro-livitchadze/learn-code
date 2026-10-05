@@ -36,7 +36,7 @@
   align-items: flex-end;
   gap: var(--space-10) var(--space-14);
   padding-bottom: var(--space-14);
-  border-bottom: 2px dashed var(--margin-rule);
+  border-bottom: var(--border-width-thin) dashed var(--margin-rule);
 }
 .sb-col:last-child {
   padding-bottom: 0;
@@ -97,7 +97,7 @@
   gap: var(--space-8);
 }
 .sb-result[data-status='failed'] {
-  border-left: 6px solid var(--danger);
+  border-left: var(--space-6) solid var(--danger);
   padding-left: var(--space-12);
 }
 .sb-result[data-status='passed'] .w-label {
