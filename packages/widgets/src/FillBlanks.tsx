@@ -1,7 +1,9 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { Button, FeedbackBanner, InkCard } from '@learn-code/ui';
 import { checkFillBlanks, parseTemplate, readAnswers, type FillBlanksCheck } from './check';
+import { useStepFooter, WidgetFrame } from './chrome';
 import type { StepComponentProps, StepOfKind } from './types';
 
 type Props = StepComponentProps<StepOfKind<'fillBlanks'>> & {
@@ -27,8 +29,10 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
   const completed = useRef(restoredAnswers !== undefined);
   const locked = check?.correct === true;
 
+  const incomplete = step.blanks.some((b) => (answers[b.id] ?? '').trim() === '');
+
   const submit = () => {
-    if (locked) return;
+    if (locked || incomplete) return;
     const result = checkFillBlanks(step, answers);
     setCheck(result);
     attempts.current += 1;
@@ -44,58 +48,79 @@ export function FillBlanks({ step, restored, onComplete, initialChecked }: Props
   };
 
   const wrong = check?.blanks.filter((b) => !b.correct) ?? [];
+  const hosted = useStepFooter(
+    locked
+      ? undefined
+      : {
+          hint: incomplete ? 'fill every blank to continue' : 'press Enter to lock it in',
+          action: { label: 'Lock in answer', disabled: incomplete, onAct: submit },
+        },
+  );
+  const number = (id: string) => step.blanks.findIndex((x) => x.id === id) + 1;
+  const banner = locked ? (
+    <FeedbackBanner correct title="That's right.">
+      All blanks are correct.
+    </FeedbackBanner>
+  ) : wrong.length > 0 ? (
+    <FeedbackBanner correct={false} title="Not quite.">
+      {wrong.map((b) => `Blank ${number(b.id)}: ${b.feedback}`).join(' ')}
+    </FeedbackBanner>
+  ) : undefined;
+
   return (
     <form
-      className="w-widget"
-      data-kind="fillBlanks"
       onSubmit={(e) => {
         e.preventDefault();
         submit();
       }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
+          e.preventDefault();
+          submit();
+        }
+      }}
     >
-      <p className="w-h">Fill in the blanks</p>
-      <figure className="w-code" aria-label="Code with blanks">
-        <pre>
-          <code>
-            {parts.map((p, i) => {
-              if (p.kind === 'text') return <span key={i}>{p.text}</span>;
-              const r = check?.blanks.find((b) => b.id === p.id);
-              const accepted = step.blanks.find((b) => b.id === p.id)?.accepted ?? [];
-              const width = Math.max(6, ...accepted.map((a) => a.length)) + 2;
-              return (
-                <input
-                  key={i}
-                  className="w-blank"
-                  data-state={r === undefined ? 'idle' : r.correct ? 'correct' : 'wrong'}
-                  style={{ width: `${width}ch` }}
-                  aria-label={`Blank ${step.blanks.findIndex((b) => b.id === p.id) + 1} of ${step.blanks.length}`}
-                  aria-invalid={r !== undefined && !r.correct}
-                  value={answers[p.id] ?? ''}
-                  readOnly={locked}
-                  spellCheck={false}
-                  autoComplete="off"
-                  autoCapitalize="off"
-                  onChange={(e) => setAnswers((a) => ({ ...a, [p.id]: e.target.value }))}
-                />
-              );
-            })}
-          </code>
-        </pre>
-      </figure>
-      <div className="w-row">
-        <button type="submit" className="w-btn" disabled={locked}>
-          Check
-        </button>
-        <span className="w-muted">Whitespace does not matter.</span>
-      </div>
-      <div className="w-feedback" role="status" aria-live="polite">
-        {locked ? <p data-correct="true">All blanks are correct.</p> : null}
-        {wrong.map((b) => (
-          <p key={b.id} data-correct="false">
-            Blank {step.blanks.findIndex((x) => x.id === b.id) + 1}: {b.feedback}
-          </p>
-        ))}
-      </div>
+      <WidgetFrame kind="fillBlanks" {...(banner === undefined ? {} : { banner })}>
+        <p className="w-question">Fill in the blanks to finish the code.</p>
+        <figure className="w-code" aria-label="Code with blanks">
+          <InkCard>
+            <pre className="w-code-flow">
+              <code>
+                {parts.map((p, i) => {
+                  if (p.kind === 'text') return <span key={i}>{p.text}</span>;
+                  const r = check?.blanks.find((b) => b.id === p.id);
+                  const accepted = step.blanks.find((b) => b.id === p.id)?.accepted ?? [];
+                  const width = Math.max(6, ...accepted.map((a) => a.length)) + 2;
+                  return (
+                    <input
+                      key={i}
+                      className="w-blank"
+                      data-state={r === undefined ? 'idle' : r.correct ? 'correct' : 'wrong'}
+                      style={{ width: `${width}ch` }}
+                      aria-label={`Blank ${number(p.id)} of ${step.blanks.length}`}
+                      aria-invalid={r !== undefined && !r.correct}
+                      value={answers[p.id] ?? ''}
+                      readOnly={locked}
+                      spellCheck={false}
+                      autoComplete="off"
+                      autoCapitalize="off"
+                      onChange={(e) => setAnswers((a) => ({ ...a, [p.id]: e.target.value }))}
+                    />
+                  );
+                })}
+              </code>
+            </pre>
+          </InkCard>
+        </figure>
+        <p className="w-muted">Whitespace does not matter.</p>
+        {!locked && !hosted ? (
+          <div>
+            <Button variant="primary" type="submit" disabled={incomplete}>
+              Lock in answer
+            </Button>
+          </div>
+        ) : null}
+      </WidgetFrame>
     </form>
   );
 }

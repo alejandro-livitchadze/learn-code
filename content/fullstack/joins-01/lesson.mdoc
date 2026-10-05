@@ -1,12 +1,17 @@
 ---
 id: joins-01
 courseId: fullstack
-title: "Why your JOIN returned 400 rows"
+title: "Why your ==JOIN== inflated the revenue"
 concepts: [inner-join, row-multiplication]
 ---
 
 {% hook id="h1" estSeconds=40 character="bug" concepts=["row-multiplication"] %}
-Friday, 18:40. The sales report shows revenue **four times** higher than the bank does. The Bug is very proud of itself.
+Friday, 18:40. Finance says revenue is ==four times== too high. I may have helped.
+{% margin %}
+{% stop %}
+What could make one number show up four times?
+{% /stop %}
+{% /margin %}
 {% /hook %}
 
 {% predict id="p1" estSeconds=60 code="./samples/join.sql" language="sql" concepts=["inner-join", "row-multiplication"] %}
@@ -19,14 +24,30 @@ Each order has four items, so every order with items shows up four times. Orders
 {% option output="420" misconception="join-is-union" %}
 A join pairs rows side by side. It does not stack the two tables.
 {% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Wait, doesn't a join just add more columns?
+{% /sticky %}
+{% diagram ref="one-order-four-items" caption="one order, four items..." /%}
+{% gotcha %}
+A join never asks how many orders you have. It counts matching pairs.
+{% /gotcha %}
+{% /margin %}
 {% /predict %}
 
 {% explain id="e1" estSeconds=45 code="select o.id, i.sku\nfrom orders o\njoin items i on i.order_id = o.id" concepts=["inner-join"] %}
-A join returns one row for every matching pair. One order with four items gives four rows. An order with no items gives none.
+**What really happened:** a join returns one row for every matching pair. Order 7 has four items, so it appears four times, and its amount appears four times too. An order with no items gives none.
 
 {% annotation line=3 %}
 Each matching item adds another row.
 {% /annotation %}
+{% margin %}
+{% diagram ref="orders-x-items" caption="follow order 7" /%}
+{% diagram ref="row-multiplication" caption="one becomes four" /%}
+{% gotcha %}
+**If you picked 100:** a join lists matching pairs, it does not add columns. **If you picked 420:** it pairs rows, it never stacks tables.
+{% /gotcha %}
+{% /margin %}
 {% /explain %}
 
 {% predict id="p2" estSeconds=60 code="./samples/sum.sql" language="sql" concepts=["row-multiplication"] %}
@@ -39,12 +60,22 @@ Each order amount is added once per item, so 80 orders of 20 become 320 rows of 
 {% option output="1920" misconception="join-counts-orders" %}
 The sum does not count orders or items. It adds the amount on every row the join produced.
 {% /option %}
+{% margin %}
+{% stop %}
+How many times is each order's amount added to the sum?
+{% /stop %}
+{% /margin %}
 {% /predict %}
 
 {% fillBlanks id="f1" estSeconds=60 template="select count(___fn___ o.id)\nfrom orders o\njoin items i on i.order_id = o.id" language="sql" concepts=["inner-join"] %}
 {% blank id="fn" accepted=["distinct"] misconception="join-counts-orders" %}
 distinct makes each order count once, however many items it has.
 {% /blank %}
+{% margin %}
+{% sticky label="says" %}
+Oh. So the join didn't lie. My sum did.
+{% /sticky %}
+{% /margin %}
 {% /fillBlanks %}
 
 {% predict id="p3" estSeconds=60 code="select count(distinct o.id)\nfrom orders o\njoin items i on i.order_id = o.id" language="sql" concepts=["row-multiplication"] %}
@@ -61,17 +92,39 @@ Distinct order ids among the joined rows: only the 80 orders that have items.
 
 {% sqlLab id="s1" estSeconds=120 prompt="Return one row with one column named n: the number of orders that have at least one item." seedRef="default" starter="select count(*) as n from orders" solution="select count(distinct order_id) as n from items" concepts=["row-multiplication"] %}
 {% hint %}
-The starter counts every order, including empty carts. Count distinct order ids in items instead.
+The starter counts every order, including empty carts. Which table only has orders that have items?
 {% /hint %}
+{% hint %}
+Count the order ids in items, but each order id must be counted only once.
+{% /hint %}
+{% hint %}
+Use count with distinct on the column order_id, and read from items.
+{% /hint %}
+{% margin %}
+{% gotcha %}
+A plain count after a join counts matching pairs, not orders.
+{% /gotcha %}
+{% /margin %}
 {% /sqlLab %}
 
 {% pitfall id="pf1" estSeconds=40 language="sql" badCode="select sum(o.amount)\nfrom orders o\njoin items i on i.order_id = o.id" goodCode="select sum(amount)\nfrom orders" concepts=["row-multiplication"] %}
 Summing a column of the one side after a join to the many side adds it once per match. Sum at the grain of that table, or aggregate the many side before you join.
+{% margin %}
+{% bubble who="bug" %}
+Summing after the join is my favorite mistake. Don't tell finance.
+{% /bubble %}
+{% /margin %}
 {% /pitfall %}
 
 {% sqlLab id="s2" estSeconds=90 prompt="Return one row with one column named revenue: the true total amount of all orders." seedRef="default" starter="select sum(o.amount) as revenue from orders o join items i on i.order_id = o.id" solution="select sum(amount) as revenue from orders" concepts=["row-multiplication"] %}
 {% hint %}
-The amount lives in orders. You do not need items to add it up.
+The amount lives in orders. Do you need items to add it up?
+{% /hint %}
+{% hint %}
+Remove the join. Each order should be added once.
+{% /hint %}
+{% hint %}
+Sum the amount column, reading only from orders.
 {% /hint %}
 {% /sqlLab %}
 
@@ -83,7 +136,7 @@ Group by the order id to get one row per order again.
 
 {% recap id="rc1" estSeconds=30 concepts=["inner-join", "row-multiplication"] %}
 {% point %}
-A join returns one row per matching pair.
+A join returns ==one row per matching pair==.
 {% /point %}
 {% point %}
 One left row with many matches appears many times.
@@ -91,6 +144,11 @@ One left row with many matches appears many times.
 {% point %}
 Count or sum at the right grain: use distinct or aggregate before you join.
 {% /point %}
+{% margin %}
+{% bubble who="bug" %}
+Fine. Revenue is correct again. I'll find something else.
+{% /bubble %}
+{% /margin %}
 {% /recap %}
 
 {% predict id="p4" estSeconds=60 code="./samples/left.sql" language="sql" concepts=["inner-join"] %}
@@ -105,4 +163,10 @@ A join does not stack 100 orders on top of 320 items.
 {% /option %}
 {% /predict %}
 
-{% cliffhanger id="c1" estSeconds=20 question="The left join kept 20 orders that have no items. What does i.sku look like on those rows, and what does count(i.id) give for them?" /%}
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="query-order-01" question="You write select first, but the database does not start there. Where does it start, and why does that break an alias in where?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next lesson I'm hiding in your alias. Good luck finding me.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}

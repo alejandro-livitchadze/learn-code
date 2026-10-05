@@ -13,8 +13,6 @@ export const DIAGRAMS: Readonly<Record<string, readonly DiagramElement[]>> = {
   'row-multiplication': [
     { type: 'chip', text: '1 order', tone: 'ink' },
     { type: 'arrow' },
-    { type: 'chip', text: '4 items' },
-    { type: 'arrow' },
     { type: 'chip', text: '4 rows' },
   ],
 };

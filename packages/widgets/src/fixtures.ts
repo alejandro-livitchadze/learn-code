@@ -362,7 +362,7 @@ export const fixtures: readonly Fixture[] = [
   },
   {
     id: 'unbuilt-parsons',
-    title: 'Unbuilt kind shows a placeholder (parsons)',
+    title: 'Unbuilt kind shows a short notice',
     step: {
       ...base,
       id: 'fx-parsons-1',

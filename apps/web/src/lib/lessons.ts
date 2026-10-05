@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { lesson, type Lesson } from '@learn-code/lesson-schema';
+import { conceptsFile, lesson, type Lesson } from '@learn-code/lesson-schema';
 
 /** Directory with compiled lessons (`pnpm lesson build content` writes `dist/lessons`). */
 function lessonsDir(): string {
@@ -39,4 +39,19 @@ export function loadLesson(ref: LessonRef): Lesson {
     readFileSync(join(lessonsDir(), ref.course, `${ref.lesson}.json`), 'utf8'),
   );
   return lesson.parse(raw);
+}
+
+/** Learner-facing names of a course's concepts, by concept id. Empty when the registry is missing. */
+export function loadConceptNames(course: string): Readonly<Record<string, string>> {
+  let dir = process.cwd();
+  for (;;) {
+    const file = join(dir, 'content', course, 'registry', 'concepts.json');
+    if (existsSync(file)) {
+      const parsed = conceptsFile.safeParse(JSON.parse(readFileSync(file, 'utf8')));
+      return parsed.success ? Object.fromEntries(parsed.data.map((c) => [c.id, c.name])) : {};
+    }
+    const parent = dirname(dir);
+    if (parent === dir) return {};
+    dir = parent;
+  }
 }

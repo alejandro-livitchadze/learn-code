@@ -67,8 +67,22 @@ describe('diagrams', () => {
       expect(diagramFor(ref)?.length).toBeLessThanOrEqual(8);
     }
     expect(diagramFor('toString')).toBeUndefined();
+    expect(diagramFor('orders-x-items')).toBeUndefined();
   });
   it('the hook fixtures still render through the widget registry', () => {
     expect(fixtures.some((f) => f.step.kind === 'hook')).toBe(true);
+  });
+});
+
+describe('table diagram', () => {
+  it('renders the orders by items tables for its ref, with the caption', () => {
+    const out = renderToString(
+      <MarginItems
+        items={[{ type: 'diagram', ref: 'orders-x-items', caption: 'follow order 7' }]}
+      />,
+    );
+    expect(out).toContain('follow order 7');
+    expect(out).toContain('join result');
+    expect(out).toContain('sku-28');
   });
 });

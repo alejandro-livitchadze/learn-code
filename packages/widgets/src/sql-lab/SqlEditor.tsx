@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { PostgreSQL, sql } from '@codemirror/lang-sql';
 import { lintGutter, setDiagnostics } from '@codemirror/lint';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, placeholder } from '@codemirror/view';
 import { diagnosticRange } from './editor-range';
+import { sqlKeywordMarks } from './keywords';
 
 export interface EditorError {
   /** 1-based character position reported by PostgreSQL. */
@@ -45,7 +45,7 @@ export function SqlEditor({ value, onChange, onRun, error, label }: Props) {
           lineNumbers(),
           lintGutter(),
           sql({ dialect: PostgreSQL }),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+          sqlKeywordMarks,
           placeholder('Write a query. Ctrl+Enter runs it.'),
           EditorView.contentAttributes.of({ 'aria-label': label }),
           keymap.of([

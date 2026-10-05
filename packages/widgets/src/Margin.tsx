@@ -9,6 +9,7 @@ import {
 } from '@learn-code/ui';
 import { diagramFor } from './diagrams';
 import { Markdown, renderInline } from './markdown';
+import { TableDiagram, tableDiagramFor } from './TableDiagram';
 
 function MarginEntry({ item }: { readonly item: MarginItem }) {
   switch (item.type) {
@@ -27,6 +28,8 @@ function MarginEntry({ item }: { readonly item: MarginItem }) {
     case 'stopAndThink':
       return <StopAndThink>{renderInline(item.text)}</StopAndThink>;
     case 'diagram': {
+      const tables = tableDiagramFor(item.ref);
+      if (tables !== undefined) return <TableDiagram data={tables} caption={item.caption} />;
       const elements = diagramFor(item.ref);
       // An unknown ref never shows its id to the learner; the caption alone is shown.
       return elements === undefined ? (

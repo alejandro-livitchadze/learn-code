@@ -7,6 +7,12 @@ const TOTAL = 13;
 
 const heading = (page: Page) => page.getByTestId('step-heading');
 const continueBtn = (page: Page) => page.getByRole('button', { name: 'Continue' });
+/** The step is still open: no enabled Continue button (it is disabled or replaced by the step's own action). */
+const expectGated = async (page: Page) => {
+  await expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
+  // The footer still shows its one primary control, and it is disabled.
+  await expect(page.locator('footer .ui-btn-primary:disabled')).toHaveCount(1);
+};
 /** The predict option whose printed output is exactly `output`. */
 const option = (page: Page, output: string) =>
   page
@@ -15,11 +21,16 @@ const option = (page: Page, output: string) =>
 
 async function stepNumber(page: Page): Promise<number> {
   const text = (await heading(page).textContent()) ?? '';
-  return Number(/Step (\d+) of/.exec(text)?.[1]);
+  return Number(/step (\d+) of/i.exec(text)?.[1]);
 }
 
+/** The kind of the widget on screen; a hook step has no widget in the main column. */
 const kindOf = async (page: Page): Promise<string> =>
-  /: (\w+)$/.exec(((await heading(page).textContent()) ?? '').trim())?.[1] ?? '';
+  (await page
+    .locator('main [data-kind]')
+    .first()
+    .getAttribute('data-kind', { timeout: 1000 })
+    .catch(() => null)) ?? 'hook';
 
 /** The correct answer of every active step, by 1-based step number. */
 const ANSWERS: Readonly<Record<number, string>> = {
@@ -39,15 +50,16 @@ async function answerCurrent(page: Page, kind: string): Promise<void> {
   if (answer === undefined) return;
   if (kind === 'predict') {
     await option(page, answer).click();
+    await page.getByRole('button', { name: 'Lock in answer' }).click();
     await expect(page.getByText('Correct', { exact: true })).toBeVisible();
   } else if (kind === 'fillBlanks') {
     await page.getByRole('textbox', { name: /Blank 1 of 1/ }).fill(answer);
-    await page.getByRole('button', { name: 'Check' }).click();
+    await page.getByRole('button', { name: 'Lock in answer' }).click();
     await expect(page.getByText('All blanks are correct.')).toBeVisible();
   } else if (kind === 'sqlLab') {
     await typeSql(page, answer);
     await page.getByRole('button', { name: /Run/ }).click();
-    await expect(page.getByText('Correct. Your query returns the expected result.')).toBeVisible({
+    await expect(page.getByText('Your query returns the expected result.')).toBeVisible({
       timeout: 60_000,
     });
   }
@@ -58,13 +70,17 @@ async function playToEnd(page: Page): Promise<void> {
   for (let i = await stepNumber(page); i < TOTAL; i += 1) {
     const kind = await kindOf(page);
     if (ANSWERS[i] !== undefined) {
-      await expect(continueBtn(page)).toBeDisabled();
+      await expectGated(page);
       await answerCurrent(page, kind);
     }
     await continueBtn(page).click();
-    await expect(heading(page)).toContainText(`Step ${i + 1} of ${TOTAL}`);
+    await expect(heading(page)).toContainText(`step ${i + 1} of ${TOTAL}`);
   }
-  await page.getByRole('link', { name: 'Finish' }).click();
+  // The cliffhanger names the next lesson, so the footer offers it beside "All lessons".
+  await expect(
+    page.getByRole('link', { name: 'Next lesson: The query that runs backwards' }),
+  ).toHaveAttribute('href', '/fullstack/query-order-01');
+  await page.getByRole('link', { name: 'All lessons' }).last().click();
   await expect(page).toHaveURL('/');
 }
 
@@ -87,7 +103,7 @@ for (const width of [1024, 1440]) {
       );
       expect(overflow, `step ${i} (${kind})`).toBeLessThanOrEqual(0);
       await continueBtn(page).click();
-      await expect(heading(page)).toContainText(`Step ${i + 1} of ${TOTAL}`);
+      await expect(heading(page)).toContainText(`step ${i + 1} of ${TOTAL}`);
     }
   });
 }
@@ -97,23 +113,25 @@ test('a wrong answer does not complete the step; the right one does', async ({ p
   await page.goto(URL);
   await continueBtn(page).click(); // hook -> predict
   await option(page, '100').click();
-  await expect(page.getByText('Not quite')).toBeVisible();
-  await expect(continueBtn(page)).toBeDisabled();
+  await page.getByRole('button', { name: 'Lock in answer' }).click();
+  await expect(page.locator('.ui-feedback[data-correct="false"]')).toContainText('Not quite.');
+  await expect(page.locator('.w-opt[data-state="wrong"]')).toHaveCount(1);
+  await expectGated(page);
   await answerCurrent(page, 'predict');
   await expect(continueBtn(page)).toBeEnabled();
 });
 
-test('every step of the lesson has a real widget, none is a placeholder', async ({ page }) => {
+test('every step of the lesson has a real widget, none is a stand-in', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL);
   await expect(heading(page)).toBeVisible();
   for (let i = 1; i < TOTAL; i += 1) {
-    await expect(page.getByText('Not built yet')).toHaveCount(0);
+    await expect(page.getByText('coming soon')).toHaveCount(0);
     await answerCurrent(page, await kindOf(page));
     await continueBtn(page).click();
   }
-  await expect(page.getByText('Not built yet')).toHaveCount(0);
-  await expect(heading(page)).toContainText('cliffhanger');
+  await expect(page.getByText('coming soon')).toHaveCount(0);
+  await expect(heading(page)).toContainText(`step ${TOTAL} of ${TOTAL}`);
 });
 
 test('the hook step puts its character and bubble in the left column', async ({ page }) => {
@@ -139,11 +157,11 @@ test('reload restores the step and earlier answers', async ({ page }) => {
   await continueBtn(page).click(); // hook -> predict
   await answerCurrent(page, 'predict');
   await continueBtn(page).click(); // -> explain
-  await expect(heading(page)).toContainText('Step 3 of');
+  await expect(heading(page)).toContainText('step 3 of');
   await page.reload();
-  await expect(heading(page)).toContainText('Step 3 of');
+  await expect(heading(page)).toContainText('step 3 of');
   await page.getByRole('button', { name: 'Back' }).click();
-  await expect(heading(page)).toContainText('Step 2 of');
+  await expect(heading(page)).toContainText('step 2 of');
   await expect(option(page, '320')).toHaveAttribute('data-state', 'correct');
 });
 
@@ -151,14 +169,14 @@ test('an active step cannot be skipped by button, keyboard or URL', async ({ pag
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL);
   await continueBtn(page).click();
-  await expect(heading(page)).toContainText('Step 2 of');
-  await expect(continueBtn(page)).toBeDisabled();
+  await expect(heading(page)).toContainText('step 2 of');
+  await expectGated(page);
   await page.keyboard.press('Enter');
   await page.keyboard.press('ArrowRight');
-  await expect(heading(page)).toContainText('Step 2 of');
+  await expect(heading(page)).toContainText('step 2 of');
   // URL: query and hash carry no step, and forged stored progress is clamped.
   await page.goto(`${URL}?step=13#13`);
-  await expect(heading(page)).toContainText('Step 2 of');
+  await expect(heading(page)).toContainText('step 2 of');
   await page.evaluate((key) => {
     localStorage.setItem(
       key,
@@ -169,8 +187,8 @@ test('an active step cannot be skipped by button, keyboard or URL', async ({ pag
     );
   }, KEY);
   await page.reload();
-  await expect(heading(page)).toContainText('Step 2 of');
-  await expect(continueBtn(page)).toBeDisabled();
+  await expect(heading(page)).toContainText('step 2 of');
+  await expectGated(page);
 });
 
 test('keyboard: arrows and Enter move through passive steps, focus lands on the heading', async ({
@@ -178,12 +196,12 @@ test('keyboard: arrows and Enter move through passive steps, focus lands on the 
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL);
-  await expect(heading(page)).toContainText('Step 1 of');
+  await expect(heading(page)).toContainText('step 1 of');
   await page.keyboard.press('Enter');
-  await expect(heading(page)).toContainText('Step 2 of');
+  await expect(heading(page)).toContainText('step 2 of');
   await expect(heading(page)).toBeFocused();
   await page.keyboard.press('ArrowLeft');
-  await expect(heading(page)).toContainText('Step 1 of');
+  await expect(heading(page)).toContainText('step 1 of');
 });
 
 test('corrupted stored data is discarded', async ({ page }) => {
@@ -191,5 +209,5 @@ test('corrupted stored data is discarded', async ({ page }) => {
   await page.goto(URL);
   await page.evaluate((key) => localStorage.setItem(key, '{broken'), KEY);
   await page.reload();
-  await expect(heading(page)).toContainText('Step 1 of');
+  await expect(heading(page)).toContainText('step 1 of');
 });

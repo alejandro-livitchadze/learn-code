@@ -32,6 +32,12 @@ describe('Markdown subset', () => {
     expect(out).toContain('<p>after</p>');
     expect(out).not.toContain('<strong>');
   });
+  it('turns ==phrase== into a highlight of at most six words', () => {
+    expect(html('a ==key phrase== b')).toContain('<mark class="ui-highlight">key phrase</mark>');
+    const long = html('==one two three four five six seven==');
+    expect(long).not.toContain('<mark');
+    expect(long).toContain('one two three four five six seven');
+  });
   it('escapes HTML', () => {
     expect(html('<script>x</script>')).not.toContain('<script>');
   });

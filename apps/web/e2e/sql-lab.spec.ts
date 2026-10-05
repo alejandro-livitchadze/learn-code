@@ -39,7 +39,7 @@ test('pages without SQL steps do not fetch PGlite; the first sqlLab step does', 
   });
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL);
-  await expect(page.getByTestId('step-heading')).toContainText('Step 1 of');
+  await expect(page.getByTestId('step-heading')).toContainText('step 1 of');
   await page.getByRole('button', { name: 'Continue' }).click(); // predict, still no SQL step
   await page.waitForLoadState('networkidle');
   await page.goto('/');
@@ -63,7 +63,7 @@ test('a wrong query shows a difference, a syntax error shows the PostgreSQL mess
 
   await typeSql(page, 'select count(*) as n from orders');
   await run(page).click();
-  await expect(page.getByText('Not the expected result yet')).toBeVisible();
+  await expect(page.locator('.ui-feedback[data-correct="false"]')).toContainText('Not quite.');
   await expect(page.getByRole('button', { name: 'Continue' })).toBeDisabled();
 
   await typeSql(page, 'selec 1');
@@ -83,7 +83,5 @@ test('a runaway query hits the Worker timeout and the next query works', async (
 
   await typeSql(page, 'select count(distinct order_id) as n from items');
   await run(page).click();
-  await expect(page.getByText('Correct. Your query returns the expected result.')).toBeVisible(
-    BOOT,
-  );
+  await expect(page.getByText('Your query returns the expected result.')).toBeVisible(BOOT);
 });

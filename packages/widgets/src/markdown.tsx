@@ -1,13 +1,14 @@
 import type { ReactNode } from 'react';
+import { Highlight } from '@learn-code/ui';
 
 /**
  * The one Markdown contract (see packages/lesson-compiler/README.md, "Markdown subset").
  * Blocks: paragraphs, `- ` lists, fenced code. Inline: `code`, **bold**, *italic*,
- * [text](http or https url). The lint rule `markdown-subset` rejects everything else.
+ * [text](http or https url), ==highlight==. The lint rule `markdown-subset` rejects everything else.
  * No HTML is ever injected.
  */
 
-const INLINE = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/g;
+const INLINE = /(`[^`]+`|==[^=\n]+==|\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/g;
 const LINK = /^\[([^\]]+)\]\(([^)\s]+)\)$/;
 
 /** Only http and https links become anchors. Anything else is shown as its label. */
@@ -24,6 +25,9 @@ export function renderInline(text: string): readonly ReactNode[] {
   return text.split(INLINE).map((chunk, i) => {
     if (chunk.length > 2 && chunk.startsWith('`') && chunk.endsWith('`')) {
       return <code key={i}>{chunk.slice(1, -1)}</code>;
+    }
+    if (chunk.length > 4 && chunk.startsWith('==') && chunk.endsWith('==')) {
+      return <Highlight key={i}>{chunk.slice(2, -2).trim()}</Highlight>;
     }
     if (chunk.length > 4 && chunk.startsWith('**') && chunk.endsWith('**')) {
       return <strong key={i}>{chunk.slice(2, -2)}</strong>;

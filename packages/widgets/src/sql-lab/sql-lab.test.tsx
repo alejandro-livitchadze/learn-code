@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { sqlLabStep } from '@learn-code/lesson-schema';
@@ -12,7 +14,8 @@ import { compareResults } from '@learn-code/sql-engine/compare';
 import { LabController } from './controller';
 import { diagnosticRange } from './editor-range';
 import { SCHEMA_QUERY, groupSchema, mayChangeSchema } from './schema';
-import { DiffView, createSqlLab } from './SqlLab';
+import { DiffView, createSqlLab, diffMessage } from './SqlLab';
+import { sqlSpans } from './keywords';
 
 const res = (columns: string[], rows: unknown[][], rowCount = rows.length): SqlResult => ({
   columns,
@@ -35,20 +38,58 @@ describe('schema helpers', () => {
   it('groups information_schema rows by table in order', () => {
     const tables = groupSchema(
       res(
-        ['table_name', 'column_name', 'data_type', 'is_nullable'],
         [
-          ['authors', 'id', 'integer', 'NO'],
-          ['authors', 'name', 'text', 'YES'],
-          ['books', 'id', 'integer', 'NO'],
+          'table_name',
+          'column_name',
+          'data_type',
+          'is_nullable',
+          'is_primary',
+          'references_column',
+        ],
+        [
+          ['authors', 'id', 'integer', 'NO', true, null],
+          ['authors', 'name', 'text', 'YES', false, null],
+          ['books', 'id', 'integer', 'NO', true, null],
+          ['books', 'author_id', 'integer', 'NO', false, 'authors.id'],
         ],
       ),
     );
     expect(tables.map((t) => t.name)).toEqual(['authors', 'books']);
     expect(tables[0]?.columns).toEqual([
-      { name: 'id', type: 'integer', nullable: false },
-      { name: 'name', type: 'text', nullable: true },
+      { name: 'id', type: 'integer', nullable: false, primary: true },
+      { name: 'name', type: 'text', nullable: true, primary: false },
     ]);
+    expect(tables[1]?.columns[1]).toEqual({
+      name: 'author_id',
+      type: 'integer',
+      nullable: false,
+      primary: false,
+      references: 'authors.id',
+    });
   });
+  it('marks primary and foreign keys from the real query on the sample seed', async () => {
+    const seedSql = readFileSync(
+      join(import.meta.dirname, '../../../../content/fullstack/joins-01/seeds/default.sql'),
+      'utf8',
+    );
+    const session = await createInlineEngine().open(seedSql);
+    try {
+      const outcome = await session.execute(SCHEMA_QUERY);
+      if (!outcome.ok) throw new Error('schema query failed');
+      const tables = groupSchema(outcome.result);
+      const keys = tables.map((t) => ({
+        table: t.name,
+        primary: t.columns.filter((c) => c.primary).map((c) => c.name),
+        references: t.columns.flatMap((c) => (c.references === undefined ? [] : [c.references])),
+      }));
+      expect(keys).toEqual([
+        { table: 'items', primary: ['id'], references: ['orders.id'] },
+        { table: 'orders', primary: ['id'], references: [] },
+      ]);
+    } finally {
+      await session.close();
+    }
+  }, 60_000);
   it('detects statements that may change the schema', () => {
     expect(mayChangeSchema('CREATE TABLE t (a int)')).toBe(true);
     expect(mayChangeSchema('select * from created_at')).toBe(false);
@@ -114,7 +155,10 @@ describe('LabController', () => {
     expect(e.executed[0]).toBe(solution);
     expect(e.resets).toBe(1);
     expect(schema).toEqual([
-      { name: 'books', columns: [{ name: 'id', type: 'integer', nullable: false }] },
+      {
+        name: 'books',
+        columns: [{ name: 'id', type: 'integer', nullable: false, primary: false }],
+      },
     ]);
     await lab.close();
     expect(e.closed).toBe(1);
@@ -170,9 +214,9 @@ describe('SqlLab widget', () => {
       />,
     );
     expect(html).toContain('Reset database');
-    expect(html).toContain('Run (Ctrl+Enter)');
+    expect(html).toContain('Run · Ctrl+Enter');
     expect(html).toContain('<strong>book</strong>');
-    expect(html).toContain('Correct. Your query returns the expected result.');
+    expect(html).toContain('Your query returns the expected result.');
   });
 });
 
@@ -210,4 +254,41 @@ describe('shared comparer cases', () => {
     },
     60_000,
   );
+});
+
+describe('diffMessage', () => {
+  const diffOf = (e: SqlResult, a: SqlResult, order = false) => compareResults(e, a, order);
+  it('names a missing column', () => {
+    const d = diffOf(res(['id', 'total', 'items'], []), res(['id', 'items'], []));
+    expect(diffMessage(d)).toContain('missing: total');
+  });
+  it('names an unexpected column', () => {
+    const d = diffOf(res(['id'], []), res(['id', 'x'], []));
+    expect(diffMessage(d)).toContain('not expected: x');
+  });
+  it('counts differing rows when the columns match', () => {
+    const d = diffOf(res(['a'], [['1'], ['2']]), res(['a'], [['1']]));
+    expect(diffMessage(d)).toContain('1 row missing, 0 rows extra');
+  });
+  it('says when only the order is wrong', () => {
+    const d = diffOf(res(['a'], [['1'], ['2']]), res(['a'], [['2'], ['1']]), true);
+    expect(diffMessage(d)).toContain('specific order');
+  });
+  it('shows no row grids for column problems', () => {
+    const d = diffOf(res(['id', 'total'], [['1', '2']]), res(['id'], [['1']]));
+    expect(renderToString(<DiffView diff={d} />)).toBe('');
+  });
+});
+
+describe('sqlSpans', () => {
+  it('marks keywords, comments and strings, and ignores words inside them', () => {
+    const text = "select 'from here' -- where\nfrom orders";
+    const spans = sqlSpans(text).map((s) => [text.slice(s.from, s.to), s.kind]);
+    expect(spans).toEqual([
+      ['select', 'keyword'],
+      ["'from here'", 'string'],
+      ['-- where', 'comment'],
+      ['from', 'keyword'],
+    ]);
+  });
 });
