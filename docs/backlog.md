@@ -240,7 +240,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: two different correct designs for the sample task both pass; a design without a foreign key fails the matching scenario with a plain-language message; checking logic is pure and unit-tested; built only from `packages/ui` components and tokens, following E08.
 
 ## P10. Be the database: joins
-- Status: todo
+- Status: in_progress
 - Depends on: P9
 - Paths: `packages/widgets/src/be-the-database/**`, `packages/lesson-compiler/src/traces/**`, `content/**`
 - Epic: E06 (`beTheDatabase`, join variant)
@@ -345,7 +345,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: caught values are narrowed with `e instanceof Error ? e.message : String(e)` instead of `as Error`; `design.css` uses E08 spacing and type tokens where equivalents exist; checks pass.
 
 ## F11. Font-size tokens for design.css
-- Status: todo
+- Status: in_progress
 - Depends on: F10
 - Paths: `packages/ui/src/tokens.css`, `packages/widgets/src/design/design.css`
 - Source: F10 worker report
