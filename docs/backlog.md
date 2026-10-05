@@ -329,7 +329,8 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 After P10 and D5 the orchestrator only runs D6 and triage. New platform work needs the author.
 
 ## F9. Wire schemaBuilder into the player
-- Status: in_progress
+- Status: done
+- Note: merged via PR #37 (2fd65f6); CI green; reviewer APPROVE on b63af2b (minor: p2 option 3 shares misconception tag with option 1).
 - Depends on: P9
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/sql-wiring.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `packages/ui/src/StepTag.tsx`, `packages/ui/src/ui.test.ts`, `content/fullstack/**`
 - Source: P9 worker report
