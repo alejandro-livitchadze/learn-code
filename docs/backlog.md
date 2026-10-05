@@ -363,7 +363,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 ## F13. Wire beTheDatabase into the player and lesson check
 - Status: in_progress
 - Depends on: P10
-- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`
+- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`, `packages/lesson-compiler/src/verify.test.ts`
+- Attempt: 1 of 3 in progress; review 1 (aae9e68) CHANGES_REQUESTED: tests for apps/web/src/lib/traces.ts and verifyBeTheDatabase (verify.test.ts, absorbs F15).
 - Source: P10 worker report
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
 
@@ -375,7 +376,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: root `package.json` has `"traces": "pnpm --filter @learn-code/lesson-compiler traces"`; checks pass.
 
 ## F15. Test verifyBeTheDatabase
-- Status: todo
+- Status: done
+- Note: absorbed into F13 fix round
 - Depends on: F13
 - Paths: `packages/lesson-compiler/src/verify.test.ts`
 - Source: F13 worker report
