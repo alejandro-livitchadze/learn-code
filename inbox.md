@@ -104,3 +104,7 @@
 
 - M0 needs module-federation.io (and other official docs) reachable; the sandbox proxy blocks it (npm registry works, npmjs.com 403). Allow the domains or M0 stays stuck; M1 to M5 wait on it.
 - L2 (PR #35): no `recall` opener because the widget is not implemented; postgresql.org links unverified again.
+
+## 2026-10-05 (seventeenth run)
+
+- Needs the author: GitHub Actions runs fail within seconds with no steps (since about 04:48 UTC; last green 04:37 UTC). Likely runners, quota or billing. Check the repository's Actions settings and billing. L2 (PR #35) and all further merges wait on green CI.

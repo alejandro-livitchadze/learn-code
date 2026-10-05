@@ -149,3 +149,7 @@
 
 - L2 (nulls-01): worker done, commit 90d1888 on `task/L2`; PR #35 opened. Local: typecheck, lint, lesson check pass; `pnpm test` hangs locally (PGlite). CI was queued at the end of the run; review gate next run. Status stays `in_progress`.
 - M0 not started: its official sources (module-federation.io) are unreachable from the sandbox (000); P9 skipped because its paths overlap L2. Workers: 1. Reviewers: 0.
+
+## 2026-10-05 (seventeenth run): nothing started
+
+- GitHub Actions still fails on every run in about 4 seconds with no steps (latest: run 309 on `main`, 07:45 UTC), so no PR can reach green CI. L2 (PR #35, head 90d1888) stays `in_progress`, no review gate. Workers: 0. Reviewers: 0.
