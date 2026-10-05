@@ -155,3 +155,7 @@
 - GitHub Actions still fails on every run in about 4 seconds with no steps (latest: run 309 on `main`, 07:45 UTC), so no PR can reach green CI. L2 (PR #35, head 90d1888) stays `in_progress`, no review gate. Workers: 0. Reviewers: 0.
 - Update, 2026-10-05: the author made the repository public, which restored CI. L2 (PR #35) was reviewed fresh (APPROVE on fcdcb04), CI green after one re-run of a flaky e2e keyboard test (`player.spec.ts:247`, passed on the same commit in the PR run), and squash-merged. L2 is `done`. Reviewers this run: 1. Integration PR #21 still open; no milestone.
 - Next ready: M0 (needs module-federation.io reachable), P9, L3.
+
+## 2026-10-05 (eighteenth run)
+
+- P9: worker done (head 0e4f29d), PR #36 opened; typecheck and lint pass; PGlite tests too slow locally (compiler suite run per file, pass). CI running at end of run; review gate next run. Follow-up F9 added (wiring outside P9 paths). M0 still blocked on module-federation.io (403); L3 skipped because it overlaps P9 on `content/**`. Workers: 1. Reviewers: 0.

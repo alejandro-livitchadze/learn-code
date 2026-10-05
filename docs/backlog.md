@@ -233,6 +233,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 ## P9. Schema builder
 - Status: in_progress
+- Note: PR #36 open, worker head 0e4f29d; CI running at end of run, review gate next run. Wiring is task F9.
 - Depends on: V4
 - Paths: `packages/widgets/src/design/**`, `packages/lesson-schema/**`, `packages/lesson-compiler/**`, `content/**`
 - Epic: E06 (`schemaBuilder`, `draftToDdl`, role mapping, scenario runner)
@@ -326,3 +327,10 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 ## Stop point
 
 After P10 and D5 the orchestrator only runs D6 and triage. New platform work needs the author.
+
+## F9. Wire schemaBuilder into the player
+- Status: todo
+- Depends on: P9
+- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/sql-wiring.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `packages/ui/src/StepTag.tsx`, `content/fullstack/**`
+- Source: P9 worker report
+- Done when: `schemaBuilder` maps to `createSchemaBuilder({ getEngine: getLazyEngine })` and is in `IMPLEMENTED_KINDS`; a fixture exists; `StepTag` has a `schemaBuilder` entry (no sqlLab stand-in); a `schema-01` lesson of 12 to 20 steps uses `design="./design/shop.json"` and passes `lesson check`.
