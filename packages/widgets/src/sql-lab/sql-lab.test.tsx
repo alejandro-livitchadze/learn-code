@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { sqlLabStep } from '@learn-code/lesson-schema';
@@ -65,6 +67,29 @@ describe('schema helpers', () => {
       references: 'authors.id',
     });
   });
+  it('marks primary and foreign keys from the real query on the sample seed', async () => {
+    const seedSql = readFileSync(
+      join(import.meta.dirname, '../../../../content/fullstack/joins-01/seeds/default.sql'),
+      'utf8',
+    );
+    const session = await createInlineEngine().open(seedSql);
+    try {
+      const outcome = await session.execute(SCHEMA_QUERY);
+      if (!outcome.ok) throw new Error('schema query failed');
+      const tables = groupSchema(outcome.result);
+      const keys = tables.map((t) => ({
+        table: t.name,
+        primary: t.columns.filter((c) => c.primary).map((c) => c.name),
+        references: t.columns.flatMap((c) => (c.references === undefined ? [] : [c.references])),
+      }));
+      expect(keys).toEqual([
+        { table: 'items', primary: ['id'], references: ['orders.id'] },
+        { table: 'orders', primary: ['id'], references: [] },
+      ]);
+    } finally {
+      await session.close();
+    }
+  }, 60_000);
   it('detects statements that may change the schema', () => {
     expect(mayChangeSchema('CREATE TABLE t (a int)')).toBe(true);
     expect(mayChangeSchema('select * from created_at')).toBe(false);

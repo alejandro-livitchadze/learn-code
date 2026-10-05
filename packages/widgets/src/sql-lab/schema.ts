@@ -39,6 +39,11 @@ export interface SchemaTable {
   readonly columns: readonly SchemaColumn[];
 }
 
+/** The engine returns PostgreSQL text, so a boolean arrives as `t`; fakes may pass `true`. */
+function isTrue(value: unknown): boolean {
+  return value === true || value === 't' || value === 'true';
+}
+
 /** Group the rows of `SCHEMA_QUERY` by table. */
 export function groupSchema(result: SqlResult): readonly SchemaTable[] {
   const tables = new Map<string, SchemaColumn[]>();
@@ -49,7 +54,7 @@ export function groupSchema(result: SqlResult): readonly SchemaTable[] {
       name: column,
       type: typeof type === 'string' ? type : '',
       nullable: nullable !== 'NO',
-      primary: primary === true,
+      primary: isTrue(primary),
       ...(typeof references === 'string' ? { references } : {}),
     });
     tables.set(table, list);
