@@ -362,10 +362,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `as Error` at `cli.ts:40` and `registries.ts:15` is replaced by `e instanceof Error ? e.message : String(e)`; checks pass.
 
 ## F13. Wire beTheDatabase into the player and lesson check
-- Status: in_progress
+- Status: done
+- Note: merged via PR #41; CI green; reviewer APPROVE on a6828a9 after one fix round (tests added; F15 absorbed). Minors: Catalogue hard-codes joins-01 trace base; sameJson relies on key order.
 - Depends on: P10
 - Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`, `packages/lesson-compiler/src/verify.test.ts`
-- Attempt: 1 of 3 in progress; review 1 (aae9e68) CHANGES_REQUESTED: tests for apps/web/src/lib/traces.ts and verifyBeTheDatabase (verify.test.ts, absorbs F15).
 - Source: P10 worker report
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
 
@@ -390,3 +390,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/fullstack/joins-01/**`
 - Source: F13 worker report
 - Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
+
+## F17. Catalogue trace base and deep-equal for traces
+- Status: todo
+- Depends on: F13
+- Paths: `apps/web/app/dev/widgets/Catalogue.tsx`, `packages/lesson-compiler/src/verify/index.ts`
+- Source: F13 reviewer minors
+- Done when: Catalogue derives its trace base from a named constant; `sameJson` in verify uses structural deep-equal; checks pass.

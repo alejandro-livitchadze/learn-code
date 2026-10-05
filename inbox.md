@@ -130,3 +130,4 @@
 ## 2026-10-05 (twenty-second run)
 
 - F12 (PR #42) merged; delete stale remote branch `task/F12`.
+- F13 (PR #41) merged; delete stale remote branches `task/F12` and `task/F13`.
