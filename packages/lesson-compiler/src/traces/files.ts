@@ -44,6 +44,9 @@ export function findTraceSpecs(contentDir: string): readonly TraceFiles[] {
 /** Stable text form of a trace, so a diff shows only real changes. */
 export const serializeTrace = (trace: JoinTrace): string => `${JSON.stringify(trace, null, 2)}\n`;
 
+/** Formatting (for example by prettier) must not matter, only the data. */
+const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+
 /** Read a spec file and generate its trace from PGlite. */
 export async function generateFromFiles(files: TraceFiles): Promise<JoinTrace> {
   const raw: unknown = JSON.parse(readFileSync(files.specPath, 'utf8'));
@@ -63,12 +66,12 @@ export async function checkTraces(contentDir: string): Promise<readonly string[]
   const problems: string[] = [];
   for (const files of findTraceSpecs(contentDir)) {
     try {
-      const fresh = serializeTrace(await generateFromFiles(files));
+      const fresh = await generateFromFiles(files);
       if (!existsSync(files.tracePath))
         problems.push(
           `${files.tracePath}: missing; run "pnpm exec tsx src/traces/cli.ts" in packages/lesson-compiler`,
         );
-      else if (readFileSync(files.tracePath, 'utf8') !== fresh)
+      else if (!sameJson(JSON.parse(readFileSync(files.tracePath, 'utf8')), fresh))
         problems.push(
           `${files.tracePath}: differs from what PostgreSQL produces now; regenerate it`,
         );
