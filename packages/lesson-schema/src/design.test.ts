@@ -139,6 +139,10 @@ describe('roles', () => {
     expect(problems).toContain('Pick your table or column for "the customer key"');
     expect(problems).toContain('"zzz" is not a column of "orders"');
   });
+  it('refuses one column for two roles', () => {
+    const twice = { ...map, orderCustomer: 'id' };
+    expect(checkRoleMap(roles, shop, twice).join()).toContain('for both');
+  });
   it('lists the mapped columns with their tables', () => {
     expect([...mappedColumns(roles, map)].sort()).toEqual(['customers\u0000id', 'orders\u0000customer_id']);
   });

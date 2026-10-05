@@ -250,6 +250,19 @@ export function checkRoleMap(
       problems.push(`"${role.label}" needs its table to be picked first.`);
     } else if (!table.columns.some((c) => c.name === name)) {
       problems.push(`"${name}" is not a column of "${table.name}" (for "${role.label}").`);
+    } else {
+      const twin = roles.find(
+        (other) =>
+          other.id < role.id &&
+          other.kind === 'column' &&
+          map[other.id] === name &&
+          map[other.table ?? ''] === tableName,
+      );
+      if (twin !== undefined) {
+        problems.push(
+          `You picked "${name}" for both "${twin.label}" and "${role.label}". Each needs its own column.`,
+        );
+      }
     }
   }
   return problems;

@@ -32,6 +32,7 @@ export const FILE_ATTRIBUTES: ReadonlySet<string> = new Set([
   'ddl',
   'before',
   'after',
+  'design',
 ]);
 
 /** Copy the named attributes that are present, preserving their values. */
@@ -46,6 +47,21 @@ function pick(c: BuildContext, ...names: string[]): Fields {
 
 function stepBase(c: BuildContext): Fields {
   return { ...pick(c, 'id', 'estSeconds'), concepts: c.attrs['concepts'] ?? [] };
+}
+
+/** Parse the JSON of a `design` attribute. A broken file stops the step with a readable message. */
+function readDesign(raw: unknown): Fields {
+  if (typeof raw !== 'string') return {};
+  let data: unknown;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`design is not valid JSON: ${(e as Error).message}`);
+  }
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) {
+    throw new Error('design must be a JSON object');
+  }
+  return { ...data };
 }
 
 const texts = (c: BuildContext, name: string): string[] =>
@@ -305,13 +321,15 @@ export const KIND_TAGS: Record<string, TagSpec> = {
     }),
   },
   schemaBuilder: {
-    attributes: { ...common, prompt: str(true), scenario: str(true) },
-    children: ['table'],
+    // `design` is a `./design/<name>.json` file: loose fields, roles, scenarios, reference and
+    // wrong drafts. Its shape is validated by the `designTask` schema.
+    attributes: { ...common, prompt: str(true), design: str(true) },
+    children: [],
     build: (c) => ({
       ...stepBase(c),
       kind: 'schemaBuilder',
-      ...pick(c, 'prompt', 'scenario'),
-      expectedTables: table(c, false),
+      ...pick(c, 'prompt'),
+      ...readDesign(c.attrs['design']),
     }),
   },
   relationLab: {

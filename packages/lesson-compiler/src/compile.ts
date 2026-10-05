@@ -10,6 +10,7 @@ import {
   markdocConfig,
   marginItem,
   type BuildContext,
+  type Fields,
 } from './tags';
 
 export interface CompileError {
@@ -182,7 +183,13 @@ function buildStep(node: Node, dir: string, add: (line: number, message: string)
     }
   }
   const margin = buildMargin(node, ctx, add);
-  const built = spec.build(ctx(node));
+  let built: Fields;
+  try {
+    built = spec.build(ctx(node));
+  } catch (e) {
+    add(lineOf(node), `step "${node.tag}": ${(e as Error).message}`);
+    return {};
+  }
   return margin.length > 0 ? { ...built, margin } : built;
 }
 
