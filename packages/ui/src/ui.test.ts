@@ -46,8 +46,9 @@ describe('StepTag vocabulary', () => {
   it('uses the fixed texts', () => {
     expect(stepTagText('predict')).toBe('Predict');
     expect(stepTagText('sqlLab')).toBe('Your turn');
+    expect(stepTagText('schemaBuilder')).toBe('Your turn');
     expect(stepTagText('beTheDatabase')).toBe('You are the machine');
-    expect(Object.keys(STEP_TAGS)).toHaveLength(15);
+    expect(Object.keys(STEP_TAGS)).toHaveLength(16);
   });
 });
 
