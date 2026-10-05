@@ -357,3 +357,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/lesson-compiler/src/cli.ts`, `packages/lesson-compiler/src/registries.ts`
 - Source: F10 reviewer minor
 - Done when: `as Error` at `cli.ts:40` and `registries.ts:15` is replaced by `e instanceof Error ? e.message : String(e)`; checks pass.
+
+## F13. Wire beTheDatabase into the player and lesson check
+- Status: todo
+- Depends on: P10
+- Paths: `packages/widgets/src/registry.tsx`, `packages/widgets/src/index.ts`, `packages/widgets/src/fixtures.ts`, `packages/lesson-schema/src/steps.ts`, `apps/web/**`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/package.json`
+- Source: P10 worker report
+- Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
