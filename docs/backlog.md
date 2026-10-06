@@ -387,14 +387,14 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: tests cover a missing trace, a stale trace, and a step whose tables or query differ from the trace; checks pass.
 
 ## F16. Use beTheDatabase in a lesson
-- Status: todo
+- Status: in_progress
 - Depends on: F13
 - Paths: `content/fullstack/joins-01/**`
 - Source: F13 worker report
 - Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
 
 ## F17. Catalogue trace base and deep-equal for traces
-- Status: todo
+- Status: in_progress
 - Depends on: F13
 - Paths: `apps/web/app/dev/widgets/Catalogue.tsx`, `packages/lesson-compiler/src/verify/index.ts`
 - Source: F13 reviewer minors
