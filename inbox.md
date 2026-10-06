@@ -156,3 +156,9 @@
 
 - F23 (PR #52) merged; delete stale remote branch `task/F23` (delete failed from this environment).
 - F24 (PR #53) merged; delete stale remote branches `task/F23` and `task/F24` (deletes failed from this environment).
+
+## 2026-10-06 (twenty-eighth run)
+
+- Needs the author: D6 (weekly refresh) is stuck. The auto-mode classifier denied reading the 23 new vacancy descriptions in `research/demand/parsed/` for extraction ("PII Data Handling"). Allow that read, or tell me to put D6 back to `todo`.
+- PRs #54, #55, #56 (M0, F25, F21) were merged by you before my review gate ran. Reviews came back APPROVE afterwards. #54 also carried two `[skip ci]` commits that never had CI; the post-merge review covered them. Delete stale remote branches `task/M0`, `task/F21`, `task/F25`.
+- Decided without the author: went above `MAX_PARALLEL` for this run because you asked; CLAUDE.md unchanged. The 4 parallel workers made local `pnpm test` get killed for memory; CI was green.

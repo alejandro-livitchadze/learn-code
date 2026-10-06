@@ -216,3 +216,9 @@
 - F23: worker done (949821c), PR #52 opened; local checks pass; CI and review next run. F24 waits (its test needs `traces.test.ts`, which overlaps F23). M0, F21 blocked on network; F8 author-only. Integration PR #43 open; no milestone.
 - Update, 2026-10-06: F23 (PR #52) CI green on 949821c, fresh reviewer APPROVE, squash-merged (3e09352); F23 is `done`. F24: worker done (e124821), PR opened; CI and review next run. Note: F24 introduces an import cycle verify/index.ts <-> traces/files.ts (harmless at runtime); reviewer to judge. Workers: 2. Reviewers: 1.
 - Update, 2026-10-06: F24 (PR #53) CI green on e124821, fresh reviewer APPROVE, squash-merged (113b497); F24 is `done`. Follow-up F25 added (import cycle). Reviewers this run: 2. Workers: 2. Integration PR #43 open; no milestone. F25 ready next run (M0, F21 blocked on network; F8 author-only).
+
+## 2026-10-06 (twenty-eighth run)
+
+- Dispatched F25, M0, F21, D6 (the author asked to exceed MAX_PARALLEL for this run). F25 (PR #55), M0 (PR #54) and F21 (PR #56) were merged by the repo author before the review gate finished; post-merge reviewers APPROVE on all three (M0 on 86a4911, which included two unreviewed `[skip ci]` commits; F21 on f8bf1ec; F25 on ec015d1). All three are `done`. Added F26, F27 (M0 minors) and F28 (NULL-bucket source).
+- D6: worker fetched and parsed 23 new vacancies but extraction was blocked by a permission denial (PII classifier) on reading the descriptions. Nothing committed; task stays `in_progress`, branch `task/D6`, fetch cached in the worker worktree. Needs the author.
+- Local `pnpm test` was killed (exit 137) repeatedly with 4 workers running; CI was green. Workers: 4. Reviewers: 4 (one stopped, replaced). Integration PR #43 open; no milestone.
