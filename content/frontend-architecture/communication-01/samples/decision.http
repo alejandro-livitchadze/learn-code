@@ -1,0 +1,10 @@
+Search page, two remotes from two teams:
+  filters  (team Search)   sets "sort" and "brand"
+  results  (team Catalog)  must use the same sort and brand
+
+Requirements:
+  1. A link shared in Slack opens the page with the same filters.
+  2. Reload keeps the filters.
+  3. Each team deploys alone.
+
+Which channel fits all three best?
