@@ -1,0 +1,19 @@
+Recorded 2026-10-06 from our example project, not part of examples/recorded/outputs.json.
+Build: a copy of examples/remote-b with one line changed in rsbuild.config.ts:
+  const reactShare = { singleton: true, requiredVersion: '^20.0.0' } as const;
+built with the example's own rsbuild 2.2.12 and @module-federation/rsbuild-plugin 2.9.2.
+Served with host/dist on :3000, remote-a/dist on :3001, the changed remote_b on :3002.
+Loaded with the jsdom loader of examples/recorder/src/record.ts, plus a listener for console warnings.
+The same loader reproduced "shared-react" and "duplicate-react" of outputs.json exactly.
+
+{
+  "hostReactVersion": "Host React 19.3.0",
+  "remoteHeadings": ["Remote a", "Remote b"],
+  "remoteReactVersions": ["React 19.3.0", "React 19.3.0"],
+  "errorsShownInPage": [],
+  "consoleErrors": [],
+  "consoleWarnings": [
+    "[ Federation Runtime ] Version 19.3.0 from host of shared singleton module react does not satisfy the requirement of host which needs ^20.0.0)",
+    "[ Federation Runtime ] Version 19.3.0 from remote_b of shared singleton module react-dom does not satisfy the requirement of remote_b which needs ^20.0.0)"
+  ]
+}
