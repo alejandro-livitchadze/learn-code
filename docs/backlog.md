@@ -252,7 +252,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 5 (contracts-01).
 
 ## M8. Lesson 6
-- Status: in_progress
+- Status: done
+- Note: merged via PR #65 (1a61b78); CI green; reviewer APPROVE on 0312520 after one fix round (Olha on consecutive steps; two wording/link minors). 18 steps. Outputs from a scratch routing variant; examples/ has no router (see F29).
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/routing-01/**`
 - Done when: same as M3 for lesson 6 (routing-01).
