@@ -389,7 +389,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 ## F16. Use beTheDatabase in a lesson
 - Status: in_progress
 - Depends on: F13
-- Paths: `content/fullstack/joins-01/**`, `packages/lesson-compiler/test/check.test.ts` (widened: the step-count fixture cuts joins-01 at a fixed step and breaks when a step is added)
+- Paths: `content/fullstack/joins-01/**`, `packages/lesson-compiler/test/check.test.ts`, `apps/web/e2e/player.spec.ts`, `apps/web/e2e/sql-lab.spec.ts` (widened: the step-count fixture and the e2e specs depend on joins-01 step positions and break when a step is added)
 - Source: F13 worker report
 - Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
 
