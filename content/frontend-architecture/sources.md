@@ -10,17 +10,17 @@ All entries were fetched on **2026-10-06** from the pages linked. Fetched text i
 - **Packages differ in version number.** `@module-federation/vite` is at 1.23.2 and `@module-federation/nextjs-mf` at 8.8.76 (registry, 2026-10-06). Do not write "Module Federation 2.9" for them.
 - **Which package to install per project type** (official table): https://module-federation.io/integrations/index.md (fetched 2026-10-06):
 
-| Project | Package |
-| --- | --- |
-| Rsbuild app, Rslib module | `@module-federation/rsbuild-plugin` |
-| Vite app | `@module-federation/vite` |
-| Rspack app | `@module-federation/enhanced` |
-| Webpack app | `@module-federation/enhanced` |
-| React Native / Metro | `@module-federation/metro` plus the matching Metro plugin |
-| Rspress site | `@module-federation/rspress-plugin` |
-| Modern.js app | `@module-federation/modern-js-v3` (Modern.js v3, recommended) or `@module-federation/modern-js` (Modern.js v2) |
-| Next.js app | `@module-federation/nextjs-mf` and `webpack` |
-| Angular app | integration package depends on the Angular build setup |
+| Project                   | Package                                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Rsbuild app, Rslib module | `@module-federation/rsbuild-plugin`                                                                            |
+| Vite app                  | `@module-federation/vite`                                                                                      |
+| Rspack app                | `@module-federation/enhanced`                                                                                  |
+| Webpack app               | `@module-federation/enhanced`                                                                                  |
+| React Native / Metro      | `@module-federation/metro` plus the matching Metro plugin                                                      |
+| Rspress site              | `@module-federation/rspress-plugin`                                                                            |
+| Modern.js app             | `@module-federation/modern-js-v3` (Modern.js v3, recommended) or `@module-federation/modern-js` (Modern.js v2) |
+| Next.js app               | `@module-federation/nextjs-mf` and `webpack`                                                                   |
+| Angular app               | integration package depends on the Angular build setup                                                         |
 
 - **Manifest entry point.** Current examples point remotes at a manifest, for example `remote1@http://localhost:2001/mf-manifest.json`, not only at `remoteEntry.js`. Sources: https://module-federation.io/integrations/build-tool/rsbuild.md and https://module-federation.io/integrations/bundler/rspack.md (fetched 2026-10-06).
 - **Runtime-only use** is supported: "If you do not want to change your build setup and only need to load remote modules at runtime, you can use Runtime directly." A build plugin is required to expose modules. Source: https://module-federation.io/integrations/index.md (2026-10-06).
