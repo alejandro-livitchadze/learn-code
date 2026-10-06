@@ -196,7 +196,7 @@ With ?inline, Rsbuild gives you the compiled CSS as a string inside the JavaScri
 The border stayed out, but color is inherited. The shadow tree's top elements inherit from their host, and the host sits inside main.
 {% /option %}
 {% option output="heading blue, button border 3px green" misconception="css-stays-in-its-remote" %}
-The host's button selector cannot match elements in another shadow tree, so the green border stayed outside. Only inherited values came in.
+The host's button selector cannot match elements inside a shadow tree, so the green border stayed outside. Only inherited values came in.
 {% /option %}
 {% option output="heading blue, button border 2px black" correct=true %}
 Recorded from our example. The button rule stopped at the boundary, but the inherited color flowed in. Sources: MDN, Inheritance; W3C CSS Scoping.
