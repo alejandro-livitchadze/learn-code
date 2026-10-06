@@ -3,7 +3,7 @@
     "id": "mf-makes-faster",
     "belief": "Microfrontends make an app faster.",
     "correction": "They solve team and deployment coupling and usually cost performance.",
-    "concepts": ["mf-problem-fit", "performance-cost"]
+    "concepts": ["mf-problem-fit"]
   },
   {
     "id": "mf-means-module-federation",
@@ -27,7 +27,7 @@
     "id": "requests-in-parallel",
     "belief": "The browser fetches the host and the remote in parallel from the start.",
     "correction": "The host runs first and learns about the remote afterwards, so requests can come in sequence.",
-    "concepts": ["request-order", "load-waterfall"]
+    "concepts": ["request-order"]
   },
   {
     "id": "shared-is-automatic",

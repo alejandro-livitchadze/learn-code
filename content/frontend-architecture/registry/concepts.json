@@ -164,13 +164,13 @@
   {
     "id": "style-isolation-options",
     "name": "Style isolation options and costs",
-    "description": "Naming conventions, scoped CSS and shadow DOM isolate styles at different costs; none is free.",
+    "description": "Naming conventions, scoped CSS and shadow DOM are ways to keep styles from leaking between parts; the lesson must verify what each one does and what it costs.",
     "prerequisites": ["css-global-scope"]
   },
   {
     "id": "shadow-dom-isolation",
     "name": "Shadow DOM as isolation",
-    "description": "Shadow DOM gives a component its own style scope, with limits on how outside styles reach it.",
+    "description": "Shadow DOM gives a component its own DOM subtree and style scope (see the MDN page in sources.md); the lesson must verify how outside styles reach it.",
     "prerequisites": ["style-isolation-options"]
   },
   {
