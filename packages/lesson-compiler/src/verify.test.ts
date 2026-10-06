@@ -140,7 +140,9 @@ describe('beTheDatabase verification', () => {
 
 describe('deepEqual', () => {
   it('treats objects with the same data and a different key order as equal', () => {
-    expect(deepEqual({ c: ['a'], r: [{ x: 1, y: 2 }] }, { r: [{ y: 2, x: 1 }], c: ['a'] })).toBe(true);
+    expect(deepEqual({ c: ['a'], r: [{ x: 1, y: 2 }] }, { r: [{ y: 2, x: 1 }], c: ['a'] })).toBe(
+      true,
+    );
   });
 
   it('tells different data and different array order apart', () => {
