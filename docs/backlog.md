@@ -433,7 +433,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the postgresql.org links in the front matter are fetched and confirmed, and the "Unverified" note is removed; needs postgresql.org reachable.
 
 ## F22. Name and test the trace deep-equal
-- Status: in_progress
+- Status: done
+- Note: merged via PR #50; CI green; reviewer APPROVE on 083669c (1 fix round: prettier; minor: files.ts sameJson, see F24).
 - Depends on: F17
 - Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`, `content/fullstack/joins-01/lesson.mdoc`
 - Source: F17 worker report and reviewer minors
