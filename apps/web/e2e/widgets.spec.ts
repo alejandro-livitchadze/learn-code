@@ -19,6 +19,8 @@ for (const width of [1024, 1440]) {
         'predict',
         'fillBlanks',
         'sqlLab',
+        'schemaBuilder',
+        'beTheDatabase',
       ]) {
         await expect(page.locator(`[data-kind="${kind}"]`).first()).toBeVisible();
       }
