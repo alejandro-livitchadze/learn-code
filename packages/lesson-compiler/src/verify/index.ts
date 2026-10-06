@@ -1,6 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { isDeepStrictEqual } from 'node:util';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import { runNode } from './node';
 import { createInlineEngine } from '@learn-code/sql-engine';
@@ -8,6 +7,7 @@ import { formatRows } from './format';
 import { checkSqlLab } from './sql-lab';
 import { checkSchemaBuilder } from './schema-builder';
 import { generateFromFiles } from '../traces';
+import { deepEqual } from '../deep-equal';
 
 export interface VerifyIssue {
   readonly stepId: string;
@@ -81,8 +81,7 @@ async function verifySqlLab(
   return problems.map((message) => ({ stepId: s.id, message }));
 }
 
-/** Deep equality of plain data: key order does not matter, array order does. */
-export const deepEqual = (a: unknown, b: unknown): boolean => isDeepStrictEqual(a, b);
+export { deepEqual };
 
 /**
  * The recorded trace must exist, match a fresh PGlite run of its spec, and agree with the step

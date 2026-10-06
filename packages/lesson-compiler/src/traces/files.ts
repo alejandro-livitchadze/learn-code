@@ -1,7 +1,7 @@
 import * as prettier from 'prettier';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { deepEqual } from '../verify';
+import { deepEqual } from '../deep-equal';
 import { generateTrace } from './generate';
 import { parseTraceSpec } from './spec';
 import type { JoinTrace } from './types';
