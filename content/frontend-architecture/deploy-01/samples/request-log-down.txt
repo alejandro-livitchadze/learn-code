@@ -1,0 +1,8 @@
+:4100  GET /
+:4100  GET /static/js/index.9110753b20.js
+:4100  GET /static/js/async/4.0a6b7ce6f2.js
+:4101  GET /mf-manifest.json
+:4101  GET /static/js/remote_a.4c90afa552.js
+:4102  (server stopped: ERR_CONNECTION_REFUSED)
+console: Failed to get manifest. #RUNTIME-003
+(no further requests; the page stays empty)
