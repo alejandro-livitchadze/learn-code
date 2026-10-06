@@ -419,7 +419,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `pnpm traces` leaves no diff in the committed `*.trace.json` files; checks pass.
 
 ## F20. Roadmap lists the misconceptions grouping-01 uses
-- Status: todo
+- Status: in_progress
 - Depends on: L3
 - Paths: `content/fullstack/roadmap.json`
 - Source: L3 worker report
@@ -433,7 +433,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the postgresql.org links in the front matter are fetched and confirmed, and the "Unverified" note is removed; needs postgresql.org reachable.
 
 ## F22. Name and test the trace deep-equal
-- Status: todo
+- Status: in_progress
 - Depends on: F17
 - Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`, `content/fullstack/joins-01/lesson.mdoc`
 - Source: F17 worker report and reviewer minors
