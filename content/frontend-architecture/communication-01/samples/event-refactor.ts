@@ -1,4 +1,5 @@
-// Our example, event version: no import between the remotes.
+// Model of our example, event version; the printed text was recorded from the real build:
+// no import between the remotes.
 // remote_a keeps its store private and, on "add to cart", dispatches
 //   new CustomEvent('cart:changed', { detail: { count } })
 // remote_b listens for 'cart:changed' and renders <p>Cart count: {detail.count}</p>.

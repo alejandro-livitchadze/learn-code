@@ -1,4 +1,5 @@
-// Our example, props version. The host keeps the count and passes it down:
+// Model of our example, props version; the printed text was recorded from the real build:
+// the host keeps the count and passes it down,
 //   <RemoteA onAdd={() => setCount((c) => c + 1)} />   <RemoteB count={count} />
 // remote_a's button calls onAdd. The remotes import nothing from each other.
 let count = 0;

@@ -146,14 +146,11 @@ remote_b subscribes on the same target, window, by event name. It imports nothin
 {% /fillBlanks %}
 
 {% predict id="p3" estSeconds=45 code="./samples/late-listener.ts" language="ts" concepts=["custom-events"] %}
-{% option output="Cart count: 3" misconception="shared-store-is-easy" %}
-An event is a message, not a store. Nothing keeps it for a listener that subscribes afterwards.
-{% /option %}
 {% option output="Cart count: 0" correct=true %}
 dispatchEvent ran the listeners that existed at that moment: none. A remote that loads later needs a way to ask for the current value.
 {% /option %}
-{% option output="TypeError: event.detail is undefined" misconception="shared-store-is-easy" %}
-The listener never runs, so nothing reads detail. The badge keeps its initial text.
+{% option output="Cart count: 3, because remote_b reads the shared value when it subscribes" misconception="shared-store-is-easy" %}
+There is no shared value: an event is a message, not a store, and nothing keeps it for a listener that subscribes afterwards. The listener never runs, so the badge keeps its initial text.
 {% /option %}
 {% margin %}
 {% sticky label="says" %}
@@ -162,15 +159,24 @@ Oh. A store remembers. An event only announces.
 {% /margin %}
 {% /predict %}
 
-{% predict id="p4" estSeconds=45 code="./samples/push-state.ts" language="ts" concepts=["url-as-state"] %}
-{% option output="Sort: price" misconception="remote-owns-its-url" %}
-The address did change, but remote_b reads it only on first render and on popstate. pushState fires no popstate (MDN, popstate event).
+{% predict id="p8" estSeconds=35 code="./samples/manifest-remotes.ts" language="ts" concepts=["decoupled-communication", "custom-events"] %}
+{% option output="remote_a" misconception="shared-store-is-easy" %}
+That was the store version, where remote_b imported remote_a/cartStore. A listener on window needs none of remote_a's code.
 {% /option %}
+{% option output="(none)" correct=true %}
+Recorded from our two builds. With events, remote_b's manifest names no remote: it can be built and loaded without remote_a.
+{% /option %}
+{% option output="host" misconception="host-bundles-remote" %}
+remote_b never consumes the host. The host consumes remote_b, and that is listed in the host's manifest, not here.
+{% /option %}
+{% /predict %}
+
+{% predict id="p4" estSeconds=45 code="./samples/push-state.ts" language="ts" concepts=["url-as-state"] %}
 {% option output="Sort: none" correct=true %}
 Recorded from our example. The address bar said ?sort=price; remote_b was never told.
 {% /option %}
-{% option output="(page reloads, then Sort: price)" misconception="remote-owns-its-url" %}
-pushState never loads the new URL. MDN says the browser won't attempt to load it after the call.
+{% option output="Sort: price, because remote_a owns the URL and updates every remote" misconception="remote-owns-its-url" %}
+remote_a changed the address but owns nothing else on the page, and told no one. remote_b reads the URL only on first render and on popstate, and pushState fires no popstate (MDN, popstate event).
 {% /option %}
 {% /predict %}
 
@@ -220,24 +226,12 @@ This props type is the contract.
 
 {% fillBlanks id="f3" estSeconds=40 template="// host/src/App.tsx\n<RemoteA ___prop___={() => setCount((c) => c + 1)} />\n<RemoteB count={___value___} />" language="ts" concepts=["decoupled-communication"] %}
 {% blank id="prop" accepted=["onAdd"] misconception="remote-exports-change-freely" %}
-The name comes from remote_a's props type, { onAdd: () => void }. Rename it on one side only, and the button does nothing.
+The name comes from remote_a's props type, { onAdd: () => void }. Rename it on one side only, and remote_a's click no longer reaches the host's state.
 {% /blank %}
 {% blank id="value" accepted=["count"] misconception="shared-store-is-easy" %}
 The host passes its own state down. remote_b only displays what it receives.
 {% /blank %}
 {% /fillBlanks %}
-
-{% predict id="p7" estSeconds=50 code="./samples/decision.http" language="http" concepts=["url-as-state", "shared-store-coupling", "custom-events"] %}
-{% option output="A shared store exposed by one of the remotes" misconception="shared-store-is-easy" %}
-A store lives in memory: a pasted link and a reload start empty. It also ties the other team to the store's shape, so deploys stop being independent.
-{% /option %}
-{% option output="A custom event from filters to results" misconception="shared-store-is-easy" %}
-Events fit things that happen, like an item added. A link carries no event, and a remote that loads late misses what was dispatched before.
-{% /option %}
-{% option output="The URL: filters writes ?sort and ?brand, results reads them" correct=true %}
-Our opinion, not a rule: for state that should survive reload and sharing, the URL wins. Remember the pushState trap: results must be told when the URL changes.
-{% /option %}
-{% /predict %}
 
 {% recap id="rc1" estSeconds=35 concepts=["shared-store-coupling", "custom-events", "url-as-state", "decoupled-communication"] %}
 {% point %}
@@ -259,15 +253,15 @@ No error, no deploy, empty badge. My finest silent work.
 {% /margin %}
 {% /recap %}
 
-{% predict id="p8" estSeconds=35 code="./samples/manifest-remotes.ts" language="ts" concepts=["decoupled-communication", "custom-events"] %}
-{% option output="remote_a" misconception="shared-store-is-easy" %}
-That was the store version, where remote_b imported remote_a/cartStore. A listener on window needs none of remote_a's code.
+{% predict id="p7" estSeconds=50 code="./samples/decision.http" language="http" concepts=["url-as-state", "shared-store-coupling", "custom-events"] %}
+{% option output="A shared store exposed by one of the remotes" misconception="shared-store-is-easy" %}
+A store lives in memory: a pasted link and a reload start empty. It also ties the other team to the store's shape, so deploys stop being independent.
 {% /option %}
-{% option output="(none)" correct=true %}
-Recorded from our two builds. With events, remote_b's manifest names no remote: it can be built and loaded without remote_a.
+{% option output="A custom event from filters to results" misconception="shared-store-is-easy" %}
+Events fit things that happen, like an item added. A link carries no event, and a remote that loads late misses what was dispatched before.
 {% /option %}
-{% option output="host" misconception="host-bundles-remote" %}
-remote_b never consumes the host. The host consumes remote_b, and that is listed in the host's manifest, not here.
+{% option output="The URL: filters writes ?sort and ?brand, results reads them" correct=true %}
+Our opinion, not a rule: for state that should survive reload and sharing, the URL wins. Remember the pushState trap: results must be told when the URL changes.
 {% /option %}
 {% /predict %}
 

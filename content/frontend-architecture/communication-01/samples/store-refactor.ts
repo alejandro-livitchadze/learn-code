@@ -1,4 +1,5 @@
-// Our example, store version: remote_a exposes ./cartStore, remote_b's badge imports it.
+// Model of our example, store version; the printed text was recorded from the real build:
+// remote_a exposes ./cartStore, remote_b's badge imports it.
 // remote_a deploys version 2 of its store. Only remote_a is rebuilt.
 // After one "add to cart", remote_a's state is:
 const state = { cart: { items: ['sku-1'] } };
