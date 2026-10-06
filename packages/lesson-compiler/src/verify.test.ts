@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import type { Lesson } from '@learn-code/lesson-schema';
 import { compileSource, formatError, verifySamples } from './index';
+import { deepEqual } from './verify';
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '__fixtures__');
 const path = join(dir, 'lesson.mdoc');
@@ -134,5 +135,16 @@ describe('beTheDatabase verification', () => {
         s.tables[0]!.rows = s.tables[0]!.rows.slice(1);
       }),
     ).toEqual(['table "customers" in the step differs from the trace']);
+  });
+});
+
+describe('deepEqual', () => {
+  it('treats objects with the same data and a different key order as equal', () => {
+    expect(deepEqual({ c: ['a'], r: [{ x: 1, y: 2 }] }, { r: [{ y: 2, x: 1 }], c: ['a'] })).toBe(true);
+  });
+
+  it('tells different data and different array order apart', () => {
+    expect(deepEqual({ a: 1 }, { a: 2 })).toBe(false);
+    expect(deepEqual([1, 2], [2, 1])).toBe(false);
   });
 });
