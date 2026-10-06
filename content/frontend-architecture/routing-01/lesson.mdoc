@@ -114,7 +114,7 @@ That fallback shows only while the shell renders the orders route. Here that rou
 {% /predict %}
 
 {% explain id="e2" estSeconds=60 code="./samples/orders-routes.tsx" concepts=["nested-routing"] %}
-Nested routing across remotes has two halves. The shell matches the prefix with a splat: a path ending in `/*` matches "any characters following the /" ([docs](https://reactrouter.com/start/declarative/routing)). In our recording the remote's `<Routes>` then matched only the rest of the URL: the `index` route at `/orders`, `:id` at `/orders/42`. The remote never writes `/orders` itself.
+Nested routing across remotes has two halves. The shell matches the prefix with a splat: a path ending in `/*` matches "any characters following the /" ([docs](https://reactrouter.com/start/declarative/routing)). In our recording the remote's `<Routes>` matched only the rest: `index` at `/orders`, `:id` at `/orders/42`. A relative `<Link to>` resolves from the route it renders in ([docs](https://reactrouter.com/api/components/Link)), so the remote never writes `/orders`.
 
 {% annotation line=5 %}
 Renders at /orders exactly.
@@ -163,15 +163,10 @@ Recorded. The request log shows a router chunk from each server. Our reading: th
 {% option output="You cannot render a <Router> inside another <Router>." misconception="remote-owns-its-url" %}
 That error needs a second router. Here the remote renders no router at all, only Routes.
 {% /option %}
-{% margin %}
-{% sticky label="asks" %}
-Lesson 4 again? Two copies of a library, two worlds?
-{% /sticky %}
-{% /margin %}
 {% /predict %}
 
 {% explain id="e3" estSeconds=60 concepts=["nested-routing", "shell-ownership"] %}
-Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app with its own router via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7; React Router is at v8 today ([upgrade guide](https://reactrouter.com/upgrading/v7)). Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
+Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app, routing included, via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7; React Router is at v8 today ([upgrade guide](https://reactrouter.com/upgrading/v7)). Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
 {% margin %}
 {% gotcha %}
 With Bridge Router on, its docs say: do not share react-router-dom. A routes-only remote needs its router shared.
@@ -183,6 +178,11 @@ With Bridge Router on, its docs say: do not share react-router-dom. A routes-onl
 {% blank id="pkg" accepted=["react-router"] misconception="shared-is-automatic" %}
 The remote's Routes must see the shell's router, so both sides need one copy of react-router. Leave it out and you get the useRoutes() error.
 {% /blank %}
+{% margin %}
+{% sticky label="asks" %}
+Lesson 4 again? Two copies of a library, two worlds?
+{% /sticky %}
+{% /margin %}
 {% /fillBlanks %}
 
 {% predict id="p6" estSeconds=60 code="./samples/cold-deep-link.ts" language="ts" concepts=["deep-links"] %}
