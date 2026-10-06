@@ -1,3 +1,4 @@
+import * as prettier from 'prettier';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { generateTrace } from './generate';
@@ -41,8 +42,14 @@ export function findTraceSpecs(contentDir: string): readonly TraceFiles[] {
   );
 }
 
-/** Stable text form of a trace, so a diff shows only real changes. */
-export const serializeTrace = (trace: JoinTrace): string => `${JSON.stringify(trace, null, 2)}\n`;
+/**
+ * Stable text form of a trace, formatted with the repository's prettier config so that
+ * `pnpm format` leaves the committed file unchanged and a diff shows only real changes.
+ */
+export async function serializeTrace(trace: JoinTrace, filepath: string): Promise<string> {
+  const options = await prettier.resolveConfig(filepath);
+  return prettier.format(JSON.stringify(trace, null, 2), { ...options, filepath });
+}
 
 /** Formatting (for example by prettier) must not matter, only the data. */
 const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
@@ -86,7 +93,10 @@ export async function checkTraces(contentDir: string): Promise<readonly string[]
 export async function writeTraces(contentDir: string): Promise<readonly string[]> {
   const written: string[] = [];
   for (const files of findTraceSpecs(contentDir)) {
-    writeFileSync(files.tracePath, serializeTrace(await generateFromFiles(files)));
+    writeFileSync(
+      files.tracePath,
+      await serializeTrace(await generateFromFiles(files), files.tracePath),
+    );
     written.push(files.tracePath);
   }
   return written;
