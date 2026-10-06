@@ -159,6 +159,7 @@ describe('checkTraces', () => {
     expect(problems.join('\n')).toMatch(/join-inner[\s\S]*differs/);
     expect(problems.join('\n')).toMatch(/join-left[\s\S]*missing/);
   });
+
   it('ignores object key order in a recorded trace', async () => {
     const dir2 = mkdtempSync(join(tmpdir(), 'traces-order-'));
     try {
