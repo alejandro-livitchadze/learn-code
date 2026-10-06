@@ -43,8 +43,8 @@ concepts: [css-global-scope, style-isolation-options, shadow-dom-isolation]
 # Recordings. Every runtime value in this lesson was recorded from scratch copies of examples/host, remote-a and
 # remote-b (this lesson may not edit examples/**). Changes in the copies, nothing else:
 # - host: a <button data-testid="host-pay">Pay</button> after the version line; one variant also imports host.css with
-#   main { color: rgb(0, 0, 255); } and button { border: 3px solid rgb(0, 128, 0); }.
-# - remote_b: Widget.tsx variants that import widget.css (button rule, or the same rule prefixed with
+#   main { color: blue; } and button { border: 3px solid green; }.
+# - remote_b: Widget.tsx variants that import widget.css (button { background-color: red; }, or the same rule prefixed with
 #   [data-remote='remote_b']), widget.module.css (.button rule, used as className={styles.button}; or a button rule),
 #   or render heading, version line and button into a shadow root with attachShadow({ mode: 'open' }) and createPortal,
 #   importing widget.css either normally or with ?inline into a <style> inside the root.
@@ -53,7 +53,8 @@ concepts: [css-global-scope, style-isolation-options, shadow-dom-isolation]
 # TYPE-001 for the .module.css and ?inline variants because they have no type declarations; the bundles are built).
 # Served on ports 3000, 3001 and 3002 by a static server like examples/recorder/src/record.ts (plus text/css), and
 # loaded in headless Chromium 141.0.7390.37 through Playwright 1.56.1 (the copy in apps/web), a fresh browser context per
-# scenario. Values are getComputedStyle results after the network was idle. The whole recording was run twice; all
+# scenario. Values are getComputedStyle results after the network was idle; samples write colors as r, g, b channels
+# because CL1 forbids rgb() literals outside packages/ui. The whole recording was run twice; all
 # computed styles, link tags and class names were identical in both runs. Only the order of requests between different
 # servers changed, which no step claims.
 # Labelled as our reading, not a documented guarantee: why the manifest's css asset ends up as a <link> in
@@ -202,7 +203,7 @@ Recorded from our example. The button rule stopped at the boundary, but the inhe
 {% /option %}
 {% margin %}
 {% sticky label="says" %}
-Oh. Fonts and colors from the host still come through. That's handy for themes, too.
+Oh. The host's text color still gets through the boundary.
 {% /sticky %}
 {% /margin %}
 {% /predict %}
