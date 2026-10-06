@@ -387,7 +387,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: tests cover a missing trace, a stale trace, and a step whose tables or query differ from the trace; checks pass.
 
 ## F16. Use beTheDatabase in a lesson
-- Status: in_progress
+- Status: done
+- Note: merged via PR #47; CI green; reviewer APPROVE on 3aef8bf after 1 fix round (check and e2e tests followed the new step layout; Paths widened). Minor: reword the b1 prompt (see F22).
 - Depends on: F13
 - Paths: `content/fullstack/joins-01/**`, `packages/lesson-compiler/test/check.test.ts`, `apps/web/e2e/player.spec.ts`, `apps/web/e2e/sql-lab.spec.ts` (widened: the step-count fixture and the e2e specs depend on joins-01 step positions and break when a step is added)
 - Source: F13 worker report
@@ -432,6 +433,6 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 ## F22. Name and test the trace deep-equal
 - Status: todo
 - Depends on: F17
-- Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`
+- Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`, `content/fullstack/joins-01/lesson.mdoc`
 - Source: F17 worker report and reviewer minors
-- Done when: `sameJson` is renamed `deepEqual` (or similar); a test shows two objects with the same data and different key order compare equal; `CATALOGUE_TRACES` has a doc comment and the redundant JSX comment is gone; checks pass.
+- Done when: the `b1` prompt in `content/fullstack/joins-01/lesson.mdoc` reads "Olha and Mia are in Kyiv, which has two offices"; `sameJson` is renamed `deepEqual` (or similar); a test shows two objects with the same data and different key order compare equal; `CATALOGUE_TRACES` has a doc comment and the redundant JSX comment is gone; checks pass.
