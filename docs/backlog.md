@@ -193,7 +193,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
 
 ## M0. Course setup and current-state sources
-- Status: in_progress
+- Status: done
+- Note: merged via PR #54 (86a4911) by the repo author before the review gate; head included two [skip ci] commits (05ecd4d, ea42379). Post-merge reviewer APPROVE on 86a4911 (minors: see F26, F27). Home page lists the course only once a lesson compiles (M3).
 - Depends on: V4
 - Paths: `content/frontend-architecture/**`
 - Epic: E09, correctness rules 1 and 2
@@ -464,3 +465,17 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/lesson-compiler/src/deep-equal.ts`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts`
 - Source: F24 reviewer minors
 - Done when: `deepEqual` lives in a leaf module `src/deep-equal.ts` and is re-exported from `verify/index.ts`; `traces/files.ts` imports it from the leaf module, so `verify/index.ts -> traces -> files.ts -> verify` no longer exists; the missing blank line between `it` blocks at `traces.test.ts:162` is added; checks pass.
+
+## F26. Add a title for the frontend-architecture course
+- Status: todo
+- Depends on: M0
+- Paths: `apps/web/app/page.tsx`
+- Source: M0 reviewer minor
+- Done when: `COURSE_TITLES` has an entry `'frontend-architecture': 'Microfrontends'`; checks pass.
+
+## F27. M0 sources.md minors
+- Status: todo
+- Depends on: M0
+- Paths: `content/frontend-architecture/sources.md`
+- Source: M0 reviewer minors
+- Done when: `rsbuild.dev` is dropped from the sentence at line 11 (E09 names only `rspack.dev`); the Modern.js "recommended" wording at line 122 says only that the v3 plugin is marked recommended; the section 2b heading carries the registry URL pattern; the Next.js row has a re-check note before lessons mention it; checks pass.
