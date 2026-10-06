@@ -190,3 +190,9 @@
 
 - F14: worker done (c944864), PR #44, CI green, fresh reviewer APPROVE, squash-merged (d8438bf). F14 is `done`. Added F19 (minor). L3: worker still running at the end of this session; task stays `in_progress`, branch `task/L3`. Workers: 2. Reviewers: 1. Integration PR #43 open; no milestone.
 - Update, 2026-10-06: L3 (PR #45) CI green on ce4ee8c, fresh reviewer APPROVE, squash-merged (b1599a1). L3 is `done`. Added F20, F21. Reviewers this run: 2. Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-fourth run)
+
+- F17: worker done (ec04474), PR #46, CI green, fresh reviewer APPROVE, squash-merged (c3510b5). F17 is `done`. Added F22 (minors: rename, test, comment). Stale remote branch `task/F17` could not be deleted from this environment.
+- F16: worker done (87b80ae), PR #47. CI failed on `check.test.ts` step-count and on e2e specs that depend on joins-01 step positions; F16 Paths widened to those three test files (no overlap with other in_progress tasks); fix round 1 pushed as 3aef8bf, local e2e 15/15. CI and review gate next run. F16 stays `in_progress`.
+- M0 and F21 still blocked: module-federation.io and postgresql.org unreachable from the sandbox. Workers: 1 (plus 1 fix round). Reviewers: 1. Integration PR #43 open; no milestone.
