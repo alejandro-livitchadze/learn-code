@@ -222,3 +222,7 @@
 - Dispatched F25, M0, F21, D6 (the author asked to exceed MAX_PARALLEL for this run). F25 (PR #55), M0 (PR #54) and F21 (PR #56) were merged by the repo author before the review gate finished; post-merge reviewers APPROVE on all three (M0 on 86a4911, which included two unreviewed `[skip ci]` commits; F21 on f8bf1ec; F25 on ec015d1). All three are `done`. Added F26, F27 (M0 minors) and F28 (NULL-bucket source).
 - D6: worker fetched and parsed 23 new vacancies but extraction was blocked by a permission denial (PII classifier) on reading the descriptions. Nothing committed; task stays `in_progress`, branch `task/D6`, fetch cached in the worker worktree. Needs the author.
 - Local `pnpm test` was killed (exit 137) repeatedly with 4 workers running; CI was green. Workers: 4. Reviewers: 4 (one stopped, replaced). Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-eighth run)
+
+- F21 (PR #56) and F25 (PR #55): CI green, fresh reviewer APPROVE, squash-merged; both `done`. Added F26 (minor). D6 set to `done` (retired). M0: worker finished (9c1621e, PR #54); CI and review next run. Workers: 1. Reviewers: 2. Integration PR #43 open; no milestone.

@@ -316,7 +316,8 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 - Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.
 
 ## D6. Weekly refresh
-- Status: in_progress
+- Status: done
+- Note: retired by the author, 2026-10-06
 - Depends on: D5
 - Paths: `research/demand/**`
 - Done when: never marked done. Run at most once per 7 days (check the last date in `research/demand/changelog.md`): fetch new vacancies, extract, regenerate reports, add one dated line to the changelog with the sample size and any skill whose share moved 5 points or more.
@@ -429,6 +430,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 
 ## F21. Verify grouping-01 source links
 - Status: done
+- Note: merged via PR #56; CI green; reviewer APPROVE on f8bf1ec (minor: NULL-bucket claim still unsourced, see F26).
 - Note: merged via PR #56 (a8d3027) by the repo author; reviewer APPROVE on f8bf1ec (post-merge). Four of five claims confirmed; the NULL-bucket claim stays flagged, see F28.
 - Depends on: L3
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
@@ -462,6 +464,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 
 ## F25. Break the verify/traces import cycle
 - Status: done
+- Note: merged via PR #55; CI green; reviewer APPROVE on ec015d1.
 - Note: merged via PR #55 by the repo author; reviewer APPROVE on ec015d1 (post-merge), no issues.
 - Depends on: F24
 - Paths: `packages/lesson-compiler/src/deep-equal.ts`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts`
@@ -488,3 +491,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: F21 reviewer minor
 - Done when: a postgresql.org page that states in words that all NULL grouping keys form one group is found and cited, or the claim is cited as a verified sample run; the last "Unverified" flag is removed; checks pass.
+
+## F26. Source the NULL-bucket claim in grouping-01
+- Status: todo
+- Depends on: none
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Source: F21 reviewer minor
+- Done when: the claim "all NULL keys form one bucket" cites a postgresql.org or SQL-standard passage that states it, fetched and confirmed, and the "Unverified" flag on it is removed; if no source states it, the lesson prose does not assert it as sourced fact.
