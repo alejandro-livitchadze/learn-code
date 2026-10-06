@@ -270,7 +270,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
 
 ## L3. Module 1, lesson 3
-- Status: in_progress
+- Status: done
+- Note: merged via PR #45 (b1599a1); CI green; reviewer APPROVE on ce4ee8c. No recall step (widget not built); no beTheDatabase (trace format models joins only).
 - Depends on: L2
 - Paths: `content/fullstack/<id of roadmap lesson 3>/**`, `content/fullstack/registry/**`
 - Done when: same as L2, for roadmap lesson 3.
@@ -412,3 +413,17 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/lesson-compiler/src/traces/**`
 - Source: F14 reviewer minor
 - Done when: `pnpm traces` leaves no diff in the committed `*.trace.json` files; checks pass.
+
+## F20. Roadmap lists the misconceptions grouping-01 uses
+- Status: todo
+- Depends on: L3
+- Paths: `content/fullstack/roadmap.json`
+- Source: L3 worker report
+- Done when: the grouping-01 entry lists `group-by-keeps-row-count`, `aggregate-sees-whole-table`, `count-column-counts-nulls`, `group-by-drops-null-keys`, `null-keys-never-group`; checks pass.
+
+## F21. Verify grouping-01 source links
+- Status: todo
+- Depends on: L3
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Source: L3 reviewer minor
+- Done when: the postgresql.org links in the front matter are fetched and confirmed, and the "Unverified" note is removed; needs postgresql.org reachable.
