@@ -4,6 +4,7 @@ Course: `frontend-architecture` (E09). This file is the record that E09 correctn
 
 ## How to read this file
 
+- Verification status (2026-10-06): the sections below cover the Module Federation version and packages (2), supported bundlers and meta-frameworks (3) and deprecated setups (4), each with dated links to official documentation. The course is registered through `roadmap.json` and `registry/` in this folder.
 - Every entry has a **Checked** date. That is the day the linked page was opened and read. All entries below were checked on **2026-10-06**.
 - Only primary sources are used (E09 rule 1): module-federation.io, webpack.js.org, rspack.rs, rsbuild.rs, vite.dev, rolldown.rs, the official plugin repositories on github.com, single-spa.js.org, developer.mozilla.org, react.dev, and the npm registry for exact published versions.
 - An entry records what the page says. Where a conclusion is ours, it is marked **Inference**. Where a primary source could not confirm something, it is marked **Unconfirmed**. Do not teach an unconfirmed item as fact.
