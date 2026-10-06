@@ -315,7 +315,7 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 - Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.
 
 ## D6. Weekly refresh
-- Status: todo
+- Status: in_progress
 - Depends on: D5
 - Paths: `research/demand/**`
 - Done when: never marked done. Run at most once per 7 days (check the last date in `research/demand/changelog.md`): fetch new vacancies, extract, regenerate reports, add one dated line to the changelog with the sample size and any skill whose share moved 5 points or more.
@@ -427,7 +427,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the grouping-01 entry lists `group-by-keeps-row-count`, `aggregate-sees-whole-table`, `count-column-counts-nulls`, `group-by-drops-null-keys`, `null-keys-never-group`; checks pass.
 
 ## F21. Verify grouping-01 source links
-- Status: todo
+- Status: in_progress
 - Depends on: L3
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: L3 reviewer minor
