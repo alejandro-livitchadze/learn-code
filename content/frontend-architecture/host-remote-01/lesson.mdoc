@@ -141,7 +141,7 @@ The exposed module is not requested first and not alongside the manifest. Its fi
 {% /predict %}
 
 {% explain id="e2" estSeconds=60 code="./samples/request-log.txt" concepts=["request-order", "remote-entry-manifest"] %}
-Per server, the order was the same in every run: manifest, remote entry, exposed module. The [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) is what a remote publishes on every build, and the host's runtime reads it first. Our host files hold only the manifest address. In this recording, React came from :3002. Lesson 4 asks why.
+Per server, the order was the same in every run: manifest, remote entry, exposed module. The [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) is what a remote publishes on every build ([docs](https://module-federation.io/configure/manifest.html)), and the host's runtime reads it first. Our host files hold only the manifest address. In this recording, React came from :3002. Lesson 4 asks why.
 
 {% annotation line=2 %}
 The host's script holds both manifest addresses.
