@@ -71,7 +71,12 @@
             "group-by-sorts",
             "where-filters-aggregates",
             "group-by-any-column",
-            "count-column-counts-rows"
+            "count-column-counts-rows",
+            "group-by-keeps-row-count",
+            "aggregate-sees-whole-table",
+            "count-column-counts-nulls",
+            "group-by-drops-null-keys",
+            "null-keys-never-group"
           ],
           "plannedStepKinds": [
             "recall",
