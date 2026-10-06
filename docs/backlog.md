@@ -446,3 +446,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Source: F19 worker report
 - Paths also: `packages/lesson-compiler/src/traces/traces.test.ts` (add a test that `serializeTrace` output is prettier-stable)
 - Done when: `prettier` is a devDependency of lesson-compiler, lockfile updated, `pnpm install --frozen-lockfile` and checks pass.
+
+## F24. Share deepEqual in traces/files.ts
+- Status: todo
+- Depends on: F22
+- Paths: `packages/lesson-compiler/src/traces/files.ts`
+- Source: F22 worker report
+- Done when: the local `sameJson` at `files.ts:55` (JSON.stringify, key-order sensitive) is replaced by the exported `deepEqual` from `verify/index.ts`; a test shows key order does not matter; checks pass.
