@@ -197,3 +197,7 @@
 - F16: worker done (87b80ae), PR #47. CI failed on `check.test.ts` step-count and on e2e specs that depend on joins-01 step positions; F16 Paths widened to those three test files (no overlap with other in_progress tasks); fix round 1 pushed as 3aef8bf, local e2e 15/15. CI and review gate next run. F16 stays `in_progress`.
 - M0 and F21 still blocked: module-federation.io and postgresql.org unreachable from the sandbox. Workers: 1 (plus 1 fix round). Reviewers: 1. Integration PR #43 open; no milestone.
 - Update, 2026-10-06: F16 (PR #47) CI green on 3aef8bf, fresh reviewer APPROVE, squash-merged (58794de). F16 is `done`; its prompt-wording minor is folded into F22. Reviewers this run: 2. Integration PR #43 open; no milestone. Stale remote branches `task/F16`, `task/F17` need deleting if not already gone.
+
+## 2026-10-06 (twenty-fifth run)
+
+- F18, F19 dispatched. F19: worker done (c07cf7b), PR #48, local checks pass; CI and review next run. F18: worker still running at end of this session; branch `task/F18`, stays `in_progress`. Follow-up: declare `prettier` as devDependency of lesson-compiler (needs lockfile) -> F23.

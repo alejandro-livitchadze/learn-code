@@ -436,3 +436,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`, `content/fullstack/joins-01/lesson.mdoc`
 - Source: F17 worker report and reviewer minors
 - Done when: the `b1` prompt in `content/fullstack/joins-01/lesson.mdoc` reads "Olha and Mia are in Kyiv, which has two offices"; `sameJson` is renamed `deepEqual` (or similar); a test shows two objects with the same data and different key order compare equal; `CATALOGUE_TRACES` has a doc comment and the redundant JSX comment is gone; checks pass.
+
+## F23. Declare prettier in lesson-compiler
+- Status: todo
+- Depends on: F19
+- Paths: `packages/lesson-compiler/package.json`, `pnpm-lock.yaml`
+- Source: F19 worker report
+- Done when: `prettier` is a devDependency of lesson-compiler, lockfile updated, `pnpm install --frozen-lockfile` and checks pass.
