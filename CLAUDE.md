@@ -16,8 +16,19 @@ If your prompt says you are the orchestrator, follow sections 1 to 7. A worker f
 - `MAX_ATTEMPTS = 3` (per task; one attempt is up to `MAX_FIX_ROUNDS` fix rounds, see section 5c)
 - `CI_WAIT_MINUTES = 20`
 - `CHECKPOINT_MINUTES = 15`
-- `MILESTONES = P5, P7, P10, D5, M5`
+- `MILESTONES = P5, P7, P10, D5, M5`, plus the last `M` task (see Priorities)
 - Branches: `main` (stable, milestone snapshots), `develop` (integration), `task/<ID>` (one per task)
+
+## Priorities
+
+These override backlog order in sections 2 and 3.
+
+1. **The microfrontends course comes first.** The `frontend-architecture` course (epic E09, tasks `M<n>`) is above all other work until every lesson in `content/frontend-architecture/roadmap.json` is on `main`.
+   - In sections 2 and 3, handle `M` tasks, and any task an `M` task depends on, before everything else. Another task gets a worker slot or a place in `MAX_TASKS_PER_RUN` only when no `M` work can use it, and only if its `Paths` overlap no ready or `in_progress` `M` task.
+   - The backlog covers lessons 1 to 3 (M3 to M5). When M5 is merged, add one task per remaining roadmap lesson (M6, M7, ...) right after M5 in `docs/backlog.md`, in roadmap order, each depending on the one before, with `Paths` and "Done when" as in M3. The last of them is a milestone, with the same integration check as M5 over all lessons of the course.
+   - If no `M` task can move, write the reason to `inbox.md` once as "Needs the author", then continue with other work.
+2. **No new vacancies.** The demand data we have is enough. Do not fetch from Djinni or any other job board and do not run `pnpm demand scan`. D6 is retired: never start or resume it; set it to `done` with the note "retired by the author, 2026-10-06" the next time you edit `docs/backlog.md`. `research/demand/**` is frozen and read-only.
+3. **Build the fullstack course from the data we have.** `research/demand/report.md` and `research/demand/report-js.md` are the demand evidence for roadmaps and lessons. Cite them as they are; never wait for, or ask for, a refresh.
 
 ## 1. Start of every run
 
@@ -27,7 +38,7 @@ If your prompt says you are the orchestrator, follow sections 1 to 7. A worker f
 
 ## 2. Triage open work first
 
-**Interrupted tasks.** For every task with status `in_progress` whose branch `task/<ID>` exists on the remote but has no open pull request, a previous run was cut off. Resume it: dispatch a worker on that branch as in section 4.
+**Interrupted tasks.** For every task with status `in_progress` whose branch `task/<ID>` exists on the remote but has no open pull request, a previous run was cut off. Resume it: dispatch a worker on that branch as in section 4. `M` tasks first; never D6 (see Priorities).
 
 **Open pull requests.** For every open pull request into `develop` whose branch starts with `task/`:
 
@@ -40,7 +51,7 @@ The latest review verdict is the most recent pull request comment starting with 
 
 ## 3. Pick tasks
 
-A task is ready when its status is `todo` and every dependency is `done`. Take ready tasks in backlog order until you have `MAX_PARALLEL` tasks whose `Paths` do not overlap.
+A task is ready when its status is `todo` and every dependency is `done`. Take ready tasks, `M` tasks first (see Priorities) and then in backlog order, until you have `MAX_PARALLEL` tasks whose `Paths` do not overlap.
 
 Overlap rules:
 
