@@ -1,0 +1,96 @@
+{
+  "note": "Recorded 2026-10-06 from content/frontend-architecture/examples (pnpm examples:build, then remote_a or host source changed in a scratch build, never committed). Pages: jsdom loader of examples/recorder/src/record.ts with the host and remote_a dist folders swapped in; three runs, identical; every page, typecheck and check result re-recorded the same way on 2026-10-06 before review. Error texts are cut at the first line.",
+  "remoteABuilds": {
+    "baseline": "exposes { './Widget': './src/Widget.tsx' }, Widget.tsx as committed",
+    "rename-expose": "exposes { './Card': './src/Widget.tsx' }",
+    "drop-default": "Widget.tsx: export function Card, no default export; bootstrap.tsx imports { Card }; exposes unchanged",
+    "keep-default": "Widget.tsx: export function Card, export default Card; bootstrap.tsx imports { Card }; exposes unchanged",
+    "versioned": "exposes { './Widget': './src/Widget.tsx', './Card': './src/Card.tsx' }; Card.tsx renders the heading 'Remote a card'",
+    "card-only": "exposes { './Card': './src/Card.tsx' }"
+  },
+  "hostBuilds": {
+    "host-baseline": "App.tsx imports remote_a/Widget (as committed)",
+    "host-card": "App.tsx imports remote_a/Card"
+  },
+  "pages": [
+    {
+      "host": "host-baseline",
+      "remote_a": "baseline",
+      "remoteHeadings": ["Remote a", "Remote b"],
+      "errorsShownInPage": []
+    },
+    {
+      "host": "host-baseline",
+      "remote_a": "rename-expose",
+      "remoteHeadings": ["Remote b"],
+      "errorsShownInPage": ["remote_a failed: Module \"./Widget\" does not exist in container."]
+    },
+    {
+      "host": "host-baseline",
+      "remote_a": "drop-default",
+      "remoteHeadings": ["Remote b"],
+      "errorsShownInPage": [
+        "remote_a failed: Minified React error #306; visit https://react.dev/errors/306?args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ]
+    },
+    {
+      "host": "host-baseline",
+      "remote_a": "keep-default",
+      "remoteHeadings": ["Remote a", "Remote b"],
+      "errorsShownInPage": []
+    },
+    {
+      "host": "host-baseline",
+      "remote_a": "versioned",
+      "remoteHeadings": ["Remote a", "Remote b"],
+      "errorsShownInPage": []
+    },
+    {
+      "host": "host-baseline",
+      "remote_a": "card-only",
+      "remoteHeadings": ["Remote b"],
+      "errorsShownInPage": ["remote_a failed: Module \"./Widget\" does not exist in container."]
+    },
+    {
+      "host": "host-card",
+      "remote_a": "baseline",
+      "remoteHeadings": ["Remote b"],
+      "errorsShownInPage": ["remote_a failed: Module \"./Card\" does not exist in container."]
+    },
+    {
+      "host": "host-card",
+      "remote_a": "versioned",
+      "remoteHeadings": ["Remote a card", "Remote b"],
+      "errorsShownInPage": []
+    },
+    {
+      "host": "host-card",
+      "remote_a": "card-only",
+      "remoteHeadings": ["Remote a card", "Remote b"],
+      "errorsShownInPage": []
+    }
+  ],
+  "remoteATypecheck": {
+    "rename-expose": 0,
+    "drop-default": 0,
+    "keep-default": 0,
+    "versioned": 0
+  },
+  "hostTypecheckWithOwnRemotesDts": 0,
+  "hostAppTsxAgainstPublishedTypes": {
+    "baseline": "exit 0",
+    "rename-expose": "exit 2, src/App.tsx(4,35): error TS2307: Cannot find module 'remote_a/Widget' or its corresponding type declarations.",
+    "drop-default": "exit 2, src/App.tsx(4,28): error TS2322: Type 'Promise<typeof import(\".../remote_a/Widget\")>' is not assignable to type 'Promise<{ default: ComponentType<any>; }>'.",
+    "keep-default": "exit 0",
+    "versioned": "exit 0"
+  },
+  "hostBuildDownloadedRemoteTypes": false,
+  "checkContract": {
+    "baseline": "check passed",
+    "rename-expose": "contract broken, missing: ./Widget (exit 1)",
+    "drop-default": "check passed",
+    "keep-default": "check passed",
+    "versioned": "check passed",
+    "card-only": "contract broken, missing: ./Widget (exit 1)"
+  }
+}
