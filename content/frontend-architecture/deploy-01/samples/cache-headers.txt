@@ -1,4 +1,4 @@
-# Headers our recording server sent for remote_a
+# Headers our recording server sent for remote_a in the no-cache and rollback runs
 /mf-manifest.json   Cache-Control: no-cache
 /static/**          Cache-Control: public, max-age=31536000, immutable
 

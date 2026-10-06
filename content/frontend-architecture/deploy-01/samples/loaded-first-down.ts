@@ -2,6 +2,7 @@
 // with one more line in its pluginModuleFederation options: shareStrategy: 'loaded-first'.
 const recorded = {
   headingsOnPage: ['Host', 'Remote a'],
+  // The error box text is shortened; recordings/run-1.json has it in full.
   errorBoxesOnPage: [
     'remote_b failed: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 ...',
   ],
