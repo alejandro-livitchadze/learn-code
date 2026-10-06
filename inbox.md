@@ -146,3 +146,7 @@
 
 - F19 (PR #48) merged; delete stale remote branch `task/F19`.
 - F18 (PR #49) merged; delete stale remote branches `task/F18` and `task/F19`.
+
+## 2026-10-06 (twenty-sixth run)
+
+- F22 (PR #50) merged; delete stale remote branch `task/F22` (delete failed from this environment).
