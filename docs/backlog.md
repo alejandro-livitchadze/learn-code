@@ -394,7 +394,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
 
 ## F17. Catalogue trace base and deep-equal for traces
-- Status: in_progress
+- Status: done
+- Note: merged via PR #46; CI green; reviewer APPROVE on ec04474 (minors in F22).
 - Depends on: F13
 - Paths: `apps/web/app/dev/widgets/Catalogue.tsx`, `packages/lesson-compiler/src/verify/index.ts`
 - Source: F13 reviewer minors
@@ -427,3 +428,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: L3 reviewer minor
 - Done when: the postgresql.org links in the front matter are fetched and confirmed, and the "Unverified" note is removed; needs postgresql.org reachable.
+
+## F22. Name and test the trace deep-equal
+- Status: todo
+- Depends on: F17
+- Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`
+- Source: F17 worker report and reviewer minors
+- Done when: `sameJson` is renamed `deepEqual` (or similar); a test shows two objects with the same data and different key order compare equal; `CATALOGUE_TRACES` has a doc comment and the redundant JSX comment is gone; checks pass.
