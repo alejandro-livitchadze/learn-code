@@ -419,7 +419,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `pnpm traces` leaves no diff in the committed `*.trace.json` files; checks pass.
 
 ## F20. Roadmap lists the misconceptions grouping-01 uses
-- Status: in_progress
+- Status: done
+- Note: merged via PR #51; CI green; reviewer APPROVE on 0432369 (no issues).
 - Depends on: L3
 - Paths: `content/fullstack/roadmap.json`
 - Source: L3 worker report
