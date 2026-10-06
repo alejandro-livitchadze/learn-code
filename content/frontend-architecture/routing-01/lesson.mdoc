@@ -6,7 +6,8 @@ concepts: [shell-ownership, nested-routing, deep-links]
 # Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
 # Claim register for Module Federation versions: content/frontend-architecture/sources.md.
 # - React Router docs are for v8 (navigation lists "Updating from v7"); npm "latest" of react-router is 8.4.0
-#   (https://registry.npmjs.org/react-router/latest).
+#   (https://registry.npmjs.org/react-router/latest). The page "Updating from v7" is headed "Upgrade to v8":
+#   https://reactrouter.com/upgrading/v7
 # - BrowserRouter: "A declarative <Router> using the browser History API for client-side routing":
 #   https://reactrouter.com/api/declarative-routers/BrowserRouter
 # - Splats: "If a route path pattern ends with /* then it will match any characters following the /, including other /
@@ -16,7 +17,8 @@ concepts: [shell-ownership, nested-routing, deep-links]
 #   https://reactrouter.com/api/components/Link
 # - Deploying a SPA: "configure your host to direct all URLs to the index.html of the client build. Some hosts do this by
 #   default, but others don't", with the example rule "/*    /index.html   200", and "If you're getting 404s at valid
-#   routes for your app, it's likely you need to configure your host":
+#   routes for your app, it's likely you need to configure your host". The guide is written for Framework mode; its
+#   host step is about the server, not the router mode, so we apply it to our Declarative-mode shell (our reading):
 #   https://reactrouter.com/how-to/spa
 # - pushState: "the browser won't attempt to load this URL after a call to pushState(), but it may attempt to load the
 #   URL later, for instance, after the user restarts the browser":
@@ -39,7 +41,11 @@ concepts: [shell-ownership, nested-routing, deep-links]
 # BrowserRouter with routes "/", "/orders/*" (lazy remote in Suspense, fallback "loading orders", error boundary
 # "orders failed: <message>") and "*" ("Shell: page not found"). The remote "orders" exposes OrdersApp: <Routes> with an
 # index OrderList (<Link to="42">, <Link to="/42">) and ":id" (<h2>Order {id}</h2>). Served on ports 4300 and 4301 and
-# loaded in jsdom with the same loader as examples/recorder/src/record.ts plus a request log; three runs, same screens.
+# loaded in jsdom with the same loader as examples/recorder/src/record.ts plus a request log, a TextEncoder/TextDecoder
+# global (react-router 8 needs it and jsdom lacks it) and a 50 ms sampler of the <main> text. The shell also renders a
+# nav with links "Home" (/) and "Orders" (/orders). Rebuilt from scratch and recorded again on 2026-10-06 before review;
+# every screen, error message, href and 404 below came out the same both times (file hashes in the request log differ
+# between builds; the sample quotes the second build).
 # - samples/own-router.ts: remote wrapped in its own BrowserRouter.
 # - samples/no-splat.ts and no-splat-list.ts: shell route path="/orders" instead of "/orders/*".
 # - samples/relative-link.ts, absolute-link.ts: hrefs read from the page, and the click on <Link to="/42">.
@@ -165,10 +171,10 @@ Lesson 4 again? Two copies of a library, two worlds?
 {% /predict %}
 
 {% explain id="e3" estSeconds=60 concepts=["nested-routing", "shell-ownership"] %}
-Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app with its own router via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7. Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
+Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app with its own router via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7; React Router is at v8 today ([upgrade guide](https://reactrouter.com/upgrading/v7)). Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
 {% margin %}
 {% gotcha %}
-With Bridge Router on, its docs say: do not share react-router-dom. The opposite of the routes-only setup.
+With Bridge Router on, its docs say: do not share react-router-dom. A routes-only remote needs its router shared.
 {% /gotcha %}
 {% /margin %}
 {% /explain %}
