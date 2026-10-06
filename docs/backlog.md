@@ -403,14 +403,14 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: Catalogue derives its trace base from a named constant; `sameJson` in verify uses structural deep-equal; checks pass.
 
 ## F18. E2E covers schemaBuilder and beTheDatabase
-- Status: todo
+- Status: in_progress
 - Depends on: F13
 - Paths: `apps/web/e2e/widgets.spec.ts`
 - Source: P10 integration reviewer minor
 - Done when: the "every built widget kind renders" list includes `schemaBuilder` and `beTheDatabase`; e2e passes.
 
 ## F19. Traces CLI writes prettier-formatted JSON
-- Status: todo
+- Status: in_progress
 - Depends on: F14
 - Paths: `packages/lesson-compiler/src/traces/**`
 - Source: F14 reviewer minor
