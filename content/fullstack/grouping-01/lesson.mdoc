@@ -4,9 +4,10 @@ courseId: fullstack
 title: "Buckets: GROUP BY without the magic"
 concepts: [group-by-buckets, aggregate-functions, having-vs-where, count-star-vs-column]
 # Sources for every claim about PostgreSQL behavior (the SQL samples carry their own links).
-# Unverified: written from knowledge, postgresql.org was unreachable when this lesson was authored.
-# - GROUP BY forms one bucket per distinct key and returns one row per bucket; all NULL keys form one bucket:
+# Fetched and confirmed 2026-10-06, except the NULL-bucket claim below.
+# - GROUP BY forms one bucket per distinct key and returns one row per bucket:
 #   https://www.postgresql.org/docs/current/sql-select.html#SQL-GROUPBY
+# - Unverified: all NULL keys form one bucket. The fetched pages do not state it in words; no source cited yet.
 # - Aggregate functions (count, sum, min, max, avg) reduce the rows of a bucket to one value;
 #   count(*) counts rows, count(expression) counts rows where the expression is not NULL:
 #   https://www.postgresql.org/docs/current/functions-aggregate.html
