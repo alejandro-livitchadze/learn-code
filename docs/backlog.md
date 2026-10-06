@@ -239,19 +239,19 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 
 ## M6. Lesson 4
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/shared-deps-01/**`
 - Done when: same as M3 for lesson 4 (shared-deps-01).
 
 ## M7. Lesson 5
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/contracts-01/**`
 - Done when: same as M3 for lesson 5 (contracts-01).
 
 ## M8. Lesson 6
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/routing-01/**`
 - Done when: same as M3 for lesson 6 (routing-01).
