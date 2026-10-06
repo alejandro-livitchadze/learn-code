@@ -1,0 +1,267 @@
+---
+id: routing-01
+courseId: frontend-architecture
+title: "Routing and ==the shell=="
+concepts: [shell-ownership, nested-routing, deep-links]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Claim register for Module Federation versions: content/frontend-architecture/sources.md.
+# - React Router docs are for v8 (navigation lists "Updating from v7"); npm "latest" of react-router is 8.4.0
+#   (https://registry.npmjs.org/react-router/latest).
+# - BrowserRouter: "A declarative <Router> using the browser History API for client-side routing":
+#   https://reactrouter.com/api/declarative-routers/BrowserRouter
+# - Splats: "If a route path pattern ends with /* then it will match any characters following the /, including other /
+#   characters"; nested routes and index routes on the same page:
+#   https://reactrouter.com/start/declarative/routing
+# - Link, prop relative: "route — default, resolves the link relative to the route pattern":
+#   https://reactrouter.com/api/components/Link
+# - Deploying a SPA: "configure your host to direct all URLs to the index.html of the client build. Some hosts do this by
+#   default, but others don't", with the example rule "/*    /index.html   200", and "If you're getting 404s at valid
+#   routes for your app, it's likely you need to configure your host":
+#   https://reactrouter.com/how-to/spa
+# - pushState: "the browser won't attempt to load this URL after a call to pushState(), but it may attempt to load the
+#   URL later, for instance, after the user restarts the browser":
+#   https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+#   History API overview: https://developer.mozilla.org/en-US/docs/Web/API/History_API
+# - Rsbuild server.htmlFallback, default 'index': GET or HEAD requests that accept text/html and find no resource "will
+#   fallback to index.html": https://rsbuild.rs/config/server/html-fallback
+# - Module Federation Bridge: createBridgeComponent exports a React app as a remote module; "Bridge Router currently
+#   supports routing proxy functionality for React Router v5, v6, and v7 versions"; "When enabling Bridge Router, do not
+#   configure react-router-dom as a shared dependency":
+#   https://module-federation.io/guide/bridge/react/export-app.html
+#   createRemoteAppComponent "Integrates with React Router and supports basename injection"; prop basename: "Set the base
+#   path for the remote application": https://module-federation.io/guide/bridge/react/load-app.html
+#   npm: @module-federation/bridge-react 2.9.2 has peerDependencies react-router "^6 || ^7"
+#   (https://registry.npmjs.org/@module-federation/bridge-react/latest).
+# Recordings. Our example project (examples/) has no router, and this lesson may not edit examples/ or
+# recorded/outputs.json. So every runtime output here comes from a routing variant of it, built in a scratch copy on
+# 2026-10-06: the host and remote-a setup (Rsbuild 2.2.12, @module-federation/rsbuild-plugin 2.9.2, React 19.3.0, react,
+# react-dom and react-dom/ shared as singletons) plus react-router 8.4.0 shared as a singleton. The shell renders
+# BrowserRouter with routes "/", "/orders/*" (lazy remote in Suspense, fallback "loading orders", error boundary
+# "orders failed: <message>") and "*" ("Shell: page not found"). The remote "orders" exposes OrdersApp: <Routes> with an
+# index OrderList (<Link to="42">, <Link to="/42">) and ":id" (<h2>Order {id}</h2>). Served on ports 4300 and 4301 and
+# loaded in jsdom with the same loader as examples/recorder/src/record.ts plus a request log; three runs, same screens.
+# - samples/own-router.ts: remote wrapped in its own BrowserRouter.
+# - samples/no-splat.ts and no-splat-list.ts: shell route path="/orders" instead of "/orders/*".
+# - samples/relative-link.ts, absolute-link.ts: hrefs read from the page, and the click on <Link to="/42">.
+# - samples/router-not-shared.ts: react-router left out of "shared" in both configs.
+# - samples/cold-deep-link.ts: fresh page on /orders/42, server falls back to index.html, main area sampled every 50 ms.
+# - samples/click-through-requests.ts: fresh page on /, clicks on "Orders" and "Order 42", request log of :4300.
+# - Pitfall: GET /orders/42 to a static server without fallback answered 404 (jsdom: "Resource was not loaded. Status:
+#   404"); "rsbuild preview" of the same build answered 200 with index.html.
+# Labelled as our reading, not a documented guarantee: why the remote's Routes found no router when react-router was not
+# shared, and which side wins in the routes-or-Bridge trade-off.
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["shell-ownership"] %}
+Monday, 10:00. The Orders team plugs its remote into the shell. Alone, the remote always wrapped itself in its own `BrowserRouter`, so it ships that way. The shell has a `BrowserRouter` too. The Bug opens `/orders/42` and waits.
+{% margin %}
+{% stop %}
+Two routers, one address bar. Which one decides what /orders/42 shows?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/own-router.ts" language="ts" concepts=["shell-ownership"] %}
+{% option output="Order 42" misconception="remote-owns-its-url" %}
+That needs each router to own the URL on its own. React Router refused the second router before the order page could render.
+{% /option %}
+{% option output="You cannot render a <Router> inside another <Router>." correct=true %}
+Recorded from our routing variant. The remote's router threw, the shell's error boundary showed the message, and the shell's navigation kept working.
+{% /option %}
+{% option output="Shell: page not found" misconception="remote-owns-its-url" %}
+The shell's /orders/* route did match and handed the area to the remote. The failure came from inside the remote.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+But the remote worked fine on its own. What changed?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="./samples/shell-routes.tsx" concepts=["shell-ownership", "nested-routing"] %}
+A page has one address bar. React Router's `BrowserRouter` uses the browser's [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) for client-side routing ([docs](https://reactrouter.com/api/declarative-routers/BrowserRouter)), and it refused a second router inside the first. So one part owns the URL. In our variant that is the ==shell==: it renders the only router and hands everything under `/orders/` to the remote. The remote renders routes, not a router.
+
+{% annotation line=4 %}
+The only router on the page.
+{% /annotation %}
+{% annotation line=7 %}
+Everything under /orders/ goes to the remote.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=45 template="// shell: give the orders remote everything under /orders/\n<Route path='/orders/___star___' element={<OrdersApp />} />" language="ts" concepts=["nested-routing", "shell-ownership"] %}
+{% blank id="star" accepted=["*"] misconception="remote-owns-its-url" %}
+A path that ends in /* matches everything after /orders/, so the remote gets /orders/42 to route inside. Without the star, the shell's route matches /orders only.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p2" estSeconds=60 code="./samples/no-splat.ts" language="ts" concepts=["nested-routing"] %}
+{% option output="Order 42" misconception="remote-owns-its-url" %}
+The remote never ran. The shell's route did not match /orders/42, so the shell never handed the area over.
+{% /option %}
+{% option output="Shell: page not found" correct=true %}
+Recorded from our routing variant. Without the star, path="/orders" matches /orders only, so the shell's catch-all route won.
+{% /option %}
+{% option output="loading orders" misconception="deep-link-just-works" %}
+That fallback shows only while the shell renders the orders route. Here that route never matched, so nothing started loading.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="./samples/orders-routes.tsx" concepts=["nested-routing"] %}
+Nested routing across remotes has two halves. The shell matches the prefix with a splat: a path ending in `/*` matches "any characters following the /" ([docs](https://reactrouter.com/start/declarative/routing)). In our recording the remote's `<Routes>` then matched only the rest of the URL: the `index` route at `/orders`, `:id` at `/orders/42`. The remote never writes `/orders` itself.
+
+{% annotation line=5 %}
+Renders at /orders exactly.
+{% /annotation %}
+{% annotation line=6 %}
+Here it means /orders/:id.
+{% /annotation %}
+{% /explain %}
+
+{% predict id="p3" estSeconds=45 code="./samples/relative-link.ts" language="ts" concepts=["nested-routing", "shell-ownership"] %}
+{% option output="/42" misconception="remote-owns-its-url" %}
+That is where the link would go if the remote owned the whole URL. A relative to resolves from the route it sits in.
+{% /option %}
+{% option output="/orders/42" correct=true %}
+Recorded from our routing variant. React Router resolved the relative 42 against the remote's place under /orders. The remote never typed the prefix.
+{% /option %}
+{% option output="42" misconception="remote-owns-its-url" %}
+We read the href from the page, and it was a full path, not a bare segment.
+{% /option %}
+{% /predict %}
+
+{% predict id="p4" estSeconds=45 code="./samples/absolute-link.ts" language="ts" concepts=["nested-routing", "shell-ownership"] %}
+{% option output="Order 42" misconception="remote-owns-its-url" %}
+A leading slash means the root of the whole site. The remote does not own the root; /42 belongs to the shell.
+{% /option %}
+{% option output="Shell: page not found" correct=true %}
+Recorded from our routing variant. The URL became /42. The shell has no route for it, so its catch-all replaced the remote.
+{% /option %}
+{% option output="loading orders" misconception="deep-link-just-works" %}
+Nothing had to load. /42 is outside /orders/, so the shell did not render the remote at all.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+Oh. A leading slash in a remote is a link into somebody else's app.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p5" estSeconds=60 code="./samples/router-not-shared.ts" language="ts" concepts=["nested-routing"] %}
+{% option output="Order 42" misconception="shared-is-automatic" %}
+Each side loaded its own react-router. Sharing react did not share the router package too.
+{% /option %}
+{% option output="useRoutes() may be used only in the context of a <Router> component." correct=true %}
+Recorded. The request log shows a router chunk from each server. Our reading: the remote's copy could not see the router the shell's copy created.
+{% /option %}
+{% option output="You cannot render a <Router> inside another <Router>." misconception="remote-owns-its-url" %}
+That error needs a second router. Here the remote renders no router at all, only Routes.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Lesson 4 again? Two copies of a library, two worlds?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e3" estSeconds=60 concepts=["nested-routing", "shell-ownership"] %}
+Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app with its own router via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7. Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
+{% margin %}
+{% gotcha %}
+With Bridge Router on, its docs say: do not share react-router-dom. The opposite of the routes-only setup.
+{% /gotcha %}
+{% /margin %}
+{% /explain %}
+
+{% fillBlanks id="f2" estSeconds=45 template="// in both the shell's and the remote's config; s = { singleton: true }\nshared: {\n  react: s,\n  'react-dom': s,\n  'react-dom/': s,\n  '___pkg___': s,\n}," language="ts" concepts=["nested-routing"] %}
+{% blank id="pkg" accepted=["react-router"] misconception="shared-is-automatic" %}
+The remote's Routes must see the shell's router, so both sides need one copy of react-router. Leave it out and you get the useRoutes() error.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p6" estSeconds=60 code="./samples/cold-deep-link.ts" language="ts" concepts=["deep-links"] %}
+{% option output="Order 42" misconception="deep-link-just-works" %}
+On a cold start the remote's code is not in the page yet. The shell renders first and shows its fallback while the remote loads.
+{% /option %}
+{% option output="loading orders -> Order 42" correct=true %}
+Recorded from our routing variant. The shell matched /orders/* at once and showed its fallback. Order 42 came after the manifest and the remote's files.
+{% /option %}
+{% option output="Shell: page not found -> Order 42" misconception="remote-owns-its-url" %}
+The shell's /orders/* route matched on the first render. Its catch-all never showed.
+{% /option %}
+{% /predict %}
+
+{% predict id="p7" estSeconds=60 code="./samples/click-through-requests.ts" language="ts" concepts=["deep-links"] %}
+{% option output="/, /orders, /orders/42" misconception="deep-link-just-works" %}
+Clicks inside the app never reached the server. The router changed the URL in the browser; only the first load was a page request.
+{% /option %}
+{% option output="/" correct=true %}
+Recorded. The server saw one page request. Every later URL was set by the router in the browser.
+{% /option %}
+{% option output="/orders/42" misconception="deep-link-just-works" %}
+The server never heard of /orders/42 during this visit. It hears it on a reload or a link from outside.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So the server sees /orders/42 only when someone pastes the link?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=45 concepts=["deep-links"] %}
+Tuesday. A customer emails a link to `/orders/42`: 404. Every laptop opens it fine. Rsbuild's server falls back to `index.html` by default ([docs](https://rsbuild.rs/config/server/html-fallback)); our plain static server answered 404, so the shell never started. After `pushState` the browser ==won't load the URL==, but it may later ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)). React Router's guide: direct all URLs to `index.html` ([docs](https://reactrouter.com/how-to/spa)).
+{% margin %}
+{% bubble who="bug" %}
+Works on your laptop. Breaks in your customer's inbox.
+{% /bubble %}
+{% gotcha %}
+Clicking through the app never asks the server, so it hides a missing fallback. Paste the deep link into a fresh tab.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% fillBlanks id="f3" estSeconds=45 template="# host rewrite rule, in the format of React Router's SPA guide\n/*    /___file___   200" language="http" concepts=["deep-links"] %}
+{% blank id="file" accepted=["index.html"] misconception="deep-link-just-works" %}
+Every page path must return the shell's HTML. Only then can the shell start, match /orders/*, and load the remote for the inner route.
+{% /blank %}
+{% /fillBlanks %}
+
+{% recap id="rc1" estSeconds=30 concepts=["shell-ownership", "nested-routing", "deep-links"] %}
+{% point %}
+One URL, one owner: the ==shell== renders the only router, and a remote renders routes inside its prefix.
+{% /point %}
+{% point %}
+The shell's route ends in `/*`; the remote matches the rest, and its relative links keep the prefix.
+{% /point %}
+{% point %}
+A routes-only remote needs `react-router` shared as a singleton. Bridge instead hands a `basename` to a remote with its own router.
+{% /point %}
+{% point %}
+A deep link on a cold start is a server request: the host must return `index.html`, then the shell loads the remote.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+Your clicks never asked the server. Your customers' emails do.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% predict id="p8" estSeconds=45 code="./samples/no-splat-list.ts" language="ts" concepts=["nested-routing", "deep-links"] %}
+{% option output="Shell: page not found" misconception="remote-owns-its-url" %}
+path="/orders" does match /orders exactly. The list works; only the pages below it break.
+{% /option %}
+{% option output="order list with 2 links" correct=true %}
+Recorded from our routing variant. With the buggy route, /orders still shows the list. A reviewer who stops there sees nothing wrong.
+{% /option %}
+{% option output="loading orders" misconception="deep-link-just-works" %}
+That fallback shows only while the remote loads. Once it arrived, the list rendered.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="communication-01" question="When an order is placed, the orders remote must update the cart badge in the shell. Import the shell's store, fire an event, or put it in the URL?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next lesson I hand everyone one global store. What could go wrong?
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}
