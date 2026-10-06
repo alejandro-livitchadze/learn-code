@@ -245,7 +245,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 4 (shared-deps-01).
 
 ## M7. Lesson 5
-- Status: in_progress
+- Status: done
+- Note: merged via PR #64 (8b0d163); CI green; reviewer APPROVE on 02e795d after a polish round (dropped an unrecorded page claim). 18 steps. Variant recordings live in samples/recordings.json, not re-recorded in CI.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/contracts-01/**`
 - Done when: same as M3 for lesson 5 (contracts-01).
