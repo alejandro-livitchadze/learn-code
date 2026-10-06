@@ -16,7 +16,7 @@ Same goal, three different tools. What would you ask before picking one?
 
 {% predict id="p1" estSeconds=60 code="./samples/runtime-import.txt" language="js" concepts=["composition-techniques", "module-federation-place"] %}
 {% option output="cart v2" correct=true %}
-import() takes an address that is only known while the code runs. The cart part was never in a build. Source: developer.mozilla.org, import(); nodejs.org, esm, data: imports.
+import() takes an address that is only known while the code runs. The cart part was never in a build. Source: [MDN, import()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import); [Node.js, ESM data: imports](https://nodejs.org/api/esm.html#data-imports).
 {% /option %}
 {% option output="Error: Cannot find module" misconception="mf-means-module-federation" %}
 A plain import() can already load a module from an address chosen at run time. A federation plugin adds a manifest, shared dependencies and a runtime on top of that idea; it is not the only way to load code later.
@@ -45,14 +45,14 @@ One of four browser-side options.
 {% /annotation %}
 {% margin %}
 {% gotcha %}
-Edge and CDN composition exist too. This lesson covers only the server example in the nginx docs.
+Other places to compose exist; this lesson covers only the server example in the nginx docs.
 {% /gotcha %}
 {% /margin %}
 {% /explain %}
 
 {% predict id="p2" estSeconds=60 code="./samples/ssi-include.http" language="http" concepts=["composition-techniques"] %}
 {% option output="<h1>Mug</h1><p>Cart: 2 items</p>" correct=true %}
-nginx's SSI module is a filter that processes include commands in responses passing through it, and an include puts the result of another request into the response. The browser gets one assembled page. Source: nginx.org, ngx_http_ssi_module.
+nginx's SSI module is a filter that processes include commands in responses passing through it, and an include puts the result of another request into the response. The browser gets one assembled page. Source: [nginx, ngx_http_ssi_module](https://nginx.org/en/docs/http/ngx_http_ssi_module.html).
 {% /option %}
 {% option output="<h1>Mug</h1><!--# include virtual=\"/fragments/cart\" -->" misconception="mf-means-module-federation" %}
 That would happen with ssi off, which is the default. With it on, the include is resolved on the server. A browser would only see an HTML comment and fetch nothing.
@@ -64,7 +64,7 @@ A server include is not an iframe. It pastes the fragment's HTML into the page b
 
 {% fillBlanks id="f1" estSeconds=45 template="<!--# block name=\"cart-stub\" -->\n<p>Cart unavailable</p>\n<!--# endblock -->\n<!--# include virtual=\"/fragments/cart\" ___param___=\"cart-stub\" -->" language="http" concepts=["composition-techniques"] %}
 {% blank id="param" accepted=["stub"] %}
-The stub parameter names the block that is shown if the included request gives an empty body or fails. The nginx docs call it a non-standard SSI parameter. Source: nginx.org, ngx_http_ssi_module.
+The stub parameter names the block that is shown if the included request gives an empty body or fails. The nginx docs call it a non-standard SSI parameter. Source: [nginx, ngx_http_ssi_module](https://nginx.org/en/docs/http/ngx_http_ssi_module.html).
 {% /blank %}
 {% margin %}
 {% sticky label="says" %}
@@ -75,22 +75,22 @@ Oh, so one broken fragment doesn't have to break the whole page.
 
 {% fillBlanks id="f2" estSeconds=45 template="<script type=\"___type___\">\n  { \"imports\": { \"___spec___\": \"https://cdn.example.com/cart/index.js\" } }\n</script>\n<script type=\"module\">\n  import { render } from \"cart\";\n</script>" language="http" concepts=["composition-techniques"] %}
 {% blank id="type" accepted=["importmap"] %}
-An import map is declared with a script element of type importmap. It must come before the scripts that use it. Source: developer.mozilla.org, script type importmap.
+An import map is declared with a script element of type importmap. It must come before the scripts that use it. Source: [MDN, script type importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap).
 {% /blank %}
 {% blank id="spec" accepted=["cart"] %}
-The key is the bare module specifier written in the import statement. The browser replaces it with the mapped address when it resolves the import. Source: developer.mozilla.org, script type importmap.
+The key is the bare module specifier written in the import statement. The browser replaces it with the mapped address when it resolves the import. Source: [MDN, script type importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap).
 {% /blank %}
 {% /fillBlanks %}
 
 {% fillBlanks id="f3" estSeconds=45 template="class CartWidget extends HTMLElement {}\ncustomElements.___method___(\"cart-widget\", CartWidget);" language="js" concepts=["composition-techniques"] %}
 {% blank id="method" accepted=["define"] %}
-You implement a class, then register it with customElements.define. After that the browser knows the tag. Shadow DOM is a separate, optional step that gives the element a private tree. Source: developer.mozilla.org, Using custom elements and Web Components.
+You implement a class, then register it with customElements.define. After that the browser knows the tag. Shadow DOM is a separate, optional step that gives the element a private tree. Source: [MDN, Using custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements).
 {% /blank %}
 {% /fillBlanks %}
 
 {% predict id="p3" estSeconds=60 code="./samples/iframe.http" language="http" concepts=["composition-techniques", "composition-requirements"] %}
 {% option output="A nested browsing context with its own document, which costs extra memory and compute" correct=true %}
-An iframe is a nested browsing context that embeds another document. Each one is a complete document environment, so each needs more memory and other computing resources. Source: developer.mozilla.org, iframe.
+An iframe is a nested browsing context that embeds another document. Each one is a complete document environment, so each needs more memory and other computing resources. Source: [MDN, iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe).
 {% /option %}
 {% option output="Cart elements added to the host page's own document" misconception="isolation-is-free" %}
 No. The cart stays in a different document. That separation is what you get from an iframe, and it is also what you pay for.
@@ -123,13 +123,13 @@ In the recorded run of the example, the host page showed the headings Remote a a
 
 {% fillBlanks id="f4" estSeconds=45 template="remotes: {\n  remote_a: 'remote_a@http://localhost:3001/___file___',\n}" language="ts" concepts=["module-federation-place"] %}
 {% blank id="file" accepted=["mf-manifest.json"] %}
-Remotes in the Module Federation docs and in the example project point at mf-manifest.json. Source: module-federation.io, Rsbuild integration.
+Remotes in the Module Federation docs and in the example project point at mf-manifest.json. Source: [Module Federation, Rsbuild integration](https://module-federation.io/integrations/build-tool/rsbuild.html).
 {% /blank %}
 {% /fillBlanks %}
 
 {% predict id="p4" estSeconds=60 code="./samples/shared-state.txt" language="js" concepts=["composition-requirements"] %}
 {% option output="3 2" correct=true %}
-Each build has its own private copy of the module, so each copy counts on its own: 3 calls on the host copy, 2 on the remote copy. Webpack's shared modules exist to avoid this: they come from one share scope instead of a private copy. Source: webpack.js.org, Module Federation.
+Each build has its own private copy of the module, so each copy counts on its own: 3 calls on the host copy, 2 on the remote copy. Webpack's shared modules exist to avoid this: they come from one share scope instead of a private copy. Source: [webpack, Module Federation](https://webpack.js.org/concepts/module-federation/).
 {% /option %}
 {% option output="3 3" misconception="shared-is-automatic" %}
 Two copies do not share a counter just because they are the same code. Sharing has to be set up, and you will break it on purpose in lesson 4.
@@ -143,7 +143,7 @@ Which techniques put both sides on a single copy of a module?
 
 {% predict id="p5" estSeconds=60 code="./samples/rebuild.txt" language="js" concepts=["composition-requirements"] %}
 {% option output="npm packages" correct=true %}
-A package is a local module, part of the current build, so a new version needs a new build of the host. A server include is resolved on each request. An import map and Module Federation load parts in the browser. Source: webpack.js.org, Module Federation.
+A package is a local module, part of the current build, so a new version needs a new build of the host. A server include is resolved on each request. An import map and Module Federation load parts in the browser. Source: [webpack, Module Federation](https://webpack.js.org/concepts/module-federation/).
 {% /option %}
 {% option output="npm packages, server includes, import map" misconception="mf-means-module-federation" %}
 Module Federation is not the only way to avoid a rebuild. Server includes and import maps also pick up a new part without rebuilding the host's code.
@@ -164,13 +164,13 @@ Product pages looked empty to the crawler. Excellent. I love a quiet crawler.
 
 {% predict id="p6" estSeconds=60 code="./samples/crawler.http" language="http" concepts=["composition-requirements"] %}
 {% option output="Nothing from the parts: the root div is empty until shell.js runs" correct=true %}
-Without JavaScript the response has no product content. Googlebot does render JavaScript, in a queue that can take longer, and Google notes that not all bots can. Source: developers.google.com, JavaScript SEO basics.
+Without JavaScript the response has no product content. Googlebot does render JavaScript, in a queue that can take longer, and Google notes that not all bots can. Source: [Google, JavaScript SEO basics](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics).
 {% /option %}
 {% option output="The full product page, because the parts are built into the shell" misconception="one-technique-fits-all" %}
 The parts are loaded by shell.js in the browser. Whether a technique gives you SEO depends on where it joins the parts, not on the word microfrontends.
 {% /option %}
 {% option output="The full product page, because Module Federation renders on the server" misconception="mf-means-module-federation" %}
-Module Federation can be used with SSR in the Modern.js integration, but that is a setup you choose. This response comes from a shell that does not do it. Source: module-federation.io, Modern.js.
+Module Federation can be used with SSR in the Modern.js integration, but that is a setup you choose. This response comes from a shell that does not do it. Source: [Module Federation, Modern.js](https://module-federation.io/integrations/framework/modernjs/index.html).
 {% /option %}
 {% /predict %}
 
@@ -193,7 +193,7 @@ Pick one tool for everything. I'll handle the incidents.
 
 {% predict id="p7" estSeconds=60 code="./samples/failing-part.txt" language="js" concepts=["composition-requirements"] %}
 {% option output="host survived: cart is down" correct=true %}
-The part is loaded while the host runs. If evaluating it throws, import() rejects with the thrown error, and try and catch can handle it. Source: developer.mozilla.org, import().
+The part is loaded while the host runs. If evaluating it throws, import() rejects with the thrown error, and try and catch can handle it. Source: [MDN, import()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
 {% /option %}
 {% option output="Build failed before anything ran" misconception="one-technique-fits-all" %}
 There is no build step that could fail for this part, because it was never part of the build. That is the price of joining at run time: failures show up while users are on the page.
