@@ -1,5 +1,6 @@
 // remote_a's build also writes dist/@mf-types.zip, its types as of this build. For the build
-// without a default export, Widget.d.ts inside it says:
+// without a default export, the generated types for ./Widget re-export a default, but the
+// compiled file behind it (compiled-types/src/Widget.d.ts) declares only:
 //   export declare function Card(): import("react").JSX.Element;
 // Recorded: the host's App.tsx compiled against that zip instead of host/src/remotes.d.ts
 // (tsconfig paths "*": ["./@mf-types/*"], as the Module Federation type docs show).

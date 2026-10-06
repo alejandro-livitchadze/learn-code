@@ -1,10 +1,10 @@
 {
-  "note": "Recorded 2026-10-06 from content/frontend-architecture/examples (pnpm examples:build, then remote_a or host source changed in a scratch build, never committed). Pages: jsdom loader of examples/recorder/src/record.ts with the host and remote_a dist folders swapped in; three runs, identical. Error texts are cut at the first line.",
+  "note": "Recorded 2026-10-06 from content/frontend-architecture/examples (pnpm examples:build, then remote_a or host source changed in a scratch build, never committed). Pages: jsdom loader of examples/recorder/src/record.ts with the host and remote_a dist folders swapped in; three runs, identical; every page, typecheck and check result re-recorded the same way on 2026-10-06 before review. Error texts are cut at the first line.",
   "remoteABuilds": {
     "baseline": "exposes { './Widget': './src/Widget.tsx' }, Widget.tsx as committed",
     "rename-expose": "exposes { './Card': './src/Widget.tsx' }",
-    "drop-default": "Widget.tsx: export function Card, no default export; exposes unchanged",
-    "keep-default": "Widget.tsx: export function Card, export default Card; exposes unchanged",
+    "drop-default": "Widget.tsx: export function Card, no default export; bootstrap.tsx imports { Card }; exposes unchanged",
+    "keep-default": "Widget.tsx: export function Card, export default Card; bootstrap.tsx imports { Card }; exposes unchanged",
     "versioned": "exposes { './Widget': './src/Widget.tsx', './Card': './src/Card.tsx' }; Card.tsx renders the heading 'Remote a card'",
     "card-only": "exposes { './Card': './src/Card.tsx' }"
   },

@@ -5,5 +5,5 @@ pluginModuleFederation({
 });
 // remote_a/src/Widget.tsx (last line)
 export default Widget;
-// host/src/App.tsx (excerpt)
-const RemoteA = lazy(() => import('remote_a/Widget'));
+// host/src/App.tsx, line 4 (it renders <RemoteA /> further down):
+//   const RemoteA = lazy(() => import('remote_a/Widget'));
