@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
 import type { Lesson, Step } from '@learn-code/lesson-schema';
 import { runNode } from './node';
 import { createInlineEngine } from '@learn-code/sql-engine';
@@ -80,7 +81,7 @@ async function verifySqlLab(
   return problems.map((message) => ({ stepId: s.id, message }));
 }
 
-const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+const sameJson = (a: unknown, b: unknown): boolean => isDeepStrictEqual(a, b);
 
 /**
  * The recorded trace must exist, match a fresh PGlite run of its spec, and agree with the step
