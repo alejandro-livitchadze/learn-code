@@ -193,7 +193,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
 
 ## M0. Course setup and current-state sources
-- Status: todo
+- Status: in_progress
 - Depends on: V4
 - Paths: `content/frontend-architecture/**`
 - Epic: E09, correctness rules 1 and 2
