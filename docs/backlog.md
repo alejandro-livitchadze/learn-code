@@ -410,7 +410,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the "every built widget kind renders" list includes `schemaBuilder` and `beTheDatabase`; e2e passes.
 
 ## F19. Traces CLI writes prettier-formatted JSON
-- Status: in_progress
+- Status: done
+- Note: merged via PR #48 (a22bbbd); CI green; reviewer APPROVE on c07cf7b.
 - Depends on: F14
 - Paths: `packages/lesson-compiler/src/traces/**`
 - Source: F14 reviewer minor
@@ -442,4 +443,5 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Depends on: F19
 - Paths: `packages/lesson-compiler/package.json`, `pnpm-lock.yaml`
 - Source: F19 worker report
+- Paths also: `packages/lesson-compiler/src/traces/traces.test.ts` (add a test that `serializeTrace` output is prettier-stable)
 - Done when: `prettier` is a devDependency of lesson-compiler, lockfile updated, `pnpm install --frozen-lockfile` and checks pass.

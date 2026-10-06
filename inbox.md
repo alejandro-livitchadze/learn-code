@@ -141,3 +141,7 @@
 - Lessons 1 to 3 are on develop (query-order-01, nulls-01, grouping-01). Play them and leave notes in inbox.md.
 - Delete stale remote branches `task/F14` and `task/L3`.
 - Decided without the author: the `beTheDatabase` GROUP BY step planned for grouping-01 was left out because the trace format models only joins. Adding a bucket variant is platform work; not scheduled.
+
+## 2026-10-06 (twenty-fifth run)
+
+- F19 (PR #48) merged; delete stale remote branch `task/F19`.
