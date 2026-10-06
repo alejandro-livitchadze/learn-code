@@ -6,6 +6,7 @@ import { HomeProgress } from '../src/player/HomeProgress';
 /** Learner-facing titles of the courses; an unknown id falls back to a capitalised id. */
 const COURSE_TITLES: Readonly<Record<string, string>> = {
   fullstack: 'Databases for frontend developers',
+  'frontend-architecture': 'Microfrontends',
 };
 
 function courseTitle(course: string): string {
