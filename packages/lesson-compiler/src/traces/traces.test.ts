@@ -1,6 +1,7 @@
 import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import * as prettier from 'prettier';
 import { afterAll, describe, expect, it } from 'vitest';
 import {
   checkTraces,
@@ -8,6 +9,7 @@ import {
   generateFromFiles,
   generateTrace,
   parseTraceSpec,
+  serializeTrace,
 } from './index';
 import type { TraceSpec } from './types';
 
@@ -126,6 +128,19 @@ describe('committed traces', () => {
     expect(left.pairs.some((p) => p.right === null)).toBe(true);
     const inner = await byRef('join-inner');
     expect(inner.pairs.some((p) => p.right === null)).toBe(false);
+  });
+});
+
+describe('serializeTrace', () => {
+  it('output is prettier-stable and matches the committed files', async () => {
+    const specs = findTraceSpecs(CONTENT);
+    expect(specs.length).toBeGreaterThan(0);
+    for (const files of specs) {
+      const text = await serializeTrace(await generateFromFiles(files), files.tracePath);
+      const options = await prettier.resolveConfig(files.tracePath);
+      expect(await prettier.check(text, { ...options, filepath: files.tracePath })).toBe(true);
+      expect(text).toBe(readFileSync(files.tracePath, 'utf8'));
+    }
   });
 });
 
