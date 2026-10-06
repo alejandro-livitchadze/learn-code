@@ -74,8 +74,13 @@ async function load(scenario: Scenario): Promise<Recording> {
       virtualConsole,
       beforeParse(window) {
         // jsdom has no fetch; the federation runtime needs it for the manifest.
-        (window as unknown as { fetch: typeof fetch }).fetch = (input, init) =>
+        const windowFetch: typeof fetch = (input, init) =>
           fetch(typeof input === 'string' || input instanceof URL ? input : input.url, init);
+        Object.defineProperty(window, 'fetch', {
+          value: windowFetch,
+          writable: true,
+          configurable: true,
+        });
       },
     });
     const doc = dom.window.document;
