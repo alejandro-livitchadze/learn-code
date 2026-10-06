@@ -239,7 +239,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 
 ## M6. Lesson 4
-- Status: in_progress
+- Status: done
+- Note: merged via PR #66 (86ddf7a); CI green; reviewer APPROVE on d3e3c02, no minors (reviewer reproduced the requiredVersion mismatch recording). 18 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/shared-deps-01/**`
 - Done when: same as M3 for lesson 4 (shared-deps-01).
