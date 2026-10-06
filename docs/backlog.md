@@ -459,7 +459,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the local `sameJson` at `files.ts:55` (JSON.stringify, key-order sensitive) is replaced by the exported `deepEqual` from `verify/index.ts`; a test shows key order does not matter; checks pass.
 
 ## F25. Break the verify/traces import cycle
-- Status: todo
+- Status: in_progress
 - Depends on: F24
 - Paths: `packages/lesson-compiler/src/deep-equal.ts`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts`
 - Source: F24 reviewer minors
