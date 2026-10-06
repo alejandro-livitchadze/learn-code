@@ -1,4 +1,278 @@
 {
   "courseId": "frontend-architecture",
-  "modules": []
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Microfrontends",
+      "note": "Order and scope follow the draft roadmap in docs/E09-microfrontends-course.md; all ten lessons are kept and every misconception of the draft is covered (mf-makes-faster, mf-means-module-federation, host-bundles-remote, shared-is-automatic, remote-exports-change-freely, shared-store-is-easy), plus extra misconceptions added by this roadmap for lessons that had none in the draft. Facts about tools (versions, packages, deprecations, shared-option behavior) come from content/frontend-architecture/sources.md, checked 2026-10-06; behavior at runtime (request order, mismatch behavior, host behavior on failure, bytes and requests) must be recorded from the example project in content/frontend-architecture/examples/ (M1), not written by hand. Only widgets that exist today are listed in plannedStepKinds (E09 section Interactions available); the better engine is named in interaction.engine with a fallback that uses those kinds. Lessons are written in parallel, so dependsOn lists only what a lesson needs from earlier ones: Lesson ids are stable folder names. dependsOn is minimal: contracts-01, routing-01 and styles-01 need only host-remote-01, so they can be written in parallel.",
+      "lessons": [
+        {
+          "id": "need-01",
+          "title": "Do you even need this?",
+          "concepts": ["mf-problem-fit", "team-deploy-coupling", "architecture-options"],
+          "misconceptions": ["mf-makes-faster"],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "pitfall",
+            "predict",
+            "fillBlanks",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "The team sorter",
+            "pattern": "Behavior-checked design: team situations sorted into monolith, modular monolith or microfrontends, with a consequence shown per wrong choice",
+            "engine": "sorter",
+            "fallback": "predict per situation: pick the structure, then see the consequence"
+          },
+          "dependsOn": []
+        },
+        {
+          "id": "compose-01",
+          "title": "Ways to compose",
+          "concepts": [
+            "composition-techniques",
+            "composition-requirements",
+            "module-federation-place"
+          ],
+          "misconceptions": ["mf-means-module-federation", "one-technique-fits-all"],
+          "plannedStepKinds": [
+            "hook",
+            "explain",
+            "predict",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "Requirements matcher",
+            "pattern": "Matching: each requirement (independent deploy, shared state, style isolation, SEO) matched to the techniques that satisfy it",
+            "engine": "matcher",
+            "fallback": "predict per requirement: which techniques satisfy it"
+          },
+          "dependsOn": ["need-01"]
+        },
+        {
+          "id": "host-remote-01",
+          "title": "Host and remote",
+          "concepts": [
+            "host-and-remote",
+            "runtime-remote-loading",
+            "remote-entry-manifest",
+            "request-order"
+          ],
+          "misconceptions": ["host-bundles-remote", "requests-in-parallel"],
+          "plannedStepKinds": [
+            "hook",
+            "explain",
+            "predict",
+            "fillBlanks",
+            "predict",
+            "pitfall",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "Be the browser",
+            "pattern": "Be the machine: order the network requests of the first load, checked against a request log recorded from the example project",
+            "engine": "beTheMachine",
+            "fallback": "predict the request order one position at a time, with the recorded log as the answer"
+          },
+          "dependsOn": ["compose-01"]
+        },
+        {
+          "id": "shared-deps-01",
+          "title": "Two Reacts",
+          "concepts": [
+            "shared-dependencies",
+            "duplicate-react",
+            "singleton-sharing",
+            "required-version",
+            "trailing-slash-share"
+          ],
+          "misconceptions": [
+            "shared-is-automatic",
+            "two-reacts-harmless",
+            "version-mismatch-invisible"
+          ],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "fillBlanks",
+            "predict",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "Break it, then share it",
+            "pattern": "Break it first: cause the invalid hook call with two copies of React, fix it with a singleton share, then change requiredVersion on a mismatch and observe",
+            "engine": "simulation",
+            "fallback": "predict the recorded output of each configuration; fillBlanks for the shared block"
+          },
+          "dependsOn": ["host-remote-01"]
+        },
+        {
+          "id": "contracts-01",
+          "title": "Contracts between teams",
+          "concepts": [
+            "remote-contract",
+            "contract-types",
+            "contract-versioning",
+            "contract-detection"
+          ],
+          "misconceptions": ["remote-exports-change-freely"],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "The breaking release",
+            "pattern": "Incident: a remote renames an export; the learner predicts what breaks at runtime and where a check would have caught it",
+            "engine": "incident",
+            "fallback": "predict the runtime result of each change, then fillBlanks for the pre-deploy check"
+          },
+          "dependsOn": ["host-remote-01"]
+        },
+        {
+          "id": "routing-01",
+          "title": "Routing and the shell",
+          "concepts": ["shell-ownership", "nested-routing", "deep-links"],
+          "misconceptions": ["remote-owns-its-url", "deep-link-just-works"],
+          "plannedStepKinds": [
+            "hook",
+            "explain",
+            "predict",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "Who owns the URL",
+            "pattern": "Behavior-checked: scenarios (click, reload, deep link) that must land on the right screen",
+            "engine": "pipelineBuilder",
+            "fallback": "predict the screen for each scenario"
+          },
+          "dependsOn": ["host-remote-01"]
+        },
+        {
+          "id": "communication-01",
+          "title": "Talking without coupling",
+          "concepts": [
+            "decoupled-communication",
+            "shared-store-coupling",
+            "custom-events",
+            "url-as-state"
+          ],
+          "misconceptions": ["shared-store-is-easy"],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "Change the store",
+            "pattern": "Two timelines: change the shape of a shared store in one remote and see which other remote breaks and when",
+            "engine": "beTheMachine",
+            "fallback": "predict which deploy breaks for each communication choice"
+          },
+          "dependsOn": ["contracts-01", "routing-01"]
+        },
+        {
+          "id": "styles-01",
+          "title": "Styles that leak",
+          "concepts": ["css-global-scope", "style-isolation-options", "shadow-dom-isolation"],
+          "misconceptions": ["css-stays-in-its-remote", "isolation-is-free"],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "The button that changed everything",
+            "pattern": "Break it first: a global button rule in one remote restyles the host; then apply isolation options and compare their costs",
+            "engine": "simulation",
+            "fallback": "predict which elements a rule restyles; fillBlanks for the isolation setup"
+          },
+          "dependsOn": ["host-remote-01"]
+        },
+        {
+          "id": "deploy-01",
+          "title": "Deploying independently",
+          "concepts": [
+            "independent-deploy",
+            "remote-url-per-environment",
+            "cache-busting",
+            "remote-rollback",
+            "remote-failure"
+          ],
+          "misconceptions": ["independent-deploy-is-risk-free", "cached-entry-is-fine"],
+          "plannedStepKinds": [
+            "hook",
+            "explain",
+            "predict",
+            "fillBlanks",
+            "pitfall",
+            "predict",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "The remote that went down",
+            "pattern": "Incident: a remote that took down checkout; the learner predicts what the host does when the remote fails to load and when a release is cached",
+            "engine": "incident",
+            "fallback": "predict the host behavior recorded from the example project"
+          },
+          "dependsOn": ["contracts-01"]
+        },
+        {
+          "id": "performance-01",
+          "title": "Paying the performance bill",
+          "concepts": ["performance-cost", "load-waterfall", "preloading"],
+          "misconceptions": ["sharing-and-splitting-are-free"],
+          "plannedStepKinds": [
+            "hook",
+            "predict",
+            "explain",
+            "fillBlanks",
+            "predict",
+            "pitfall",
+            "recap",
+            "cliffhanger"
+          ],
+          "interaction": {
+            "entry": "The bytes and requests meter",
+            "pattern": "Meter: bytes and requests while toggling sharing and preloading, with values recorded from the example project",
+            "engine": "simulation",
+            "fallback": "predict the recorded numbers for each toggle combination"
+          },
+          "dependsOn": ["shared-deps-01", "deploy-01"]
+        }
+      ]
+    }
+  ]
 }
