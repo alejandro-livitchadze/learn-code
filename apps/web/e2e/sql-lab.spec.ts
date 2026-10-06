@@ -11,14 +11,14 @@ async function openSqlStep(page: Page): Promise<void> {
   await page.goto(URL);
   await expect(page.getByTestId('step-heading')).toBeVisible();
   await page.evaluate((key) => {
-    const ids = ['p1', 'p2', 'f1', 'p3'];
+    const ids = ['p1', 'b1', 'p2', 'f1', 'p3'];
     const results = Object.fromEntries(
       ids.map((id) => [id, { status: 'answered', correct: true, attempts: 1, payload: null }]),
     );
     localStorage.setItem(
       key,
       JSON.stringify({
-        state: { lessonId: 'fullstack/joins-01', index: 6, results },
+        state: { lessonId: 'fullstack/joins-01', index: 7, results },
         completed: false,
       }),
     );
