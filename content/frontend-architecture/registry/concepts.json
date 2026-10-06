@@ -1,1 +1,224 @@
-[]
+[
+  {
+    "id": "mf-problem-fit",
+    "name": "What microfrontends solve",
+    "description": "Microfrontends split a frontend along team and deployment boundaries; they trade simplicity and usually some performance for independent delivery.",
+    "prerequisites": []
+  },
+  {
+    "id": "team-deploy-coupling",
+    "name": "Team and deployment coupling",
+    "description": "Teams are coupled when they must coordinate to build, test and release one shared artifact.",
+    "prerequisites": ["mf-problem-fit"]
+  },
+  {
+    "id": "architecture-options",
+    "name": "Monolith, modular monolith, microfrontends",
+    "description": "Three ways to structure one frontend, each with a different cost in coordination and in runtime complexity.",
+    "prerequisites": ["team-deploy-coupling"]
+  },
+  {
+    "id": "composition-techniques",
+    "name": "Composition techniques",
+    "description": "Build-time packages, server or edge composition, iframes, web components, import maps and Module Federation are different places to join separately built parts.",
+    "prerequisites": ["mf-problem-fit"]
+  },
+  {
+    "id": "composition-requirements",
+    "name": "Requirements that pick a technique",
+    "description": "Independent deploy, shared state, style isolation and SEO each rule some composition techniques in or out.",
+    "prerequisites": ["composition-techniques"]
+  },
+  {
+    "id": "module-federation-place",
+    "name": "Where Module Federation fits",
+    "description": "Module Federation is one composition technique, with its own runtime, manifest and plugins; sources.md section 1 records what version 2 is.",
+    "prerequisites": ["composition-techniques"]
+  },
+  {
+    "id": "host-and-remote",
+    "name": "Host and remote",
+    "description": "A host is the application that loads modules; a remote is an application that exposes modules from its own deployment.",
+    "prerequisites": ["module-federation-place"]
+  },
+  {
+    "id": "runtime-remote-loading",
+    "name": "Remote loading at runtime",
+    "description": "The host learns where a remote lives and fetches its entry and chunks in the browser, after the host itself has started.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "remote-entry-manifest",
+    "name": "Remote entry and manifest",
+    "description": "A remote publishes a description of what it exposes and which files to fetch; the host reads it at runtime.",
+    "prerequisites": ["runtime-remote-loading"]
+  },
+  {
+    "id": "request-order",
+    "name": "Order of requests on first load",
+    "description": "The sequence of network requests on first load shows what the host knows and when.",
+    "prerequisites": ["runtime-remote-loading"]
+  },
+  {
+    "id": "shared-dependencies",
+    "name": "Shared dependencies",
+    "description": "The shared option declares which packages host and remotes should load once instead of each bundling a copy; it must be configured.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "duplicate-react",
+    "name": "Duplicate React",
+    "description": "Two copies of React in one page can cause an invalid hook call, because hooks resolve against the copy that renders.",
+    "prerequisites": ["shared-dependencies"]
+  },
+  {
+    "id": "singleton-sharing",
+    "name": "Singleton sharing",
+    "description": "A singleton share keeps one instance of a package for host and remotes.",
+    "prerequisites": ["duplicate-react"]
+  },
+  {
+    "id": "required-version",
+    "name": "requiredVersion",
+    "description": "requiredVersion states which versions of a shared package a side accepts; the runtime compares it with what is available.",
+    "prerequisites": ["singleton-sharing"]
+  },
+  {
+    "id": "trailing-slash-share",
+    "name": "Sharing sub-paths such as react-dom/client",
+    "description": "A package and its sub-path imports are separate share keys, so sharing the package alone can leave a second copy behind.",
+    "prerequisites": ["shared-dependencies"]
+  },
+  {
+    "id": "remote-contract",
+    "name": "Contract between host and remote",
+    "description": "The exposed module names, their props and their types form a contract that the host depends on without the remote knowing.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "contract-types",
+    "name": "Types across deployments",
+    "description": "Types describe the contract at build time but cannot protect a host from a remote that deployed a different shape later.",
+    "prerequisites": ["remote-contract"]
+  },
+  {
+    "id": "contract-versioning",
+    "name": "Versioned contracts",
+    "description": "A breaking change is shipped as a new contract version while the old one stays available until consumers move.",
+    "prerequisites": ["remote-contract"]
+  },
+  {
+    "id": "contract-detection",
+    "name": "Detecting a broken contract before deploy",
+    "description": "A check run before release compares the new remote with what its consumers expect.",
+    "prerequisites": ["contract-versioning", "contract-types"]
+  },
+  {
+    "id": "shell-ownership",
+    "name": "Who owns the URL",
+    "description": "The browser has one URL, so one part of the system, usually the shell, owns it and the rest read it.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "nested-routing",
+    "name": "Nested routing across remotes",
+    "description": "A shell routes to a remote by prefix and the remote routes inside that prefix.",
+    "prerequisites": ["shell-ownership"]
+  },
+  {
+    "id": "deep-links",
+    "name": "Deep links into a remote",
+    "description": "A URL that points inside a remote must load the shell, the remote and the right inner route on a cold start.",
+    "prerequisites": ["nested-routing"]
+  },
+  {
+    "id": "decoupled-communication",
+    "name": "Communication without shared code",
+    "description": "Parts can talk through custom events, URL state and props callbacks without importing each other.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "shared-store-coupling",
+    "name": "A shared store couples deploys",
+    "description": "A store shared by several remotes becomes a contract: changing its shape forces coordinated releases.",
+    "prerequisites": ["decoupled-communication", "remote-contract"]
+  },
+  {
+    "id": "custom-events",
+    "name": "Custom events",
+    "description": "The browser dispatches and listens to named events on the page, which needs no import between publisher and subscriber.",
+    "prerequisites": ["decoupled-communication"]
+  },
+  {
+    "id": "url-as-state",
+    "name": "URL as shared state",
+    "description": "State kept in the URL is readable by every part and survives reloads and links.",
+    "prerequisites": ["decoupled-communication", "shell-ownership"]
+  },
+  {
+    "id": "css-global-scope",
+    "name": "Global scope of CSS",
+    "description": "A stylesheet applies to the whole document unless something scopes it, so a rule in one remote can restyle another.",
+    "prerequisites": ["host-and-remote"]
+  },
+  {
+    "id": "style-isolation-options",
+    "name": "Style isolation options and costs",
+    "description": "Naming conventions, scoped CSS and shadow DOM isolate styles at different costs; none is free.",
+    "prerequisites": ["css-global-scope"]
+  },
+  {
+    "id": "shadow-dom-isolation",
+    "name": "Shadow DOM as isolation",
+    "description": "Shadow DOM gives a component its own style scope, with limits on how outside styles reach it.",
+    "prerequisites": ["style-isolation-options"]
+  },
+  {
+    "id": "independent-deploy",
+    "name": "Independent deployment",
+    "description": "Each remote is built and released alone, and the host finds its current version at runtime.",
+    "prerequisites": ["runtime-remote-loading"]
+  },
+  {
+    "id": "remote-url-per-environment",
+    "name": "Remote URLs per environment",
+    "description": "The host needs a different address for each remote in development, staging and production.",
+    "prerequisites": ["independent-deploy"]
+  },
+  {
+    "id": "cache-busting",
+    "name": "Cache busting",
+    "description": "A new release must reach the browser even when an older entry file is cached.",
+    "prerequisites": ["independent-deploy"]
+  },
+  {
+    "id": "remote-rollback",
+    "name": "Rolling back one remote",
+    "description": "Rolling back a remote restores an earlier build without redeploying the host or other remotes.",
+    "prerequisites": ["independent-deploy"]
+  },
+  {
+    "id": "remote-failure",
+    "name": "When a remote is down",
+    "description": "A remote that fails to load is a runtime event the host must handle, or the failure spreads.",
+    "prerequisites": ["independent-deploy"]
+  },
+  {
+    "id": "performance-cost",
+    "name": "Performance cost of splitting",
+    "description": "Splitting adds requests, duplicate code and chained loading that a single bundle does not have.",
+    "prerequisites": ["runtime-remote-loading", "shared-dependencies"]
+  },
+  {
+    "id": "load-waterfall",
+    "name": "Waterfall loading",
+    "description": "When one request can start only after another finishes, delays add up.",
+    "prerequisites": ["performance-cost", "request-order"]
+  },
+  {
+    "id": "preloading",
+    "name": "Preloading",
+    "description": "Telling the browser early which files will be needed moves requests earlier in the sequence.",
+    "prerequisites": ["load-waterfall"]
+  }
+]
