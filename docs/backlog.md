@@ -263,7 +263,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 7 (communication-01).
 
 ## M10. Lesson 8
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/styles-01/**`
 - Done when: same as M3 for lesson 8 (styles-01).
