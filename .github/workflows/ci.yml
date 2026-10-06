@@ -19,6 +19,21 @@ jobs:
       - run: pnpm format
       - run: pnpm test
       - run: pnpm lesson check content
+  examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Builds the host and both remotes (plus the duplicate-React variant of
+      # remote_b), records runtime outputs, fails if they differ from
+      # content/frontend-architecture/examples/recorded/outputs.json.
+      - run: pnpm examples:check
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 20

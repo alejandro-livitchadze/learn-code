@@ -1,0 +1,21 @@
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
+
+const reactShare = { singleton: true, requiredVersion: '^19.0.0' } as const;
+
+export default defineConfig({
+  plugins: [
+    pluginReact(),
+    pluginModuleFederation({
+      name: 'host',
+      remotes: {
+        remote_a: 'remote_a@http://localhost:3001/mf-manifest.json',
+        remote_b: 'remote_b@http://localhost:3002/mf-manifest.json',
+      },
+      shared: { react: reactShare, 'react-dom': reactShare, 'react-dom/': reactShare },
+    }),
+  ],
+  server: { port: 3000 },
+  output: { assetPrefix: 'http://localhost:3000/' },
+});
