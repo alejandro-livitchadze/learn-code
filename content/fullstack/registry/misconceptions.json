@@ -214,5 +214,35 @@
     "belief": "If one side of an OR is NULL, the whole OR is NULL.",
     "correction": "Unknown OR true is true; only unknown OR false stays unknown.",
     "concepts": ["three-valued-logic"]
+  },
+  {
+    "id": "group-by-keeps-row-count",
+    "belief": "GROUP BY keeps every row and only arranges them.",
+    "correction": "GROUP BY returns one row per bucket.",
+    "concepts": ["group-by-buckets"]
+  },
+  {
+    "id": "aggregate-sees-whole-table",
+    "belief": "count(*) in a GROUP BY query counts all rows of the table.",
+    "correction": "An aggregate runs once per bucket and sees only that bucket's rows.",
+    "concepts": ["aggregate-functions"]
+  },
+  {
+    "id": "count-column-counts-nulls",
+    "belief": "count(column) counts the rows where the column is NULL.",
+    "correction": "count(column) counts the rows where the column is not NULL.",
+    "concepts": ["count-star-vs-column"]
+  },
+  {
+    "id": "group-by-drops-null-keys",
+    "belief": "GROUP BY drops the rows whose key is NULL.",
+    "correction": "All rows with a NULL key form one bucket.",
+    "concepts": ["group-by-buckets"]
+  },
+  {
+    "id": "null-keys-never-group",
+    "belief": "Every NULL key is its own bucket because NULL does not equal NULL.",
+    "correction": "GROUP BY treats NULL keys as the same, so they share one bucket.",
+    "concepts": ["group-by-buckets", "three-valued-logic"]
   }
 ]

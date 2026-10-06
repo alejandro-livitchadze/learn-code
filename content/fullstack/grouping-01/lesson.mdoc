@@ -1,0 +1,131 @@
+---
+id: grouping-01
+courseId: fullstack
+title: "Buckets: GROUP BY without the magic"
+concepts: [group-by-buckets, aggregate-functions, having-vs-where, count-star-vs-column]
+# Sources for every claim about PostgreSQL behavior (the SQL samples carry their own links).
+# Unverified: written from knowledge, postgresql.org was unreachable when this lesson was authored.
+# - GROUP BY forms one bucket per distinct key and returns one row per bucket; all NULL keys form one bucket:
+#   https://www.postgresql.org/docs/current/sql-select.html#SQL-GROUPBY
+# - Aggregate functions (count, sum, min, max, avg) reduce the rows of a bucket to one value;
+#   count(*) counts rows, count(expression) counts rows where the expression is not NULL:
+#   https://www.postgresql.org/docs/current/functions-aggregate.html
+# - A selected column must be in GROUP BY or inside an aggregate:
+#   https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP
+# - WHERE filters rows before grouping, HAVING filters buckets after aggregation:
+#   https://www.postgresql.org/docs/current/sql-select.html#SQL-HAVING
+# - Without ORDER BY the order of result rows is not defined; ORDER BY ASC puts NULL last by default:
+#   https://www.postgresql.org/docs/current/queries-order.html
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["group-by-buckets"] %}
+Tuesday, 11:30. The dashboard shows 8 orders, but the "orders per customer" table has only 4 rows. The Bug swears nothing was deleted. It only sorted the orders into piles, and it keeps the piles for itself.
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/buckets.sql" language="sql" concepts=["group-by-buckets", "aggregate-functions"] %}
+{% option output="8" misconception="group-by-keeps-row-count" %}
+That is count(*) without GROUP BY. Here the rows are split into one bucket per customer first, so you get one row per bucket.
+{% /option %}
+{% option output="customer | n\nana | 2\nbo | 2\ncy | 3\ndi | 1" correct=true %}
+Four customers make four buckets. count(*) runs once per bucket: ana has 2 orders, bo 2, cy 3, di 1.
+{% /option %}
+{% option output="customer | n\nana | 8\nbo | 8\ncy | 8\ndi | 8" misconception="aggregate-sees-whole-table" %}
+count(*) does not see the whole table. It sees only the rows of one bucket at a time.
+{% /option %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="select customer,\n  count(*) as n,\n  sum(total) as revenue\nfrom orders\ngroup by customer" concepts=["group-by-buckets", "aggregate-functions"] %}
+**No magic:** GROUP BY puts every row into the bucket of its key and returns one row per bucket. Each bucket holds many values, so every other column must be squeezed into one value by an aggregate function such as count, sum, min or max. The database promises nothing about the order of the buckets, so add ORDER BY when the order matters.
+
+{% annotation line=1 %}
+Key column: one value per bucket.
+{% /annotation %}
+{% annotation line=2 %}
+Runs once per bucket.
+{% /annotation %}
+{% annotation line=5 %}
+Defines the buckets.
+{% /annotation %}
+{% /explain %}
+
+{% sqlLab id="s1" estSeconds=90 prompt="Return one row per customer with the column customer and a column named revenue: the sum of total over all that customer's orders. Order by customer." seedRef="default" starter="select customer, total as revenue from orders order by customer" solution="select customer, sum(total) as revenue from orders group by customer order by customer" orderMatters=true concepts=["group-by-buckets", "aggregate-functions"] %}
+{% hint %}
+Wrap total in an aggregate and add GROUP BY customer.
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p2" estSeconds=75 code="./samples/having.sql" language="sql" concepts=["having-vs-where", "group-by-buckets"] %}
+{% option output="customer | revenue\nana | 150\nbo | 400" misconception="where-filters-groups" %}
+That counts bo's refunded order. WHERE runs before grouping, so the refunded rows are gone before any bucket exists.
+{% /option %}
+{% option output="customer | revenue\nana | 150\nbo | 200" correct=true %}
+WHERE keeps the paid rows, GROUP BY builds the buckets, and HAVING keeps buckets whose sum is above 130: ana 150, bo 200. Cy has 120, di has no paid rows.
+{% /option %}
+{% option output="customer | revenue\nbo | 200" misconception="having-filters-rows" %}
+That checks single rows against 130, and only bo's 200 passes. HAVING tests the sum of a whole bucket, after grouping.
+{% /option %}
+{% /predict %}
+
+{% fillBlanks id="f1" estSeconds=45 template="select customer from orders group by customer ___kw___ sum(total) > 100" language="sql" concepts=["having-vs-where"] %}
+{% blank id="kw" accepted=["having"] misconception="where-filters-aggregates" %}
+A condition on an aggregate needs HAVING. WHERE runs before grouping and cannot see sum(total).
+{% /blank %}
+{% /fillBlanks %}
+
+{% pitfall id="pf1" estSeconds=40 language="sql" badCode="select customer, status, sum(total)\nfrom orders\ngroup by customer" goodCode="select customer, status, sum(total)\nfrom orders\ngroup by customer, status" concepts=["group-by-buckets"] %}
+Bo's bucket holds a paid order and a refunded one, so there is no single status for it. PostgreSQL refuses the bad query. Either add the column to GROUP BY, which makes smaller buckets, or put it inside an aggregate.
+{% /pitfall %}
+
+{% sqlLab id="s2" estSeconds=100 prompt="Return the customers whose paid orders add up to more than 130: columns customer and revenue, ordered by customer." seedRef="default" starter="select customer, sum(total) as revenue from orders where sum(total) > 130 group by customer order by customer" solution="select customer, sum(total) as revenue from orders where status = 'paid' group by customer having sum(total) > 130 order by customer" orderMatters=true concepts=["having-vs-where"] %}
+{% hint %}
+Filter the rows with WHERE and the buckets with HAVING.
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p3" estSeconds=60 code="./samples/count-column.sql" language="sql" concepts=["count-star-vs-column"] %}
+{% option output="all_rows | with_coupon\n8 | 8" misconception="count-column-counts-rows" %}
+count(coupon) is not count(*). It skips every row where coupon is NULL.
+{% /option %}
+{% option output="all_rows | with_coupon\n8 | 3" correct=true %}
+count(*) counts the 8 rows. count(coupon) counts only the rows with a known coupon: orders 2, 4 and 6.
+{% /option %}
+{% option output="all_rows | with_coupon\n8 | 5" misconception="count-column-counts-nulls" %}
+Five is the number of NULL coupons, which count(coupon) skips. It counts the other three.
+{% /option %}
+{% /predict %}
+
+{% fillBlanks id="f2" estSeconds=45 template="select count(___kw___) as n from orders where status = 'paid'" language="sql" concepts=["count-star-vs-column"] %}
+{% blank id="kw" accepted=["*", "id"] misconception="count-column-counts-rows" %}
+To count rows, use count(*) or a column that is never NULL, such as the primary key id. A nullable column such as coupon would skip rows.
+{% /blank %}
+{% /fillBlanks %}
+
+{% sqlLab id="s3" estSeconds=90 prompt="Return each customer and the number of orders that used a coupon, as coupons. Include customers with 0. Order by customer." seedRef="default" starter="select customer, count(*) as coupons from orders group by customer order by customer" solution="select customer, count(coupon) as coupons from orders group by customer order by customer" orderMatters=true concepts=["count-star-vs-column"] %}
+{% hint %}
+You want to count only rows where coupon is known. Which form of count skips NULL?
+{% /hint %}
+{% /sqlLab %}
+
+{% predict id="p4" estSeconds=75 code="./samples/null-bucket.sql" language="sql" concepts=["group-by-buckets", "count-star-vs-column"] %}
+{% option output="coupon | n\nSPRING | 2\nVIP | 1" misconception="group-by-drops-null-keys" %}
+That drops the orders without coupon. WHERE would drop them, but GROUP BY keeps them: it gives NULL a bucket of its own.
+{% /option %}
+{% option output="coupon | n\nSPRING | 2\nVIP | 1\nNULL | 1\nNULL | 1\nNULL | 1\nNULL | 1\nNULL | 1" misconception="null-keys-never-group" %}
+NULL = NULL is unknown, but GROUP BY still puts all NULL keys into one bucket. They count as the same group.
+{% /option %}
+{% option output="coupon | n\nSPRING | 2\nVIP | 1\nNULL | 5" correct=true %}
+All five NULL coupons share one bucket. ORDER BY ascending puts NULL last.
+{% /option %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=30 concepts=["group-by-buckets", "aggregate-functions", "having-vs-where", "count-star-vs-column"] %}
+{% point %}
+GROUP BY makes one bucket per key and returns one row per bucket. The bucket order is not defined, so add ORDER BY.
+{% /point %}
+{% point %}
+Every selected column must be in GROUP BY or inside an aggregate. WHERE filters rows before grouping, HAVING filters buckets after.
+{% /point %}
+{% point %}
+count(*) counts rows, count(column) skips NULL. All NULL keys form one bucket.
+{% /point %}
+{% /recap %}
