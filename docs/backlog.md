@@ -217,19 +217,22 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: 8 to 10 lessons with concepts, misconceptions and planned step kinds; every misconception from the E09 draft roadmap is covered; every concept and misconception id the roadmap uses is in the registry, so lesson tasks do not edit it.
 
 ## M3. Lesson 1
-- Status: in_progress
+- Status: done
+- Note: merged via PR #61 (4e15c49); CI green; reviewer APPROVE on 80e44f6, no minors. 16 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/need-01/**`
 - Done when: 12 to 20 steps following the roadmap entry, E08 and the E09 correctness rules; every tool claim links official docs; `pnpm lesson check` passes. The reviewer opens each linked source and confirms it supports the claim.
 
 ## M4. Lesson 2
-- Status: in_progress
+- Status: done
+- Note: merged via PR #62 (c2f047a); CI green; reviewer APPROVE on 02da939 after a polish round and one fix round (links in plain-text feedback fields would show raw markup). 17 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/compose-01/**`
 - Done when: same as M3 for lesson 2.
 
 ## M5. Lesson 3
-- Status: in_progress
+- Status: done
+- Note: merged via PR #63 (6eb07d7); CI green; reviewer APPROVE on 2cec66d after a polish round. 15 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/host-remote-01/**`
 - Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
@@ -546,3 +549,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: F21 reviewer minor
 - Done when: the claim "all NULL keys form one bucket" cites a postgresql.org or SQL-standard passage that states it, fetched and confirmed, and the "Unverified" flag on it is removed; if no source states it, the lesson prose does not assert it as sourced fact.
+
+## F29. Record request order and remote-down output in the example recorder
+- Status: todo
+- Depends on: none
+- Paths: `content/frontend-architecture/examples/**`
+- Source: M5 worker and reviewer notes
+- Done when: `examples/recorder` records, into `recorded/outputs.json`, the per-server request log of a first host load (as used in `host-remote-01/samples/request-log.txt`), the host page with remote_b stopped (the empty page and the RUNTIME-003 console error), and which server serves React's chunks in the shared-react build; `pnpm examples:check` passes; the numbers match the `host-remote-01` samples.

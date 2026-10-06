@@ -226,3 +226,7 @@
 ## 2026-10-06 (twenty-eighth run)
 
 - F21 (PR #56) and F25 (PR #55): CI green, fresh reviewer APPROVE, squash-merged; both `done`. Added F26 (minor). D6 set to `done` (retired). M0: worker finished (9c1621e, PR #54); CI and review next run. Workers: 1. Reviewers: 2. Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-ninth run)
+
+- Adopted protocol v5 mid-run (synced to develop from main). Merged: M1 (PR #57), F26 (PR #58), F27 (PR #60), M2 (PR #59), M3 (PR #61), M4 (PR #62), M5 (PR #63); all CI green, fresh reviewer APPROVE on each head commit. M1, M2, M4, M5 each had one polish round; M4 also had a fix round after I noticed the polish put Markdown links into predict/fillBlanks feedback, which render as plain text (the first incremental review had approved it). Added F29 (example recorder follow-up) and M6 to M12 (lessons 4 to 10, M12 is the course milestone). D6 stays `done` (retired). Started 7 workers against `MAX_TASKS_PER_RUN = 6` (my miscount). Integration PR #43 open; milestone M12 not reached. Reviewers: 11.

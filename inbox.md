@@ -162,3 +162,9 @@
 - Needs the author: D6 (weekly refresh) is stuck. The auto-mode classifier denied reading the 23 new vacancy descriptions in `research/demand/parsed/` for extraction ("PII Data Handling"). Allow that read, or tell me to put D6 back to `todo`.
 - PRs #54, #55, #56 (M0, F25, F21) were merged by you before my review gate ran. Reviews came back APPROVE afterwards. #54 also carried two `[skip ci]` commits that never had CI; the post-merge review covered them. Delete stale remote branches `task/M0`, `task/F21`, `task/F25`.
 - Decided without the author: went above `MAX_PARALLEL` for this run because you asked; CLAUDE.md unchanged. The 4 parallel workers made local `pnpm test` get killed for memory; CI was green.
+
+## 2026-10-06 (twenty-ninth run)
+
+- Microfrontends lessons 1 to 3 are on develop (need-01, compose-01, host-remote-01). Play them and leave notes in inbox.md. M6 to M12 (lessons 4 to 10) are in the backlog; M2 roadmap and registry, M1 example project and F26 course title are merged.
+- Decided without the author: this run started 7 workers (M1, F26, M2, F27, M3, M4, M5) against `MAX_TASKS_PER_RUN = 6` because I counted wrongly; I started no further task after that. CLAUDE.md unchanged.
+- Delete stale remote branches `task/F26`, `task/M1`, `task/M2`, `task/M3`, `task/M4`, `task/M5`, `task/F27` (deletes fail from this environment).
