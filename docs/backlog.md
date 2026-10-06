@@ -370,7 +370,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
 
 ## F14. Root `traces` script
-- Status: in_progress
+- Status: done
+- Note: merged via PR #44 (d8438bf); CI green; reviewer APPROVE on c944864
 - Depends on: F13
 - Paths: root
 - Source: F13 worker report
@@ -404,3 +405,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `apps/web/e2e/widgets.spec.ts`
 - Source: P10 integration reviewer minor
 - Done when: the "every built widget kind renders" list includes `schemaBuilder` and `beTheDatabase`; e2e passes.
+
+## F19. Traces CLI writes prettier-formatted JSON
+- Status: todo
+- Depends on: F14
+- Paths: `packages/lesson-compiler/src/traces/**`
+- Source: F14 reviewer minor
+- Done when: `pnpm traces` leaves no diff in the committed `*.trace.json` files; checks pass.
