@@ -1,0 +1,193 @@
+---
+id: need-01
+courseId: frontend-architecture
+title: "Do you even need ==microfrontends=="
+concepts: [mf-problem-fit, team-deploy-coupling, architecture-options]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Claim register: content/frontend-architecture/sources.md. Runtime output: examples/recorded/outputs.json.
+# - single-spa: "Each microfrontend can be managed by a different team"; each has "its own git repository",
+#   "its own package.json file" and "its own build tool configuration", so "an independent build process and an
+#   independent deploy / CI". Microservices and microfrontends have in common "Independent builds and deployments":
+#   https://single-spa.js.org/docs/microfrontends-concept
+# - single-spa, performance: "Microfrontends are often more performant than the monoliths from which they originate.
+#   This is due to built-in lazy loading". "One important performance consideration is to share a single instance of
+#   large libraries (such as React, Vue, or Angular), which is highly encouraged":
+#   https://single-spa.js.org/docs/microfrontends-concept
+# - single-spa, shared libraries: "for large libraries like react, momentjs, rxjs, etc, you may consider making them
+#   shared dependencies":
+#   https://single-spa.js.org/docs/recommended-setup
+# - Module Federation docs, use cases: "Large Applications", "Microfrontend Architecture" and "Multi-team Development"
+#   ("Module Federation can assist multiple teams in collaboratively developing large applications"):
+#   https://module-federation.io/guide/start/index.html
+# - React, two copies of React break hooks ("This may happen if you accidentally end up with two copies of the react
+#   package"; "You might have more than one copy of React in the same app"):
+#   https://react.dev/warnings/invalid-hook-call-warning
+# - The failure shown in the "recorded" predict (host renders remote_b built without a shared react) was recorded from
+#   our example project; it is a deliberately broken configuration, not a typical outcome:
+#   content/frontend-architecture/examples/recorded/outputs.json (recording "duplicate-react")
+# Labelled as opinion, no primary source: which structure fits which situation (the situation predicts s1 to s3 and
+# the pick samples). The terms "monolith", "modular monolith" and "microfrontends" are defined by this course
+# in registry/concepts.json (architecture-options).
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["team-deploy-coupling"] %}
+Friday, 16:55. Checkout finished its fix on Tuesday. It is still not in production. The release waits for Profile, and The Bug has just hidden Profile's last failing test.
+{% margin %}
+{% stop %}
+Whose fault is the wait: Checkout's, Profile's, or the way the release is built?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/release-train.ts" language="ts" concepts=["team-deploy-coupling"] %}
+{% option output="checkout ships on day 2" misconception="mf-makes-faster" %}
+That is when Checkout is ready. It would ship then only if it could deploy alone, which is what splitting buys you, and it has nothing to do with speed.
+{% /option %}
+{% option output="checkout ships on day 3" misconception="mf-makes-faster" %}
+Day 3 is only Search's day. One artifact ships when the slowest team is ready, and Profile is not ready until day 9.
+{% /option %}
+{% option output="checkout ships on day 9" correct=true %}
+One shared artifact ships when every change in it is ready. Checkout waits seven days for Profile.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So nobody did anything wrong, and we still lose a week?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="const days = Object.values(readyOnDay);\nconst shipsOn = Math.max(...days);" concepts=["team-deploy-coupling", "mf-problem-fit"] %}
+That waiting is **team and deployment coupling**: teams must coordinate to build, test and release one shared artifact. single-spa describes a microfrontend as the opposite choice: its own repository, its own build and an independent deploy. In this course's reading, that coupling is the problem microfrontends solve.
+
+{% annotation line=2 %}
+The slowest team sets everyone's date.
+{% /annotation %}
+{% /explain %}
+
+{% predict id="s1" estSeconds=45 code="./samples/pick-monolith.ts" language="ts" concepts=["architecture-options"] %}
+{% option output="microfrontends" misconception="sharing-and-splitting-are-free" %}
+Nobody waits on another team and the code is in order. There is no coupling to remove, so the split would only add cost.
+{% /option %}
+{% option output="monolith" correct=true %}
+No team waits and the code is tidy, so one build is the cheapest thing that works. This is a rule of thumb, not a law.
+{% /option %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 concepts=["mf-problem-fit"] %}
+A five-person team gave every developer their own remote "to move faster". Nobody had been blocked before. Now each shared change needs pull requests in three repositories and a release order, and The Bug likes the new meetings.
+{% margin %}
+{% gotcha %}
+Splitting without a coupling problem adds coordination. It removes none.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% predict id="p2" estSeconds=60 code="./samples/react-copies.ts" language="ts" concepts=["mf-problem-fit"] %}
+{% option output="1 copies of React on the page" misconception="sharing-and-splitting-are-free" %}
+Only if something shares one copy. Separately built apps each bundle what they import, and splitting does not share anything for you.
+{% /option %}
+{% option output="2 copies of React on the page" misconception="sharing-and-splitting-are-free" %}
+The host counts too. Every build in the list bundles React, so there are three, not two.
+{% /option %}
+{% option output="3 copies of React on the page" correct=true %}
+Each build bundles its own React. single-spa says to consider sharing large libraries such as React, which is a cost you take on when you split.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="const builds = [\n  { name: 'host', bundlesReact: true },\n  { name: 'cart', bundlesReact: true },\n];" concepts=["mf-problem-fit"] %}
+Do the docs promise speed? single-spa says microfrontends are often faster than the monolith they came from, thanks to lazy loading, and then adds a condition: share one instance of large libraries. Module Federation's docs list large applications and multiple teams as use cases. So speed is something you earn, not a reason to split.
+
+{% annotation line=2 %}
+Each build brings its own React.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=45 template="const shipsOn = Math.___fn___(...days);" language="ts" concepts=["team-deploy-coupling"] %}
+{% blank id="fn" accepted=["max"] %}
+max picks the latest ready day. A shared release ships when the slowest team is ready.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p3" estSeconds=60 code="./samples/recorded-duplicate-react.ts" language="ts" concepts=["mf-problem-fit"] %}
+{% option output="remote_b failed: Cannot read properties of null (reading 'useState')" correct=true %}
+This is the line recorded from our example. A split app has failure modes a monolith does not. Lesson 4 explains this one.
+{% /option %}
+{% option output="Remote a\nRemote b" misconception="two-reacts-harmless" %}
+Both would render if React were shared. In this recording remote_b bundled its own copy, and the page showed its error.
+{% /option %}
+{% option output="build error: two copies of react" misconception="independent-deploy-is-risk-free" %}
+Nothing in the build complained. The failure appeared in the browser, after remote_b was loaded.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Was that setup normal, or did someone break it on purpose?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p3b" estSeconds=60 code="./samples/recorded-shared-react.ts" language="ts" concepts=["mf-problem-fit"] %}
+{% option output="1 remotes rendered, 1 errors" misconception="shared-is-automatic" %}
+Here react was shared, so the copies were not doubled. Sharing has to be set up, and in this recording it was.
+{% /option %}
+{% option output="2 remotes rendered, 1 errors" misconception="two-reacts-harmless" %}
+With one shared React there is no error to show. Two copies were what broke remote_b in the last step.
+{% /option %}
+{% option output="2 remotes rendered, 0 errors" correct=true %}
+Recorded from our example with react shared as a singleton. The cost from the last step is avoidable, but only if someone configures it.
+{% /option %}
+{% /predict %}
+
+{% predict id="s2" estSeconds=45 code="./samples/pick-structure.ts" language="ts" concepts=["architecture-options"] %}
+{% option output="microfrontends" misconception="sharing-and-splitting-are-free" %}
+Nobody waits on another team here. Tangled code is a structure problem, and one build can fix it with module boundaries.
+{% /option %}
+{% option output="modular monolith" correct=true %}
+Nobody is blocked, but the code is tangled. Clear module boundaries inside one deployable fix that. It is one reading of the trade-off.
+{% /option %}
+{% /predict %}
+
+{% predict id="s3" estSeconds=45 code="./samples/pick-coupled.ts" language="ts" concepts=["architecture-options", "team-deploy-coupling"] %}
+{% option output="modular monolith" misconception="mf-makes-faster" %}
+Module boundaries tidy the code, but the teams would still share one release. The waiting is the problem here.
+{% /option %}
+{% option output="microfrontends" correct=true %}
+Teams that wait on each other's releases have the coupling problem that independent deploys remove. They then pay the costs from earlier steps.
+{% /option %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=30 concepts=["mf-problem-fit", "team-deploy-coupling", "architecture-options"] %}
+{% point %}
+Microfrontends solve ==team and deployment coupling==, not slow pages. Speed is earned through lazy loading and sharing.
+{% /point %}
+{% point %}
+Without a team that waits for another team's release, a monolith or modular monolith is usually cheaper.
+{% /point %}
+{% point %}
+Splitting costs separate builds, shared libraries and new runtime failures.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+I love a split app. So many seams to hide in.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% fillBlanks id="f2" estSeconds=45 template="function pick(s) {\n  if (s.___prop___) return 'microfrontends';\n  return s.tangledCode ? 'modular monolith' : 'monolith';\n}" language="ts" concepts=["architecture-options", "team-deploy-coupling"] %}
+{% blank id="prop" accepted=["waitsOnOtherTeams"] %}
+waitsOnOtherTeams is the coupling signal. Only when teams wait on each other does this rule reach for microfrontends.
+{% /blank %}
+{% /fillBlanks %}
+
+{% fillBlanks id="f3" estSeconds=45 template="// Checkout deploys on its own\nconst shipsOn = readyOnDay.___team___;" language="ts" concepts=["team-deploy-coupling"] %}
+{% blank id="team" accepted=["checkout"] %}
+With an independent deploy Checkout ships on its own ready day, day 2, not on the slowest team's day.
+{% /blank %}
+{% /fillBlanks %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="compose-01" question="Say you do need it. Build-time packages, iframes, web components, Module Federation: how do you actually put the parts together?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next lesson I'm hiding between two bundles. Good luck.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}
