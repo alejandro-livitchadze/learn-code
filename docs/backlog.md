@@ -451,8 +451,16 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `prettier` is a devDependency of lesson-compiler, lockfile updated, `pnpm install --frozen-lockfile` and checks pass.
 
 ## F24. Share deepEqual in traces/files.ts
-- Status: in_progress
+- Status: done
+- Note: merged via PR #53; CI green; reviewer APPROVE on e124821 (minors: import cycle verify <-> traces/files.ts, see F25; missing blank line in traces.test.ts:162).
 - Depends on: F22
 - Paths: `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts` (test for key order; added by the orchestrator)
 - Source: F22 worker report
 - Done when: the local `sameJson` at `files.ts:55` (JSON.stringify, key-order sensitive) is replaced by the exported `deepEqual` from `verify/index.ts`; a test shows key order does not matter; checks pass.
+
+## F25. Break the verify/traces import cycle
+- Status: todo
+- Depends on: F24
+- Paths: `packages/lesson-compiler/src/deep-equal.ts`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts`
+- Source: F24 reviewer minors
+- Done when: `deepEqual` lives in a leaf module `src/deep-equal.ts` and is re-exported from `verify/index.ts`; `traces/files.ts` imports it from the leaf module, so `verify/index.ts -> traces -> files.ts -> verify` no longer exists; the missing blank line between `it` blocks at `traces.test.ts:162` is added; checks pass.
