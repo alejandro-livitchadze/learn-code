@@ -201,36 +201,81 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `content/frontend-architecture/sources.md` records, with dated links to official documentation, the current Module Federation version and packages, supported bundlers and meta-frameworks, and deprecated setups; the course is registered so the home page lists it.
 
 ## M1. Working example project
-- Status: in_progress
+- Status: done
+- Note: merged via PR #57 (1ccb863); CI green (check, e2e, examples); reviewer APPROVE on 715efef after one polish round (double cast).
 - Depends on: M0
 - Paths: `content/frontend-architecture/examples/**`, root, `.github/**`
 - Epic: E09, correctness rule 3
 - Done when: a host and two remotes built with the currently recommended Module Federation setup from `sources.md`; CI builds them; a script records the runtime outputs that lessons will use (including the duplicate-React failure and its fix).
 
 ## M2. Microfrontends roadmap
-- Status: in_progress
+- Status: done
+- Note: merged via PR #59 (6e921e3); CI green; reviewer APPROVE on 590611b after a polish round. 10 lessons: need-01, compose-01, host-remote-01, shared-deps-01, contracts-01, routing-01, communication-01, styles-01, deploy-01, performance-01.
 - Depends on: M0
 - Paths: `content/frontend-architecture/roadmap.json`, `content/frontend-architecture/registry/**`
 - Epic: E09 roadmap; E07 method (section 1)
 - Done when: 8 to 10 lessons with concepts, misconceptions and planned step kinds; every misconception from the E09 draft roadmap is covered; every concept and misconception id the roadmap uses is in the registry, so lesson tasks do not edit it.
 
 ## M3. Lesson 1
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
-- Paths: `content/frontend-architecture/<roadmap lesson 1 id>/**`
+- Paths: `content/frontend-architecture/need-01/**`
 - Done when: 12 to 20 steps following the roadmap entry, E08 and the E09 correctness rules; every tool claim links official docs; `pnpm lesson check` passes. The reviewer opens each linked source and confirms it supports the claim.
 
 ## M4. Lesson 2
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
-- Paths: `content/frontend-architecture/<roadmap lesson 2 id>/**`
+- Paths: `content/frontend-architecture/compose-01/**`
 - Done when: same as M3 for lesson 2.
 
 ## M5. Lesson 3
+- Status: in_progress
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/host-remote-01/**`
+- Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
+
+
+## M6. Lesson 4
 - Status: todo
 - Depends on: M1, M2
-- Paths: `content/frontend-architecture/<roadmap lesson 3 id>/**`
-- Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
+- Paths: `content/frontend-architecture/shared-deps-01/**`
+- Done when: same as M3 for lesson 4 (shared-deps-01).
+
+## M7. Lesson 5
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/contracts-01/**`
+- Done when: same as M3 for lesson 5 (contracts-01).
+
+## M8. Lesson 6
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/routing-01/**`
+- Done when: same as M3 for lesson 6 (routing-01).
+
+## M9. Lesson 7
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/communication-01/**`
+- Done when: same as M3 for lesson 7 (communication-01).
+
+## M10. Lesson 8
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/styles-01/**`
+- Done when: same as M3 for lesson 8 (styles-01).
+
+## M11. Lesson 9
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/deploy-01/**`
+- Done when: same as M3 for lesson 9 (deploy-01).
+
+## M12. Lesson 10
+- Status: todo
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/performance-01/**`
+- Done when: same as M3 for lesson 10 (performance-01). This is the last lesson task and a milestone: after merge run the milestone step with the M5 integration check over all lessons of the course (all build, play to the end in the e2e, every linked source was opened).
 
 ## P9. Schema builder
 - Status: done
@@ -480,7 +525,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `COURSE_TITLES` has an entry `'frontend-architecture': 'Microfrontends'`; checks pass.
 
 ## F27. M0 sources.md minors
-- Status: in_progress
+- Status: done
+- Note: merged via PR #60 (77dd0ab); CI green; reviewer APPROVE on 98ba920.
 - Depends on: M0
 - Paths: `content/frontend-architecture/sources.md`
 - Source: M0 reviewer minors
