@@ -472,14 +472,15 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `deepEqual` lives in a leaf module `src/deep-equal.ts` and is re-exported from `verify/index.ts`; `traces/files.ts` imports it from the leaf module, so `verify/index.ts -> traces -> files.ts -> verify` no longer exists; the missing blank line between `it` blocks at `traces.test.ts:162` is added; checks pass.
 
 ## F26. Add a title for the frontend-architecture course
-- Status: in_progress
+- Status: done
+- Note: merged via PR #58 (293140c); CI green; reviewer APPROVE on 44d7874, no minors.
 - Depends on: M0
 - Paths: `apps/web/app/page.tsx`
 - Source: M0 reviewer minor
 - Done when: `COURSE_TITLES` has an entry `'frontend-architecture': 'Microfrontends'`; checks pass.
 
 ## F27. M0 sources.md minors
-- Status: todo
+- Status: in_progress
 - Depends on: M0
 - Paths: `content/frontend-architecture/sources.md`
 - Source: M0 reviewer minors
