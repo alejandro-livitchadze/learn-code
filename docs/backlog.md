@@ -201,7 +201,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: `content/frontend-architecture/sources.md` records, with dated links to official documentation, the current Module Federation version and packages, supported bundlers and meta-frameworks, and deprecated setups; the course is registered so the home page lists it.
 
 ## M1. Working example project
-- Status: todo
+- Status: in_progress
 - Depends on: M0
 - Paths: `content/frontend-architecture/examples/**`, root, `.github/**`
 - Epic: E09, correctness rule 3
@@ -472,7 +472,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `deepEqual` lives in a leaf module `src/deep-equal.ts` and is re-exported from `verify/index.ts`; `traces/files.ts` imports it from the leaf module, so `verify/index.ts -> traces -> files.ts -> verify` no longer exists; the missing blank line between `it` blocks at `traces.test.ts:162` is added; checks pass.
 
 ## F26. Add a title for the frontend-architecture course
-- Status: todo
+- Status: in_progress
 - Depends on: M0
 - Paths: `apps/web/app/page.tsx`
 - Source: M0 reviewer minor
@@ -492,8 +492,9 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Source: F21 reviewer minor
 - Done when: a postgresql.org page that states in words that all NULL grouping keys form one group is found and cited, or the claim is cited as a verified sample run; the last "Unverified" flag is removed; checks pass.
 
-## F26. Source the NULL-bucket claim in grouping-01
-- Status: todo
+## F26b. Source the NULL-bucket claim in grouping-01 (duplicate of F28)
+- Status: done
+- Note: duplicate ID with the title task F26; superseded by F28, 2026-10-06.
 - Depends on: none
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: F21 reviewer minor
