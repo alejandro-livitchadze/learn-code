@@ -428,7 +428,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the grouping-01 entry lists `group-by-keeps-row-count`, `aggregate-sees-whole-table`, `count-column-counts-nulls`, `group-by-drops-null-keys`, `null-keys-never-group`; checks pass.
 
 ## F21. Verify grouping-01 source links
-- Status: in_progress
+- Status: done
+- Note: merged via PR #56 (a8d3027) by the repo author; reviewer APPROVE on f8bf1ec (post-merge). Four of five claims confirmed; the NULL-bucket claim stays flagged, see F28.
 - Depends on: L3
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`
 - Source: L3 reviewer minor
@@ -479,3 +480,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/frontend-architecture/sources.md`
 - Source: M0 reviewer minors
 - Done when: `rsbuild.dev` is dropped from the sentence at line 11 (E09 names only `rspack.dev`); the Modern.js "recommended" wording at line 122 says only that the v3 plugin is marked recommended; the section 2b heading carries the registry URL pattern; the Next.js row has a re-check note before lessons mention it; checks pass.
+
+## F28. Source the NULL-bucket claim in grouping-01
+- Status: todo
+- Depends on: F21
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Source: F21 reviewer minor
+- Done when: a postgresql.org page that states in words that all NULL grouping keys form one group is found and cited, or the claim is cited as a verified sample run; the last "Unverified" flag is removed; checks pass.
