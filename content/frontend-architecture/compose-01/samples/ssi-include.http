@@ -1,0 +1,6 @@
+# page.html on the server, with "ssi on;" in the nginx location:
+<h1>Mug</h1>
+<!--# include virtual="/fragments/cart" -->
+
+# GET /fragments/cart answers with:
+<p>Cart: 2 items</p>

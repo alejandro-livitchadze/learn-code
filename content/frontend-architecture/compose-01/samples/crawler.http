@@ -1,0 +1,5 @@
+# GET /product/42 returns this HTML. The parts are loaded by shell.js in the browser.
+<body>
+  <div id="root"></div>
+  <script type="module" src="/shell.js"></script>
+</body>
