@@ -1,0 +1,9 @@
+// remote_b/dist/mf-manifest.json, exposes[0] (recorded excerpt: path and the css assets)
+"path": "./Widget",
+"assets": { "css": { "sync": ["static/css/async/__federation_expose_Widget.dddc0405f8.css"] } }
+
+// document.head of the host page after remote_b loaded (recorded)
+<link rel="stylesheet" href="http://localhost:3002/static/css/async/__federation_expose_Widget.dddc0405f8.css">
+
+// that file, as built
+button{background-color:red}

@@ -1,0 +1,6 @@
+remote_b's rule                          Pay (host)  remote_a  remote_b  what it cost us
+button { … }                             red         red       red       the whole page
+[data-remote='remote_b'] button { … }   grey        grey      red       a naming rule every team must keep
+.module.css with .button { … }           grey        grey      red       class="button-TUj2Xi", a build step
+.module.css with button { … }            red         red       red       type selectors are not renamed
+host adds button { border: 3px … }       3px green   3px green 3px green the prefix did not keep it out
