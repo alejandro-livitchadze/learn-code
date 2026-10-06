@@ -186,7 +186,7 @@ No errors: nothing a user would notice.
 A singleton keeps one copy, so the runtime picks one. The shared page says the higher version wins.
 {% /blank %}
 {% blank id="what" accepted=["warning"] misconception="version-mismatch-invisible" %}
-It is a warning, not an error. That is exactly what we recorded: two console warnings and a working page.
+It is a warning, not an error. Our requiredVersion mismatch behaved the same way: two console warnings and a working page.
 {% /blank %}
 {% /fillBlanks %}
 
@@ -207,7 +207,7 @@ A component needs the same React as the ==React DOM that renders it==. Two copie
 List `'react-dom/'` too, or `react-dom/client` brings a second React DOM.
 {% /point %}
 {% point %}
-A `requiredVersion` mismatch under a singleton only warns. The page still renders.
+In our recording, a `requiredVersion` mismatch under a singleton only warned. The page still rendered.
 {% /point %}
 {% margin %}
 {% bubble who="bug" %}
