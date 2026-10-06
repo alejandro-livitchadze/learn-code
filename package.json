@@ -13,6 +13,9 @@
     "demand": "pnpm --filter @learn-code/demand-scanner demand",
     "traces": "pnpm --filter @learn-code/lesson-compiler traces",
     "format": "prettier --check .",
+    "examples:build": "pnpm --filter \"@learn-code/mf-example-*\" --filter \"!@learn-code/mf-example-recorder\" build && pnpm --filter @learn-code/mf-example-remote-b build:broken",
+    "examples:record": "pnpm --filter @learn-code/mf-example-recorder record",
+    "examples:check": "pnpm examples:build && pnpm --filter @learn-code/mf-example-recorder record:check",
     "format:fix": "prettier --write .",
     "code-lint": "tsx packages/ui/scripts/code-lint.ts"
   },

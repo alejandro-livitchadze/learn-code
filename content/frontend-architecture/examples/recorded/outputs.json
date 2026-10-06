@@ -1,0 +1,36 @@
+{
+  "recordings": [
+    {
+      "name": "shared-react",
+      "description": "Host and both remotes share react as a singleton (the working setup).",
+      "hostReactVersion": "Host React 19.3.0",
+      "remoteHeadings": [
+        "Remote a",
+        "Remote b"
+      ],
+      "remoteReactVersions": [
+        "React 19.3.0",
+        "React 19.3.0"
+      ],
+      "errorsShownInPage": [],
+      "consoleErrors": []
+    },
+    {
+      "name": "duplicate-react",
+      "description": "remote_b is built with no shared react (MF_SHARE_REACT=off), so it bundles a second copy of React. The host renders its component with the host copy of react-dom.",
+      "hostReactVersion": "Host React 19.3.0",
+      "remoteHeadings": [
+        "Remote a"
+      ],
+      "remoteReactVersions": [
+        "React 19.3.0"
+      ],
+      "errorsShownInPage": [
+        "remote_b failed: Cannot read properties of null (reading 'useState')"
+      ],
+      "consoleErrors": [
+        "TypeError: Cannot read properties of null (reading 'useState')"
+      ]
+    }
+  ]
+}
