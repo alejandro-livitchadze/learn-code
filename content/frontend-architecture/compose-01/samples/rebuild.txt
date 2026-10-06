@@ -1,0 +1,9 @@
+// When does each technique join the parts?
+const joinedAt = {
+  'npm packages': 'build',
+  'server includes': 'request',
+  'import map': 'browser',
+  'Module Federation': 'browser',
+};
+const needsHostRebuild = Object.keys(joinedAt).filter((name) => joinedAt[name] === 'build');
+console.log(needsHostRebuild.join(', '));

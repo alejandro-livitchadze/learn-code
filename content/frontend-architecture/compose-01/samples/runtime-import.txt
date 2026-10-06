@@ -1,0 +1,4 @@
+// The host picks the part's address while it runs.
+const partUrl = 'data:text/javascript,export default () => "cart v2"';
+const { default: render } = await import(partUrl);
+console.log(render());
