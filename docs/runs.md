@@ -202,3 +202,4 @@
 
 - F18, F19 dispatched. F19: worker done (c07cf7b), PR #48, local checks pass; CI and review next run. F18: worker still running at end of this session; branch `task/F18`, stays `in_progress`. Follow-up: declare `prettier` as devDependency of lesson-compiler (needs lockfile) -> F23.
 - Update, 2026-10-06: F19 (PR #48) CI green on c07cf7b, fresh reviewer APPROVE, squash-merged (a22bbbd); F19 is `done`. F18 (PR #49) opened (51a4629), CI and review next run. Reviewers: 1.
+- Update, 2026-10-06: F18 (PR #49) CI green on 51a4629, fresh reviewer APPROVE, squash-merged (83c3d66); F18 is `done`. Reviewers this run: 2. Workers: 2. Integration PR #43 open; no milestone. Stopped at MAX_TASKS_PER_RUN-adjacent point; F20, F22, F23 ready next run (M0, F21 blocked on network).

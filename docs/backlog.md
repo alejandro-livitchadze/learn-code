@@ -403,7 +403,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: Catalogue derives its trace base from a named constant; `sameJson` in verify uses structural deep-equal; checks pass.
 
 ## F18. E2E covers schemaBuilder and beTheDatabase
-- Status: in_progress
+- Status: done
+- Note: merged via PR #49 (83c3d66); CI green; reviewer APPROVE on 51a4629.
 - Depends on: F13
 - Paths: `apps/web/e2e/widgets.spec.ts`
 - Source: P10 integration reviewer minor
