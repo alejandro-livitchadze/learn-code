@@ -1,6 +1,7 @@
 import * as prettier from 'prettier';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { deepEqual } from '../verify';
 import { generateTrace } from './generate';
 import { parseTraceSpec } from './spec';
 import type { JoinTrace } from './types';
@@ -51,9 +52,6 @@ export async function serializeTrace(trace: JoinTrace, filepath: string): Promis
   return prettier.format(JSON.stringify(trace, null, 2), { ...options, filepath });
 }
 
-/** Formatting (for example by prettier) must not matter, only the data. */
-const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
-
 /** Read a spec file and generate its trace from PGlite. */
 export async function generateFromFiles(files: TraceFiles): Promise<JoinTrace> {
   const raw: unknown = JSON.parse(readFileSync(files.specPath, 'utf8'));
@@ -78,7 +76,7 @@ export async function checkTraces(contentDir: string): Promise<readonly string[]
         problems.push(
           `${files.tracePath}: missing; run "pnpm exec tsx src/traces/cli.ts" in packages/lesson-compiler`,
         );
-      else if (!sameJson(JSON.parse(readFileSync(files.tracePath, 'utf8')), fresh))
+      else if (!deepEqual(JSON.parse(readFileSync(files.tracePath, 'utf8')), fresh))
         problems.push(
           `${files.tracePath}: differs from what PostgreSQL produces now; regenerate it`,
         );

@@ -159,4 +159,21 @@ describe('checkTraces', () => {
     expect(problems.join('\n')).toMatch(/join-inner[\s\S]*differs/);
     expect(problems.join('\n')).toMatch(/join-left[\s\S]*missing/);
   });
+  it('ignores object key order in a recorded trace', async () => {
+    const dir2 = mkdtempSync(join(tmpdir(), 'traces-order-'));
+    try {
+      cpSync(join(CONTENT, 'fullstack/joins-01'), join(dir2, 'fullstack/joins-01'), {
+        recursive: true,
+      });
+      const file = join(dir2, 'fullstack/joins-01/traces/join-inner.trace.json');
+      const parsed: Record<string, unknown> = JSON.parse(readFileSync(file, 'utf8'));
+      const reversed = Object.fromEntries(Object.entries(parsed).reverse());
+      expect(Object.keys(reversed)).not.toEqual(Object.keys(parsed));
+      writeFileSync(file, JSON.stringify(reversed));
+      const problems = await checkTraces(dir2);
+      expect(problems.filter((p) => p.includes('join-inner'))).toEqual([]);
+    } finally {
+      rmSync(dir2, { recursive: true, force: true });
+    }
+  });
 });
