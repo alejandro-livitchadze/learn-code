@@ -50,7 +50,7 @@ Each matching item adds another row.
 {% /margin %}
 {% /explain %}
 
-{% beTheDatabase id="b1" estSeconds=90 query="select p.name, o.label from people p inner join offices o on o.city = p.city order by p.id, o.id" traceRef="join-multiply" prompt="Be the database. For each person, pick every office in the same city. Mia and Olha share a city with two offices." concepts=["inner-join", "row-multiplication"] %}
+{% beTheDatabase id="b1" estSeconds=90 query="select p.name, o.label from people p inner join offices o on o.city = p.city order by p.id, o.id" traceRef="join-multiply" prompt="Be the database. For each person, pick every office in the same city. Olha and Mia are in Kyiv, which has two offices." concepts=["inner-join", "row-multiplication"] %}
 {% table name="people" columns=["id", "name", "city"] rows=[["1", "Olha", "Kyiv"], ["2", "Ivan", "Lviv"], ["3", "Mia", "Kyiv"]] /%}
 {% table name="offices" columns=["id", "city", "label"] rows=[["21", "Kyiv", "Podil"], ["22", "Kyiv", "Obolon"], ["23", "Lviv", "Centre"]] /%}
 {% /beTheDatabase %}
