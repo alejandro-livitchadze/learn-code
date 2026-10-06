@@ -35,6 +35,7 @@ import { fixtures, type Fixture } from '../../../../../packages/widgets/src/fixt
 
 /** The catalogue's sqlLab fixtures use the seeds of the sample lesson. */
 const CATALOGUE_SEEDS = '/seeds/fullstack/joins-01';
+const CATALOGUE_TRACES = '/traces/fullstack/joins-01';
 
 function Widget({
   fixture,
@@ -241,7 +242,7 @@ export function Catalogue({ highlights }: { readonly highlights: HighlightMap })
     <HighlightsProvider value={highlights}>
       <SeedBaseProvider value={CATALOGUE_SEEDS}>
         {/* Borrows the recorded traces of the fullstack/joins-01 lesson. */}
-        <TraceBaseProvider value="/traces/fullstack/joins-01">
+        <TraceBaseProvider value={CATALOGUE_TRACES}>
           <main className="cat">
             <h1>Widget catalogue</h1>
             <p className="lead">
