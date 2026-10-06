@@ -80,7 +80,7 @@
   {
     "id": "isolation-is-free",
     "belief": "Style isolation has no cost.",
-    "correction": "Each isolation option costs something, such as naming discipline, build setup or limits on theming.",
+    "correction": "Each isolation approach has trade-offs that the lesson must verify.",
     "concepts": ["style-isolation-options", "shadow-dom-isolation"]
   },
   {
