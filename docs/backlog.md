@@ -273,7 +273,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 8 (styles-01).
 
 ## M11. Lesson 9
-- Status: in_progress
+- Status: done
+- Note: merged via PR #68 (ab6dfeb); CI green; reviewer APPROVE on 0e78bfc after a polish round (typed record.ts, p8 moved after p2, p7 misconception, new retrieval step f4). 19 steps. Leftover minor (record.ts `split()[0]` under noUncheckedIndexedAccess) goes into this run's follow-up task.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/deploy-01/**`
 - Done when: same as M3 for lesson 9 (deploy-01).
