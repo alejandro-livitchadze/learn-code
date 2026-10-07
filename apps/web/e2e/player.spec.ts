@@ -1,23 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
-import { typeSql } from './helpers';
+import { continueBtn, expectGated, heading, option, typeSql } from './helpers';
 
 const URL = '/fullstack/joins-01';
 const KEY = 'learn-code:v1:progress:fullstack/joins-01';
 const TOTAL = 14;
-
-const heading = (page: Page) => page.getByTestId('step-heading');
-const continueBtn = (page: Page) => page.getByRole('button', { name: 'Continue' });
-/** The step is still open: no enabled Continue button (it is disabled or replaced by the step's own action). */
-const expectGated = async (page: Page) => {
-  await expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
-  // The footer still shows its one primary control, and it is disabled.
-  await expect(page.locator('footer .ui-btn-primary:disabled')).toHaveCount(1);
-};
-/** The predict option whose printed output is exactly `output`. */
-const option = (page: Page, output: string) =>
-  page
-    .locator('.w-options button')
-    .filter({ has: page.locator('.w-mono', { hasText: new RegExp(`^${output}$`) }) });
 
 async function stepNumber(page: Page): Promise<number> {
   const text = (await heading(page).textContent()) ?? '';
