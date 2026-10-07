@@ -247,3 +247,8 @@
 - Added F31 (leftovers: deploy-01 record.ts index access, host-remote-01 sample hashes and the RUNTIME-003 text, sources.md entries).
 - Reviewers: 11. Nothing is left in_progress.
 
+
+## 2026-10-07 (thirty-second run)
+
+- Resumed F30 and F31 (both `in_progress`, no PR). Merged F31 (PR #73, APPROVE on b2f3441) and F30 (PR #74, APPROVE on 2e7ece9), CI green. CI had failed first on `prettier --check` for `inbox.md` on develop; I formatted it on develop and merged develop into both branches.
+- Workers: 2. Reviewers: 2. Next: milestone M12 step (integration review of main..develop).
