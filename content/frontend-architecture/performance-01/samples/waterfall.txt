@@ -1,0 +1,9 @@
+// Our example as built (scenario A), first load, 100 ms per response, run 1.
+round 1  :3000  index.html
+round 2  :3000  index.js            host entry, 121 kB
+round 3  :3000  bootstrap chunk     :3001, :3002  mf-manifest.json
+round 4  :3001  remote_a.js         :3002  remote_b.js   (entries, 119 kB each)
+round 5  :3002  react, react-dom, react-dom/client       (219 kB, shared)
+         -> 665 ms: the host's heading appears, with "loading remote_a/b"
+round 6  :3001, :3002  Widget       (856 bytes each)
+         -> 965 ms: both Widgets on screen

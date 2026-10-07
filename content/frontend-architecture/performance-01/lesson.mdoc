@@ -1,0 +1,257 @@
+---
+id: performance-01
+courseId: frontend-architecture
+title: "Paying the ==performance bill=="
+concepts: [performance-cost, load-waterfall, preloading]
+# Sources for every claim about tools (checked 2026-10-07; quoted text was read on the linked page that day).
+# Claim register for Module Federation versions: content/frontend-architecture/sources.md.
+# - shareStrategy, type 'version-first' | 'loaded-first', "Default: 'version-first' (set by webpack plugin/bundler
+#   runtime)". 'version-first': "Version priority, ensuring that the highest version of shared dependencies is used. All
+#   remotes entry files will be automatically loaded during initialization to register shared dependencies and ensure
+#   version compatibility. This strategy is recommended when there are strict version requirements." 'loaded-first':
+#   "Prioritize reuse of already loaded shared dependencies. Remotes are loaded on-demand rather than during
+#   initialization. This strategy is recommended when you want to reuse loaded dependencies for performance."
+#   "Offline Remote Considerations": with version-first an offline remote triggers the errorLoadRemote hook with
+#   lifecycle 'beforeLoadShare' during startup; with loaded-first "offline remotes only cause failures when those
+#   specific remotes are accessed, not during application startup":
+#   https://module-federation.io/configure/shareStrategy.html
+# - preloadRemote, imported from '@module-federation/enhanced/runtime': "With preloadRemote, you can start preloading
+#   module resources at an earlier stage to avoid waterfall requests." It can preload "the remote's remoteEntry", "the
+#   remote's expose", synchronous or asynchronous resources and dependent remotes; option nameOrAlias: "Name or alias of
+#   the remote to be preloaded"; "By default, all exposes are preloaded":
+#   https://module-federation.io/guide/runtime/runtime-api.html
+# - The manifest describes "which assets those modules need, which shared dependencies are available":
+#   https://module-federation.io/guide/basic/manifest-snapshot.html
+# - shared, singleton: the shared dependencies "will only be loaded once":
+#   https://module-federation.io/configure/shared.html
+# - rel=preload: declares "resources that your page will need very soon, which you want to start loading early in the
+#   page lifecycle"; it "doesn't load and execute the script but only schedules it":
+#   https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload
+# - React Suspense, Caveats: "React reveals suspended content at most once every 300ms, measured from the last reveal.
+#   Boundaries that become ready within that window are revealed together rather than one at a time.":
+#   https://react.dev/reference/react/Suspense
+# Recordings (2026-10-07). Method, scripts and every number: recording/method.txt, recording/record.mjs.txt and
+# recording/results.json. In short: our example (examples/, Rsbuild 2.2.12, @module-federation/rsbuild-plugin 2.9.2,
+# React 19.3.0) built with "pnpm examples:build"; host, remote_a and remote_b served on :3000, :3001, :3002 by Node.js
+# servers that wait 100 ms before each response, no compression, no caching; loaded in headless Chromium 141, fresh
+# context, three runs per scenario. Scenario A: as built. B: remote_b from remote-b/dist-broken (shares nothing).
+# C: scratch host copy that calls preloadRemote (recording/preload-index.ts.txt). D: scratch host copy with
+# shareStrategy 'loaded-first' (recording/loaded-first-rsbuild.config.ts.txt). E: both. A scratch copy of the unchanged
+# host gave the same requests, rounds and timings as A. Nothing in examples/ was edited.
+# Labelled as our reading, not measured inside the tools: what fills the ~120 kB entry files, why the remotes showed up
+# 300 ms after their fallbacks in every scenario (it fits the React caveat above), and the version-first or
+# loaded-first trade-off. Absolute times are not claimed; the 100 ms per response is ours.
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["performance-cost"] %}
+Sprint review. The checkout page is now a host and two remotes, three teams, three deploys. The product manager smiles: "And smaller apps load faster, right?" The Bug puts a meter on the desk: requests, bytes, rounds of waiting, and a stopwatch for when the remotes appear.
+{% margin %}
+{% stop %}
+Two small Widgets instead of one app. What do you expect the biggest download to be?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/bytes-by-group.ts" language="ts" concepts=["performance-cost"] %}
+{% option output="the two Widgets: 1712 bytes" misconception="sharing-and-splitting-are-free" %}
+The Widgets were the smallest group: 856 bytes each. Most of the page was machinery around them.
+{% /option %}
+{% option output="React: 218768 bytes" misconception="sharing-and-splitting-are-free" %}
+React came once, shared, at 219 kB. The three entry files together were bigger.
+{% /option %}
+{% option output="entry files: 359841 bytes" correct=true %}
+Recorded from our example. Host, remote_a and remote_b each sent an entry file of about 120 kB. Splitting gave every part its own.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+360 kB of entry files for two buttons? What is in them?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p2" estSeconds=60 code="./samples/not-shared.ts" language="ts" concepts=["performance-cost"] %}
+{% option output="+0 bytes, +0 request" misconception="shared-is-automatic" %}
+Same React version is not the same file. With nothing in its shared config, remote_b downloaded its own React.
+{% /option %}
+{% option output="+215349 bytes, +1 request" correct=true %}
+Recorded from our example. A second React of about 218 kB came from :3002. And it did not even work: remote_b crashed, as in lesson 4.
+{% /option %}
+{% option output="+1712 bytes, +0 request" misconception="sharing-and-splitting-are-free" %}
+The Widget code was already counted. The extra weight was a whole second copy of React.
+{% /option %}
+{% /predict %}
+
+{% predict id="p3" estSeconds=60 code="./samples/host-heading.ts" language="ts" concepts=["load-waterfall", "performance-cost"] %}
+{% option output="after round 2: :3000 index.js (host entry)" misconception="sharing-and-splitting-are-free" %}
+The host's code had arrived, but not React. Under a shared singleton, the host waited until a React was picked and loaded.
+{% /option %}
+{% option output="after round 5: :3002 react, react-dom, react-dom/client" correct=true %}
+Recorded from our example. The host's own heading waited for both remote entry files and for React, which came from remote_b's server.
+{% /option %}
+{% option output="after round 6: :3001 Widget, :3002 Widget" misconception="requests-in-parallel" %}
+The heading came first, with "loading remote_a" under it. The Widget files were requested only after that.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+The host waits for remote_b's server to show its own title?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="./samples/waterfall.txt" concepts=["load-waterfall", "performance-cost"] %}
+Each round waited for the one before it: a ==load waterfall==. Why so long? The default [shareStrategy](https://module-federation.io/configure/shareStrategy.html) is `'version-first'`: "All remotes entry files will be automatically loaded during initialization to register shared dependencies". Only then is the one React picked. The [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) tells the runtime which files a module needs. Our reading: the 120 kB entries mostly carry the federation runtime.
+
+{% annotation line=5 %}
+Every remote entry, before any rendering.
+{% /annotation %}
+{% annotation line=7 %}
+First paint of the host.
+{% /annotation %}
+{% annotation line=8 %}
+Only now the Widget files.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=45 template="// first load of our example, one arrow = one round of waiting\nindex.html -> index.js -> ___file___ -> remote entry files -> React -> Widgets" language="ts" concepts=["load-waterfall"] %}
+{% blank id="file" accepted=["mf-manifest.json", "manifests", "mf-manifest", "manifest", "the manifests"] misconception="requests-in-parallel" %}
+The runtime learns where a remote's entry is from its mf-manifest.json, so both manifests came in round 3, before any entry file.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p4" estSeconds=60 code="./samples/preload-round.ts" language="ts" concepts=["preloading", "load-waterfall"] %}
+{% option output="round 1, with index.html" misconception="requests-in-parallel" %}
+preloadRemote is code in the host's index.js. It cannot run before that file has arrived.
+{% /option %}
+{% option output="round 3, with the manifests" misconception="requests-in-parallel" %}
+The Widget's file name is in the manifest. The runtime could ask for it only once the manifest had arrived.
+{% /option %}
+{% option output="round 4, with :3001 remote_a.js and :3002 remote_b.js" correct=true %}
+Recorded from our variant. The Widget files moved from round 6 to round 4, next to the entry files. The page now waits 5 rounds instead of 6.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="./samples/preload-index.txt" concepts=["preloading"] %}
+Module Federation's [runtime API](https://module-federation.io/guide/runtime/runtime-api.html) says: "With preloadRemote, you can start preloading module resources at an earlier stage to avoid waterfall requests." It can preload a remote's entry and its exposes; by default, all of them. Our variant calls it before the app renders. In the recording, Chromium fetched the Widget files through `<link rel="preload">`, which [schedules a fetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload) without running the script.
+
+{% annotation line=5 %}
+Before React, before any lazy import.
+{% /annotation %}
+{% annotation line=7 %}
+The app itself loads as before.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f2" estSeconds=45 template="import { preloadRemote } from '@module-federation/enhanced/runtime';\n\nvoid preloadRemote([{ ___key___: 'remote_a' }]);" language="ts" concepts=["preloading"] %}
+{% blank id="key" accepted=["nameOrAlias"] misconception="sharing-and-splitting-are-free" %}
+nameOrAlias names the remote, as in the host's remotes config. Preloading is not automatic: someone has to say which remote is worth fetching early.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p5" estSeconds=60 code="./samples/preload-screen.ts" language="ts" concepts=["preloading", "load-waterfall"] %}
+{% option output="last file: -145 ms, remotes on screen: -145 ms" misconception="sharing-and-splitting-are-free" %}
+The files did arrive 145 ms sooner. The remotes did not appear sooner: they were not waiting for their own files.
+{% /option %}
+{% option output="last file: no change, remotes on screen: no change" misconception="requests-in-parallel" %}
+Preloading did change the network: the Widget files no longer waited for React, so the last file arrived sooner.
+{% /option %}
+{% option output="last file: -145 ms, remotes on screen: no change" correct=true %}
+Recorded, three runs each. One round less on the network, and the Widgets showed up at the same time as before.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Faster files, same screen? Then what were the remotes waiting for?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=45 concepts=["preloading", "load-waterfall"] %}
+The team ships `preloadRemote` and celebrates a shorter waterfall. The stopwatch disagrees. The Widget files were never the slow part: React was. The host painted after React arrived, then the remotes appeared 300 ms later in every scenario we recorded. That fits a [Suspense caveat](https://react.dev/reference/react/Suspense): "React reveals suspended content at most once every 300ms". Our reading, not measured inside React.
+{% margin %}
+{% bubble who="bug" %}
+Your network tab got faster. Your users did not.
+{% /bubble %}
+{% gotcha %}
+Measure when the remote is on screen, not when its last file arrived. Only a shorter path to the first paint moved the screen.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% predict id="p6" estSeconds=60 code="./samples/loaded-first.ts" language="ts" concepts=["load-waterfall", "performance-cost"] %}
+{% option output="host 665 ms, remotes 965 ms" misconception="sharing-and-splitting-are-free" %}
+The strategy changed what the host waited for. It no longer loaded every remote entry before its first paint.
+{% /option %}
+{% option output="host 432 ms, remotes 432 ms" misconception="requests-in-parallel" %}
+The remotes' manifests were requested only after the host had painted, in round 4. They could not be on screen at the same moment.
+{% /option %}
+{% option output="host 432 ms, remotes 732 ms" correct=true %}
+Recorded, medians of three runs. The host used its own React from :3000 and painted after round 3. The remotes followed, 233 ms sooner than before.
+{% /option %}
+{% /predict %}
+
+{% explain id="e3" estSeconds=60 code="./samples/loaded-first-config.txt" concepts=["load-waterfall", "performance-cost"] %}
+The [shareStrategy page](https://module-federation.io/configure/shareStrategy.html) states the trade-off: `'version-first'` ensures "the highest version of shared dependencies is used"; `'loaded-first'` loads remotes "on-demand rather than during initialization". It also says version-first can fail at startup when a remote is offline. Our view: version-first wins when remotes need strict versions; loaded-first wins when the shell's first paint matters and teams keep versions aligned.
+
+{% annotation line=4 %}
+The one line that changed.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f3" estSeconds=45 template="// host: reuse what is loaded, fetch remotes when they are needed\npluginModuleFederation({\n  name: 'host',\n  shareStrategy: '___strategy___',\n  // remotes and shared as before\n})," language="ts" concepts=["load-waterfall"] %}
+{% blank id="strategy" accepted=["loaded-first"] misconception="sharing-and-splitting-are-free" %}
+loaded-first defers each remote until a module from it is requested. The default, version-first, loads every remote entry at startup.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p7" estSeconds=60 code="./samples/meter.ts" language="ts" concepts=["performance-cost", "preloading", "load-waterfall"] %}
+{% option output="C, preloadRemote: -1 ms sooner" misconception="sharing-and-splitting-are-free" %}
+C saved a round on the network, but its remotes appeared no sooner than A's, and it added a request.
+{% /option %}
+{% option output="D, shareStrategy 'loaded-first': 233 ms sooner" correct=true %}
+Recorded. Only the change that shortened the path to the host's first paint moved the remotes on screen.
+{% /option %}
+{% option output="B, remote_b shares nothing: 10 ms sooner" misconception="two-reacts-harmless" %}
+B is out of the race: it added 215 kB and remote_b crashed with two Reacts. Its 10 ms is noise.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+So every toggle costs something. I have to measure which bill I pay.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=30 concepts=["performance-cost", "load-waterfall", "preloading"] %}
+{% point %}
+Splitting has a price: 12 requests from 3 servers, and three entry files of about 120 kB for two Widgets of 856 bytes.
+{% /point %}
+{% point %}
+Not sharing React added 215 kB and a crash. A shared singleton loads it once.
+{% /point %}
+{% point %}
+The default `'version-first'` loads every remote entry before React is picked: our host painted after round 5. With `'loaded-first'`, after round 3.
+{% /point %}
+{% point %}
+`preloadRemote` moved files earlier, but the screen moved only when the ==path to the first paint== got shorter.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+Microfrontends buy you independent teams. The bytes and rounds are the invoice.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% fillBlanks id="f4" estSeconds=45 template="// rounds of waiting before our host painted its own heading\n// default shareStrategy, 'version-first': ___slow___ rounds\n// shareStrategy 'loaded-first':          ___fast___ rounds" language="ts" concepts=["load-waterfall", "performance-cost"] %}
+{% blank id="slow" accepted=["5", "five"] misconception="sharing-and-splitting-are-free" %}
+HTML, host entry, manifests, both remote entries, then React from :3002: five rounds before the first paint.
+{% /blank %}
+{% blank id="fast" accepted=["3", "three"] misconception="requests-in-parallel" %}
+HTML, host entry, then the host's own chunks with its React: three rounds. The remotes came after the paint.
+{% /blank %}
+{% /fillBlanks %}
+
+{% cliffhanger id="c1" estSeconds=20 question="That was the last bill of this course. Now open your own shell with the network slowed down: how many rounds pass before it paints, and how many of them belong to remotes it is not even showing yet?" %}
+{% margin %}
+{% bubble who="bug" %}
+I live in the rounds nobody counts. Go count them.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}
