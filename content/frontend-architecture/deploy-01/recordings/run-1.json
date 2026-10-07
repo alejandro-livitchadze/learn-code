@@ -1,0 +1,181 @@
+{
+  "down": {
+    "host: remote_b down": {
+      "headings": [],
+      "errorsShownInPage": [],
+      "bodyText": "",
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+        "pageerror: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003"
+      ],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.9110753b20.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4101  GET /static/js/remote_a.4c90afa552.js"
+      ]
+    },
+    "host: all up": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.9110753b20.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4102  GET /static/js/remote_b.73bf51547a.js",
+        ":4101  GET /static/js/remote_a.4c90afa552.js",
+        ":4102  GET /static/js/async/h.996bedb2af.js",
+        ":4102  GET /static/js/async/6.09c0956ef4.js",
+        ":4102  GET /static/js/async/r.6898f36d16.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js",
+        ":4102  GET /static/js/async/__federation_expose_Widget.5e7333f518.js"
+      ]
+    },
+    "host-lf: remote_b down": {
+      "headings": ["Host", "Remote a"],
+      "errorsShownInPage": [
+        "remote_b failed: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:4102/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"} View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/runtime#runtime-003 Original Error Message: TypeError: Failed to fetch while loading \"./Widget\" from i0"
+      ],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\n\nremote_b failed: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:4102/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"} View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/runtime#runtime-003 Original Error Message: TypeError: Failed to fetch while loading \"./Widget\" from i0",
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+        "Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003"
+      ],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.3375b5df6f.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4100  GET /static/js/async/h.4acc6bd2ce.js",
+        ":4100  GET /static/js/async/6.3d784bfef6.js",
+        ":4100  GET /static/js/async/r.7b45b222a2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js",
+        ":4101  GET /static/js/remote_a.4c90afa552.js"
+      ]
+    },
+    "host-lf: all up": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.3375b5df6f.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4100  GET /static/js/async/h.4acc6bd2ce.js",
+        ":4100  GET /static/js/async/6.3d784bfef6.js",
+        ":4100  GET /static/js/async/r.7b45b222a2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js",
+        ":4101  GET /static/js/remote_a.4c90afa552.js",
+        ":4102  GET /static/js/async/__federation_expose_Widget.5e7333f518.js",
+        ":4102  GET /static/js/remote_b.73bf51547a.js"
+      ]
+    }
+  },
+  "cache-long": {
+    "visit 1, remote_a v1 deployed": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.9110753b20.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4101  GET /static/js/remote_a.4c90afa552.js",
+        ":4102  GET /static/js/remote_b.73bf51547a.js",
+        ":4102  GET /static/js/async/h.996bedb2af.js",
+        ":4102  GET /static/js/async/6.09c0956ef4.js",
+        ":4102  GET /static/js/async/r.6898f36d16.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js",
+        ":4102  GET /static/js/async/__federation_expose_Widget.5e7333f518.js"
+      ]
+    },
+    "visit 2, same browser, remote_a v2 deployed": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [":4100  GET /"]
+    }
+  },
+  "cache-nocache": {
+    "visit 1, remote_a v1 deployed": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.9110753b20.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4101  GET /static/js/remote_a.4c90afa552.js",
+        ":4102  GET /static/js/remote_b.73bf51547a.js",
+        ":4102  GET /static/js/async/h.996bedb2af.js",
+        ":4102  GET /static/js/async/6.09c0956ef4.js",
+        ":4102  GET /static/js/async/r.6898f36d16.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js",
+        ":4102  GET /static/js/async/__federation_expose_Widget.5e7333f518.js"
+      ]
+    },
+    "visit 2, same browser, remote_a v2 deployed": {
+      "headings": ["Host", "Remote a v2", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a v2\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4101  GET /static/js/remote_a.8c5b437924.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.4d34cec5d4.js"
+      ]
+    }
+  },
+  "rollback": {
+    "v2 manifest live": {
+      "headings": ["Host", "Remote a v2", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a v2\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4100  GET /static/js/index.9110753b20.js",
+        ":4100  GET /static/js/async/4.0a6b7ce6f2.js",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4102  GET /static/js/remote_b.73bf51547a.js",
+        ":4101  GET /static/js/remote_a.8c5b437924.js",
+        ":4102  GET /static/js/async/h.996bedb2af.js",
+        ":4102  GET /static/js/async/6.09c0956ef4.js",
+        ":4102  GET /static/js/async/r.6898f36d16.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.4d34cec5d4.js",
+        ":4102  GET /static/js/async/__federation_expose_Widget.5e7333f518.js"
+      ]
+    },
+    "v1 manifest restored, same browser": {
+      "headings": ["Host", "Remote a", "Remote b"],
+      "errorsShownInPage": [],
+      "bodyText": "Host\n\nHost React 19.3.0\n\nRemote a\n\nReact 19.3.0\n\nclicked 0\nRemote b\n\nReact 19.3.0\n\nclicked 0",
+      "consoleErrors": [],
+      "requests": [
+        ":4100  GET /",
+        ":4101  GET /mf-manifest.json",
+        ":4102  GET /mf-manifest.json",
+        ":4101  GET /static/js/remote_a.4c90afa552.js",
+        ":4101  GET /static/js/async/__federation_expose_Widget.95557ec38c.js"
+      ]
+    }
+  }
+}

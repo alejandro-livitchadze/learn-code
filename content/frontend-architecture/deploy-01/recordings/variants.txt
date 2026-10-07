@@ -1,0 +1,40 @@
+Scratch copies used for the deploy-01 recordings (2026-10-06)
+==============================================================
+
+Copied from content/frontend-architecture/examples/{host,remote-a,remote-b} at the commit this
+lesson branched from, built with the pinned toolchain (rsbuild build, Rsbuild 2.2.12,
+@module-federation/rsbuild-plugin 2.9.2, React 19.3.0). examples/** was not edited.
+
+Change in every copy: ports 3000/3001/3002 -> 4100/4101/4102 in rsbuild.config.ts
+(remotes, server.port, output.assetPrefix), so these runs could not collide with other
+recordings on the same machine. File hashes therefore differ from host-remote-01.
+
+host           as committed
+host-lf        host + one line in pluginModuleFederation({...}):  shareStrategy: 'loaded-first',
+host-env       host + const remoteAOrigin = process.env['REMOTE_A_ORIGIN'] ?? 'http://localhost:4101';
+               and remote_a: `remote_a@${remoteAOrigin}/mf-manifest.json`
+               built with REMOTE_A_ORIGIN=https://staging.example.com/remote-a
+remote-a       as committed ("build 1")
+remote-a-v2    remote-a with <h2>Remote a v2</h2> in src/Widget.tsx ("build 2")
+remote-a-both  remote-a/dist plus the static/ files of remote-a-v2/dist, no manifest;
+               record.ts serves the manifest of build 1 or build 2 from the original dist
+remote-b       as committed
+
+Browser recordings: record.ts, two separate runs, raw output in run-1.json and run-2.json.
+Chromium: Playwright 1.56.1 headless shell 141.0.7390.37, fresh profile per run.
+
+Build outputs, recorded twice (two clean builds each, identical output):
+
+remote-a/dist:     mf-manifest.json, static/js/remote_a.4c90afa552.js,
+                   static/js/async/__federation_expose_Widget.95557ec38c.js
+remote-a-v2/dist:  mf-manifest.json, static/js/remote_a.8c5b437924.js,
+                   static/js/async/__federation_expose_Widget.4d34cec5d4.js
+
+host-env/dist, grep -rl 'staging.example.com/remote-a/mf-manifest.json' dist:
+  dist/mf-manifest.json
+  dist/mf-stats.json
+  dist/static/js/index.9c28080880.js
+host-env/dist, grep -rl 'www.example.com' dist: 0 files
+
+React files (react, react-dom, react-dom-client per their license headers) on the
+"all up" runs: version-first from :4102 (remote_b), loaded-first from :4100 (host).
