@@ -99,7 +99,7 @@ The host waits for remote_b's server to show its own title?
 {% /predict %}
 
 {% explain id="e1" estSeconds=60 code="./samples/waterfall.txt" concepts=["load-waterfall", "performance-cost"] %}
-Each round waited for the one before it: a ==load waterfall==. Why so long? The default [shareStrategy](https://module-federation.io/configure/shareStrategy.html) is `'version-first'`: "All remotes entry files will be automatically loaded during initialization to register shared dependencies". Only then is the one React picked. The [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) tells the runtime which files a module needs. Our reading: the 120 kB entries mostly carry the federation runtime.
+Each round waited for the one before it: a ==load waterfall==. Why so long? The default [shareStrategy](https://module-federation.io/configure/shareStrategy.html) is `'version-first'`: "All remotes entry files will be automatically loaded during initialization to register shared dependencies". In our recording, React came only after them. The [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) tells the runtime which files a module needs. Our reading: the 120 kB entries mostly carry the federation runtime.
 
 {% annotation line=5 %}
 Every remote entry, before any rendering.
@@ -165,13 +165,13 @@ Faster files, same screen? Then what were the remotes waiting for?
 {% /predict %}
 
 {% pitfall id="pf1" estSeconds=45 concepts=["preloading", "load-waterfall"] %}
-The team ships `preloadRemote` and celebrates a shorter waterfall. The stopwatch disagrees. The Widget files were never the slow part: React was. The host painted after React arrived, then the remotes appeared 300 ms later in every scenario we recorded. That fits a [Suspense caveat](https://react.dev/reference/react/Suspense): "React reveals suspended content at most once every 300ms". Our reading, not measured inside React.
+The team ships `preloadRemote` and celebrates a shorter waterfall. The stopwatch disagrees. The Widget files were not on the slow path: the host could not paint before React arrived. The host painted after React arrived, then the remotes appeared 300 ms later in every scenario we recorded. That fits a [Suspense caveat](https://react.dev/reference/react/Suspense): "React reveals suspended content at most once every 300ms". Our reading, not measured inside React.
 {% margin %}
 {% bubble who="bug" %}
 Your network tab got faster. Your users did not.
 {% /bubble %}
 {% gotcha %}
-Measure when the remote is on screen, not when its last file arrived. Only a shorter path to the first paint moved the screen.
+Measure when the remote is on screen, not when its last file arrived. In our recording, only a shorter path to the first paint moved the remotes.
 {% /gotcha %}
 {% /margin %}
 {% /pitfall %}

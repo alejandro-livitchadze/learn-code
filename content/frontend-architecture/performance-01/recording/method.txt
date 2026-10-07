@@ -13,7 +13,8 @@ Builds
   bytes within 20 of A (the file hashes in the names differ).
 
 Loading
-- record.mjs.txt (run as record.mjs, retried by run.sh.txt while other jobs held the ports): three
+- record.mjs.txt (run as record.mjs; it imports Playwright from apps/web/node_modules by an absolute
+  path; retried by run.sh.txt while other jobs held the ports): three
   Node.js static servers on :3000 (host), :3001 (remote_a), :3002 (remote_b). Every response waits
   100 ms before it is sent, to stand in for network latency; responses are not compressed and carry
   "cache-control: no-store". Headless Chromium 141 (Playwright 1.56.1, chromium_headless_shell-1194),
