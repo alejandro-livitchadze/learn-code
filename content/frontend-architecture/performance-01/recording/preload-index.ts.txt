@@ -1,0 +1,6 @@
+import { preloadRemote } from '@module-federation/enhanced/runtime';
+
+// Preloading variant: start fetching both remotes before the app renders.
+void preloadRemote([{ nameOrAlias: 'remote_a' }, { nameOrAlias: 'remote_b' }]);
+// Async boundary: shared modules (react) are negotiated before bootstrap loads.
+void import('./bootstrap');

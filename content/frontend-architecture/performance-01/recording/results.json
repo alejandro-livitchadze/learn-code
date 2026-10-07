@@ -1,0 +1,435 @@
+{
+  "recorded": "2026-10-07",
+  "method": "see recording/method.txt",
+  "scenarios": [
+    {
+      "id": "A",
+      "description": "Our example as built by pnpm examples:build: host/dist, remote-a/dist, remote-b/dist.",
+      "runs": 3,
+      "requests": [
+        12
+      ],
+      "bytes": [
+        586465
+      ],
+      "rounds": [
+        6
+      ],
+      "lastFileServedMs": [
+        777,
+        765,
+        812
+      ],
+      "hostHeadingShownMs": [
+        665,
+        655,
+        683
+      ],
+      "remotesShownMs": [
+        965,
+        955,
+        984
+      ],
+      "page": {
+        "headings": [
+          "Remote a",
+          "Remote b"
+        ],
+        "errors": []
+      },
+      "consoleErrors": [],
+      "run1Rounds": [
+        "round 1: :3000/ (274 B)",
+        "round 2: :3000/static/js/index.ba78f23585.js (121101 B)",
+        "round 3: :3000/static/js/async/4.b129f17839.js (1446 B)",
+        "round 3: :3001/mf-manifest.json (2212 B)",
+        "round 3: :3002/mf-manifest.json (2212 B)",
+        "round 4: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 4: :3002/static/js/remote_b.4f177bd679.js (119371 B)",
+        "round 5: :3002/static/js/async/i.7745ad3977.js (7875 B)",
+        "round 5: :3002/static/js/async/d.dceb8c31f0.js (206982 B)",
+        "round 5: :3002/static/js/async/o.a6ab4709c1.js (3911 B)",
+        "round 6: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 6: :3002/static/js/async/__federation_expose_Widget.0b62330692.js (856 B)"
+      ],
+      "run1Screens": [
+        "129 ",
+        "665 HostHost React 19.3.0loading remote_aloading remote_b",
+        "965 HostHost React 19.3.0Remote aReact 19.3.0clicked 0Remote bReact 19.3.0clicked 0"
+      ],
+      "run1ServerLog": [
+        "   10-  114 :3000 200     274 /",
+        "  130-  231 :3000 200  121101 /static/js/index.ba78f23585.js",
+        "  262-  367 :3000 200    1446 /static/js/async/4.b129f17839.js",
+        "  264-  381 :3001 200    2212 /mf-manifest.json",
+        "  264-  387 :3002 200    2212 /mf-manifest.json",
+        "  390-  497 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  390-  511 :3002 200  119371 /static/js/remote_b.4f177bd679.js",
+        "  521-  622 :3002 200    7875 /static/js/async/i.7745ad3977.js",
+        "  528-  629 :3002 200  206982 /static/js/async/d.dceb8c31f0.js",
+        "  528-  629 :3002 200    3911 /static/js/async/o.a6ab4709c1.js",
+        "  675-  776 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  675-  777 :3002 200     856 /static/js/async/__federation_expose_Widget.0b62330692.js"
+      ]
+    },
+    {
+      "id": "B",
+      "description": "As A, but remote_b from remote-b/dist-broken (MF_SHARE_REACT=off, lesson 4): remote_b shares nothing.",
+      "runs": 3,
+      "requests": [
+        13
+      ],
+      "bytes": [
+        801814
+      ],
+      "rounds": [
+        6
+      ],
+      "lastFileServedMs": [
+        777,
+        772,
+        768
+      ],
+      "hostHeadingShownMs": [
+        653,
+        661,
+        634
+      ],
+      "remotesShownMs": [
+        955,
+        965,
+        938
+      ],
+      "page": {
+        "headings": [
+          "Remote a"
+        ],
+        "errors": [
+          "remote_b failed: Cannot read properties of null (reading 'useState')"
+        ]
+      },
+      "consoleErrors": [
+        "error: TypeError: Cannot read properties of null (reading 'useState')"
+      ],
+      "run1Rounds": [
+        "round 1: :3000/ (274 B)",
+        "round 2: :3000/static/js/index.ba78f23585.js (121101 B)",
+        "round 3: :3000/static/js/async/4.b129f17839.js (1446 B)",
+        "round 3: :3001/mf-manifest.json (2212 B)",
+        "round 3: :3002/mf-manifest.json (1009 B)",
+        "round 4: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 4: :3002/static/js/remote_b.3c8c0d7d44.js (118160 B)",
+        "round 5: :3001/static/js/async/i.953be25436.js (7875 B)",
+        "round 5: :3001/static/js/async/d.62a8d0ec9a.js (206982 B)",
+        "round 5: :3001/static/js/async/o.c7d0e9daf3.js (3911 B)",
+        "round 6: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 6: :3002/static/js/async/lib-react.e22e3cd960.js (218178 B)",
+        "round 6: :3002/static/js/async/__federation_expose_Widget.8c602eae30.js (441 B)"
+      ],
+      "run1Screens": [
+        "127 ",
+        "653 HostHost React 19.3.0loading remote_aloading remote_b",
+        "955 HostHost React 19.3.0Remote aReact 19.3.0clicked 0remote_b failed: Cannot read properties of null (reading 'useState')"
+      ],
+      "run1ServerLog": [
+        "   13-  129 :3000 200     274 /",
+        "  133-  234 :3000 200  121101 /static/js/index.ba78f23585.js",
+        "  271-  372 :3000 200    1446 /static/js/async/4.b129f17839.js",
+        "  278-  380 :3001 200    2212 /mf-manifest.json",
+        "  280-  384 :3002 200    1009 /mf-manifest.json",
+        "  394-  496 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  398-  505 :3002 200  118160 /static/js/remote_b.3c8c0d7d44.js",
+        "  517-  618 :3001 200    7875 /static/js/async/i.953be25436.js",
+        "  517-  619 :3001 200  206982 /static/js/async/d.62a8d0ec9a.js",
+        "  524-  631 :3001 200    3911 /static/js/async/o.c7d0e9daf3.js",
+        "  662-  765 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  662-  765 :3002 200  218178 /static/js/async/lib-react.e22e3cd960.js",
+        "  663-  777 :3002 200     441 /static/js/async/__federation_expose_Widget.8c602eae30.js"
+      ]
+    },
+    {
+      "id": "C",
+      "description": "Scratch host variant \"preload\": host/src/index.ts calls preloadRemote for remote_a and remote_b before import('./bootstrap'). Remotes as A.",
+      "runs": 3,
+      "requests": [
+        13
+      ],
+      "bytes": [
+        587388
+      ],
+      "rounds": [
+        5
+      ],
+      "lastFileServedMs": [
+        632,
+        663,
+        630
+      ],
+      "hostHeadingShownMs": [
+        652,
+        696,
+        664
+      ],
+      "remotesShownMs": [
+        952,
+        998,
+        966
+      ],
+      "page": {
+        "headings": [
+          "Remote a",
+          "Remote b"
+        ],
+        "errors": []
+      },
+      "consoleErrors": [],
+      "run1Rounds": [
+        "round 1: :3000/ (351 B)",
+        "round 2: :3000/static/js/q.3fe2e05a08.js (238 B)",
+        "round 2: :3000/static/js/index.4c6079e279.js (121707 B)",
+        "round 3: :3000/static/js/async/4.6866cb994c.js (1448 B)",
+        "round 3: :3001/mf-manifest.json (2212 B)",
+        "round 3: :3002/mf-manifest.json (2212 B)",
+        "round 4: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 4: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 4: :3002/static/js/async/__federation_expose_Widget.0b62330692.js (856 B)",
+        "round 4: :3002/static/js/remote_b.4f177bd679.js (119371 B)",
+        "round 5: :3002/static/js/async/i.7745ad3977.js (7875 B)",
+        "round 5: :3002/static/js/async/d.dceb8c31f0.js (206982 B)",
+        "round 5: :3002/static/js/async/o.a6ab4709c1.js (3911 B)"
+      ],
+      "run1Screens": [
+        "126 ",
+        "652 HostHost React 19.3.0loading remote_aloading remote_b",
+        "952 HostHost React 19.3.0Remote aReact 19.3.0clicked 0Remote bReact 19.3.0clicked 0"
+      ],
+      "run1ServerLog": [
+        "   12-  116 :3000 200     351 /",
+        "  131-  232 :3000 200     238 /static/js/q.3fe2e05a08.js",
+        "  132-  239 :3000 200  121707 /static/js/index.4c6079e279.js",
+        "  264-  365 :3000 200    1448 /static/js/async/4.6866cb994c.js",
+        "  265-  366 :3001 200    2212 /mf-manifest.json",
+        "  266-  366 :3002 200    2212 /mf-manifest.json",
+        "  389-  490 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  390-  491 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  394-  495 :3002 200     856 /static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  395-  495 :3002 200  119371 /static/js/remote_b.4f177bd679.js",
+        "  518-  620 :3002 200    7875 /static/js/async/i.7745ad3977.js",
+        "  519-  628 :3002 200  206982 /static/js/async/d.dceb8c31f0.js",
+        "  527-  632 :3002 200    3911 /static/js/async/o.a6ab4709c1.js"
+      ]
+    },
+    {
+      "id": "D",
+      "description": "Scratch host variant \"loaded-first\": host/rsbuild.config.ts adds shareStrategy: 'loaded-first'. Remotes as A.",
+      "runs": 3,
+      "requests": [
+        12
+      ],
+      "bytes": [
+        586417
+      ],
+      "rounds": [
+        5
+      ],
+      "lastFileServedMs": [
+        672,
+        693,
+        695
+      ],
+      "hostHeadingShownMs": [
+        432,
+        418,
+        456
+      ],
+      "remotesShownMs": [
+        732,
+        718,
+        757
+      ],
+      "page": {
+        "headings": [
+          "Remote a",
+          "Remote b"
+        ],
+        "errors": []
+      },
+      "consoleErrors": [],
+      "run1Rounds": [
+        "round 1: :3000/ (274 B)",
+        "round 2: :3000/static/js/index.be68dfbc72.js (121083 B)",
+        "round 3: :3000/static/js/async/4.6866cb994c.js (1448 B)",
+        "round 3: :3000/static/js/async/5.2d396c651b.js (7864 B)",
+        "round 3: :3000/static/js/async/a.3edf8cf672.js (206972 B)",
+        "round 3: :3000/static/js/async/0.2704c8b181.js (3900 B)",
+        "round 4: :3001/mf-manifest.json (2212 B)",
+        "round 4: :3002/mf-manifest.json (2212 B)",
+        "round 5: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 5: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 5: :3002/static/js/async/__federation_expose_Widget.0b62330692.js (856 B)",
+        "round 5: :3002/static/js/remote_b.4f177bd679.js (119371 B)"
+      ],
+      "run1Screens": [
+        "132 ",
+        "432 HostHost React 19.3.0loading remote_aloading remote_b",
+        "732 HostHost React 19.3.0Remote aReact 19.3.0clicked 0Remote bReact 19.3.0clicked 0"
+      ],
+      "run1ServerLog": [
+        "   18-  125 :3000 200     274 /",
+        "  139-  247 :3000 200  121083 /static/js/index.be68dfbc72.js",
+        "  274-  375 :3000 200    1448 /static/js/async/4.6866cb994c.js",
+        "  284-  385 :3000 200    7864 /static/js/async/5.2d396c651b.js",
+        "  285-  385 :3000 200  206972 /static/js/async/a.3edf8cf672.js",
+        "  285-  386 :3000 200    3900 /static/js/async/0.2704c8b181.js",
+        "  446-  548 :3001 200    2212 /mf-manifest.json",
+        "  446-  550 :3002 200    2212 /mf-manifest.json",
+        "  555-  661 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  557-  668 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  564-  670 :3002 200     856 /static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  564-  672 :3002 200  119371 /static/js/remote_b.4f177bd679.js"
+      ]
+    },
+    {
+      "id": "E",
+      "description": "Scratch host variant with both changes of C and D. Remotes as A.",
+      "runs": 3,
+      "requests": [
+        13
+      ],
+      "bytes": [
+        587355
+      ],
+      "rounds": [
+        4
+      ],
+      "lastFileServedMs": [
+        515,
+        531,
+        524
+      ],
+      "hostHeadingShownMs": [
+        415,
+        439,
+        433
+      ],
+      "remotesShownMs": [
+        715,
+        739,
+        734
+      ],
+      "page": {
+        "headings": [
+          "Remote a",
+          "Remote b"
+        ],
+        "errors": []
+      },
+      "consoleErrors": [],
+      "run1Rounds": [
+        "round 1: :3000/ (351 B)",
+        "round 2: :3000/static/js/q.3fe2e05a08.js (238 B)",
+        "round 2: :3000/static/js/index.82c9ff3f7e.js (121706 B)",
+        "round 3: :3000/static/js/async/4.6866cb994c.js (1448 B)",
+        "round 3: :3000/static/js/async/5.2d396c651b.js (7864 B)",
+        "round 3: :3000/static/js/async/a.3edf8cf672.js (206972 B)",
+        "round 3: :3001/mf-manifest.json (2212 B)",
+        "round 3: :3002/mf-manifest.json (2212 B)",
+        "round 3: :3000/static/js/async/0.2704c8b181.js (3900 B)",
+        "round 4: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 4: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 4: :3002/static/js/async/__federation_expose_Widget.0b62330692.js (856 B)",
+        "round 4: :3002/static/js/remote_b.4f177bd679.js (119371 B)"
+      ],
+      "run1Screens": [
+        "126 ",
+        "415 HostHost React 19.3.0loading remote_aloading remote_b",
+        "715 HostHost React 19.3.0Remote aReact 19.3.0clicked 0Remote bReact 19.3.0clicked 0"
+      ],
+      "run1ServerLog": [
+        "    7-  117 :3000 200     351 /",
+        "  140-  243 :3000 200     238 /static/js/q.3fe2e05a08.js",
+        "  143-  246 :3000 200  121706 /static/js/index.82c9ff3f7e.js",
+        "  268-  368 :3000 200    1448 /static/js/async/4.6866cb994c.js",
+        "  272-  372 :3000 200    7864 /static/js/async/5.2d396c651b.js",
+        "  274-  375 :3000 200  206972 /static/js/async/a.3edf8cf672.js",
+        "  279-  385 :3001 200    2212 /mf-manifest.json",
+        "  279-  385 :3002 200    2212 /mf-manifest.json",
+        "  279-  387 :3000 200    3900 /static/js/async/0.2704c8b181.js",
+        "  397-  498 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  399-  503 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  412-  512 :3002 200     856 /static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  414-  515 :3002 200  119371 /static/js/remote_b.4f177bd679.js"
+      ]
+    },
+    {
+      "id": "X",
+      "description": "Control: scratch copy of the unchanged host, built the same way as C, D and E. Remotes as A.",
+      "runs": 3,
+      "requests": [
+        12
+      ],
+      "bytes": [
+        586445
+      ],
+      "rounds": [
+        6
+      ],
+      "lastFileServedMs": [
+        779,
+        784,
+        753
+      ],
+      "hostHeadingShownMs": [
+        648,
+        669,
+        644
+      ],
+      "remotesShownMs": [
+        948,
+        970,
+        946
+      ],
+      "page": {
+        "headings": [
+          "Remote a",
+          "Remote b"
+        ],
+        "errors": []
+      },
+      "consoleErrors": [],
+      "run1Rounds": [
+        "round 1: :3000/ (274 B)",
+        "round 2: :3000/static/js/index.49e17c2c8d.js (121079 B)",
+        "round 3: :3000/static/js/async/4.6866cb994c.js (1448 B)",
+        "round 3: :3001/mf-manifest.json (2212 B)",
+        "round 3: :3002/mf-manifest.json (2212 B)",
+        "round 4: :3001/static/js/remote_a.53afd9265b.js (119369 B)",
+        "round 4: :3002/static/js/remote_b.4f177bd679.js (119371 B)",
+        "round 5: :3002/static/js/async/i.7745ad3977.js (7875 B)",
+        "round 5: :3002/static/js/async/d.dceb8c31f0.js (206982 B)",
+        "round 5: :3002/static/js/async/o.a6ab4709c1.js (3911 B)",
+        "round 6: :3001/static/js/async/__federation_expose_Widget.089644264b.js (856 B)",
+        "round 6: :3002/static/js/async/__federation_expose_Widget.0b62330692.js (856 B)"
+      ],
+      "run1Screens": [
+        "121 ",
+        "648 HostHost React 19.3.0loading remote_aloading remote_b",
+        "948 HostHost React 19.3.0Remote aReact 19.3.0clicked 0Remote bReact 19.3.0clicked 0"
+      ],
+      "run1ServerLog": [
+        "    8-  127 :3000 200     274 /",
+        "  128-  234 :3000 200  121079 /static/js/index.49e17c2c8d.js",
+        "  252-  354 :3000 200    1448 /static/js/async/4.6866cb994c.js",
+        "  255-  357 :3001 200    2212 /mf-manifest.json",
+        "  255-  360 :3002 200    2212 /mf-manifest.json",
+        "  371-  478 :3001 200  119369 /static/js/remote_a.53afd9265b.js",
+        "  373-  494 :3002 200  119371 /static/js/remote_b.4f177bd679.js",
+        "  507-  608 :3002 200    7875 /static/js/async/i.7745ad3977.js",
+        "  514-  615 :3002 200  206982 /static/js/async/d.dceb8c31f0.js",
+        "  515-  616 :3002 200    3911 /static/js/async/o.a6ab4709c1.js",
+        "  669-  772 :3001 200     856 /static/js/async/__federation_expose_Widget.089644264b.js",
+        "  670-  779 :3002 200     856 /static/js/async/__federation_expose_Widget.0b62330692.js"
+      ]
+    }
+  ]
+}
