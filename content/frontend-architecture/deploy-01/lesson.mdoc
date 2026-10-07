@@ -105,6 +105,15 @@ Oh. The boundary only works once React is actually running.
 {% /margin %}
 {% /predict %}
 
+{% predict id="p8" estSeconds=50 code="./samples/react-source.ts" language="ts" concepts=["remote-failure", "independent-deploy"] %}
+{% option output=":4102 (remote_b)" misconception="sharing-and-splitting-are-free" %}
+That was the default version-first run. With loaded-first, remote_b was no longer loaded at startup, so it did not supply React.
+{% /option %}
+{% option output=":4100 (host)" correct=true %}
+Recorded in Chromium, twice. The host downloaded React itself. The fix for outages changed who pays for React.
+{% /option %}
+{% /predict %}
+
 {% predict id="p3" estSeconds=50 code="./samples/rebuild-names.ts" language="ts" concepts=["cache-busting"] %}
 {% option output="mf-manifest.json" correct=true %}
 The manifest keeps its name in every build. The two JavaScript files got new names because their content changed.
@@ -213,8 +222,8 @@ The address goes into the bundle.
 {% option output="https://staging.example.com/remote-a/mf-manifest.json" correct=true %}
 Recorded with grep. The build wrote the staging address into index.js. A variable set later on the server is never read.
 {% /option %}
-{% option output="https://www.example.com/remote-a/mf-manifest.json" misconception="cached-entry-is-fine" %}
-No file in host/dist contains www.example.com. The config read the variable when the build ran, not when the page loads.
+{% option output="https://www.example.com/remote-a/mf-manifest.json" misconception="independent-deploy-is-risk-free" %}
+No file in host/dist contains www.example.com. The config read the variable when the build ran, so promoting this build to production would still load the staging remote.
 {% /option %}
 {% margin %}
 {% sticky label="says" %}
@@ -225,7 +234,7 @@ Oh. Same dist folder everywhere means same addresses everywhere.
 
 {% recap id="rc1" estSeconds=40 concepts=["remote-failure", "cache-busting", "remote-rollback", "remote-url-per-environment", "independent-deploy"] %}
 {% point %}
-With the default version-first, every remote's entry loads at startup. One remote down blanked our whole page.
+With the default version-first, one remote down blanked our whole page. loaded-first kept the outage in one box, but the host now downloads React itself.
 {% /point %}
 {% point %}
 Hashed files can be cached for a year. The ==manifest keeps its name== and needs no-cache.
@@ -243,14 +252,17 @@ One manifest, one header, one plug. I only need one.
 {% /margin %}
 {% /recap %}
 
-{% predict id="p8" estSeconds=50 code="./samples/react-source.ts" language="ts" concepts=["remote-failure", "independent-deploy"] %}
-{% option output=":4102 (remote_b)" misconception="sharing-and-splitting-are-free" %}
-That was the default version-first run. With loaded-first, remote_b was no longer loaded at startup, so it did not supply React.
-{% /option %}
-{% option output=":4100 (host)" correct=true %}
-Recorded in Chromium, twice. The host downloaded React itself. The fix for outages changed who pays for React.
-{% /option %}
-{% /predict %}
+{% fillBlanks id="f4" estSeconds=40 template="// Checklist before remote_a ships on its own\nconst release = {\n  hostShareStrategy: '___outage___',\n  manifestCacheControl: '___fresh___',\n  rollbackRestores: '___restore___',\n};" language="ts" concepts=["remote-failure", "cache-busting", "remote-rollback"] %}
+{% blank id="outage" accepted=["loaded-first"] misconception="independent-deploy-is-risk-free" %}
+loaded-first. Startup no longer loads every remote, so one remote down stays in its own box.
+{% /blank %}
+{% blank id="fresh" accepted=["no-cache"] misconception="cached-entry-is-fine" %}
+no-cache. The browser checks the manifest before each use, so a release or a rollback reaches the next visit.
+{% /blank %}
+{% blank id="restore" accepted=["mf-manifest.json"] misconception="host-bundles-remote" %}
+mf-manifest.json. It names the live build; the old hashed files must still be on the server.
+{% /blank %}
+{% /fillBlanks %}
 
 {% cliffhanger id="c1" estSeconds=20 nextLessonId="performance-01" question="loaded-first saved the page and moved React's download to the host. What does each choice cost in bytes and requests on the first load?" %}
 {% margin %}

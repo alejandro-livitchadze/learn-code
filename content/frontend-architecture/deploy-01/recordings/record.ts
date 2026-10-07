@@ -6,20 +6,51 @@
 //   PLAYWRIGHT_FROM=<a package.json that can resolve playwright, e.g. apps/web/package.json>
 //   node record.ts down | cache-long | cache-nocache | rollback
 import { createRequire } from 'node:module';
-import { createServer } from 'node:http';
+import { createServer, type Server } from 'node:http';
 import { existsSync, readFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const load = createRequire(process.env['PLAYWRIGHT_FROM'] ?? '');
-const { chromium } = load('playwright');
+// Playwright is resolved at run time from another package, so its types are declared here (only what is used).
+interface Locator {
+  innerText(): Promise<string>;
+  allInnerTexts(): Promise<string[]>;
+}
+interface Page {
+  on(event: 'console', fn: (m: { type(): string; text(): string }) => void): void;
+  on(event: 'pageerror', fn: (e: Error) => void): void;
+  goto(url: string): Promise<unknown>;
+  locator(selector: string): Locator;
+  close(): Promise<void>;
+}
+interface BrowserContext {
+  newPage(): Promise<Page>;
+  close(): Promise<void>;
+}
+interface Playwright {
+  chromium: {
+    launchPersistentContext(dir: string, opts: { headless: boolean }): Promise<BrowserContext>;
+  };
+}
+const { chromium } = load('playwright') as Playwright;
 const E = process.env['EXAMPLES_COPY'] ?? '';
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json' };
+const TYPES: Readonly<Record<string, string>> = {
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.json': 'application/json',
+};
 
-const log = [];
-// state per port: { dir, cache(file) => header | null, manifestFrom?: dir }
-const state = {};
-function serve(port) {
+const log: string[] = [];
+interface PortState {
+  readonly dir: string;
+  /** Cache-Control header for a file path relative to dir, or null for none. */
+  readonly cache?: (rel: string) => string | null;
+  /** Serve mf-manifest.json from this directory instead of dir. */
+  readonly manifestFrom?: string;
+}
+const state: Record<number, PortState | undefined> = {};
+function serve(port: number): Promise<Server> {
   const server = createServer((req, res) => {
     const st = state[port];
     const path = normalize(decodeURIComponent((req.url ?? '/').split('?')[0]));
@@ -35,7 +66,7 @@ function serve(port) {
       res.writeHead(404, { 'access-control-allow-origin': '*' }).end();
       return;
     }
-    const headers = {
+    const headers: Record<string, string> = {
       'content-type': TYPES[extname(file)] ?? 'application/octet-stream',
       'access-control-allow-origin': '*',
     };
@@ -47,11 +78,19 @@ function serve(port) {
   return new Promise((r) => server.listen(port, '127.0.0.1', () => r(server)));
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+interface VisitResult {
+  readonly headings: readonly string[];
+  readonly errorsShownInPage: readonly string[];
+  readonly bodyText: string;
+  readonly consoleErrors: readonly string[];
+  readonly requests: readonly string[];
+}
 
-async function visit(context, waitMs = 8000) {
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+async function visit(context: BrowserContext, waitMs = 8000): Promise<VisitResult> {
   const page = await context.newPage();
-  const consoleErrors = [];
+  const consoleErrors: string[] = [];
   page.on('console', (m) => {
     if (m.type() === 'error') consoleErrors.push(m.text().split('\n')[0]);
   });
@@ -80,16 +119,16 @@ const scenario = process.argv[2];
 const servers = await Promise.all([serve(4100), serve(4101), serve(4102)]);
 const userDir = mkdtempSync(join(tmpdir(), 'deploy01-'));
 const context = await chromium.launchPersistentContext(userDir, { headless: true });
-const out = {};
+const out: Record<string, VisitResult> = {};
 try {
-  const hashed = (rel) =>
+  const hashed = (rel: string): string | null =>
     rel.startsWith('static/') ? 'public, max-age=31536000, immutable' : null;
   if (scenario === 'down') {
     for (const hostDir of ['host', 'host-lf']) {
       state[4100] = { dir: join(E, hostDir, 'dist') };
       state[4101] = { dir: join(E, 'remote-a', 'dist') };
       // Stop the :4102 server: connections are refused, as when the remote's server is down.
-      await new Promise((r) => servers[2].close(r));
+      await new Promise((r) => servers[2]?.close(r));
       out[`${hostDir}: remote_b down`] = await visit(context);
       state[4102] = { dir: join(E, 'remote-b', 'dist') };
       servers[2] = await serve(4102);
@@ -97,7 +136,8 @@ try {
     }
   } else if (scenario === 'cache-long' || scenario === 'cache-nocache') {
     const manifestCc = scenario === 'cache-long' ? 'public, max-age=86400' : 'no-cache';
-    const cache = (rel) => (rel === 'mf-manifest.json' ? manifestCc : hashed(rel));
+    const cache = (rel: string): string | null =>
+      rel === 'mf-manifest.json' ? manifestCc : hashed(rel);
     state[4100] = { dir: join(E, 'host', 'dist'), cache };
     state[4101] = { dir: join(E, 'remote-a', 'dist'), cache };
     state[4102] = { dir: join(E, 'remote-b', 'dist'), cache };
@@ -106,7 +146,8 @@ try {
     out['visit 2, same browser, remote_a v2 deployed'] = await visit(context);
   } else if (scenario === 'rollback') {
     // Both builds' files stay on the server; only the manifest decides.
-    const cache = (rel) => (rel === 'mf-manifest.json' ? 'no-cache' : hashed(rel));
+    const cache = (rel: string): string | null =>
+      rel === 'mf-manifest.json' ? 'no-cache' : hashed(rel);
     const both = join(E, 'remote-a-both');
     state[4100] = { dir: join(E, 'host', 'dist'), cache };
     state[4102] = { dir: join(E, 'remote-b', 'dist'), cache };
