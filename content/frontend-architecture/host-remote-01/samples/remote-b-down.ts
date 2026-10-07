@@ -3,9 +3,10 @@
 const recorded = {
   headingsOnPage: [] as string[],
   consoleError:
-    'Failed to get manifest. #RUNTIME-003 (manifestUrl http://localhost:3002/mf-manifest.json)',
+    'Uncaught (in promise) Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {"manifestUrl":"http://localhost:3002/mf-manifest.json","moduleName":"remote_b","hostName":"host"}',
 };
-// What does the visitor see?
-console.log(
-  recorded.headingsOnPage.length === 0 ? '(empty page)' : recorded.headingsOnPage.join(', '),
-);
+// The error line is copied from examples/recorded/outputs.json (remote-b-down).
+// What does the visitor see, and what does the console say?
+const page =
+  recorded.headingsOnPage.length === 0 ? '(empty page)' : recorded.headingsOnPage.join(', ');
+console.log(`${page} | ${recorded.consoleError}`);

@@ -53,7 +53,7 @@ const state: Record<number, PortState | undefined> = {};
 function serve(port: number): Promise<Server> {
   const server = createServer((req, res) => {
     const st = state[port];
-    const path = normalize(decodeURIComponent((req.url ?? '/').split('?')[0]));
+    const path = normalize(decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/'));
     if (!st) {
       req.socket.destroy();
       return;
@@ -92,9 +92,9 @@ async function visit(context: BrowserContext, waitMs = 8000): Promise<VisitResul
   const page = await context.newPage();
   const consoleErrors: string[] = [];
   page.on('console', (m) => {
-    if (m.type() === 'error') consoleErrors.push(m.text().split('\n')[0]);
+    if (m.type() === 'error') consoleErrors.push(m.text().split('\n')[0] ?? '');
   });
-  page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message.split('\n')[0]}`));
+  page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message.split('\n')[0] ?? ''}`));
   const start = log.length;
   await page.goto('http://localhost:4100/');
   const t0 = Date.now();

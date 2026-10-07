@@ -46,7 +46,7 @@ concepts: [host-and-remote, runtime-remote-loading, remote-entry-manifest, reque
 # - samples/request-log.txt: the requests each server saw, in order. The same order came out in three runs.
 # - samples/deploy-remote-only.ts: remote_a's heading changed to "Remote a v2", only remote_a rebuilt, host untouched.
 # - samples/grep-host-dist.ts: grep -rl "Remote a" on each dist folder.
-# - samples/remote-b-down.ts: server on :3002 stopped, page empty after 8 s, RUNTIME-003 for the manifest of remote_b.
+# - samples/remote-b-down.ts: server on :3002 stopped, page empty after 8 s, RUNTIME-003 for the manifest of remote_b (the console line is copied from examples/recorded/outputs.json).
 # - samples/host-index-html.ts and first-remote-request.ts: copied from host/dist/index.html and the "remotes" of
 #   host/dist/mf-manifest.json.
 # Labelled as our reading, not a documented guarantee: why the page stayed empty (we only record that it did), and
@@ -115,10 +115,10 @@ Two files do contain the text, but both are in remote-a/dist. The host folder ha
 {% option output="/mf-manifest.json" misconception="requests-in-parallel" %}
 This HTML names no remote and no port 3001. Nothing in it can make the browser ask for a remote yet.
 {% /option %}
-{% option output="/static/js/index.da945bb8f4.js" correct=true %}
+{% option output="/static/js/index.[hash].js" correct=true %}
 The HTML holds one script tag, the host's own. The browser has to run the host before it can learn about any remote.
 {% /option %}
-{% option output="/static/js/remote_a.71bd68a471.js" misconception="host-bundles-remote" %}
+{% option output="/static/js/remote_a.[hash].js" misconception="host-bundles-remote" %}
 The host never lists remote_a's file name. That name exists only in remote_a's own manifest.
 {% /option %}
 {% margin %}
@@ -129,13 +129,13 @@ So the host page doesn't start the remote requests?
 {% /predict %}
 
 {% predict id="p4" estSeconds=45 code="./samples/first-remote-request.ts" language="ts" concepts=["request-order", "remote-entry-manifest"] %}
-{% option output="/static/js/remote_a.71bd68a471.js" misconception="host-bundles-remote" %}
+{% option output="/static/js/remote_a.[hash].js" misconception="host-bundles-remote" %}
 The host does not know that file name. Its config only holds the manifest address, so the runtime asks for the manifest.
 {% /option %}
 {% option output="/mf-manifest.json" correct=true %}
 The host's only address for remote_a is the manifest. The remote entry's name comes out of it.
 {% /option %}
-{% option output="/static/js/async/__federation_expose_Widget.c2b648506a.js" misconception="requests-in-parallel" %}
+{% option output="/static/js/async/__federation_expose_Widget.[hash].js" misconception="requests-in-parallel" %}
 The exposed module is not requested first and not alongside the manifest. Its file name is in the manifest too.
 {% /option %}
 {% /predict %}
@@ -161,13 +161,13 @@ The path is the remote's alias, a slash, and the exposed name without ./. It is 
 {% /fillBlanks %}
 
 {% predict id="p5" estSeconds=60 code="./samples/remote-b-down.ts" language="ts" concepts=["runtime-remote-loading"] %}
-{% option output="Host, Remote a, Remote b" misconception="host-bundles-remote" %}
+{% option output="Host, Remote a, Remote b | Uncaught (in promise) Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:3002/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"}" misconception="host-bundles-remote" %}
 The host does not have Remote b's code, so a stopped server matters. The build never contacted it, the browser did.
 {% /option %}
-{% option output="Host, Remote a, error box for remote_b" misconception="independent-deploy-is-risk-free" %}
+{% option output="Host, Remote a, error box for remote_b | Uncaught (in promise) Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:3002/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"}" misconception="independent-deploy-is-risk-free" %}
 That is what the example's error boundary is for, but in this recording it never got to show. Nothing rendered.
 {% /option %}
-{% option output="(empty page)" correct=true %}
+{% option output="(empty page) | Uncaught (in promise) Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:3002/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"}" correct=true %}
 Recorded from our example. With only remote_b down, the host showed nothing, not even Remote a. The console had error RUNTIME-003.
 {% /option %}
 {% margin %}
@@ -216,10 +216,10 @@ You never rebuilt the host. I never left.
 {% option output="/mf-manifest.json" misconception="host-bundles-remote" %}
 The manifest describes the Widget, it does not contain it. It lists the files to fetch.
 {% /option %}
-{% option output="/static/js/remote_a.71bd68a471.js" misconception="requests-in-parallel" %}
+{% option output="/static/js/remote_a.[hash].js" misconception="requests-in-parallel" %}
 The remote entry is requested before the Widget, but its text has no Remote a heading. It only loads the module.
 {% /option %}
-{% option output="/static/js/async/__federation_expose_Widget.c2b648506a.js" correct=true %}
+{% option output="/static/js/async/__federation_expose_Widget.[hash].js" correct=true %}
 The exposed module is its own chunk. It is the last request to :3001, and the only one whose file holds the heading.
 {% /option %}
 {% /predict %}
