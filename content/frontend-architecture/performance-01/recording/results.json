@@ -54,7 +54,21 @@
         "lastFileServedMs": 777,
         "hostHeadingShownMs": 665,
         "remotesShownMs": 965
-      }
+      },
+      "run1Resources": [
+        "  123-  230 script :3000/static/js/index.ba78f23585.js",
+        "  253-  362 script :3000/static/js/async/4.b129f17839.js",
+        "  256-  368 fetch  :3001/mf-manifest.json",
+        "  256-  381 fetch  :3002/mf-manifest.json",
+        "  377-  492 script :3001/static/js/remote_a.53afd9265b.js",
+        "  383-  508 script :3002/static/js/remote_b.4f177bd679.js",
+        "  518-  621 script :3002/static/js/async/i.7745ad3977.js",
+        "  519-  636 script :3002/static/js/async/d.dceb8c31f0.js",
+        "  522-  631 script :3002/static/js/async/o.a6ab4709c1.js",
+        "  669-  776 script :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  670-  781 script :3002/static/js/async/__federation_expose_Widget.0b62330692.js"
+      ],
+      "widgetInitiatorsPerRun": [["script"], ["script"], ["script"]]
     },
     {
       "id": "B",
@@ -110,7 +124,22 @@
         "lastFileServedMs": 772,
         "hostHeadingShownMs": 653,
         "remotesShownMs": 955
-      }
+      },
+      "run1Resources": [
+        "  125-  233 script :3000/static/js/index.ba78f23585.js",
+        "  268-  372 script :3000/static/js/async/4.b129f17839.js",
+        "  271-  378 fetch  :3001/mf-manifest.json",
+        "  272-  381 fetch  :3002/mf-manifest.json",
+        "  388-  493 script :3001/static/js/remote_a.53afd9265b.js",
+        "  392-  499 script :3002/static/js/remote_b.3c8c0d7d44.js",
+        "  512-  619 script :3001/static/js/async/i.953be25436.js",
+        "  512-  622 script :3001/static/js/async/d.62a8d0ec9a.js",
+        "  514-  632 script :3001/static/js/async/o.c7d0e9daf3.js",
+        "  656-  761 script :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  657-  766 script :3002/static/js/async/lib-react.e22e3cd960.js",
+        "  657-  776 script :3002/static/js/async/__federation_expose_Widget.8c602eae30.js"
+      ],
+      "widgetInitiatorsPerRun": [["script"], ["script"], ["script"]]
     },
     {
       "id": "C",
@@ -166,7 +195,22 @@
         "lastFileServedMs": 632,
         "hostHeadingShownMs": 664,
         "remotesShownMs": 966
-      }
+      },
+      "run1Resources": [
+        "  120-  225 script :3000/static/js/q.3fe2e05a08.js",
+        "  121-  226 script :3000/static/js/index.4c6079e279.js",
+        "  249-  363 script :3000/static/js/async/4.6866cb994c.js",
+        "  253-  367 fetch  :3001/mf-manifest.json",
+        "  253-  380 fetch  :3002/mf-manifest.json",
+        "  374-  485 link   :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  375-  485 script :3001/static/js/remote_a.53afd9265b.js",
+        "  383-  489 link   :3002/static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  383-  490 script :3002/static/js/remote_b.4f177bd679.js",
+        "  510-  612 script :3002/static/js/async/i.7745ad3977.js",
+        "  510-  614 script :3002/static/js/async/d.dceb8c31f0.js",
+        "  512-  624 script :3002/static/js/async/o.a6ab4709c1.js"
+      ],
+      "widgetInitiatorsPerRun": [["link"], ["link"], ["link"]]
     },
     {
       "id": "D",
@@ -220,7 +264,21 @@
         "lastFileServedMs": 693,
         "hostHeadingShownMs": 432,
         "remotesShownMs": 732
-      }
+      },
+      "run1Resources": [
+        "  125-  235 script :3000/static/js/index.be68dfbc72.js",
+        "  265-  370 script :3000/static/js/async/4.6866cb994c.js",
+        "  270-  387 script :3000/static/js/async/5.2d396c651b.js",
+        "  271-  390 script :3000/static/js/async/a.3edf8cf672.js",
+        "  273-  390 script :3000/static/js/async/0.2704c8b181.js",
+        "  434-  541 fetch  :3001/mf-manifest.json",
+        "  434-  543 fetch  :3002/mf-manifest.json",
+        "  547-  651 script :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  548-  658 script :3001/static/js/remote_a.53afd9265b.js",
+        "  556-  664 script :3002/static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  556-  665 script :3002/static/js/remote_b.4f177bd679.js"
+      ],
+      "widgetInitiatorsPerRun": [["script"], ["script"], ["script"]]
     },
     {
       "id": "E",
@@ -276,7 +334,22 @@
         "lastFileServedMs": 524,
         "hostHeadingShownMs": 433,
         "remotesShownMs": 734
-      }
+      },
+      "run1Resources": [
+        "  118-  239 script :3000/static/js/q.3fe2e05a08.js",
+        "  121-  243 script :3000/static/js/index.82c9ff3f7e.js",
+        "  264-  368 script :3000/static/js/async/4.6866cb994c.js",
+        "  268-  371 script :3000/static/js/async/5.2d396c651b.js",
+        "  269-  375 script :3000/static/js/async/a.3edf8cf672.js",
+        "  270-  387 fetch  :3001/mf-manifest.json",
+        "  270-  387 fetch  :3002/mf-manifest.json",
+        "  271-  387 script :3000/static/js/async/0.2704c8b181.js",
+        "  393-  497 link   :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  394-  502 script :3001/static/js/remote_a.53afd9265b.js",
+        "  407-  512 link   :3002/static/js/async/__federation_expose_Widget.0b62330692.js",
+        "  407-  519 script :3002/static/js/remote_b.4f177bd679.js"
+      ],
+      "widgetInitiatorsPerRun": [["link"], ["link"], ["link"]]
     },
     {
       "id": "X",
@@ -330,7 +403,21 @@
         "lastFileServedMs": 779,
         "hostHeadingShownMs": 648,
         "remotesShownMs": 948
-      }
+      },
+      "run1Resources": [
+        "  115-  228 script :3000/static/js/index.49e17c2c8d.js",
+        "  248-  351 script :3000/static/js/async/4.6866cb994c.js",
+        "  249-  354 fetch  :3001/mf-manifest.json",
+        "  250-  356 fetch  :3002/mf-manifest.json",
+        "  360-  472 script :3001/static/js/remote_a.53afd9265b.js",
+        "  363-  491 script :3002/static/js/remote_b.4f177bd679.js",
+        "  500-  608 script :3002/static/js/async/i.7745ad3977.js",
+        "  501-  616 script :3002/static/js/async/d.dceb8c31f0.js",
+        "  503-  615 script :3002/static/js/async/o.a6ab4709c1.js",
+        "  652-  769 script :3001/static/js/async/__federation_expose_Widget.089644264b.js",
+        "  653-  774 script :3002/static/js/async/__federation_expose_Widget.0b62330692.js"
+      ],
+      "widgetInitiatorsPerRun": [["script"], ["script"], ["script"]]
     }
   ]
 }

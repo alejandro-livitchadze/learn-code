@@ -2,7 +2,7 @@
 import { createServer } from 'node:http';
 import { existsSync, readFileSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
-import { chromium } from '/home/user/wt-M12/apps/web/node_modules/@playwright/test/index.mjs';
+import { chromium } from '@playwright/test';
 
 const [hostDir, aDir, bDir, latencyArg, label = ''] = process.argv.slice(2);
 const latency = Number(latencyArg ?? 0);
@@ -33,7 +33,9 @@ function serve(dir, port) {
   return new Promise((r) => server.listen(port, '127.0.0.1', () => r(server)));
 }
 const servers = await Promise.all([serve(hostDir, 3000), serve(aDir, 3001), serve(bDir, 3002)]);
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell' });
+// Our runs passed { executablePath: <path to chromium_headless_shell-1194> } here. Rerun without it
+// from apps/web (PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers), it gave the same requests, bytes and initiators.
+const browser = await chromium.launch();
 const context = await browser.newContext();
 const page = await context.newPage();
 const consoleMsgs = [];

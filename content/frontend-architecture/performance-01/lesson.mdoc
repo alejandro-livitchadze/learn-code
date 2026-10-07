@@ -18,7 +18,8 @@ concepts: [performance-cost, load-waterfall, preloading]
 # - preloadRemote, imported from '@module-federation/enhanced/runtime': "With preloadRemote, you can start preloading
 #   module resources at an earlier stage to avoid waterfall requests." It can preload "the remote's remoteEntry", "the
 #   remote's expose", synchronous or asynchronous resources and dependent remotes; option nameOrAlias: "Name or alias of
-#   the remote to be preloaded"; "By default, all exposes are preloaded":
+#   the remote to be preloaded"; "By default, all exposes are preloaded"; "If every resource is loaded successfully or
+#   hits the cache, the Promise resolves; if any resource fails or times out, the Promise rejects":
 #   https://module-federation.io/guide/runtime/runtime-api.html
 # - The manifest describes "which assets those modules need, which shared dependencies are available":
 #   https://module-federation.io/guide/basic/manifest-snapshot.html
@@ -38,6 +39,8 @@ concepts: [performance-cost, load-waterfall, preloading]
 # C: scratch host copy that calls preloadRemote (recording/preload-index.ts.txt). D: scratch host copy with
 # shareStrategy 'loaded-first' (recording/loaded-first-rsbuild.config.ts.txt). E: both. A scratch copy of the unchanged
 # host gave the same requests, rounds and timings as A. Nothing in examples/ was edited.
+# - How Chromium fetched the Widget files: recording/results.json, "widgetInitiatorsPerRun" (Resource Timing
+#   initiatorType; "link" in all three runs of C and E, "script" in A, B, D and X) and "run1Resources".
 # Labelled as our reading, not measured inside the tools: what fills the ~120 kB entry files, why the remotes showed up
 # 300 ms after their fallbacks in every scenario (it fits the React caveat above), and the version-first or
 # loaded-first trade-off. Absolute times are not claimed; the 100 ms per response is ours.
@@ -131,7 +134,7 @@ Recorded from our variant. The Widget files moved from round 6 to round 4, next 
 {% /predict %}
 
 {% explain id="e2" estSeconds=60 code="./samples/preload-index.txt" concepts=["preloading"] %}
-Module Federation's [runtime API](https://module-federation.io/guide/runtime/runtime-api.html) says: "With preloadRemote, you can start preloading module resources at an earlier stage to avoid waterfall requests." It can preload a remote's entry and its exposes; by default, all of them. Our variant calls it before the app renders. In the recording, Chromium fetched the Widget files through `<link rel="preload">`, which [schedules a fetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload) without running the script.
+Module Federation's [runtime API](https://module-federation.io/guide/runtime/runtime-api.html) says: "With preloadRemote, you can start preloading module resources at an earlier stage to avoid waterfall requests." By default it preloads all exposes. Our variant calls it before the app renders. In our recording, Chromium fetched the Widget files as `<link rel="preload">` requests, which [schedule a fetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload) without running the script. The same page says the promise rejects if a resource fails, so real code should catch it.
 
 {% annotation line=5 %}
 Before React, before any lazy import.
@@ -141,9 +144,9 @@ The app itself loads as before.
 {% /annotation %}
 {% /explain %}
 
-{% fillBlanks id="f2" estSeconds=45 template="import { preloadRemote } from '@module-federation/enhanced/runtime';\n\nvoid preloadRemote([{ ___key___: 'remote_a' }]);" language="ts" concepts=["preloading"] %}
-{% blank id="key" accepted=["nameOrAlias"] misconception="sharing-and-splitting-are-free" %}
-nameOrAlias names the remote, as in the host's remotes config. Preloading is not automatic: someone has to say which remote is worth fetching early.
+{% fillBlanks id="f2" estSeconds=45 template="// host/src/index.ts: preload both remotes, then start the app\nimport { preloadRemote } from '@module-federation/enhanced/runtime';\n\nvoid preloadRemote([{ nameOrAlias: 'remote_a' }, { nameOrAlias: '___remote___' }]);\nvoid import('./bootstrap');" language="ts" concepts=["preloading"] %}
+{% blank id="remote" accepted=["remote_b"] misconception="sharing-and-splitting-are-free" %}
+Preloading is not free and not automatic: only the remotes the call names are fetched early, and only if the call runs before the app does. Leave remote_b out and nothing asks for its files early.
 {% /blank %}
 {% /fillBlanks %}
 

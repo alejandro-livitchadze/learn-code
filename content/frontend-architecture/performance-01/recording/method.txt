@@ -13,8 +13,10 @@ Builds
   bytes within 20 of A (the file hashes in the names differ).
 
 Loading
-- record.mjs.txt (run as record.mjs; it imports Playwright from apps/web/node_modules by an absolute
-  path; retried by run.sh.txt while other jobs held the ports): three
+- record.mjs.txt: copy it to apps/web/record.mjs and run it from apps/web, where @playwright/test is
+  installed: node record.mjs <host dist> <remote-a dist> <remote-b dist> 100 <label>. Our runs imported
+  Playwright by an absolute path and passed executablePath for the installed headless shell; both are
+  replaced in this copy. run.sh.txt retried the script while other jobs held the ports. It starts three
   Node.js static servers on :3000 (host), :3001 (remote_a), :3002 (remote_b). Every response waits
   100 ms before it is sent, to stand in for network latency; responses are not compressed and carry
   "cache-control: no-store". Headless Chromium 141 (Playwright 1.56.1, chromium_headless_shell-1194),
@@ -24,6 +26,8 @@ Loading
 - "rounds": requests grouped by start time; a new round starts when a request starts more than 80 ms
   after the first request of the current round. With 100 ms per response, a request in round n could
   only start after something of round n-1 arrived.
+- "run1Resources" and "widgetInitiatorsPerRun": Resource Timing entries read in the page
+  (performance.getEntriesByType('resource')): start, responseEnd, initiatorType and URL.
 - "lastFileServedMs": when the last response was finished, measured from navigation start.
 - "hostHeadingShownMs" and "remotesShownMs": from a MutationObserver in the page (performance.now()):
   the first time <main> contained the host's heading, and the first time both remotes had rendered
