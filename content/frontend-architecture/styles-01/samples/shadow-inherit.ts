@@ -1,3 +1,4 @@
+// Model: prints the values recorded from our example project.
 // remote_b renders into a shadow root and puts its own CSS inside it:
 //   import css from './widget.css?inline';   …   <style>{css}</style>
 // The host's host.css:
@@ -9,8 +10,8 @@ const recorded = {
   headingColor: [0, 0, 255],
   buttonBorderTopWidth: '2px',
   buttonBorderTopColor: [0, 0, 0],
-};
-const names: Record<string, string> = {
+} as const;
+const names: Readonly<Record<string, string>> = {
   '0,0,255': 'blue',
   '0,0,0': 'black',
   '0,128,0': 'green',
