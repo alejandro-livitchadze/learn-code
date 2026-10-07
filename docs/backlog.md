@@ -267,7 +267,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 7 (communication-01).
 
 ## M10. Lesson 8
-- Status: in_progress
+- Status: done
+- Note: merged via PR #69 (ca36bf8); CI green; reviewer APPROVE on 482ccc4 after one fix round (p6 after recap, broken f2 shadow-root model, two mistagged distractors) and a polish round (`root` name in f3). 16 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/styles-01/**`
 - Done when: same as M3 for lesson 8 (styles-01).
