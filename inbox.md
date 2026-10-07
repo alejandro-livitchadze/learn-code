@@ -168,3 +168,10 @@
 - Microfrontends lessons 1 to 3 are on develop (need-01, compose-01, host-remote-01). Play them and leave notes in inbox.md. M6 to M12 (lessons 4 to 10) are in the backlog; M2 roadmap and registry, M1 example project and F26 course title are merged.
 - Decided without the author: this run started 7 workers (M1, F26, M2, F27, M3, M4, M5) against `MAX_TASKS_PER_RUN = 6` because I counted wrongly; I started no further task after that. CLAUDE.md unchanged.
 - Delete stale remote branches `task/F26`, `task/M1`, `task/M2`, `task/M3`, `task/M4`, `task/M5`, `task/F27` (deletes fail from this environment).
+
+## 2026-10-07 (thirty-first run)
+
+- All 10 microfrontends lessons are on develop (need-01 to performance-01). Play them and leave notes in inbox.md. They are not on main yet: the course milestone review asked for an e2e that plays every lesson (F30), and the milestone step reruns after F30.
+- Proposal (E09 asks for engine proposals here): performance-01 would teach better with an E07 "meter" that shows requests, bytes and paint rounds per toggle (sharing, preloadRemote, shareStrategy), fed from `content/frontend-architecture/performance-01/recording/results.json`. The lesson uses predict steps for now. Not scheduled.
+- Delete stale remote branches `task/M9`, `task/M10`, `task/M11`, `task/M12`, `task/F28`, `task/F29` (deletes fail from this environment).
+

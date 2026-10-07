@@ -236,3 +236,14 @@
 - Resumed M6, M7, M8; started M9, M10, M11 (6 tasks, at MAX_TASKS_PER_RUN). Merged: M7 (PR #64, APPROVE on 02e795d after a polish round), M8 (PR #65, APPROVE on 0312520 after one fix round: Olha on consecutive steps), M6 (PR #66, APPROVE on d3e3c02, no minors). All CI green. M9 (PR #67) got APPROVE on e3c20ee after a polish round; the next run merged it.
 - Left open: M11 (PR #68): APPROVE on 3770806 with 3 minors (record.ts implicit anys, p8 after recap, p7 misconception id); the polish worker died on the session usage limit before pushing. M10 (PR #69, head 311a29b): the reviewer died on the usage limit, so it has no verdict yet; CI green.
 - Usage: hit the session limit at about 23:20 UTC with 1 worker and 1 reviewer running. This run then overlapped with the next scheduled run, which picked up M9, M12 and F29. Lessons note that several outputs come from scratch variants of examples/ that CI does not re-record (contracts-01, routing-01, deploy-01, styles-01); F29 is the place to fold them into the recorder. Workers: 6 (+3 polish/fix rounds). Reviewers: 9. Integration PR #43 open; milestone M12 not reached.
+
+## 2026-10-07 (thirty-first run)
+
+- Merged into develop, all with CI green and a fresh reviewer APPROVE on the head commit: M9 (PR #67, approved last run), F29 (PR #70, no minors), M11 (PR #68, after a polish round), F28 (PR #71, Paths widened to its sample file), M10 (PR #69, after one fix round and a polish round), M12 (PR #72, after one fix round).
+- Every microfrontends lesson is now on develop.
+- Workers started: 6 (M11 polish, M12, F29, M10 fix, F28, M10 polish), at MAX_TASKS_PER_RUN. Two fixes went back to an already running worker via message instead of starting a new one: the F28 sample line and the M12 fix round 1.
+- The M12 fix commit landed on a detached HEAD, because a reviewer brief had told the reviewer to detach in the same worktree. I pointed task/M12 at it and pushed. Later reviewer briefs say not to detach.
+- Milestone M12 (course end): the integration reviewer ran everything on ec759b3. Install, typecheck, lint, format, test, lesson check, examples:check, the web build and the e2e (27) all pass. Verdict CHANGES_REQUESTED: no e2e test plays any frontend-architecture lesson. Added F30 at the top of the backlog; not merged into main. Integration PR #43 stays open.
+- Added F31 (leftovers: deploy-01 record.ts index access, host-remote-01 sample hashes and the RUNTIME-003 text, sources.md entries).
+- Reviewers: 11. Nothing is left in_progress.
+

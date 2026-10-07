@@ -4,6 +4,13 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
+## F30. E2E plays every frontend-architecture lesson to the end
+- Status: todo
+- Depends on: none
+- Paths: `apps/web/e2e/**`
+- Source: M12 milestone integration review (Integration PR #43, CHANGES_REQUESTED on ec759b3)
+- Done when: `apps/web/e2e/frontend-architecture.spec.ts` plays each of the 10 roadmap lessons (need-01, compose-01, host-remote-01, shared-deps-01, contracts-01, routing-01, communication-01, styles-01, deploy-01, performance-01) at `/frontend-architecture/<id>` from step 1 to "Completed": each active step is first asserted gated, then answered with its real correct answer (predict: correct option and Lock in answer; fillBlanks: every blank), and no "coming soon" stand-in appears; it reuses the helpers in `player.spec.ts`/`helpers.ts`; the e2e passes in CI. After merge, rerun the M12 milestone step.
+
 ## F1. Lesson check: playable and solvable
 - Status: done
 - Note: merged via PR #23; CI green; reviewer APPROVE on e69f87e (minors: LEGACY_LESSONS also downgrades unbuilt-kind for joins-01, removed in F6; new rules lack brokenFixtures entries).
@@ -565,3 +572,10 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Paths: `content/frontend-architecture/examples/**`
 - Source: M5 worker and reviewer notes
 - Done when: `examples/recorder` records, into `recorded/outputs.json`, the per-server request log of a first host load (as used in `host-remote-01/samples/request-log.txt`), the host page with remote_b stopped (the empty page and the RUNTIME-003 console error), and which server serves React's chunks in the shared-react build; `pnpm examples:check` passes; the numbers match the `host-remote-01` samples.
+
+## F31. Leftovers from the thirty-first run
+- Status: todo
+- Depends on: none
+- Paths: `content/frontend-architecture/deploy-01/recordings/record.ts`, `content/frontend-architecture/host-remote-01/**`, `content/frontend-architecture/sources.md`
+- Source: M11 incremental review minor; F29 worker report; M12 worker report
+- Done when: `deploy-01/recordings/record.ts:56,95` add `?? '/'` and `?? ''` to the `.split(...)[0]` results so a strict tsc with `noUncheckedIndexedAccess` has no TS2345; the `host-remote-01` samples (`request-log.txt`, `host-index-html.ts`, `widget-request.ts`, `grep-host-dist.ts`) no longer quote one build's content hashes as fixed (use `.[hash]` as `examples/recorded/outputs.json` does, or label them as from one build), and `remote-b-down.ts` prints the recorded RUNTIME-003 line from `outputs.json` instead of a paraphrase, with any affected lesson text and options adjusted; `sources.md` gains dated entries for shareStrategy, preloadRemote (runtime API) and the react.dev Suspense 300 ms note used by performance-01; `pnpm lesson check content/frontend-architecture` passes.
