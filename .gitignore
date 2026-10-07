@@ -6,3 +6,7 @@ coverage
 *.tsbuildinfo
 playwright-report
 test-results
+@mf-types
+@mf-types.d.ts
+@mf-types.zip
+dist-broken

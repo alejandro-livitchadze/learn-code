@@ -165,7 +165,7 @@ describe('playable and solvable rules', () => {
     ],
     ['folder-names', (s) => s.replace('id: joins-01', 'id: other'), 'id: other'],
     ['folder-names', (s) => s.replace('courseId: fullstack', 'courseId: other'), 'courseId:'],
-    ['step-count', (s) => s.slice(0, s.indexOf('{% predict id="p4"')), ''],
+    ['step-count', (s) => s.slice(0, s.indexOf('{% pitfall id="pf1"')), ''],
     ['step-count', (s) => `${s}\n${passives}\n`, ''],
   ];
   it.each(cases)('%s', async (rule, edit, at) => {

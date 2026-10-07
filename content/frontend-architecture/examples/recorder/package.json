@@ -1,0 +1,17 @@
+{
+  "name": "@learn-code/mf-example-recorder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "record": "tsx src/record.ts",
+    "record:check": "tsx src/record.ts --check",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "jsdom": "^26.0.0",
+    "@types/jsdom": "^21.1.7",
+    "typescript": "~5.9.0"
+  }
+}

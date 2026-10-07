@@ -1,0 +1,12 @@
+:3000  GET /
+:3000  GET /static/js/index.[hash].js
+:3000  GET /static/js/async/4.[hash].js
+:3001  GET /mf-manifest.json
+:3001  GET /static/js/remote_a.[hash].js
+:3001  GET /static/js/async/__federation_expose_Widget.[hash].js
+:3002  GET /mf-manifest.json
+:3002  GET /static/js/remote_b.[hash].js
+:3002  GET /static/js/async/i.[hash].js
+:3002  GET /static/js/async/d.[hash].js
+:3002  GET /static/js/async/o.[hash].js
+:3002  GET /static/js/async/__federation_expose_Widget.[hash].js

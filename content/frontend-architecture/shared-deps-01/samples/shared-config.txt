@@ -1,0 +1,8 @@
+// remote-b/rsbuild.config.ts in our example (the normal build, MF_SHARE_REACT not set)
+const reactShare = { singleton: true, requiredVersion: '^19.0.0' } as const;
+
+pluginModuleFederation({
+  name: 'remote_b',
+  exposes: { './Widget': './src/Widget.tsx' },
+  shared: { react: reactShare, 'react-dom': reactShare, 'react-dom/': reactShare },
+});

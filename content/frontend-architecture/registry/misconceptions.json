@@ -1,0 +1,104 @@
+[
+  {
+    "id": "mf-makes-faster",
+    "belief": "Microfrontends make an app faster.",
+    "correction": "They solve team and deployment coupling and usually cost performance.",
+    "concepts": ["mf-problem-fit"]
+  },
+  {
+    "id": "mf-means-module-federation",
+    "belief": "Microfrontends means Module Federation.",
+    "correction": "Microfrontends is an architecture; Module Federation is one of several ways to compose the parts.",
+    "concepts": ["composition-techniques", "module-federation-place"]
+  },
+  {
+    "id": "one-technique-fits-all",
+    "belief": "One composition technique covers every requirement.",
+    "correction": "Each technique satisfies some requirements (independent deploy, shared state, style isolation, SEO) and not others.",
+    "concepts": ["composition-requirements"]
+  },
+  {
+    "id": "host-bundles-remote",
+    "belief": "The host bundles the remote into its own build.",
+    "correction": "The remote is fetched at runtime from its own deployment.",
+    "concepts": ["runtime-remote-loading", "host-and-remote"]
+  },
+  {
+    "id": "requests-in-parallel",
+    "belief": "The browser fetches the host and the remote in parallel from the start.",
+    "correction": "The host runs first and learns about the remote afterwards, so requests can come in sequence.",
+    "concepts": ["request-order"]
+  },
+  {
+    "id": "shared-is-automatic",
+    "belief": "Shared dependencies are shared automatically.",
+    "correction": "Sharing happens only for packages declared in the shared configuration, and sub-path imports need their own entries.",
+    "concepts": ["shared-dependencies", "trailing-slash-share"]
+  },
+  {
+    "id": "two-reacts-harmless",
+    "belief": "Two copies of React on a page are harmless.",
+    "correction": "React lists more than one copy as a cause of the invalid hook call warning.",
+    "concepts": ["duplicate-react", "singleton-sharing"]
+  },
+  {
+    "id": "version-mismatch-invisible",
+    "belief": "A version mismatch on a shared package shows up as an obvious error.",
+    "correction": "What the runtime does on a mismatch depends on the configuration; the lesson records it from the example project.",
+    "concepts": ["required-version"]
+  },
+  {
+    "id": "remote-exports-change-freely",
+    "belief": "A remote can change its exports freely.",
+    "correction": "The host depends on the exposed names and shapes; a change that compiles in the remote can break the host at runtime.",
+    "concepts": ["remote-contract", "contract-types", "contract-detection"]
+  },
+  {
+    "id": "remote-owns-its-url",
+    "belief": "Each remote can manage the URL as if it were the only app on the page.",
+    "correction": "The browser has one URL, so one part must own it and the others work inside the share they are given.",
+    "concepts": ["shell-ownership", "nested-routing"]
+  },
+  {
+    "id": "deep-link-just-works",
+    "belief": "A link into the middle of a remote works like any other link.",
+    "correction": "On a cold start the shell must load the remote before the inner route can render.",
+    "concepts": ["deep-links"]
+  },
+  {
+    "id": "shared-store-is-easy",
+    "belief": "A shared global store is the easy answer for communication.",
+    "correction": "A shared store couples deploys, because its shape becomes a contract between teams.",
+    "concepts": ["shared-store-coupling", "custom-events", "url-as-state"]
+  },
+  {
+    "id": "css-stays-in-its-remote",
+    "belief": "CSS written in one remote only affects that remote.",
+    "correction": "A global rule applies to the whole document unless something isolates it.",
+    "concepts": ["css-global-scope", "style-isolation-options"]
+  },
+  {
+    "id": "isolation-is-free",
+    "belief": "Style isolation has no cost.",
+    "correction": "Each isolation approach has trade-offs that the lesson must verify.",
+    "concepts": ["style-isolation-options", "shadow-dom-isolation"]
+  },
+  {
+    "id": "independent-deploy-is-risk-free",
+    "belief": "Deploying a remote on its own cannot break the other parts.",
+    "correction": "The host loads the latest remote at runtime, so a bad release or an outage reaches users unless the host handles it.",
+    "concepts": ["independent-deploy", "remote-failure", "remote-rollback"]
+  },
+  {
+    "id": "cached-entry-is-fine",
+    "belief": "A new remote release reaches users at once.",
+    "correction": "A cached entry file can keep serving an older build; releases need a cache strategy.",
+    "concepts": ["cache-busting", "remote-url-per-environment"]
+  },
+  {
+    "id": "sharing-and-splitting-are-free",
+    "belief": "Sharing dependencies and splitting into remotes cost nothing at runtime.",
+    "correction": "Duplicate dependencies, chained loading and extra requests are the price; preloading and sharing change how much is paid.",
+    "concepts": ["performance-cost", "preloading"]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "name": "@learn-code/mf-example-remote-b",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "build:broken": "MF_SHARE_REACT=off rsbuild build",
+    "dev": "rsbuild dev --port 3002",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@module-federation/rsbuild-plugin": "2.9.2",
+    "@rsbuild/core": "2.2.12",
+    "@rsbuild/plugin-react": "2.1.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "~5.9.0"
+  }
+}

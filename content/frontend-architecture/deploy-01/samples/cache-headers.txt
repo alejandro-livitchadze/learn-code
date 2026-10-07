@@ -1,0 +1,8 @@
+# Headers our recording server sent for remote_a in the no-cache and rollback runs
+/mf-manifest.json   Cache-Control: no-cache
+/static/**          Cache-Control: public, max-age=31536000, immutable
+
+# remote-a/dist after build 1 and build 2 (heading changed)
+mf-manifest.json                                  same name
+static/js/remote_a.4c90afa552.js                  -> remote_a.8c5b437924.js
+static/js/async/__federation_expose_Widget.95557ec38c.js -> ...Widget.4d34cec5d4.js

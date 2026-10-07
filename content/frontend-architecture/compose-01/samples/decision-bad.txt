@@ -1,0 +1,4 @@
+const decision = {
+  needs: ['independent deploy', 'SEO on product pages'],
+  choice: 'Module Federation for everything, because we know it',
+};

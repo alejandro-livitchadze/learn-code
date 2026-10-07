@@ -1,0 +1,262 @@
+---
+id: styles-01
+courseId: frontend-architecture
+title: "Styles that ==leak=="
+concepts: [css-global-scope, style-isolation-options, shadow-dom-isolation]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Predict and fillBlanks feedback is plain text, so it names the source and the URL is kept here.
+# - MDN, Type selectors (e1, p1): "The CSS type selector matches elements by node name. In other words, it selects all
+#   elements of the given type within a document.":
+#   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/Type_selectors
+# - Rsbuild, CSS usage (e1, f3, p6, rc1): "by default, Rsbuild will extract CSS into a separate .css file and output it to the
+#   dist directory"; for ?inline: "Get the compiled text content of the CSS file ... The content will be inlined into the
+#   final JavaScript bundle. No separate CSS file will be generated.":
+#   https://rsbuild.rs/guide/styling/css-usage
+# - Module Federation, Manifest: mf-manifest.json "describes which modules the producer exposes, where the remote entry
+#   is, which assets those modules need" (e1):
+#   https://module-federation.io/guide/basic/manifest-snapshot.html
+# - Rsbuild, CSS Modules (f1, e2, p3): *.module.css files are CSS Modules by default; "CSS Modules class names are
+#   automatically appended with a hash value to prevent class name conflicts"; production names look like .red-hiQIE4;
+#   default import used as className={styles.red}:
+#   https://rsbuild.rs/guide/styling/css-modules
+# - CSS Modules specification repository (e2, p3): "A CSS Module is a CSS file where all class names and animation names
+#   are scoped locally by default." (type selectors are not named; the recording shows they stay global):
+#   https://github.com/css-modules/css-modules
+# - MDN, Using shadow DOM (f2, p4, pf1, p7): "The page CSS does not affect nodes inside the shadow DOM"; "none of the code
+#   inside a shadow DOM can affect anything outside it"; style elements in a template "are applied only within the
+#   shadow DOM tree":
+#   https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM
+# - MDN, Element.attachShadow() (f2): "attaches a shadow DOM tree to the specified element and returns a reference to its
+#   ShadowRoot"; mode open or closed; NotSupportedError is thrown for an element "that already has a shadow root
+#   that was not created declaratively", hence the el.shadowRoot guard in the sketch:
+#   https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
+# - react.dev, createPortal (f2): "createPortal lets you render some children into a different part of the DOM";
+#   for domNode, "The node must already exist.", so the sketch renders the portal only once the shadow root is in state:
+#   https://react.dev/reference/react-dom/createPortal
+# - MDN, CSS scoping (pf1): "Globally scoped styles apply to all the elements in the node tree that match the selector
+#   ... but not to the shadow trees"; "Selectors and their associated style definitions don't bleed between scopes.":
+#   https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Scoping
+# - MDN, Inheritance (p5, rc1): an inherited property such as color takes the parent's computed value; a non-inherited
+#   property such as border takes its initial value:
+#   https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Inheritance
+# - W3C, CSS Scoping Module Level 1, section 3.3.2 Inheritance (p5, rc1): "The top-level elements of a shadow tree
+#   inherit from their host element." MDN states no such sentence on the pages above, so the specification is cited.
+#   https://www.w3.org/TR/css-scoping-1/
+# Recordings. Every runtime value in this lesson was recorded from scratch copies of examples/host, remote-a and
+# remote-b (this lesson may not edit examples/**). Changes in the copies, nothing else:
+# - host: a <button data-testid="host-pay">Pay</button> after the version line; one variant also imports host.css with
+#   main { color: blue; } and button { border: 3px solid green; }.
+# - remote_b: Widget.tsx variants that import widget.css (button { background-color: red; }, or the same rule prefixed with
+#   [data-remote='remote_b']), widget.module.css (.button rule, used as className={styles.button}; or a button rule),
+#   or render heading, version line and button into a shadow root with attachShadow({ mode: 'open' }) and createPortal,
+#   importing widget.css either normally or with ?inline into a <style> inside the root.
+# - every rsbuild.config.ts: output.distPath.root read from an environment variable, so each variant has its own dist.
+# Built with the example's pinned Rsbuild 2.2.12 and @module-federation/rsbuild-plugin 2.9.2 (the DTS plugin logs
+# TYPE-001 for the .module.css and ?inline variants because they have no type declarations; the bundles are built).
+# Served on ports 3000, 3001 and 3002 by a static server like examples/recorder/src/record.ts (plus text/css), and
+# loaded in headless Chromium 141.0.7390.37 through Playwright 1.56.1 (the copy in apps/web), a fresh browser context per
+# scenario. Values are getComputedStyle results after the network was idle; samples write colors as r, g, b channels
+# because CL1 forbids rgb() literals outside packages/ui. The whole recording was run twice; all
+# computed styles, link tags and class names were identical in both runs. Only the order of requests between different
+# servers changed, which no step claims.
+# The .ts samples are models: each prints the values recorded from our example project (it says so in its first
+# comment); they do not load a page themselves. host-rule-reach.ts (p7) reuses the p2 and p5 recordings.
+# Labelled as our reading, not a documented guarantee: why the manifest's css asset ends up as a <link> in
+# document.head (we record that it did).
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["css-global-scope"] %}
+Tuesday, 11:00. Team B wants red buttons in their widget. They add one rule to remote_b's stylesheet and deploy remote_b. Only remote_b. At 11:04 finance calls: the host's Pay button is red too, and customers think something is wrong. The Bug did nothing. It only watched.
+{% margin %}
+{% stop %}
+A stylesheet ships with remote_b. Which buttons on the page can its rules reach?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/global-leak.ts" language="ts" concepts=["css-global-scope"] %}
+{% option output="remote_b" misconception="css-stays-in-its-remote" %}
+The file was built and deployed by remote_b, but the rule has no idea. Once loaded, it matched every button in the document.
+{% /option %}
+{% option output="Pay (host), remote_b" misconception="css-stays-in-its-remote" %}
+remote_a's button is a button too. A type selector does not care which team rendered the element.
+{% /option %}
+{% option output="Pay (host), remote_a, remote_b" correct=true %}
+Recorded from our example. One rule from remote_b turned all three buttons red, the host's and the other remote's too.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Wait, remote_a didn't even change. Its button turned red anyway?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="./samples/where-css-went.txt" concepts=["css-global-scope"] %}
+Rsbuild [extracts CSS into a separate .css file](https://rsbuild.rs/guide/styling/css-usage). The remote's [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html) lists the assets each exposed module needs, and in our recording that file arrived as a `<link>` in the host's `document.head`. From there it is the page's stylesheet. A [type selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/Type_selectors) "selects all elements of the given type within a document". The document is the whole page, not remote_b's corner of it.
+
+{% annotation line=3 %}
+The exposed Widget needs this CSS file.
+{% /annotation %}
+{% annotation line=6 %}
+Lands in the host's head, page-wide.
+{% /annotation %}
+{% /explain %}
+
+{% predict id="p2" estSeconds=60 code="./samples/prefix-and-host-rule.ts" language="ts" concepts=["style-isolation-options", "css-global-scope"] %}
+{% option output="red, 2px black border" misconception="css-stays-in-its-remote" %}
+The prefix keeps remote_b's rule inside remote_b. Nothing keeps the host's rule out. Its button rule matched remote_b's button and gave it the green border.
+{% /option %}
+{% option output="grey, 3px green border" misconception="isolation-is-free" %}
+The prefixed rule still matches remote_b's button, so the background stays red. Only the host's border rule came in on top of it. A prefix is not a free full fence: it only scopes the rules you write.
+{% /option %}
+{% option output="red, 3px green border" correct=true %}
+Recorded from our example. The prefix stopped the leak out: Pay stayed grey. But the host's global rule leaked in and gave remote_b a green border.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So a prefix is a fence with only one side?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% fillBlanks id="f1" estSeconds=60 template="// remote_b/src/Widget.tsx with CSS Modules\nimport styles from './widget.___ext___';\n\n<button className={styles.___key___}>clicked {count}</button>" language="ts" concepts=["style-isolation-options"] %}
+{% blank id="ext" accepted=["module.css"] misconception="css-stays-in-its-remote" %}
+Rsbuild treats files named *.module.css as CSS Modules. A plain widget.css stays a global stylesheet, as in the first run.
+{% /blank %}
+{% blank id="key" accepted=["button"] misconception="isolation-is-free" %}
+The import is an object of the file's class names. Our file declares .button, so styles.button holds its hashed name. That is the price of this isolation: every element needs its class written out by name. Source: Rsbuild, CSS Modules.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p3" estSeconds=60 code="./samples/module-type-selector.ts" language="ts" concepts=["style-isolation-options", "css-global-scope"] %}
+{% option output="remote_b" misconception="isolation-is-free" %}
+CSS Modules rename class names and animation names. A bare button selector has no class to rename, so it went out as it was.
+{% /option %}
+{% option output="Pay (host), remote_a, remote_b" correct=true %}
+Recorded from our example. The .module.css name did not help: the type selector stayed global and turned every button red again.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="./samples/options-so-far.txt" concepts=["style-isolation-options"] %}
+Two options so far, both recorded. A **prefix** works if every team keeps the rule. [CSS Modules](https://rsbuild.rs/guide/styling/css-modules) append a hash to class names: our `.button` became `button-TUj2Xi`. The [CSS Modules definition](https://github.com/css-modules/css-modules) scopes "class names and animation names", so a type selector stays global. The prefix did not keep the host's rule out. Our take, not a rule: with few teams and a lint, a prefix or CSS Modules is often enough.
+
+{% annotation line=3 %}
+Discipline, not a boundary.
+{% /annotation %}
+{% annotation line=5 %}
+The module file still leaked.
+{% /annotation %}
+{% annotation line=6 %}
+Isolation out is not isolation in.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f2" estSeconds=75 template="// Sketch of remote_b's shadow variant (shortened, not the recorded Widget.tsx)\nconst [root, setRoot] = useState<ShadowRoot | null>(null);\n// a ref callback runs once the div exists; attach only once\nconst attach = (el: HTMLDivElement | null) => {\n  if (el && !el.shadowRoot) setRoot(el.___method___({ mode: 'open' }));\n};\n\n// portal into the shadow root only after it exists\nreturn <div ref={attach}>{root && createPortal(<button>clicked {count}</button>, ___target___)}</div>;" language="ts" concepts=["shadow-dom-isolation"] %}
+{% blank id="method" accepted=["attachShadow"] misconception="css-stays-in-its-remote" %}
+attachShadow attaches a shadow DOM tree to the element and returns its ShadowRoot. Without that tree, remote_b's CSS does not stay with remote_b: it is page CSS, as the first run showed. Source: MDN, Element.attachShadow().
+{% /blank %}
+{% blank id="target" accepted=["root"] misconception="isolation-is-free" %}
+A portal renders its children into the DOM node you pass, and that node must already exist. Pass the ShadowRoot kept in state. The extra wiring is part of what this isolation costs. Source: react.dev, createPortal.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p4" estSeconds=60 code="./samples/shadow-with-link.ts" language="ts" concepts=["shadow-dom-isolation", "css-global-scope"] %}
+{% option output="remote_b" misconception="css-stays-in-its-remote" %}
+That expects remote_b's CSS to stay with remote_b now that its elements sit in a shadow tree. But the CSS file still went into document.head, outside the tree, so it was still page CSS.
+{% /option %}
+{% option output="none" misconception="isolation-is-free" %}
+That treats the shadow root as a switch that isolates everything for free. It only fences what is inside its tree. The CSS file sat in document.head and still matched the host's and remote_a's buttons.
+{% /option %}
+{% option output="Pay (host), remote_a" correct=true %}
+Recorded from our example. Upside down: the rule still hit the host and remote_a, and missed the only button it was written for.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So shadow DOM hid the button from its own team's CSS?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 concepts=["shadow-dom-isolation", "style-isolation-options"] %}
+Team B moved the widget into a shadow root and shipped. Pay stayed red, and remote_b's own button went grey. [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) says page CSS "does not affect nodes inside the shadow DOM", and [global styles](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Scoping) don't apply to shadow trees. remote_b's stylesheet was still a page stylesheet. A shadow root only isolates the CSS that lives inside it.
+{% margin %}
+{% bubble who="bug" %}
+Two bugs for the price of one deploy. Thank you, Team B.
+{% /bubble %}
+{% gotcha %}
+Shadow DOM moves the boundary. The remote's styles must move inside it too, or they style the page instead.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% fillBlanks id="f3" estSeconds=60 template="// remote_b: ship the CSS inside the shadow tree, not in document.head\nimport css from './widget.css?___query___';\n\ncreatePortal(<><style>{css}</style><button>clicked {count}</button></>, root);" language="ts" concepts=["shadow-dom-isolation", "style-isolation-options"] %}
+{% blank id="query" accepted=["inline"] misconception="isolation-is-free" %}
+With ?inline, Rsbuild gives you the compiled CSS as a string inside the JavaScript bundle and generates no separate CSS file. The style element then puts it inside the shadow root. The cost: the CSS now rides in the JavaScript bundle. Source: Rsbuild, CSS usage.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p6" estSeconds=45 code="./samples/css-requests.ts" language="ts" concepts=["style-isolation-options", "shadow-dom-isolation"] %}
+{% option output="run A: 1, run B: 1" misconception="isolation-is-free" %}
+With ?inline there is no separate CSS file to fetch. The rule travels inside remote_b's JavaScript, so it arrives only with the code.
+{% /option %}
+{% option output="run A: 1, run B: 0" correct=true %}
+Recorded from our example. Run B fetched no CSS file. That is a cost too: the CSS now ships inside remote_b's JavaScript chunk.
+{% /option %}
+{% option output="run A: 0, run B: 0" misconception="css-stays-in-its-remote" %}
+Run A did fetch a CSS file from :3002. It is the one that ended up in document.head and restyled the whole page.
+{% /option %}
+{% /predict %}
+
+{% predict id="p5" estSeconds=60 code="./samples/shadow-inherit.ts" language="ts" concepts=["shadow-dom-isolation"] %}
+{% option output="heading black, button border 2px black" misconception="css-stays-in-its-remote" %}
+That expects the host's CSS to stay in the host. The border rule did stay out, but color is inherited: the shadow tree's top elements inherit from their host, and the host sits inside main.
+{% /option %}
+{% option output="heading blue, button border 2px black" correct=true %}
+Recorded from our example. The button rule stopped at the boundary, but the inherited color flowed in. Sources: MDN, Inheritance; W3C CSS Scoping.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+Oh. The host's text color still gets through the boundary.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=30 concepts=["css-global-scope", "style-isolation-options", "shadow-dom-isolation"] %}
+{% point %}
+A remote's stylesheet is ==the page's stylesheet==. A type selector in it matches every element in the document.
+{% /point %}
+{% point %}
+A prefix kept remote_b's rule in, not the host's rule out. CSS Modules rename classes; type selectors stay global.
+{% /point %}
+{% point %}
+Shadow DOM only isolates CSS placed inside the shadow root. Inherited properties like color still cross from the host.
+{% /point %}
+{% point %}
+?inline gets the CSS inside, at a cost: no CSS file, the rules ship inside remote_b's JavaScript chunk.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+One rule, three teams, zero code review. My kind of stylesheet.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% predict id="p7" estSeconds=45 code="./samples/host-rule-reach.ts" language="ts" concepts=["style-isolation-options", "shadow-dom-isolation"] %}
+{% option output="prefix" misconception="css-stays-in-its-remote" %}
+That expects the host's rule to stay in the host. It is global like any page CSS. The prefix only scoped remote_b's own rule, and remote_b's button got the 3px green border.
+{% /option %}
+{% option output="prefix, shadow + ?inline" misconception="css-stays-in-its-remote" %}
+The host's CSS does not stay in the host. In the prefix run its button rule reached remote_b's button. Only the shadow root kept it out.
+{% /option %}
+{% option output="shadow + ?inline" correct=true %}
+Both values were recorded earlier in this lesson. Only the shadow root kept the host's rule out, and it cost a JavaScript chunk that carries the CSS. Source: MDN, Using shadow DOM.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="deploy-01" question="Team B fixes the leak and deploys remote_b at 11:20. A customer opened checkout at 11:15 and keeps the tab open. Which remote_b do they get, and what if the new one fails to load?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next time I take down checkout with one deploy. No CSS needed.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}

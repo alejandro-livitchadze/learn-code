@@ -1,0 +1,273 @@
+---
+id: deploy-01
+courseId: frontend-architecture
+title: "Deploying ==independently=="
+concepts: [independent-deploy, remote-url-per-environment, cache-busting, remote-rollback, remote-failure]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Claim register: content/frontend-architecture/sources.md. Predict and fillBlanks feedback is plain text, so links
+# live in explain and pitfall prose and here.
+# - shareStrategy: default 'version-first' ("set by webpack plugin/bundler runtime"); "All remotes entry files will be
+#   automatically loaded during initialization"; 'loaded-first': "Remotes are loaded on-demand rather than during
+#   initialization"; warning: with version-first an offline remote "can cause application initialization failures";
+#   loaded-first means "offline remotes only cause failures when those specific remotes are accessed" (e1, f1, p2, p8):
+#   https://module-federation.io/configure/shareStrategy.html
+# - RUNTIME-003 "Failed to get manifest", solution "Check whether the manifestUrl can be accessed normally" (e1):
+#   https://module-federation.io/guide/troubleshooting/runtime.html
+# - React error boundaries: "By default, if your application throws an error during rendering, React will remove its UI
+#   from the screen"; an Error Boundary displays "some fallback UI instead of the part that crashed" (e1):
+#   https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
+# - errorLoadRemote hook: "Called if loading remotes fails, enabling custom error handling. Can return a custom fallback
+#   logic" (e1): https://module-federation.io/guide/runtime/runtime-hooks.html#errorloadremote
+# - Rsbuild output.filenameHash: default true; "JavaScript and CSS filenames include hash in production mode for web
+#   targets"; default format contenthash:10 (e2): https://rsbuild.rs/config/output/filename-hash
+# - MDN Cache-Control: max-age (fresh for N seconds, caches "reuse it for subsequent requests while it's fresh"),
+#   no-cache ("must be validated with the origin server before each reuse"; "does not mean don't cache"), immutable, and
+#   the "cache busting" pattern: hashed assets with "max-age=31536000, immutable", index.html with no-cache (e2, pf1):
+#   https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+# - Manifest: "describes which modules the producer exposes, where the remote entry is, which assets those modules need"
+#   (e2): https://module-federation.io/guide/basic/manifest-snapshot.html
+# - Runtime plugins: "rewrite remote URLs at runtime"; the afterResolve recipe lists "environment switching" (e3):
+#   https://module-federation.io/guide/runtime/runtime-plugins.html
+# - registerRemotes, which registers a new remote or overrides one with force: true, in the runtime API (e3):
+#   https://module-federation.io/guide/runtime/runtime-api.html#registerremotes
+# Recordings (E09 rule 3). Scratch copies of examples/host, remote-a and remote-b, built with the pinned toolchain;
+# examples/** itself is unchanged. Changes in the copies: ports 4100, 4101, 4102 instead of 3000 to 3002 (so the runs
+# could not collide with other recordings), plus one variant per scenario, listed in recordings/variants.txt. Each
+# scenario was loaded in real Chromium (Playwright headless shell 141) by recordings/record.ts, which serves the dist
+# folders with a per-request log and the Cache-Control headers named in each sample. Every scenario was run twice, in
+# two separate processes with fresh browser profiles; recordings/run-1.json and run-2.json are the raw output. The
+# headings, error boxes and console errors were identical in both runs, and so was each request list quoted here.
+# - samples/remote-b-down.ts, request-log-down.txt: committed host, :4102 stopped.
+# - samples/loaded-first-down.ts, react-source.ts: host with shareStrategy: 'loaded-first'.
+# - samples/rebuild-names.ts, cache-headers.txt: file names of remote-a/dist and remote-a-v2/dist.
+# - samples/cached-manifest.ts, no-cache-manifest.ts, rollback.ts: two visits in one browser profile.
+# - samples/env-config.ts, env-baked.ts: host with REMOTE_A_ORIGIN, grep -rl on host/dist.
+# Labelled as our reading, not a documented guarantee: the trade-offs in e3 and the cost of loaded-first in p8.
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["remote-failure", "independent-deploy"] %}
+Black Friday, 11:02. The Reviews team's server falls over. Reviews is one small box under the product photo. At 11:03 the checkout team calls: the whole page is white, the Buy button too. The Bug only pulled one plug.
+{% margin %}
+{% stop %}
+One remote is down. How much of the page should go down with it?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/remote-b-down.ts" language="ts" concepts=["remote-failure"] %}
+{% option output="Host, Remote a, error box for remote_b" misconception="independent-deploy-is-risk-free" %}
+That is what the error boundary is for, but in this recording it never got a chance. The failure came before React drew anything.
+{% /option %}
+{% option output="Host, Remote a, Remote b" misconception="host-bundles-remote" %}
+The host holds no code of Remote b. With the server stopped, nothing can bring its heading to the page.
+{% /option %}
+{% option output="(empty page)" correct=true %}
+Recorded in Chromium, twice. One remote down, an error boundary in place, and still a white page with error RUNTIME-003.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+We have an error boundary. Why did it catch nothing?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="./samples/request-log-down.txt" concepts=["remote-failure"] %}
+React never loaded, so no [error boundary](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) existed yet. The default `shareStrategy` is `'version-first'` ([docs](https://module-federation.io/configure/shareStrategy.html)): "All remotes entry files will be automatically loaded during initialization", and the docs warn that an offline remote can make initialization fail. RUNTIME-003 is "Failed to get manifest" ([troubleshooting](https://module-federation.io/guide/troubleshooting/runtime.html)). A runtime plugin can also catch it in the `errorLoadRemote` [hook](https://module-federation.io/guide/runtime/runtime-hooks.html#errorloadremote).
+
+{% annotation line=5 %}
+Startup loads every remote's entry.
+{% /annotation %}
+{% annotation line=6 %}
+One refused manifest stops it all.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=50 template="pluginModuleFederation({\n  name: 'host',\n  remotes: { remote_a: '...', remote_b: '...' },\n  // load each remote only when the page asks for it\n  shareStrategy: '___strategy___',\n  shared: { react: reactShare, 'react-dom': reactShare, 'react-dom/': reactShare },\n})," language="ts" concepts=["remote-failure"] %}
+{% blank id="strategy" accepted=["loaded-first"] misconception="independent-deploy-is-risk-free" %}
+loaded-first. The shareStrategy docs say remotes are then loaded on demand rather than during initialization, so an offline remote fails only where it is used.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p2" estSeconds=60 code="./samples/loaded-first-down.ts" language="ts" concepts=["remote-failure", "independent-deploy"] %}
+{% option output="(empty page)" misconception="independent-deploy-is-risk-free" %}
+Not this time. With loaded-first, startup no longer waits for remote_b, so the host and Remote a render.
+{% /option %}
+{% option output="Host, Remote a, error box for remote_b" correct=true %}
+Recorded in Chromium, twice. The outage stayed in remote_b's box, and the error boundary finally had something to catch.
+{% /option %}
+{% option output="Host, Remote a, Remote b" misconception="host-bundles-remote" %}
+A config line cannot bring back a server that is down. Remote b's code still lives only on its own server.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+Oh. The boundary only works once React is actually running.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p8" estSeconds=50 code="./samples/react-source.ts" language="ts" concepts=["remote-failure", "independent-deploy"] %}
+{% option output=":4102 (remote_b)" misconception="sharing-and-splitting-are-free" %}
+That was the default version-first run. With loaded-first, remote_b was no longer loaded at startup, so it did not supply React.
+{% /option %}
+{% option output=":4100 (host)" correct=true %}
+Recorded in Chromium, twice. The host downloaded React itself. The fix for outages changed who pays for React.
+{% /option %}
+{% /predict %}
+
+{% predict id="p3" estSeconds=50 code="./samples/rebuild-names.ts" language="ts" concepts=["cache-busting"] %}
+{% option output="mf-manifest.json" correct=true %}
+The manifest keeps its name in every build. The two JavaScript files got new names because their content changed.
+{% /option %}
+{% option output="static/js/remote_a.4c90afa552.js" misconception="cached-entry-is-fine" %}
+The remote entry got a new name in build 2: remote_a.8c5b437924.js. Only the manifest kept its name.
+{% /option %}
+{% option output="static/js/async/__federation_expose_Widget.95557ec38c.js" misconception="cached-entry-is-fine" %}
+The Widget chunk holds the heading that changed, so its content hash and its name changed too.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="./samples/cache-headers.txt" concepts=["cache-busting", "independent-deploy"] %}
+Rsbuild puts a content hash into JavaScript file names in production builds ([output.filenameHash](https://rsbuild.rs/config/output/filename-hash)). New content means a new URL, so those files can be cached for a year. MDN calls this the "cache busting" pattern: hashed files get `max-age=31536000, immutable`, and the one file with a fixed name gets `no-cache` ([Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)). For a remote, that file is the [manifest](https://module-federation.io/guide/basic/manifest-snapshot.html): it names the current entry.
+
+{% annotation line=2 %}
+Checked with the server every time.
+{% /annotation %}
+{% annotation line=3 %}
+Safe: a new build means new names.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f2" estSeconds=50 template="# remote_a's server\n/mf-manifest.json   Cache-Control: ___manifest___\n/static/**          Cache-Control: public, max-age=31536000, ___hashed___" language="http" concepts=["cache-busting"] %}
+{% blank id="manifest" accepted=["no-cache"] misconception="cached-entry-is-fine" %}
+no-cache. The browser may keep the manifest but must check it with the server before each use, so a new build is seen on the next visit.
+{% /blank %}
+{% blank id="hashed" accepted=["immutable"] misconception="cached-entry-is-fine" %}
+immutable. A hashed file never changes under its name; a new build gets a new name, which the manifest points to.
+{% /blank %}
+{% margin %}
+{% sticky label="asks" %}
+So the tiny manifest is the only file that ever needs a fresh check?
+{% /sticky %}
+{% /margin %}
+{% /fillBlanks %}
+
+{% predict id="p4" estSeconds=60 code="./samples/cached-manifest.ts" language="ts" concepts=["cache-busting", "independent-deploy"] %}
+{% option output="Remote a" correct=true %}
+Recorded in Chromium, twice. Visit 2 sent no request at all to remote_a's server. The cached manifest still named build 1.
+{% /option %}
+{% option output="Remote a v2" misconception="cached-entry-is-fine" %}
+Build 2 is on the server, but this browser never asked. The manifest was still fresh for a day, so the browser used its copy.
+{% /option %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 concepts=["cache-busting", "independent-deploy"] %}
+Friday, 17:00. The Reviews team ships a hotfix and goes home. Saturday morning, support still gets screenshots of the old bug. Their manifest went out with `max-age=86400`, so every browser that had it could reuse it for a day without asking ([MDN on max-age](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)). The deploy was instant. The release was not.
+{% margin %}
+{% bubble who="bug" %}
+You deployed at five. Browsers will hear about it tomorrow.
+{% /bubble %}
+{% gotcha %}
+A long max-age on mf-manifest.json delays every release of that remote, and every rollback too.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% predict id="p5" estSeconds=50 code="./samples/no-cache-manifest.ts" language="ts" concepts=["cache-busting"] %}
+{% option output="requests to remote_a: 0" misconception="cached-entry-is-fine" %}
+That was the max-age=86400 run. With no-cache the browser must check the manifest with the server before using it.
+{% /option %}
+{% option output="requests to remote_a: 1" misconception="cached-entry-is-fine" %}
+The manifest check was not the only request. Build 2's manifest named two files this browser had never seen.
+{% /option %}
+{% option output="requests to remote_a: 3" correct=true %}
+Recorded in Chromium, twice: the manifest, then build 2's new entry and Widget chunk. The page showed Remote a v2.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So old hashed files in the cache just sit there unused?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p6" estSeconds=60 code="./samples/rollback.ts" language="ts" concepts=["remote-rollback", "independent-deploy"] %}
+{% option output="Remote a v2" misconception="cached-entry-is-fine" %}
+Build 2's files are still cached, but under their own names. The restored manifest no longer points to them.
+{% /option %}
+{% option output="Remote a" correct=true %}
+Recorded in Chromium, twice. One file changed on one server, and the rollback reached the next visit. The host was never touched.
+{% /option %}
+{% option output="(empty page)" misconception="host-bundles-remote" %}
+The host never held remote_a's file names, so it has nothing that points to build 2. It reads whatever the manifest says.
+{% /option %}
+{% /predict %}
+
+{% fillBlanks id="f3" estSeconds=45 template="// Roll back remote_a to build 1. The hashed files of both builds stay on the server.\nimport { copyFile } from 'node:fs/promises';\n\nconst file = '___file___';\nawait copyFile(`build-1/${file}`, `live/${file}`);" language="ts" concepts=["remote-rollback"] %}
+{% blank id="file" accepted=["mf-manifest.json"] misconception="host-bundles-remote" %}
+mf-manifest.json. It is the only file that says which build is live. That works only if the old hashed files were not deleted.
+{% /blank %}
+{% /fillBlanks %}
+
+{% explain id="e3" estSeconds=60 code="./samples/env-config.ts" concepts=["remote-url-per-environment"] %}
+Staging and production need different remote addresses. Two ways, and this is our reading of the trade-off. Read the address at build time: one host build per environment, nothing extra to load. Or decide it at run time: Module Federation lists rewriting remote URLs, including "environment switching", as a job for [runtime plugins](https://module-federation.io/guide/runtime/runtime-plugins.html), and `registerRemotes` ([runtime API](https://module-federation.io/guide/runtime/runtime-api.html#registerremotes)) adds remotes at run time. One build, but the address must reach the browser somehow.
+
+{% annotation line=2 %}
+Runs once, when the build runs.
+{% /annotation %}
+{% annotation line=7 %}
+The address goes into the bundle.
+{% /annotation %}
+{% /explain %}
+
+{% predict id="p7" estSeconds=50 code="./samples/env-baked.ts" language="ts" concepts=["remote-url-per-environment"] %}
+{% option output="https://staging.example.com/remote-a/mf-manifest.json" correct=true %}
+Recorded with grep. The build wrote the staging address into index.js. A variable set later on the server is never read.
+{% /option %}
+{% option output="https://www.example.com/remote-a/mf-manifest.json" misconception="independent-deploy-is-risk-free" %}
+No file in host/dist contains www.example.com. The config read the variable when the build ran, so promoting this build to production would still load the staging remote.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+Oh. Same dist folder everywhere means same addresses everywhere.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% recap id="rc1" estSeconds=40 concepts=["remote-failure", "cache-busting", "remote-rollback", "remote-url-per-environment", "independent-deploy"] %}
+{% point %}
+With the default version-first, one remote down blanked our whole page. loaded-first kept the outage in one box, but the host now downloads React itself.
+{% /point %}
+{% point %}
+Hashed files can be cached for a year. The ==manifest keeps its name== and needs no-cache.
+{% /point %}
+{% point %}
+Rolling back a remote means putting its old manifest back, as long as the old files are still there.
+{% /point %}
+{% point %}
+A remote address read at build time is baked into the host's script.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+One manifest, one header, one plug. I only need one.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% fillBlanks id="f4" estSeconds=40 template="// Checklist before remote_a ships on its own\nconst release = {\n  hostShareStrategy: '___outage___',\n  manifestCacheControl: '___fresh___',\n  rollbackRestores: '___restore___',\n};" language="ts" concepts=["remote-failure", "cache-busting", "remote-rollback"] %}
+{% blank id="outage" accepted=["loaded-first"] misconception="independent-deploy-is-risk-free" %}
+loaded-first. Startup no longer loads every remote, so one remote down stays in its own box.
+{% /blank %}
+{% blank id="fresh" accepted=["no-cache"] misconception="cached-entry-is-fine" %}
+no-cache. The browser checks the manifest before each use, so a release or a rollback reaches the next visit.
+{% /blank %}
+{% blank id="restore" accepted=["mf-manifest.json"] misconception="host-bundles-remote" %}
+mf-manifest.json. It names the live build; the old hashed files must still be on the server.
+{% /blank %}
+{% /fillBlanks %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="performance-01" question="loaded-first saved the page and moved React's download to the host. What does each choice cost in bytes and requests on the first load?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next time I bring a stopwatch and a scale.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}

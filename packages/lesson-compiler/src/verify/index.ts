@@ -7,6 +7,7 @@ import { formatRows } from './format';
 import { checkSqlLab } from './sql-lab';
 import { checkSchemaBuilder } from './schema-builder';
 import { generateFromFiles } from '../traces';
+import { deepEqual } from '../deep-equal';
 
 export interface VerifyIssue {
   readonly stepId: string;
@@ -80,7 +81,7 @@ async function verifySqlLab(
   return problems.map((message) => ({ stepId: s.id, message }));
 }
 
-const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+export { deepEqual };
 
 /**
  * The recorded trace must exist, match a fresh PGlite run of its spec, and agree with the step
@@ -104,7 +105,7 @@ async function verifyBeTheDatabase(
   const fresh = await generateFromFiles({ specPath, tracePath, seedDir: join(lessonDir, 'seeds') });
   const recorded: unknown = JSON.parse(readFileSync(tracePath, 'utf8'));
   const issues: VerifyIssue[] = [];
-  if (!sameJson(recorded, fresh)) {
+  if (!deepEqual(recorded, fresh)) {
     issues.push(
       ...fail(
         `trace "${s.traceRef}" differs from what PostgreSQL produces now; run "pnpm --filter @learn-code/lesson-compiler traces"`,
@@ -118,7 +119,7 @@ async function verifyBeTheDatabase(
     const shown = s.tables.find((x) => x.name === t.name);
     if (shown === undefined)
       issues.push(...fail(`table "${t.name}" of the trace is not shown in the step`));
-    else if (!sameJson({ c: shown.columns, r: shown.rows }, { c: t.columns, r: t.rows })) {
+    else if (!deepEqual({ c: shown.columns, r: shown.rows }, { c: t.columns, r: t.rows })) {
       issues.push(...fail(`table "${t.name}" in the step differs from the trace`));
     }
   }

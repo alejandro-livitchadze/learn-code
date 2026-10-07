@@ -4,6 +4,14 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
+## F30. E2E plays every frontend-architecture lesson to the end
+- Status: done
+- Note: merged via PR #74; CI green; reviewer APPROVE on 2e7ece9, no issues.
+- Depends on: none
+- Paths: `apps/web/e2e/**`
+- Source: M12 milestone integration review (Integration PR #43, CHANGES_REQUESTED on ec759b3)
+- Done when: `apps/web/e2e/frontend-architecture.spec.ts` plays each of the 10 roadmap lessons (need-01, compose-01, host-remote-01, shared-deps-01, contracts-01, routing-01, communication-01, styles-01, deploy-01, performance-01) at `/frontend-architecture/<id>` from step 1 to "Completed": each active step is first asserted gated, then answered with its real correct answer (predict: correct option and Lock in answer; fillBlanks: every blank), and no "coming soon" stand-in appears; it reuses the helpers in `player.spec.ts`/`helpers.ts`; the e2e passes in CI. After merge, rerun the M12 milestone step.
+
 ## F1. Lesson check: playable and solvable
 - Status: done
 - Note: merged via PR #23; CI green; reviewer APPROVE on e69f87e (minors: LEGACY_LESSONS also downgrades unbuilt-kind for joins-01, removed in F6; new rules lack brokenFixtures entries).
@@ -193,43 +201,99 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: every implemented widget, including `sqlLab`, uses only `packages/ui`; StepTag text follows section 6; no internal names are visible; the sample lesson is rewritten to use margin items and covers the situations in mockups A1 to A4; the reviewer's visual check against the mockups lists no deviation.
 
 ## M0. Course setup and current-state sources
-- Status: todo
+- Status: done
+- Note: merged via PR #54 (86a4911) by the repo author before the review gate; head included two [skip ci] commits (05ecd4d, ea42379). Post-merge reviewer APPROVE on 86a4911 (minors: see F26, F27). Home page lists the course only once a lesson compiles (M3).
 - Depends on: V4
 - Paths: `content/frontend-architecture/**`
 - Epic: E09, correctness rules 1 and 2
 - Done when: `content/frontend-architecture/sources.md` records, with dated links to official documentation, the current Module Federation version and packages, supported bundlers and meta-frameworks, and deprecated setups; the course is registered so the home page lists it.
 
 ## M1. Working example project
-- Status: todo
+- Status: done
+- Note: merged via PR #57 (1ccb863); CI green (check, e2e, examples); reviewer APPROVE on 715efef after one polish round (double cast).
 - Depends on: M0
 - Paths: `content/frontend-architecture/examples/**`, root, `.github/**`
 - Epic: E09, correctness rule 3
 - Done when: a host and two remotes built with the currently recommended Module Federation setup from `sources.md`; CI builds them; a script records the runtime outputs that lessons will use (including the duplicate-React failure and its fix).
 
 ## M2. Microfrontends roadmap
-- Status: todo
-- Depends on: M1
+- Status: done
+- Note: merged via PR #59 (6e921e3); CI green; reviewer APPROVE on 590611b after a polish round. 10 lessons: need-01, compose-01, host-remote-01, shared-deps-01, contracts-01, routing-01, communication-01, styles-01, deploy-01, performance-01.
+- Depends on: M0
 - Paths: `content/frontend-architecture/roadmap.json`, `content/frontend-architecture/registry/**`
 - Epic: E09 roadmap; E07 method (section 1)
-- Done when: 8 to 10 lessons with concepts, misconceptions and planned step kinds; every misconception from the E09 draft roadmap is covered.
+- Done when: 8 to 10 lessons with concepts, misconceptions and planned step kinds; every misconception from the E09 draft roadmap is covered; every concept and misconception id the roadmap uses is in the registry, so lesson tasks do not edit it.
 
 ## M3. Lesson 1
-- Status: todo
-- Depends on: M2
-- Paths: `content/frontend-architecture/<roadmap lesson 1 id>/**`, `content/frontend-architecture/registry/**`
+- Status: done
+- Note: merged via PR #61 (4e15c49); CI green; reviewer APPROVE on 80e44f6, no minors. 16 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/need-01/**`
 - Done when: 12 to 20 steps following the roadmap entry, E08 and the E09 correctness rules; every tool claim links official docs; `pnpm lesson check` passes. The reviewer opens each linked source and confirms it supports the claim.
 
 ## M4. Lesson 2
-- Status: todo
-- Depends on: M3
-- Paths: `content/frontend-architecture/<roadmap lesson 2 id>/**`, `content/frontend-architecture/registry/**`
+- Status: done
+- Note: merged via PR #62 (c2f047a); CI green; reviewer APPROVE on 02da939 after a polish round and one fix round (links in plain-text feedback fields would show raw markup). 17 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/compose-01/**`
 - Done when: same as M3 for lesson 2.
 
 ## M5. Lesson 3
-- Status: todo
-- Depends on: M4
-- Paths: `content/frontend-architecture/<roadmap lesson 3 id>/**`, `content/frontend-architecture/registry/**`
+- Status: done
+- Note: merged via PR #63 (6eb07d7); CI green; reviewer APPROVE on 2cec66d after a polish round. 15 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/host-remote-01/**`
 - Done when: same as M3 for lesson 3. After merge, add to inbox.md: "Microfrontends lessons 1 to 3 are on develop."
+
+
+## M6. Lesson 4
+- Status: done
+- Note: merged via PR #66 (86ddf7a); CI green; reviewer APPROVE on d3e3c02, no minors (reviewer reproduced the requiredVersion mismatch recording). 18 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/shared-deps-01/**`
+- Done when: same as M3 for lesson 4 (shared-deps-01).
+
+## M7. Lesson 5
+- Status: done
+- Note: merged via PR #64 (8b0d163); CI green; reviewer APPROVE on 02e795d after a polish round (dropped an unrecorded page claim). 18 steps. Variant recordings live in samples/recordings.json, not re-recorded in CI.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/contracts-01/**`
+- Done when: same as M3 for lesson 5 (contracts-01).
+
+## M8. Lesson 6
+- Status: done
+- Note: merged via PR #65 (1a61b78); CI green; reviewer APPROVE on 0312520 after one fix round (Olha on consecutive steps; two wording/link minors). 18 steps. Outputs from a scratch routing variant; examples/ has no router (see F29).
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/routing-01/**`
+- Done when: same as M3 for lesson 6 (routing-01).
+
+## M9. Lesson 7
+- Status: done
+- Note: merged via PR #67 (2ec5640); CI green; reviewer APPROVE on e3c20ee after a polish round (model labels on samples, distractors match tagged misconceptions, p8 before recap). 18 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/communication-01/**`
+- Done when: same as M3 for lesson 7 (communication-01).
+
+## M10. Lesson 8
+- Status: done
+- Note: merged via PR #69 (ca36bf8); CI green; reviewer APPROVE on 482ccc4 after one fix round (p6 after recap, broken f2 shadow-root model, two mistagged distractors) and a polish round (`root` name in f3). 16 steps.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/styles-01/**`
+- Done when: same as M3 for lesson 8 (styles-01).
+
+## M11. Lesson 9
+- Status: done
+- Note: merged via PR #68 (ab6dfeb); CI green; reviewer APPROVE on 0e78bfc after a polish round (typed record.ts, p8 moved after p2, p7 misconception, new retrieval step f4). 19 steps. Leftover minor (record.ts `split()[0]` under noUncheckedIndexedAccess) goes into this run's follow-up task.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/deploy-01/**`
+- Done when: same as M3 for lesson 9 (deploy-01).
+
+## M12. Lesson 10
+- Status: done
+- Note: merged via PR #72 (642a991); CI green; reviewer APPROVE on a35988e after one fix round (unrecorded preload-initiator claim now backed by Resource Timing data; record script paths; preloadRemote rejection; f2 blank). 18 steps. Milestone step follows.
+- Depends on: M1, M2
+- Paths: `content/frontend-architecture/performance-01/**`
+- Done when: same as M3 for lesson 10 (performance-01). This is the last lesson task and a milestone: after merge run the milestone step with the M5 integration check over all lessons of the course (all build, play to the end in the e2e, every linked source was opened).
 
 ## P9. Schema builder
 - Status: done
@@ -270,7 +334,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as L1, for roadmap lesson 2; the lesson starts with a `recall` step about lesson 1 if the widget exists.
 
 ## L3. Module 1, lesson 3
-- Status: todo
+- Status: done
+- Note: merged via PR #45 (b1599a1); CI green; reviewer APPROVE on ce4ee8c. No recall step (widget not built); no beTheDatabase (trace format models joins only).
 - Depends on: L2
 - Paths: `content/fullstack/<id of roadmap lesson 3>/**`, `content/fullstack/registry/**`
 - Done when: same as L2, for roadmap lesson 3.
@@ -314,7 +379,8 @@ After L3 is merged, the orchestrator adds an entry to inbox.md: "Lessons 1 to 3 
 - Done when: `research/demand/report.md` and `research/demand/report-js.md` exist. The JS report covers vacancies where nodejs, typescript or javascript is required: sample size; top 20 required backend-side skills with percentages; shares of NestJS, Express, Fastify, Prisma, TypeORM, Drizzle, Sequelize, Redis, any queue, any AI skill; top 10 split by senior/lead vs junior/middle where known. `research/demand/spot-check.md` lists 20 random vacancy ids with links. Unknown terms seen 3+ times are listed.
 
 ## D6. Weekly refresh
-- Status: todo
+- Status: done
+- Note: retired by the author, 2026-10-06
 - Depends on: D5
 - Paths: `research/demand/**`
 - Done when: never marked done. Run at most once per 7 days (check the last date in `research/demand/changelog.md`): fetch new vacancies, extract, regenerate reports, add one dated line to the changelog with the sample size and any skill whose share moved 5 points or more.
@@ -370,7 +436,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `beTheDatabase` maps to `BeTheDatabaseWidget` and is in `IMPLEMENTED_KINDS`; the web app serves `content/<course>/<lesson>/traces/<ref>.trace.json` and wraps the player in `TraceBaseProvider`; `lesson check` verifies traces of `beTheDatabase` steps; a package script runs the trace CLI; checks pass.
 
 ## F14. Root `traces` script
-- Status: todo
+- Status: done
+- Note: merged via PR #44 (d8438bf); CI green; reviewer APPROVE on c944864
 - Depends on: F13
 - Paths: root
 - Source: F13 worker report
@@ -385,15 +452,132 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: tests cover a missing trace, a stale trace, and a step whose tables or query differ from the trace; checks pass.
 
 ## F16. Use beTheDatabase in a lesson
-- Status: todo
+- Status: done
+- Note: merged via PR #47; CI green; reviewer APPROVE on 3aef8bf after 1 fix round (check and e2e tests followed the new step layout; Paths widened). Minor: reword the b1 prompt (see F22).
 - Depends on: F13
-- Paths: `content/fullstack/joins-01/**`
+- Paths: `content/fullstack/joins-01/**`, `packages/lesson-compiler/test/check.test.ts`, `apps/web/e2e/player.spec.ts`, `apps/web/e2e/sql-lab.spec.ts` (widened: the step-count fixture and the e2e specs depend on joins-01 step positions and break when a step is added)
 - Source: F13 worker report
 - Done when: joins-01 has a `beTheDatabase` step with a committed trace; `pnpm lesson check` passes.
 
 ## F17. Catalogue trace base and deep-equal for traces
-- Status: todo
+- Status: done
+- Note: merged via PR #46; CI green; reviewer APPROVE on ec04474 (minors in F22).
 - Depends on: F13
 - Paths: `apps/web/app/dev/widgets/Catalogue.tsx`, `packages/lesson-compiler/src/verify/index.ts`
 - Source: F13 reviewer minors
 - Done when: Catalogue derives its trace base from a named constant; `sameJson` in verify uses structural deep-equal; checks pass.
+
+## F18. E2E covers schemaBuilder and beTheDatabase
+- Status: done
+- Note: merged via PR #49 (83c3d66); CI green; reviewer APPROVE on 51a4629.
+- Depends on: F13
+- Paths: `apps/web/e2e/widgets.spec.ts`
+- Source: P10 integration reviewer minor
+- Done when: the "every built widget kind renders" list includes `schemaBuilder` and `beTheDatabase`; e2e passes.
+
+## F19. Traces CLI writes prettier-formatted JSON
+- Status: done
+- Note: merged via PR #48 (a22bbbd); CI green; reviewer APPROVE on c07cf7b.
+- Depends on: F14
+- Paths: `packages/lesson-compiler/src/traces/**`
+- Source: F14 reviewer minor
+- Done when: `pnpm traces` leaves no diff in the committed `*.trace.json` files; checks pass.
+
+## F20. Roadmap lists the misconceptions grouping-01 uses
+- Status: done
+- Note: merged via PR #51; CI green; reviewer APPROVE on 0432369 (no issues).
+- Depends on: L3
+- Paths: `content/fullstack/roadmap.json`
+- Source: L3 worker report
+- Done when: the grouping-01 entry lists `group-by-keeps-row-count`, `aggregate-sees-whole-table`, `count-column-counts-nulls`, `group-by-drops-null-keys`, `null-keys-never-group`; checks pass.
+
+## F21. Verify grouping-01 source links
+- Status: done
+- Note: merged via PR #56; CI green; reviewer APPROVE on f8bf1ec (minor: NULL-bucket claim still unsourced, see F26).
+- Note: merged via PR #56 (a8d3027) by the repo author; reviewer APPROVE on f8bf1ec (post-merge). Four of five claims confirmed; the NULL-bucket claim stays flagged, see F28.
+- Depends on: L3
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Source: L3 reviewer minor
+- Done when: the postgresql.org links in the front matter are fetched and confirmed, and the "Unverified" note is removed; needs postgresql.org reachable.
+
+## F22. Name and test the trace deep-equal
+- Status: done
+- Note: merged via PR #50; CI green; reviewer APPROVE on 083669c (1 fix round: prettier; minor: files.ts sameJson, see F24).
+- Depends on: F17
+- Paths: `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/verify.test.ts`, `apps/web/app/dev/widgets/Catalogue.tsx`, `content/fullstack/joins-01/lesson.mdoc`
+- Source: F17 worker report and reviewer minors
+- Done when: the `b1` prompt in `content/fullstack/joins-01/lesson.mdoc` reads "Olha and Mia are in Kyiv, which has two offices"; `sameJson` is renamed `deepEqual` (or similar); a test shows two objects with the same data and different key order compare equal; `CATALOGUE_TRACES` has a doc comment and the redundant JSX comment is gone; checks pass.
+
+## F23. Declare prettier in lesson-compiler
+- Status: done
+- Note: merged via PR #52; CI green; reviewer APPROVE on 949821c (no issues).
+- Depends on: F19
+- Paths: `packages/lesson-compiler/package.json`, `pnpm-lock.yaml`
+- Source: F19 worker report
+- Paths also: `packages/lesson-compiler/src/traces/traces.test.ts` (add a test that `serializeTrace` output is prettier-stable)
+- Done when: `prettier` is a devDependency of lesson-compiler, lockfile updated, `pnpm install --frozen-lockfile` and checks pass.
+
+## F24. Share deepEqual in traces/files.ts
+- Status: done
+- Note: merged via PR #53; CI green; reviewer APPROVE on e124821 (minors: import cycle verify <-> traces/files.ts, see F25; missing blank line in traces.test.ts:162).
+- Depends on: F22
+- Paths: `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts` (test for key order; added by the orchestrator)
+- Source: F22 worker report
+- Done when: the local `sameJson` at `files.ts:55` (JSON.stringify, key-order sensitive) is replaced by the exported `deepEqual` from `verify/index.ts`; a test shows key order does not matter; checks pass.
+
+## F25. Break the verify/traces import cycle
+- Status: done
+- Note: merged via PR #55; CI green; reviewer APPROVE on ec015d1.
+- Note: merged via PR #55 by the repo author; reviewer APPROVE on ec015d1 (post-merge), no issues.
+- Depends on: F24
+- Paths: `packages/lesson-compiler/src/deep-equal.ts`, `packages/lesson-compiler/src/verify/index.ts`, `packages/lesson-compiler/src/traces/files.ts`, `packages/lesson-compiler/src/traces/traces.test.ts`
+- Source: F24 reviewer minors
+- Done when: `deepEqual` lives in a leaf module `src/deep-equal.ts` and is re-exported from `verify/index.ts`; `traces/files.ts` imports it from the leaf module, so `verify/index.ts -> traces -> files.ts -> verify` no longer exists; the missing blank line between `it` blocks at `traces.test.ts:162` is added; checks pass.
+
+## F26. Add a title for the frontend-architecture course
+- Status: done
+- Note: merged via PR #58 (293140c); CI green; reviewer APPROVE on 44d7874, no minors.
+- Depends on: M0
+- Paths: `apps/web/app/page.tsx`
+- Source: M0 reviewer minor
+- Done when: `COURSE_TITLES` has an entry `'frontend-architecture': 'Microfrontends'`; checks pass.
+
+## F27. M0 sources.md minors
+- Status: done
+- Note: merged via PR #60 (77dd0ab); CI green; reviewer APPROVE on 98ba920.
+- Depends on: M0
+- Paths: `content/frontend-architecture/sources.md`
+- Source: M0 reviewer minors
+- Done when: `rsbuild.dev` is dropped from the sentence at line 11 (E09 names only `rspack.dev`); the Modern.js "recommended" wording at line 122 says only that the v3 plugin is marked recommended; the section 2b heading carries the registry URL pattern; the Next.js row has a re-check note before lessons mention it; checks pass.
+
+## F28. Source the NULL-bucket claim in grouping-01
+- Status: done
+- Note: merged via PR #71 (1131e25); CI green; reviewer APPROVE on efe53cc, no minors. No postgresql.org page states it for GROUP BY; cited as a verified PGlite 0.5.8 / PostgreSQL 18.3 run. Paths widened to samples/null-bucket.sql.
+- Depends on: F21
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`, `content/fullstack/grouping-01/samples/null-bucket.sql`
+- Source: F21 reviewer minor
+- Done when: a postgresql.org page that states in words that all NULL grouping keys form one group is found and cited, or the claim is cited as a verified sample run; the last "Unverified" flag is removed; checks pass.
+
+## F26b. Source the NULL-bucket claim in grouping-01 (duplicate of F28)
+- Status: done
+- Note: duplicate ID with the title task F26; superseded by F28, 2026-10-06.
+- Depends on: none
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Source: F21 reviewer minor
+- Done when: the claim "all NULL keys form one bucket" cites a postgresql.org or SQL-standard passage that states it, fetched and confirmed, and the "Unverified" flag on it is removed; if no source states it, the lesson prose does not assert it as sourced fact.
+
+## F29. Record request order and remote-down output in the example recorder
+- Status: done
+- Note: merged via PR #70 (1f67da7); CI green; reviewer APPROVE on 9635eac, no minors. Hashes recorded as `.[hash]` (they vary by checkout path); host-remote-01 samples quote one build's hashes and paraphrase the RUNTIME-003 text.
+- Depends on: none
+- Paths: `content/frontend-architecture/examples/**`
+- Source: M5 worker and reviewer notes
+- Done when: `examples/recorder` records, into `recorded/outputs.json`, the per-server request log of a first host load (as used in `host-remote-01/samples/request-log.txt`), the host page with remote_b stopped (the empty page and the RUNTIME-003 console error), and which server serves React's chunks in the shared-react build; `pnpm examples:check` passes; the numbers match the `host-remote-01` samples.
+
+## F31. Leftovers from the thirty-first run
+- Status: done
+- Note: merged via PR #73; CI green; reviewer APPROVE on b2f3441, no issues.
+- Depends on: none
+- Paths: `content/frontend-architecture/deploy-01/recordings/record.ts`, `content/frontend-architecture/host-remote-01/**`, `content/frontend-architecture/sources.md`
+- Source: M11 incremental review minor; F29 worker report; M12 worker report
+- Done when: `deploy-01/recordings/record.ts:56,95` add `?? '/'` and `?? ''` to the `.split(...)[0]` results so a strict tsc with `noUncheckedIndexedAccess` has no TS2345; the `host-remote-01` samples (`request-log.txt`, `host-index-html.ts`, `widget-request.ts`, `grep-host-dist.ts`) no longer quote one build's content hashes as fixed (use `.[hash]` as `examples/recorded/outputs.json` does, or label them as from one build), and `remote-b-down.ts` prints the recorded RUNTIME-003 line from `outputs.json` instead of a paraphrase, with any affected lesson text and options adjusted; `sources.md` gains dated entries for shareStrategy, preloadRemote (runtime API) and the react.dev Suspense 300 ms note used by performance-01; `pnpm lesson check content/frontend-architecture` passes.

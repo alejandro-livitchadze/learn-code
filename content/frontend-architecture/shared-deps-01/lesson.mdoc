@@ -1,0 +1,237 @@
+---
+id: shared-deps-01
+courseId: frontend-architecture
+title: "Two ==Reacts=="
+concepts: [shared-dependencies, duplicate-react, singleton-sharing, required-version, trailing-slash-share]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Claim register: content/frontend-architecture/sources.md section 6. Runtime output: examples/recorded/outputs.json
+# and samples/mismatch-recording.txt.
+# - shared: "Default: undefined". singleton: "If singleton mode is enabled, the shared dependencies between the
+#   producer components and the consumer will only be loaded once, and a higher version will be loaded if the
+#   versions are inconsistent. A warning will be given for the party with the lower version." requiredVersion: "If it
+#   is less than requiredVersion, a warning will be given in the console". Prefix matching with trailing slash:
+#   "Without the trailing slash, only the exact package name is intercepted; subpath imports will be bundled locally";
+#   "Common mistake: Writing 'react-dom' (no trailing slash) only intercepts import 'react-dom'. Any code that does
+#   import { createRoot } from 'react-dom/client' will load a second copy of React DOM":
+#   https://module-federation.io/configure/shared.html
+# - webpack, same options: "a consumer gets the highest one that satisfies its own requiredVersion";
+#   "singleton: true gives up that guarantee to keep one instance, and warns when the chosen version does not satisfy
+#   a consumer"; the required version accepts ranges such as "^1.2.3":
+#   https://webpack.js.org/plugins/module-federation-plugin/
+# - React, Rules of Hooks warning, section "Duplicate React": "In order for Hooks to work, the react import from your
+#   application code needs to resolve to the same module as the react import from inside the react-dom package."
+#   The debug snippet compares window.React1 === window.React2: "If it prints false then you might have two Reacts".
+#   Note: "React supports using multiple independent copies on one page ... It only breaks if require('react')
+#   resolves differently between the component and the react-dom copy it was rendered with":
+#   https://react.dev/warnings/invalid-hook-call-warning
+# Recordings from our example project (examples/host, remote-a, remote-b, built with "pnpm examples:build", served on
+# ports 3000, 3001 and 3002, loaded in jsdom, fresh page):
+# - "shared-react" and "duplicate-react": examples/recorded/outputs.json, unchanged.
+# - The requiredVersion mismatch: samples/mismatch-recording.txt. A copy of remote-b with only requiredVersion changed
+#   to '^20.0.0', loaded with the jsdom loader of examples/recorder plus a listener for console warnings. That loader
+#   reproduced both recordings of outputs.json exactly.
+# Labelled as our reading, not a documented message: our builds are production builds, so the duplicate-React crash
+# shows up as a TypeError about useState and not as React's development warning text.
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["shared-dependencies", "duplicate-react"] %}
+Monday, 10:10. The Remote b team tidies its config: "We import nothing from the host, why share anything?" They delete the `shared` block, rebuild only remote_b and deploy. Both apps still install React 19.3.0. The Bug has a seat in the front row.
+{% margin %}
+{% stop %}
+Both apps install the same React. Does that make them use one copy?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/duplicate-react.ts" language="ts" concepts=["shared-dependencies", "duplicate-react"] %}
+{% option output="Remote b" misconception="shared-is-automatic" %}
+Same version installed is not the same copy. Nothing is shared unless the shared config lists it, and remote_b's lists nothing now.
+{% /option %}
+{% option output="remote_b failed: Cannot read properties of null (reading 'useState')" correct=true %}
+Recorded from our example. Remote a still rendered. remote_b's Widget crashed on its first hook, and the host's error boundary showed the message.
+{% /option %}
+{% option output="Remote b, running on its own React 19.3.0" misconception="two-reacts-harmless" %}
+remote_b did bring its own React, but here that copy is not harmless. The host's React DOM renders the Widget, and the Widget's hooks look in the other copy.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Same version, same number. How can it be two Reacts?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=60 code="./samples/widget.txt" concepts=["duplicate-react"] %}
+React's [Rules of Hooks page](https://react.dev/warnings/invalid-hook-call-warning) says hooks work only if the `react` import in your component resolves to the same module as the `react` import inside `react-dom`. In the broken build, the host's React DOM renders remote_b's Widget, but `useState` comes from remote_b's bundled copy. Version numbers do not matter, module identity does. Our reading: in a production build this shows up as the `TypeError` we recorded, not as React's development message.
+
+{% annotation line=1 %}
+In the broken build: remote_b's own copy.
+{% /annotation %}
+{% annotation line=4 %}
+The first hook call is where it crashed.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f0" estSeconds=45 template="// react.dev's check for duplicate React\n// in node_modules/react-dom/index.js:\nwindow.React1 = require('react');\n// in your component file:\nrequire('react-dom');\nwindow.React2 = require('react');\nconsole.log(window.React1 === window.React2);\n// You might have two Reacts if this prints: ___result___" language="js" concepts=["duplicate-react"] %}
+{% blank id="result" accepted=["false"] misconception="two-reacts-harmless" %}
+Two copies are two different module objects, so === is false even when both say 19.3.0. React's Rules of Hooks page gives this exact check.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p2" estSeconds=60 code="./samples/own-root.ts" language="ts" concepts=["duplicate-react", "singleton-sharing"] %}
+{% option output="none" misconception="two-reacts-harmless" %}
+remote_b's hooks come from one copy while another copy renders it. That is the case React's page says breaks.
+{% /option %}
+{% option output="remote_b (broken build)" correct=true %}
+Only remote_b mixes copies. The chat widget brings its own React and its own root, which React says it supports.
+{% /option %}
+{% option output="chat widget, remote_b (broken build)" misconception="two-reacts-harmless" %}
+A second React is not broken by itself. React's page says independent copies on one page are supported; mixing them in one tree is what breaks.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=60 code="./samples/shared-config.txt" concepts=["shared-dependencies", "singleton-sharing"] %}
+The [`shared` option](https://module-federation.io/configure/shared.html) has no default: a package is shared only if the config lists it. With `singleton: true`, the same page says the dependency is "only loaded once" for producer and consumer. Our host, remote_a and remote_b all list React this way. So every Widget gets one copy of `react`, the same one the host's React DOM uses, and the crash is gone.
+
+{% annotation line=2 %}
+One copy for everyone on the page.
+{% /annotation %}
+{% annotation line=7 %}
+Not listed here means not shared.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=45 template="// remote_b: load one React for the whole page\nshared: {\n  react: { ___flag___: true, requiredVersion: '^19.0.0' },\n}," language="ts" concepts=["singleton-sharing", "shared-dependencies"] %}
+{% blank id="flag" accepted=["singleton"] misconception="shared-is-automatic" %}
+singleton makes the runtime load the package once for host and remotes. Its default is false, so it has to be written down.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p3" estSeconds=60 code="./samples/prefix-match.ts" language="ts" concepts=["trailing-slash-share", "shared-dependencies"] %}
+{% option output="none" misconception="shared-is-automatic" %}
+The key 'react-dom' matches only the exact request 'react-dom'. 'react-dom/client' is a different request and no key matches it.
+{% /option %}
+{% option output="react-dom/client" correct=true %}
+Without a key ending in a slash, the subpath is not intercepted, so it is bundled locally.
+{% /option %}
+{% option output="react-dom, react-dom/client" misconception="shared-is-automatic" %}
+'react-dom' itself is listed, so that exact import is shared. Only the subpath falls through.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Wait, our host's first line imports from react-dom/client.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 concepts=["trailing-slash-share"] %}
+Our host starts with `import { createRoot } from 'react-dom/client'`. The [shared page](https://module-federation.io/configure/shared.html) calls sharing only `'react-dom'` a common mistake: that key intercepts only the exact import, so `react-dom/client` "will load a second copy of React DOM". A key ending in `/` matches every subpath. That is why our host and both remotes also list `'react-dom/'`. We did not record a build without it.
+{% margin %}
+{% bubble who="bug" %}
+You shared react-dom. I brought react-dom/client.
+{% /bubble %}
+{% gotcha %}
+A package and its subpaths are separate share keys. List the trailing-slash key too.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% fillBlanks id="f2" estSeconds=45 template="shared: {\n  react: reactShare,\n  'react-dom': reactShare,\n  '___key___': reactShare, // covers react-dom/client\n}," language="ts" concepts=["trailing-slash-share"] %}
+{% blank id="key" accepted=["react-dom/"] misconception="shared-is-automatic" %}
+A key that ends in a slash matches every subpath, react-dom/client included. This is the third key in all three of our configs.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p4" estSeconds=60 code="./samples/mismatch-page.ts" language="ts" concepts=["required-version", "singleton-sharing"] %}
+{% option output="Remote a, Remote b" correct=true %}
+Recorded from our example. Nothing on the page shows the mismatch. Both Widgets rendered on React 19.3.0.
+{% /option %}
+{% option output="Remote a, remote_b failed: version mismatch" misconception="version-mismatch-invisible" %}
+No error box appeared. Under singleton the runtime kept the one copy it had and rendered remote_b with it.
+{% /option %}
+{% option output="(empty page)" misconception="version-mismatch-invisible" %}
+The page rendered fully. A requiredVersion mismatch under singleton did not stop anything in our recording.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+So remote_b runs on a React it said it can't use?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p5" estSeconds=45 code="./samples/mismatch-console.ts" language="ts" concepts=["required-version"] %}
+{% option output="0 warnings, 0 errors" misconception="version-mismatch-invisible" %}
+The runtime did notice. It printed one warning for react and one for react-dom.
+{% /option %}
+{% option output="0 warnings, 2 errors" misconception="version-mismatch-invisible" %}
+Nothing was logged as an error. The mismatch reached the console only as warnings.
+{% /option %}
+{% option output="2 warnings, 0 errors" correct=true %}
+Recorded from our example. Two warnings from the federation runtime and no errors, so a test that only fails on errors stays green.
+{% /option %}
+{% /predict %}
+
+{% explain id="e3" estSeconds=60 code="./samples/warnings.txt" concepts=["required-version", "singleton-sharing"] %}
+This matches the [shared page](https://module-federation.io/configure/shared.html): if the available version "is less than requiredVersion, a warning will be given in the console". [webpack](https://webpack.js.org/plugins/module-federation-plugin/) describes the same options: a singleton keeps one instance "and warns when the chosen version does not satisfy a consumer". Our opinion, a trade-off: a warning keeps the page up when a range is too strict, but nobody sees it unless something reads the console.
+
+{% annotation line=2 %}
+The text as printed, names included.
+{% /annotation %}
+{% annotation line=4 %}
+No errors: nothing a user would notice.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f3" estSeconds=45 template="// module-federation.io, shared > singleton:\n// if the versions are inconsistent, the ___which___ version is loaded,\n// and the party with the lower version gets a ___what___." language="ts" concepts=["singleton-sharing", "required-version"] %}
+{% blank id="which" accepted=["higher"] %}
+A singleton keeps one copy, so the runtime picks one. The shared page says the higher version wins.
+{% /blank %}
+{% blank id="what" accepted=["warning"] misconception="version-mismatch-invisible" %}
+It is a warning, not an error. Our requiredVersion mismatch behaved the same way: two console warnings and a working page.
+{% /blank %}
+{% /fillBlanks %}
+
+{% fillBlanks id="f4" estSeconds=45 template="// remote_b is tested on React 19 only: accept any 19.x, reject 20.\nshared: {\n  react: { singleton: true, requiredVersion: '___range___' },\n}," language="ts" concepts=["required-version"] %}
+{% blank id="range" accepted=["^19.0.0", "^19", "19.x", ">=19.0.0 <20.0.0"] misconception="version-mismatch-invisible" %}
+A caret range such as ^19.0.0 accepts every 19.x and rejects 20. It is what our example uses. A mismatch with it still only warns.
+{% /blank %}
+{% /fillBlanks %}
+
+{% recap id="rc1" estSeconds=30 concepts=["shared-dependencies", "duplicate-react", "singleton-sharing", "required-version", "trailing-slash-share"] %}
+{% point %}
+Nothing is shared unless the `shared` config lists it. `singleton: true` loads one copy for host and remotes.
+{% /point %}
+{% point %}
+A component needs the same React as the ==React DOM that renders it==. Two copies in one tree break hooks.
+{% /point %}
+{% point %}
+List `'react-dom/'` too, or `react-dom/client` brings a second React DOM.
+{% /point %}
+{% point %}
+In our recording, a `requiredVersion` mismatch under a singleton only warned. The page still rendered.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+Same version number, different copy. My favourite disguise.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% predict id="p6" estSeconds=45 code="./samples/three-builds.ts" language="ts" concepts=["shared-dependencies", "required-version"] %}
+{% option output="B" correct=true %}
+Only the build that shares nothing crashed. The version mismatch in C left the page working and warned in the console.
+{% /option %}
+{% option output="C" misconception="version-mismatch-invisible" %}
+C only produced console warnings. Its page showed both remotes.
+{% /option %}
+{% option output="B and C" misconception="version-mismatch-invisible" %}
+B crashed, but C did not. A requiredVersion mismatch under a singleton shows up as a warning, not on the page.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="contracts-01" question="React is settled. Now the Remote b team renames the Widget it exposes. The host still imports remote_b/Widget, and its build is green. When does anyone find out?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next lesson I rename one export. Nobody's build will mind.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}

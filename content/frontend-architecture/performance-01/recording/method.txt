@@ -1,0 +1,43 @@
+How the numbers in this lesson were recorded (2026-10-07)
+
+Builds
+- Remotes and scenario A: our example project, built with "pnpm examples:build" (Rsbuild 2.2.12,
+  @module-federation/rsbuild-plugin 2.9.2, React 19.3.0; react, react-dom and react-dom/ shared as
+  singletons with requiredVersion '^19.0.0'). Scenario B uses remote-b/dist-broken from the same command.
+- Scenarios C, D, E and the control X: scratch copies of examples/host outside the repository, with
+  node_modules linked to the example's own packages (plus @module-federation/enhanced 2.9.2, which the
+  rsbuild plugin already depends on, so that preloadRemote can be imported). Built with the same
+  rsbuild binary. The only source changes are in preload-index.ts.txt (C and E) and
+  loaded-first-rsbuild.config.ts.txt (D and E). Nothing in examples/ was edited.
+- The control X (unchanged host, scratch build) gave the same requests, rounds and timings as A, and
+  bytes within 20 of A (the file hashes in the names differ).
+
+Loading
+- record.mjs.txt: copy it to apps/web/record.mjs and run it from apps/web, where @playwright/test is
+  installed: node record.mjs <host dist> <remote-a dist> <remote-b dist> 100 <label>. Our runs imported
+  Playwright by an absolute path and passed executablePath for the installed headless shell; both are
+  replaced in this copy. run.sh.txt retried the script while other jobs held the ports. It starts three
+  Node.js static servers on :3000 (host), :3001 (remote_a), :3002 (remote_b). Every response waits
+  100 ms before it is sent, to stand in for network latency; responses are not compressed and carry
+  "cache-control: no-store". Headless Chromium 141 (Playwright 1.56.1, chromium_headless_shell-1194),
+  fresh browser context, so nothing is cached.
+- "requests" and "bytes": every 200 response the three servers sent for one page load (uncompressed
+  body bytes).
+- "rounds": requests grouped by start time; a new round starts when a request starts more than 80 ms
+  after the first request of the current round. With 100 ms per response, a request in round n could
+  only start after something of round n-1 arrived.
+- "run1Resources" and "widgetInitiatorsPerRun": Resource Timing entries read in the page
+  (performance.getEntriesByType('resource')): start, responseEnd, initiatorType and URL.
+- "lastFileServedMs": when the last response was finished, measured from navigation start.
+- "hostHeadingShownMs" and "remotesShownMs": from a MutationObserver in the page (performance.now()):
+  the first time <main> contained the host's heading, and the first time both remotes had rendered
+  (heading or error box).
+- Each scenario was loaded 3 times. results.json keeps all three timings and the run-1 logs. Requests,
+  bytes, rounds and the page text were the same in all runs; timings varied by up to about 50 ms.
+
+Not claimed
+- Absolute times on a real network. The 100 ms delay is ours; only the order and the differences
+  between scenarios are taught.
+- Why the remotes appeared about 300 ms after the fallback in every scenario. It matches the caveat on
+  react.dev (Suspense: "React reveals suspended content at most once every 300ms, measured from the last
+  reveal"); that link is our reading of the recording, not something we measured inside React.

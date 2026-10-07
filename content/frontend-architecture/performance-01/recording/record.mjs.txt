@@ -1,0 +1,95 @@
+// Usage: node record.mjs <hostDist> <remoteADist> <remoteBDist> <latencyMs> [label]
+import { createServer } from 'node:http';
+import { existsSync, readFileSync } from 'node:fs';
+import { extname, join, normalize } from 'node:path';
+import { chromium } from '@playwright/test';
+
+const [hostDir, aDir, bDir, latencyArg, label = ''] = process.argv.slice(2);
+const latency = Number(latencyArg ?? 0);
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json' };
+const t0 = { v: 0 };
+const log = [];
+function serve(dir, port) {
+  const server = createServer((req, res) => {
+    const start = Date.now() - t0.v;
+    const path = normalize(decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/'));
+    const file = join(dir, path === '/' ? 'index.html' : path);
+    setTimeout(() => {
+      if (!file.startsWith(dir) || !existsSync(file)) {
+        log.push({ port, path, status: 404, bytes: 0, start, end: Date.now() - t0.v });
+        res.writeHead(404).end();
+        return;
+      }
+      const body = readFileSync(file);
+      res.writeHead(200, {
+        'content-type': TYPES[extname(file)] ?? 'application/octet-stream',
+        'access-control-allow-origin': '*',
+        'cache-control': 'no-store',
+      });
+      res.end(body);
+      log.push({ port, path, status: 200, bytes: body.length, start, end: Date.now() - t0.v });
+    }, latency);
+  });
+  return new Promise((r) => server.listen(port, '127.0.0.1', () => r(server)));
+}
+const servers = await Promise.all([serve(hostDir, 3000), serve(aDir, 3001), serve(bDir, 3002)]);
+// Our runs passed { executablePath: <path to chromium_headless_shell-1194> } here. Rerun without it
+// from apps/web (PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers), it gave the same requests, bytes and initiators.
+const browser = await chromium.launch();
+const context = await browser.newContext();
+const page = await context.newPage();
+const consoleMsgs = [];
+await page.addInitScript(() => {
+  const check = () => {
+    const n = document.querySelectorAll('[data-remote] h2, [data-testid^="error-"]').length;
+    if (n >= 2 && window.__settled === undefined) window.__settled = performance.now();
+    const t = document.querySelector('main')?.textContent ?? '';
+    window.__screens ??= [];
+    if (window.__screens.at(-1)?.text !== t) window.__screens.push({ at: Math.round(performance.now()), text: t });
+  };
+  new MutationObserver(check).observe(document, { subtree: true, childList: true });
+});
+page.on('console', (m) => consoleMsgs.push(`${m.type()}: ${m.text()}`));
+t0.v = Date.now();
+await page.goto('http://localhost:3000/');
+let doneAt = null;
+for (let i = 0; i < 200; i++) {
+  const s = await page.evaluate(() => ({
+    headings: [...document.querySelectorAll('[data-remote] h2')].map((e) => e.textContent),
+    errors: [...document.querySelectorAll('[data-testid^="error-"]')].map((e) => e.textContent),
+  }));
+  if (s.headings.length + s.errors.length >= 2) { doneAt = Date.now() - t0.v; break; }
+  await new Promise((r) => setTimeout(r, 10));
+}
+await new Promise((r) => setTimeout(r, 500));
+const final = await page.evaluate(() => ({
+  headings: [...document.querySelectorAll('[data-remote] h2')].map((e) => e.textContent),
+  errors: [...document.querySelectorAll('[data-testid^="error-"]')].map((e) => e.textContent),
+}));
+const timing = await page.evaluate(() => ({
+  settled: Math.round(window.__settled),
+  screens: window.__screens,
+  resources: performance.getEntriesByType('resource').map((r) => ({ name: r.name.replace('http://localhost:', ':'), start: Math.round(r.startTime), end: Math.round(r.responseEnd), initiator: r.initiatorType })),
+}));
+await browser.close();
+await Promise.all(servers.map((s) => new Promise((r) => s.close(r))));
+const js = log.filter((l) => l.status === 200);
+const sorted = [...js].sort((a, b) => a.start - b.start);
+let round = 0; let roundStart = -1e9;
+const rounds = sorted.map((l) => { if (l.start > roundStart + latency * 0.8) { round++; roundStart = l.start; } return `round ${round}: :${l.port}${l.path} (${l.bytes} B)`; });
+const lastEnd = Math.max(...js.map((l) => l.end));
+const result = {
+  label, latency,
+  requests: js.length,
+  bytes: js.reduce((a, l) => a + l.bytes, 0),
+  bothRemotesSettledMs: doneAt,
+  settledInPageMs: timing.settled,
+  lastFileServedMs: lastEnd,
+  screens: timing.screens.map((x) => `${x.at} ${x.text}`),
+  rounds,
+  page: final,
+  resources: timing.resources.map((r) => `${String(r.start).padStart(5)}-${String(r.end).padStart(5)} ${r.initiator.padEnd(6)} ${r.name}`),
+  console: consoleMsgs.filter((m) => !m.startsWith('debug')),
+  log: log.sort((a, b) => a.start - b.start).map((l) => `${String(l.start).padStart(5)}-${String(l.end).padStart(5)} :${l.port} ${l.status} ${String(l.bytes).padStart(7)} ${l.path}`),
+};
+console.log(JSON.stringify(result, null, 2));

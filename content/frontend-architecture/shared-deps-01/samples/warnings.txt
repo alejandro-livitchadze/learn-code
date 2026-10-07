@@ -1,0 +1,4 @@
+// Console of the recorded page. remote_b asks for react '^20.0.0'; every app has 19.3.0.
+[ Federation Runtime ] Version 19.3.0 from host of shared singleton module react does not satisfy the requirement of host which needs ^20.0.0)
+[ Federation Runtime ] Version 19.3.0 from remote_b of shared singleton module react-dom does not satisfy the requirement of remote_b which needs ^20.0.0)
+// Console errors: none. Page: "Remote a" and "Remote b", both "React 19.3.0".

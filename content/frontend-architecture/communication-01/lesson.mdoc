@@ -1,0 +1,274 @@
+---
+id: communication-01
+courseId: frontend-architecture
+title: "Talking ==without coupling=="
+concepts: [decoupled-communication, shared-store-coupling, custom-events, url-as-state]
+# Sources for every claim about tools (checked 2026-10-06; quoted text was read on the linked page that day).
+# Predict and fillBlanks feedback is plain text, so it names the source and the URL is kept here.
+# Claim register: content/frontend-architecture/sources.md.
+# - Module Federation remotes: a consumer lists "ModuleFederation name + @ + ModuleFederation entry" (e1, f1):
+#   https://module-federation.io/configure/remotes.html
+# - Module Federation exposes: "setting exposes indicates that this is a producer" (e1, f1):
+#   https://module-federation.io/configure/exposes.html
+# - React useSyncExternalStore: "a React Hook that lets you subscribe to an external store" (e1):
+#   https://react.dev/reference/react/useSyncExternalStore
+# - React conditional rendering: React treats false, null "or undefined" as a "hole" in the JSX tree "and doesn't render
+#   anything in its place" (p1 sample comment):
+#   https://react.dev/learn/conditional-rendering
+# - MDN CustomEvent(): detail is "An event-dependent value associated with the event", available to the handler as
+#   CustomEvent.detail, defaulting to null (e2, f2):
+#   https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+# - MDN dispatchEvent(): "dispatchEvent() invokes all applicable event handlers synchronously before returning" (e2, p3):
+#   https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
+# - Node.js globals: CustomEvent and EventTarget are "A browser-compatible implementation" (p3 runs in Node.js):
+#   https://nodejs.org/api/globals.html
+# - MDN popstate: "just calling history.pushState() or history.replaceState() won't trigger a popstate event"; it fires on
+#   a browser action such as back or forward (p4, pf1):
+#   https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+# - MDN pushState(): adds a session history entry; "the browser won't attempt to load this URL after a call to
+#   pushState()" (pf1):
+#   https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+# - MDN URLSearchParams.get(): returns the first value of the parameter, null if it does not exist (p5):
+#   https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+# - React, passing event handlers as props: "Often you'll want the parent component to specify a child's event handler"
+#   (e3, f3): https://react.dev/learn/responding-to-events
+# Recordings. Our example project (examples/host, remote-a, remote-b) was copied to a scratch folder and changed into five
+# versions; examples/** itself is unchanged. Each version was built with the pinned toolchain ("rsbuild build" per app),
+# type-checked with tsc, served on ports 3000, 3001 and 3002 and loaded in jsdom (same loader as
+# examples/recorder/src/record.ts, plus a click on a button by its text and a request log). Every result below came out the
+# same in three runs. They are not in recorded/outputs.json, which this lesson may not edit.
+# - store: remote_a exposes ./cartStore (getState, subscribe, addItem; state { cart: { count } }) and its Widget has an
+#   "add to cart" button; remote_b lists remote_a under remotes, imports remote_a/cartStore and renders
+#   "Cart count: {state.cart.count}" with useSyncExternalStore (remote_b: dts: false and a hand-written declaration
+#   of remote_a/cartStore matching version 1). v1: after one click remote_b showed "Cart count: 1".
+#   v2: only remote_a rebuilt with state { cart: { items } }: remote_b showed "Cart count: " (empty) after load and after
+#   the click; no error in the page, no console error (p1, e1, pf1 text).
+# - event: remote_a keeps the same store private and dispatches CustomEvent('cart:changed', { detail: { count } }) on
+#   click; remote_b listens on window. v1 and v2 (detail built from items.length): "Cart count: 1" after one click, no
+#   console error (p2, e2). remote-b/dist/mf-manifest.json "remotes": [] in this version, one entry (remote_a) in the
+#   store version (p8).
+# - url: remote_a's button calls history.pushState(null, '', '?sort=price'); remote_b reads the sort parameter on first
+#   render and on popstate. After the click the address was /?sort=price and remote_b still showed "Sort: none" (p4).
+#   A fresh load of /?sort=price showed "Sort: price" (p5).
+# - url fix: remote_a also dispatches CustomEvent('url:changed') after pushState; remote_b listens for popstate and
+#   url:changed. After the click remote_b showed "Sort: price" (pf1 good code).
+# - props: the host keeps the count with useState and renders <RemoteA onAdd=...> and <RemoteB count=...>. After one
+#   click remote_b showed "Cart count: 1" (p6, e3).
+# Samples p1, p2, p5 and p6 are small models of the recorded code that print the recorded text; p4 and p8 print the
+# recording itself; p3 is plain Node.js code, run as is. Explain excerpts (.txt) are copied from the scratch versions. Labelled as our opinion, not a documented rule: which channel fits which situation (p7, recap).
+---
+
+{% hook id="h1" estSeconds=40 character="bug" concepts=["shared-store-coupling"] %}
+Thursday, 18:10. The Cart team (remote_a) refactors its store: a list of items instead of a bare count. Their tests pass, their deploy is green. Nobody told the Header team (remote_b), whose badge reads that store. I was the one reading it over their shoulder.
+{% margin %}
+{% stop %}
+The Header team deployed nothing. Can their badge still break?
+{% /stop %}
+{% /margin %}
+{% /hook %}
+
+{% predict id="p1" estSeconds=60 code="./samples/store-refactor.ts" language="ts" concepts=["shared-store-coupling"] %}
+{% option output="\"Cart count: 1\"" misconception="independent-deploy-is-risk-free" %}
+That needs remote_b to know about items. It was built against version 1 and still reads state.cart.count, which no longer exists.
+{% /option %}
+{% option output="\"Cart count: \"" correct=true %}
+Recorded from our example: an empty badge, no error box, nothing in the console. remote_b broke without a deploy of its own.
+{% /option %}
+{% option output="\"remote_b failed: Cannot read properties of undefined\"" misconception="shared-store-is-easy" %}
+state.cart still exists, so nothing throws. Reading a missing field gives undefined, and React renders nothing for it. The failure is silent.
+{% /option %}
+{% margin %}
+{% sticky label="asks" %}
+Wait, the team that broke it never touched remote_b?
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% explain id="e1" estSeconds=50 code="./samples/store-contract.txt" concepts=["shared-store-coupling", "decoupled-communication"] %}
+remote_b lists remote_a under `remotes` ([docs](https://module-federation.io/configure/remotes.html)), and remote_a publishes its store under `exposes` ([docs](https://module-federation.io/configure/exposes.html)), like a component. remote_b reads it with `useSyncExternalStore` ([docs](https://react.dev/reference/react/useSyncExternalStore)). So the store's ==whole shape== is a contract between two teams. remote_a's build cannot check it, because it never sees remote_b. A change to that shape needs a coordinated release.
+
+{% annotation line=3 %}
+This internal shape is now public.
+{% /annotation %}
+{% annotation line=6 %}
+Internal state, exposed like a feature.
+{% /annotation %}
+{% annotation line=11 %}
+Built against version 1, forever.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f1" estSeconds=50 template="// remote_a/rsbuild.config.ts\nexposes: { './Widget': './src/Widget.tsx', '___key___': './src/cartStore.ts' },\n\n// remote_b/src/Widget.tsx\nimport { getState, subscribe } from '___spec___';" language="ts" concepts=["shared-store-coupling"] %}
+{% blank id="key" accepted=["./cartStore"] misconception="shared-store-is-easy" %}
+To share the store, remote_a must publish it as an exposed module. Its internal state file becomes part of its public API.
+{% /blank %}
+{% blank id="spec" accepted=["remote_a/cartStore"] misconception="shared-store-is-easy" %}
+The remote's alias, a slash, and the exposed name without ./. From now on remote_b loads code from remote_a at runtime.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p2" estSeconds=50 code="./samples/event-refactor.ts" language="ts" concepts=["custom-events", "decoupled-communication"] %}
+{% option output="\"Cart count: \"" misconception="shared-store-is-easy" %}
+Same refactor, different result. remote_b never sees the store. It sees only the event's detail, and remote_a still sends a count.
+{% /option %}
+{% option output="\"Cart count: 1\"" correct=true %}
+Recorded from our example. The store changed inside remote_a; the published event did not, so remote_b kept working.
+{% /option %}
+{% option output="\"Cart count: 0\"" misconception="shared-store-is-easy" %}
+The event still fires with the same name, so remote_b's listener runs and sets the count. The name is part of the contract too: keep it.
+{% /option %}
+{% /predict %}
+
+{% explain id="e2" estSeconds=50 code="./samples/event-code.txt" concepts=["custom-events", "decoupled-communication"] %}
+A `CustomEvent` carries any value in `detail` ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)). remote_a's store stays private: it can change shape as often as the team likes. The contract shrinks to an event name and the shape of `detail`, and remote_b needs no import of remote_a's code. `dispatchEvent()` calls the listeners synchronously, right then ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)). Remember that.
+
+{% annotation line=4 %}
+Private state, mapped to the public shape.
+{% /annotation %}
+{% annotation line=5 %}
+The whole contract: name plus detail.
+{% /annotation %}
+{% annotation line=8 %}
+The type writes the contract down.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f2" estSeconds=60 template="// remote_a\nwindow.dispatchEvent(new ___ctor___('cart:changed', { ___opt___: { count } }));\n\n// remote_b\nwindow.___listen___('cart:changed', onChange);" language="ts" concepts=["custom-events"] %}
+{% blank id="ctor" accepted=["CustomEvent"] misconception="shared-store-is-easy" %}
+CustomEvent is the event type with a detail option for a payload (MDN, CustomEvent constructor).
+{% /blank %}
+{% blank id="opt" accepted=["detail"] misconception="shared-store-is-easy" %}
+The payload goes in the detail option. Handlers read it back as event.detail; without it, detail is null.
+{% /blank %}
+{% blank id="listen" accepted=["addEventListener"] misconception="shared-store-is-easy" %}
+remote_b subscribes on the same target, window, by event name. It imports nothing from remote_a.
+{% /blank %}
+{% /fillBlanks %}
+
+{% predict id="p3" estSeconds=45 code="./samples/late-listener.ts" language="ts" concepts=["custom-events"] %}
+{% option output="Cart count: 0" correct=true %}
+dispatchEvent ran the listeners that existed at that moment: none. A remote that loads later needs a way to ask for the current value.
+{% /option %}
+{% option output="Cart count: 3, because remote_b reads the shared value when it subscribes" misconception="shared-store-is-easy" %}
+There is no shared value: an event is a message, not a store, and nothing keeps it for a listener that subscribes afterwards. The listener never runs, so the badge keeps its initial text.
+{% /option %}
+{% margin %}
+{% sticky label="says" %}
+Oh. A store remembers. An event only announces.
+{% /sticky %}
+{% /margin %}
+{% /predict %}
+
+{% predict id="p8" estSeconds=35 code="./samples/manifest-remotes.ts" language="ts" concepts=["decoupled-communication", "custom-events"] %}
+{% option output="remote_a" misconception="shared-store-is-easy" %}
+That was the store version, where remote_b imported remote_a/cartStore. A listener on window needs none of remote_a's code.
+{% /option %}
+{% option output="(none)" correct=true %}
+Recorded from our two builds. With events, remote_b's manifest names no remote: it can be built and loaded without remote_a.
+{% /option %}
+{% option output="host" misconception="host-bundles-remote" %}
+remote_b never consumes the host. The host consumes remote_b, and that is listed in the host's manifest, not here.
+{% /option %}
+{% /predict %}
+
+{% predict id="p4" estSeconds=45 code="./samples/push-state.ts" language="ts" concepts=["url-as-state"] %}
+{% option output="Sort: none" correct=true %}
+Recorded from our example. The address bar said ?sort=price; remote_b was never told.
+{% /option %}
+{% option output="Sort: price, because remote_a owns the URL and updates every remote" misconception="remote-owns-its-url" %}
+remote_a changed the address but owns nothing else on the page, and told no one. remote_b reads the URL only on first render and on popstate, and pushState fires no popstate (MDN, popstate event).
+{% /option %}
+{% /predict %}
+
+{% pitfall id="pf1" estSeconds=40 language="ts" badCode="./samples/push-state-bad.ts" goodCode="./samples/push-state-good.ts" concepts=["url-as-state", "custom-events"] %}
+Our example fell into a known trap. Calling `history.pushState()` ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)) ["won't trigger a popstate event"](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event); back and forward do. So a remote that listens only for popstate misses changes made by a neighbour. In our example the second version worked: remote_b showed the new sort.
+{% margin %}
+{% bubble who="bug" %}
+The address bar says price. The results say otherwise. Everyone is right.
+{% /bubble %}
+{% gotcha %}
+pushState changes the address but fires no popstate. Listeners stay stale.
+{% /gotcha %}
+{% /margin %}
+{% /pitfall %}
+
+{% predict id="p5" estSeconds=40 code="./samples/url-reload.ts" language="ts" concepts=["url-as-state"] %}
+{% option output="Sort: none" misconception="shared-store-is-easy" %}
+That would be true of a value kept in memory, which a fresh load starts from scratch. The URL arrives with the page.
+{% /option %}
+{% option output="Sort: price" correct=true %}
+Recorded from our example with a fresh load of /?sort=price. Every remote can read the URL, and it survives reloads and links.
+{% /option %}
+{% option output="Sort: none, until remote_a's button is clicked" misconception="remote-owns-its-url" %}
+The URL does not belong to the remote that writes it. Any remote can read it on first render, and here sort=price is already in the link.
+{% /option %}
+{% /predict %}
+
+{% predict id="p6" estSeconds=30 code="./samples/props-click.ts" language="ts" concepts=["decoupled-communication"] %}
+{% option output="Cart count: 0" misconception="shared-store-is-easy" %}
+The host owns the state and passes it down, as React does with any child. No shared store is needed.
+{% /option %}
+{% option output="Cart count: 1" correct=true %}
+Recorded from our example. remote_a called the host's callback, the host re-rendered, and remote_b got the new count as a prop.
+{% /option %}
+{% /predict %}
+
+{% explain id="e3" estSeconds=45 code="./samples/props-code.txt" concepts=["decoupled-communication"] %}
+The third channel is plain React. The host owns the state, and each remote gets values and callbacks as props, the way a [parent passes an event handler to a child](https://react.dev/learn/responding-to-events). The contract is the props type of each exposed component. It is small and typed, and only the host and one remote share it. The trade-off: the host must change whenever that state moves.
+
+{% annotation line=2 %}
+State lives in the host only.
+{% /annotation %}
+{% annotation line=6 %}
+This props type is the contract.
+{% /annotation %}
+{% /explain %}
+
+{% fillBlanks id="f3" estSeconds=40 template="// host/src/App.tsx\n<RemoteA ___prop___={() => setCount((c) => c + 1)} />\n<RemoteB count={___value___} />" language="ts" concepts=["decoupled-communication"] %}
+{% blank id="prop" accepted=["onAdd"] misconception="remote-exports-change-freely" %}
+The name comes from remote_a's props type, { onAdd: () => void }. Rename it on one side only, and remote_a's click no longer reaches the host's state.
+{% /blank %}
+{% blank id="value" accepted=["count"] misconception="shared-store-is-easy" %}
+The host passes its own state down. remote_b only displays what it receives.
+{% /blank %}
+{% /fillBlanks %}
+
+{% recap id="rc1" estSeconds=35 concepts=["shared-store-coupling", "custom-events", "url-as-state", "decoupled-communication"] %}
+{% point %}
+A shared store makes its ==whole shape== a contract. One team's refactor broke another team's badge, silently.
+{% /point %}
+{% point %}
+A custom event publishes a name and a `detail` shape. State stays private, but a late listener misses past events.
+{% /point %}
+{% point %}
+The URL survives reloads and links. pushState fires no popstate, so neighbours must be told.
+{% /point %}
+{% point %}
+Props from the host: a small typed contract, but the host changes whenever the state moves.
+{% /point %}
+{% margin %}
+{% bubble who="bug" %}
+No error, no deploy, empty badge. My finest silent work.
+{% /bubble %}
+{% /margin %}
+{% /recap %}
+
+{% predict id="p7" estSeconds=50 code="./samples/decision.http" language="http" concepts=["url-as-state", "shared-store-coupling", "custom-events"] %}
+{% option output="A shared store exposed by one of the remotes" misconception="shared-store-is-easy" %}
+A store lives in memory: a pasted link and a reload start empty. It also ties the other team to the store's shape, so deploys stop being independent.
+{% /option %}
+{% option output="A custom event from filters to results" misconception="shared-store-is-easy" %}
+Events fit things that happen, like an item added. A link carries no event, and a remote that loads late misses what was dispatched before.
+{% /option %}
+{% option output="The URL: filters writes ?sort and ?brand, results reads them" correct=true %}
+Our opinion, not a rule: for state that should survive reload and sharing, the URL wins. Remember the pushState trap: results must be told when the URL changes.
+{% /option %}
+{% /predict %}
+
+{% cliffhanger id="c1" estSeconds=20 nextLessonId="styles-01" question="Events and the URL keep remotes out of each other's code. But they still share one document. What happens when one remote ships a global button rule?" %}
+{% margin %}
+{% bubble who="bug" %}
+Next time I bring one tiny CSS rule. Every button will love it.
+{% /bubble %}
+{% /margin %}
+{% /cliffhanger %}

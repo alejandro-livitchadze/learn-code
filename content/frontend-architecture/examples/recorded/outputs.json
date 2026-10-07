@@ -1,0 +1,247 @@
+{
+  "recordings": [
+    {
+      "name": "shared-react",
+      "description": "Host and both remotes share react as a singleton (the working setup). Fresh page load, nothing cached.",
+      "headingsOnPage": [
+        "Host",
+        "Remote a",
+        "Remote b"
+      ],
+      "hostReactVersion": "Host React 19.3.0",
+      "remoteHeadings": [
+        "Remote a",
+        "Remote b"
+      ],
+      "remoteReactVersions": [
+        "React 19.3.0",
+        "React 19.3.0"
+      ],
+      "errorsShownInPage": [],
+      "consoleErrors": [],
+      "requestsByServer": {
+        ":3000": [
+          ":3000  GET /",
+          ":3000  GET /static/js/index.[hash].js",
+          ":3000  GET /static/js/async/4.[hash].js"
+        ],
+        ":3001": [
+          ":3001  GET /mf-manifest.json",
+          ":3001  GET /static/js/remote_a.[hash].js",
+          ":3001  GET /static/js/async/__federation_expose_Widget.[hash].js"
+        ],
+        ":3002": [
+          ":3002  GET /mf-manifest.json",
+          ":3002  GET /static/js/remote_b.[hash].js",
+          ":3002  GET /static/js/async/i.[hash].js",
+          ":3002  GET /static/js/async/d.[hash].js",
+          ":3002  GET /static/js/async/o.[hash].js",
+          ":3002  GET /static/js/async/__federation_expose_Widget.[hash].js"
+        ]
+      },
+      "reactChunks": [
+        {
+          "request": ":3000  GET /static/js/async/4.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        },
+        {
+          "request": ":3001  GET /static/js/async/__federation_expose_Widget.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        },
+        {
+          "request": ":3002  GET /static/js/async/i.[hash].js",
+          "reactFiles": [
+            "react.production.js"
+          ]
+        },
+        {
+          "request": ":3002  GET /static/js/async/d.[hash].js",
+          "reactFiles": [
+            "react-dom-client.production.js",
+            "scheduler.production.js"
+          ]
+        },
+        {
+          "request": ":3002  GET /static/js/async/o.[hash].js",
+          "reactFiles": [
+            "react-dom.production.js"
+          ]
+        },
+        {
+          "request": ":3002  GET /static/js/async/__federation_expose_Widget.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        }
+      ],
+      "reactFileServers": {
+        "react-dom-client.production.js": [
+          ":3002"
+        ],
+        "react-dom.production.js": [
+          ":3002"
+        ],
+        "react-jsx-runtime.production.js": [
+          ":3000",
+          ":3001",
+          ":3002"
+        ],
+        "react.production.js": [
+          ":3002"
+        ],
+        "scheduler.production.js": [
+          ":3002"
+        ]
+      }
+    },
+    {
+      "name": "duplicate-react",
+      "description": "remote_b is built with no shared react (MF_SHARE_REACT=off), so it bundles a second copy of React. The host renders its component with the host copy of react-dom.",
+      "headingsOnPage": [
+        "Host",
+        "Remote a"
+      ],
+      "hostReactVersion": "Host React 19.3.0",
+      "remoteHeadings": [
+        "Remote a"
+      ],
+      "remoteReactVersions": [
+        "React 19.3.0"
+      ],
+      "errorsShownInPage": [
+        "remote_b failed: Cannot read properties of null (reading 'useState')"
+      ],
+      "consoleErrors": [
+        "TypeError: Cannot read properties of null (reading 'useState')"
+      ],
+      "requestsByServer": {
+        ":3000": [
+          ":3000  GET /",
+          ":3000  GET /static/js/index.[hash].js",
+          ":3000  GET /static/js/async/4.[hash].js"
+        ],
+        ":3001": [
+          ":3001  GET /mf-manifest.json",
+          ":3001  GET /static/js/remote_a.[hash].js",
+          ":3001  GET /static/js/async/i.[hash].js",
+          ":3001  GET /static/js/async/d.[hash].js",
+          ":3001  GET /static/js/async/o.[hash].js",
+          ":3001  GET /static/js/async/__federation_expose_Widget.[hash].js"
+        ],
+        ":3002": [
+          ":3002  GET /mf-manifest.json",
+          ":3002  GET /static/js/remote_b.[hash].js",
+          ":3002  GET /static/js/async/lib-react.[hash].js",
+          ":3002  GET /static/js/async/__federation_expose_Widget.[hash].js"
+        ]
+      },
+      "reactChunks": [
+        {
+          "request": ":3000  GET /static/js/async/4.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        },
+        {
+          "request": ":3001  GET /static/js/async/i.[hash].js",
+          "reactFiles": [
+            "react.production.js"
+          ]
+        },
+        {
+          "request": ":3001  GET /static/js/async/d.[hash].js",
+          "reactFiles": [
+            "react-dom-client.production.js",
+            "scheduler.production.js"
+          ]
+        },
+        {
+          "request": ":3001  GET /static/js/async/o.[hash].js",
+          "reactFiles": [
+            "react-dom.production.js"
+          ]
+        },
+        {
+          "request": ":3001  GET /static/js/async/__federation_expose_Widget.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        },
+        {
+          "request": ":3002  GET /static/js/async/lib-react.[hash].js",
+          "reactFiles": [
+            "react-dom-client.production.js",
+            "react-dom.production.js",
+            "react-jsx-runtime.production.js",
+            "react.production.js",
+            "scheduler.production.js"
+          ]
+        }
+      ],
+      "reactFileServers": {
+        "react-dom-client.production.js": [
+          ":3001",
+          ":3002"
+        ],
+        "react-dom.production.js": [
+          ":3001",
+          ":3002"
+        ],
+        "react-jsx-runtime.production.js": [
+          ":3000",
+          ":3001",
+          ":3002"
+        ],
+        "react.production.js": [
+          ":3001",
+          ":3002"
+        ],
+        "scheduler.production.js": [
+          ":3001",
+          ":3002"
+        ]
+      }
+    },
+    {
+      "name": "remote-b-down",
+      "description": "Host on :3000 and remote_a on :3001 are served; the server for remote_b on :3002 is stopped. Recorded after 8 seconds.",
+      "headingsOnPage": [],
+      "hostReactVersion": null,
+      "remoteHeadings": [],
+      "remoteReactVersions": [],
+      "errorsShownInPage": [],
+      "consoleErrors": [
+        "Uncaught (in promise) Error: [ Federation Runtime ]: Failed to get manifest. #RUNTIME-003 args: {\"manifestUrl\":\"http://localhost:3002/mf-manifest.json\",\"moduleName\":\"remote_b\",\"hostName\":\"host\"}"
+      ],
+      "requestsByServer": {
+        ":3000": [
+          ":3000  GET /",
+          ":3000  GET /static/js/index.[hash].js",
+          ":3000  GET /static/js/async/4.[hash].js"
+        ],
+        ":3001": [
+          ":3001  GET /mf-manifest.json",
+          ":3001  GET /static/js/remote_a.[hash].js"
+        ],
+        ":3002": []
+      },
+      "reactChunks": [
+        {
+          "request": ":3000  GET /static/js/async/4.[hash].js",
+          "reactFiles": [
+            "react-jsx-runtime.production.js"
+          ]
+        }
+      ],
+      "reactFileServers": {
+        "react-jsx-runtime.production.js": [
+          ":3000"
+        ]
+      }
+    }
+  ]
+}

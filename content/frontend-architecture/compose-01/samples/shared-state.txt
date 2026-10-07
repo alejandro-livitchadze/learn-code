@@ -1,0 +1,11 @@
+// Two builds that each bundle a private copy of the same module.
+const makeCounter = () => {
+  let count = 0;
+  return () => (count += 1);
+};
+const hostCopy = makeCounter();
+const remoteCopy = makeCounter();
+hostCopy();
+hostCopy();
+remoteCopy();
+console.log(hostCopy(), remoteCopy());

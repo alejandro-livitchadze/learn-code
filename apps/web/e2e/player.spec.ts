@@ -1,23 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
-import { typeSql } from './helpers';
+import { continueBtn, expectGated, heading, option, typeSql } from './helpers';
 
 const URL = '/fullstack/joins-01';
 const KEY = 'learn-code:v1:progress:fullstack/joins-01';
-const TOTAL = 13;
-
-const heading = (page: Page) => page.getByTestId('step-heading');
-const continueBtn = (page: Page) => page.getByRole('button', { name: 'Continue' });
-/** The step is still open: no enabled Continue button (it is disabled or replaced by the step's own action). */
-const expectGated = async (page: Page) => {
-  await expect(page.getByRole('button', { name: 'Continue', disabled: false })).toHaveCount(0);
-  // The footer still shows its one primary control, and it is disabled.
-  await expect(page.locator('footer .ui-btn-primary:disabled')).toHaveCount(1);
-};
-/** The predict option whose printed output is exactly `output`. */
-const option = (page: Page, output: string) =>
-  page
-    .locator('.w-options button')
-    .filter({ has: page.locator('.w-mono', { hasText: new RegExp(`^${output}$`) }) });
+const TOTAL = 14;
 
 async function stepNumber(page: Page): Promise<number> {
   const text = (await heading(page).textContent()) ?? '';
@@ -35,14 +21,22 @@ const kindOf = async (page: Page): Promise<string> =>
 /** The correct answer of every active step, by 1-based step number. */
 const ANSWERS: Readonly<Record<number, string>> = {
   2: '320',
-  4: '6400',
-  5: 'distinct',
-  6: '80',
-  7: 'select count(distinct order_id) as n from items',
-  9: 'select sum(amount) as revenue from orders',
-  10: 'o.id',
-  12: '340',
+  4: 'pairs', // beTheDatabase: the answer is a set of pairs, see PAIRS
+  5: '6400',
+  6: 'distinct',
+  7: '80',
+  8: 'select count(distinct order_id) as n from items',
+  10: 'select sum(amount) as revenue from orders',
+  11: 'o.id',
+  13: '340',
 };
+
+/** The join-multiply trace: the people and the offices they pair with, by row label. */
+const PAIRS: readonly (readonly [string, readonly string[]])[] = [
+  ['Pick people 1 (Olha)', ['Pair with offices 21 (Kyiv)', 'Pair with offices 22 (Kyiv)']],
+  ['Pick people 2 (Ivan)', ['Pair with offices 23 (Lviv)']],
+  ['Pick people 3 (Mia)', ['Pair with offices 21 (Kyiv)', 'Pair with offices 22 (Kyiv)']],
+];
 
 /** Gives the real correct answer for the widget on the current step. */
 async function answerCurrent(page: Page, kind: string): Promise<void> {
@@ -56,6 +50,15 @@ async function answerCurrent(page: Page, kind: string): Promise<void> {
     await page.getByRole('textbox', { name: /Blank 1 of 1/ }).fill(answer);
     await page.getByRole('button', { name: 'Lock in answer' }).click();
     await expect(page.getByText('All blanks are correct.')).toBeVisible();
+  } else if (kind === 'beTheDatabase') {
+    for (const [left, rights] of PAIRS) {
+      await page.getByRole('button', { name: left, exact: true }).click();
+      for (const right of rights) {
+        await page.getByRole('button', { name: right, exact: true }).click();
+      }
+    }
+    await page.getByRole('button', { name: 'Check my pairs' }).click();
+    await expect(page.getByText('That is exactly what the database did.')).toBeVisible();
   } else if (kind === 'sqlLab') {
     await typeSql(page, answer);
     await page.getByRole('button', { name: /Run/ }).click();

@@ -50,6 +50,11 @@ Each matching item adds another row.
 {% /margin %}
 {% /explain %}
 
+{% beTheDatabase id="b1" estSeconds=90 query="select p.name, o.label from people p inner join offices o on o.city = p.city order by p.id, o.id" traceRef="join-multiply" prompt="Be the database. For each person, pick every office in the same city. Olha and Mia are in Kyiv, which has two offices." concepts=["inner-join", "row-multiplication"] %}
+{% table name="people" columns=["id", "name", "city"] rows=[["1", "Olha", "Kyiv"], ["2", "Ivan", "Lviv"], ["3", "Mia", "Kyiv"]] /%}
+{% table name="offices" columns=["id", "city", "label"] rows=[["21", "Kyiv", "Podil"], ["22", "Kyiv", "Obolon"], ["23", "Lviv", "Centre"]] /%}
+{% /beTheDatabase %}
+
 {% predict id="p2" estSeconds=60 code="./samples/sum.sql" language="sql" concepts=["row-multiplication"] %}
 {% option output="1600" misconception="join-keeps-row-count" %}
 That is the true revenue: 80 paid orders of 20. The join does not keep each order once.

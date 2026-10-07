@@ -1,0 +1,4 @@
+const decision = {
+  needs: ['independent deploy', 'SEO on product pages'],
+  choice: 'server includes for product pages, Module Federation for the signed-in app',
+};

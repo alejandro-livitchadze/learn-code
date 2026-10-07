@@ -184,3 +184,71 @@
 
 - Update, 2026-10-05: F12 (PR #42) CI green on d3392fa after one prettier fix round, fresh reviewer APPROVE, squash-merged; F12 is `done`. F13 (PR #41): review 1 on aae9e68 CHANGES_REQUESTED (missing tests); fix round 1 pushed as a6828a9, CI and review next run. Paths widened to verify.test.ts; F15 absorbed. Reviewers: 2. Workers: 3.
 - Update, 2026-10-05: F13 (PR #41) CI green on a6828a9, fresh reviewer APPROVE, squash-merged; F13 is `done`. Added F17 (minors). Milestone step for P10 follows.
+- Update, 2026-10-05: milestone P10: CI on develop green, integration reviewer APPROVE on f840130, Integration PR #21 merged into main (merge commit de44fcc). Added F18 (e2e minors). Reviewers: 4 total this run. A new Integration PR from develop into main is needed next run.
+
+## 2026-10-06 (twenty-third run)
+
+- F14: worker done (c944864), PR #44, CI green, fresh reviewer APPROVE, squash-merged (d8438bf). F14 is `done`. Added F19 (minor). L3: worker still running at the end of this session; task stays `in_progress`, branch `task/L3`. Workers: 2. Reviewers: 1. Integration PR #43 open; no milestone.
+- Update, 2026-10-06: L3 (PR #45) CI green on ce4ee8c, fresh reviewer APPROVE, squash-merged (b1599a1). L3 is `done`. Added F20, F21. Reviewers this run: 2. Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-fourth run)
+
+- F17: worker done (ec04474), PR #46, CI green, fresh reviewer APPROVE, squash-merged (c3510b5). F17 is `done`. Added F22 (minors: rename, test, comment). Stale remote branch `task/F17` could not be deleted from this environment.
+- F16: worker done (87b80ae), PR #47. CI failed on `check.test.ts` step-count and on e2e specs that depend on joins-01 step positions; F16 Paths widened to those three test files (no overlap with other in_progress tasks); fix round 1 pushed as 3aef8bf, local e2e 15/15. CI and review gate next run. F16 stays `in_progress`.
+- M0 and F21 still blocked: module-federation.io and postgresql.org unreachable from the sandbox. Workers: 1 (plus 1 fix round). Reviewers: 1. Integration PR #43 open; no milestone.
+- Update, 2026-10-06: F16 (PR #47) CI green on 3aef8bf, fresh reviewer APPROVE, squash-merged (58794de). F16 is `done`; its prompt-wording minor is folded into F22. Reviewers this run: 2. Integration PR #43 open; no milestone. Stale remote branches `task/F16`, `task/F17` need deleting if not already gone.
+
+## 2026-10-06 (twenty-fifth run)
+
+- F18, F19 dispatched. F19: worker done (c07cf7b), PR #48, local checks pass; CI and review next run. F18: worker still running at end of this session; branch `task/F18`, stays `in_progress`. Follow-up: declare `prettier` as devDependency of lesson-compiler (needs lockfile) -> F23.
+- Update, 2026-10-06: F19 (PR #48) CI green on c07cf7b, fresh reviewer APPROVE, squash-merged (a22bbbd); F19 is `done`. F18 (PR #49) opened (51a4629), CI and review next run. Reviewers: 1.
+- Update, 2026-10-06: F18 (PR #49) CI green on 51a4629, fresh reviewer APPROVE, squash-merged (83c3d66); F18 is `done`. Reviewers this run: 2. Workers: 2. Integration PR #43 open; no milestone. Stopped at MAX_TASKS_PER_RUN-adjacent point; F20, F22, F23 ready next run (M0, F21 blocked on network).
+
+## 2026-10-06 (twenty-sixth run)
+
+- F22: worker done (71ab718), PR #50 opened; typecheck and lint pass locally, CI and review next run. Added F24 (follow-up). F20: worker still running at end of this session; branch `task/F20`, stays `in_progress`. Integration PR #43 open; no milestone. M0, F21 blocked on network; F8 author-only.
+- Update, 2026-10-06: F22 (PR #50) CI failed on prettier only; fix round 1 pushed as 083669c, CI and review next run. F20: worker done (0432369), PR #51 opened, local checks pass; CI and review next run. Workers: 2. Reviewers: 0.
+- Update, 2026-10-06: F22 (PR #50) CI green on 083669c, fresh reviewer APPROVE, squash-merged (df7a260); F22 is `done`. Reviewers: 1.
+- Update, 2026-10-06: F20 (PR #51) CI green on 0432369, fresh reviewer APPROVE, squash-merged (4532058); F20 is `done`. Reviewers this run: 2. Workers: 2. Integration PR #43 open; no milestone. F23, F24 ready next run (M0, F21 blocked on network; F8 author-only).
+
+## 2026-10-06 (twenty-seventh run)
+
+- F23: worker done (949821c), PR #52 opened; local checks pass; CI and review next run. F24 waits (its test needs `traces.test.ts`, which overlaps F23). M0, F21 blocked on network; F8 author-only. Integration PR #43 open; no milestone.
+- Update, 2026-10-06: F23 (PR #52) CI green on 949821c, fresh reviewer APPROVE, squash-merged (3e09352); F23 is `done`. F24: worker done (e124821), PR opened; CI and review next run. Note: F24 introduces an import cycle verify/index.ts <-> traces/files.ts (harmless at runtime); reviewer to judge. Workers: 2. Reviewers: 1.
+- Update, 2026-10-06: F24 (PR #53) CI green on e124821, fresh reviewer APPROVE, squash-merged (113b497); F24 is `done`. Follow-up F25 added (import cycle). Reviewers this run: 2. Workers: 2. Integration PR #43 open; no milestone. F25 ready next run (M0, F21 blocked on network; F8 author-only).
+
+## 2026-10-06 (twenty-eighth run)
+
+- Dispatched F25, M0, F21, D6 (the author asked to exceed MAX_PARALLEL for this run). F25 (PR #55), M0 (PR #54) and F21 (PR #56) were merged by the repo author before the review gate finished; post-merge reviewers APPROVE on all three (M0 on 86a4911, which included two unreviewed `[skip ci]` commits; F21 on f8bf1ec; F25 on ec015d1). All three are `done`. Added F26, F27 (M0 minors) and F28 (NULL-bucket source).
+- D6: worker fetched and parsed 23 new vacancies but extraction was blocked by a permission denial (PII classifier) on reading the descriptions. Nothing committed; task stays `in_progress`, branch `task/D6`, fetch cached in the worker worktree. Needs the author.
+- Local `pnpm test` was killed (exit 137) repeatedly with 4 workers running; CI was green. Workers: 4. Reviewers: 4 (one stopped, replaced). Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-eighth run)
+
+- F21 (PR #56) and F25 (PR #55): CI green, fresh reviewer APPROVE, squash-merged; both `done`. Added F26 (minor). D6 set to `done` (retired). M0: worker finished (9c1621e, PR #54); CI and review next run. Workers: 1. Reviewers: 2. Integration PR #43 open; no milestone.
+
+## 2026-10-06 (twenty-ninth run)
+
+- Adopted protocol v5 mid-run (synced to develop from main). Merged: M1 (PR #57), F26 (PR #58), F27 (PR #60), M2 (PR #59), M3 (PR #61), M4 (PR #62), M5 (PR #63); all CI green, fresh reviewer APPROVE on each head commit. M1, M2, M4, M5 each had one polish round; M4 also had a fix round after I noticed the polish put Markdown links into predict/fillBlanks feedback, which render as plain text (the first incremental review had approved it). Added F29 (example recorder follow-up) and M6 to M12 (lessons 4 to 10, M12 is the course milestone). D6 stays `done` (retired). Started 7 workers against `MAX_TASKS_PER_RUN = 6` (my miscount). Integration PR #43 open; milestone M12 not reached. Reviewers: 11.
+
+## 2026-10-06 (thirtieth run)
+
+- Resumed M6, M7, M8; started M9, M10, M11 (6 tasks, at MAX_TASKS_PER_RUN). Merged: M7 (PR #64, APPROVE on 02e795d after a polish round), M8 (PR #65, APPROVE on 0312520 after one fix round: Olha on consecutive steps), M6 (PR #66, APPROVE on d3e3c02, no minors). All CI green. M9 (PR #67) got APPROVE on e3c20ee after a polish round; the next run merged it.
+- Left open: M11 (PR #68): APPROVE on 3770806 with 3 minors (record.ts implicit anys, p8 after recap, p7 misconception id); the polish worker died on the session usage limit before pushing. M10 (PR #69, head 311a29b): the reviewer died on the usage limit, so it has no verdict yet; CI green.
+- Usage: hit the session limit at about 23:20 UTC with 1 worker and 1 reviewer running. This run then overlapped with the next scheduled run, which picked up M9, M12 and F29. Lessons note that several outputs come from scratch variants of examples/ that CI does not re-record (contracts-01, routing-01, deploy-01, styles-01); F29 is the place to fold them into the recorder. Workers: 6 (+3 polish/fix rounds). Reviewers: 9. Integration PR #43 open; milestone M12 not reached.
+
+## 2026-10-07 (thirty-first run)
+
+- Merged into develop, all with CI green and a fresh reviewer APPROVE on the head commit: M9 (PR #67, approved last run), F29 (PR #70, no minors), M11 (PR #68, after a polish round), F28 (PR #71, Paths widened to its sample file), M10 (PR #69, after one fix round and a polish round), M12 (PR #72, after one fix round).
+- Every microfrontends lesson is now on develop.
+- Workers started: 6 (M11 polish, M12, F29, M10 fix, F28, M10 polish), at MAX_TASKS_PER_RUN. Two fixes went back to an already running worker via message instead of starting a new one: the F28 sample line and the M12 fix round 1.
+- The M12 fix commit landed on a detached HEAD, because a reviewer brief had told the reviewer to detach in the same worktree. I pointed task/M12 at it and pushed. Later reviewer briefs say not to detach.
+- Milestone M12 (course end): the integration reviewer ran everything on ec759b3. Install, typecheck, lint, format, test, lesson check, examples:check, the web build and the e2e (27) all pass. Verdict CHANGES_REQUESTED: no e2e test plays any frontend-architecture lesson. Added F30 at the top of the backlog; not merged into main. Integration PR #43 stays open.
+- Added F31 (leftovers: deploy-01 record.ts index access, host-remote-01 sample hashes and the RUNTIME-003 text, sources.md entries).
+- Reviewers: 11. Nothing is left in_progress.
+
+
+## 2026-10-07 (thirty-second run)
+
+- Resumed F30 and F31 (both `in_progress`, no PR). Merged F31 (PR #73, APPROVE on b2f3441) and F30 (PR #74, APPROVE on 2e7ece9), CI green. CI had failed first on `prettier --check` for `inbox.md` on develop; I formatted it on develop and merged develop into both branches.
+- Workers: 2. Reviewers: 2. Next: milestone M12 step (integration review of main..develop).

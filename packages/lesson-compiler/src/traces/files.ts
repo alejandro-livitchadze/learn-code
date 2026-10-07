@@ -1,5 +1,7 @@
+import * as prettier from 'prettier';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { deepEqual } from '../deep-equal';
 import { generateTrace } from './generate';
 import { parseTraceSpec } from './spec';
 import type { JoinTrace } from './types';
@@ -41,11 +43,14 @@ export function findTraceSpecs(contentDir: string): readonly TraceFiles[] {
   );
 }
 
-/** Stable text form of a trace, so a diff shows only real changes. */
-export const serializeTrace = (trace: JoinTrace): string => `${JSON.stringify(trace, null, 2)}\n`;
-
-/** Formatting (for example by prettier) must not matter, only the data. */
-const sameJson = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+/**
+ * Stable text form of a trace, formatted with the repository's prettier config so that
+ * `pnpm format` leaves the committed file unchanged and a diff shows only real changes.
+ */
+export async function serializeTrace(trace: JoinTrace, filepath: string): Promise<string> {
+  const options = await prettier.resolveConfig(filepath);
+  return prettier.format(JSON.stringify(trace, null, 2), { ...options, filepath });
+}
 
 /** Read a spec file and generate its trace from PGlite. */
 export async function generateFromFiles(files: TraceFiles): Promise<JoinTrace> {
@@ -71,7 +76,7 @@ export async function checkTraces(contentDir: string): Promise<readonly string[]
         problems.push(
           `${files.tracePath}: missing; run "pnpm exec tsx src/traces/cli.ts" in packages/lesson-compiler`,
         );
-      else if (!sameJson(JSON.parse(readFileSync(files.tracePath, 'utf8')), fresh))
+      else if (!deepEqual(JSON.parse(readFileSync(files.tracePath, 'utf8')), fresh))
         problems.push(
           `${files.tracePath}: differs from what PostgreSQL produces now; regenerate it`,
         );
@@ -86,7 +91,10 @@ export async function checkTraces(contentDir: string): Promise<readonly string[]
 export async function writeTraces(contentDir: string): Promise<readonly string[]> {
   const written: string[] = [];
   for (const files of findTraceSpecs(contentDir)) {
-    writeFileSync(files.tracePath, serializeTrace(await generateFromFiles(files)));
+    writeFileSync(
+      files.tracePath,
+      await serializeTrace(await generateFromFiles(files), files.tracePath),
+    );
     written.push(files.tracePath);
   }
   return written;

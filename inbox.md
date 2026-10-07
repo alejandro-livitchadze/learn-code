@@ -131,3 +131,46 @@
 
 - F12 (PR #42) merged; delete stale remote branch `task/F12`.
 - F13 (PR #41) merged; delete stale remote branches `task/F12` and `task/F13`.
+
+## 2026-10-05 (twenty-second run, milestone)
+
+- Milestone P10 is on main. What to try by hand: run `pnpm --filter web dev`, open `/dev/widgets` and use the beTheDatabase widget (join-inner, join-left, join-multiply traces); play joins-01 and schema-01. No lesson uses beTheDatabase yet (F16).
+
+## 2026-10-06 (twenty-third run)
+
+- Lessons 1 to 3 are on develop (query-order-01, nulls-01, grouping-01). Play them and leave notes in inbox.md.
+- Delete stale remote branches `task/F14` and `task/L3`.
+- Decided without the author: the `beTheDatabase` GROUP BY step planned for grouping-01 was left out because the trace format models only joins. Adding a bucket variant is platform work; not scheduled.
+
+## 2026-10-06 (twenty-fifth run)
+
+- F19 (PR #48) merged; delete stale remote branch `task/F19`.
+- F18 (PR #49) merged; delete stale remote branches `task/F18` and `task/F19`.
+
+## 2026-10-06 (twenty-sixth run)
+
+- F22 (PR #50) merged; delete stale remote branch `task/F22` (delete failed from this environment).
+- F20 (PR #51) merged; delete stale remote branches `task/F20` and `task/F22`.
+
+## 2026-10-06 (twenty-seventh run)
+
+- F23 (PR #52) merged; delete stale remote branch `task/F23` (delete failed from this environment).
+- F24 (PR #53) merged; delete stale remote branches `task/F23` and `task/F24` (deletes failed from this environment).
+
+## 2026-10-06 (twenty-eighth run)
+
+- Needs the author: D6 (weekly refresh) is stuck. The auto-mode classifier denied reading the 23 new vacancy descriptions in `research/demand/parsed/` for extraction ("PII Data Handling"). Allow that read, or tell me to put D6 back to `todo`.
+- PRs #54, #55, #56 (M0, F25, F21) were merged by you before my review gate ran. Reviews came back APPROVE afterwards. #54 also carried two `[skip ci]` commits that never had CI; the post-merge review covered them. Delete stale remote branches `task/M0`, `task/F21`, `task/F25`.
+- Decided without the author: went above `MAX_PARALLEL` for this run because you asked; CLAUDE.md unchanged. The 4 parallel workers made local `pnpm test` get killed for memory; CI was green.
+
+## 2026-10-06 (twenty-ninth run)
+
+- Microfrontends lessons 1 to 3 are on develop (need-01, compose-01, host-remote-01). Play them and leave notes in inbox.md. M6 to M12 (lessons 4 to 10) are in the backlog; M2 roadmap and registry, M1 example project and F26 course title are merged.
+- Decided without the author: this run started 7 workers (M1, F26, M2, F27, M3, M4, M5) against `MAX_TASKS_PER_RUN = 6` because I counted wrongly; I started no further task after that. CLAUDE.md unchanged.
+- Delete stale remote branches `task/F26`, `task/M1`, `task/M2`, `task/M3`, `task/M4`, `task/M5`, `task/F27` (deletes fail from this environment).
+
+## 2026-10-07 (thirty-first run)
+
+- All 10 microfrontends lessons are on develop (need-01 to performance-01). Play them and leave notes in inbox.md. They are not on main yet: the course milestone review asked for an e2e that plays every lesson (F30), and the milestone step reruns after F30.
+- Proposal (E09 asks for engine proposals here): performance-01 would teach better with an E07 "meter" that shows requests, bytes and paint rounds per toggle (sharing, preloadRemote, shareStrategy), fed from `content/frontend-architecture/performance-01/recording/results.json`. The lesson uses predict steps for now. Not scheduled.
+- Delete stale remote branches `task/M9`, `task/M10`, `task/M11`, `task/M12`, `task/F28`, `task/F29` (deletes fail from this environment).

@@ -1,0 +1,6 @@
+build time        npm packages
+request time      server includes
+browser run time  iframe
+browser run time  web component
+browser run time  import map
+browser run time  Module Federation
