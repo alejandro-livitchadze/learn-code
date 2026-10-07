@@ -260,7 +260,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 6 (routing-01).
 
 ## M9. Lesson 7
-- Status: in_progress
+- Status: done
+- Note: merged via PR #67 (2ec5640); CI green; reviewer APPROVE on e3c20ee after a polish round (model labels on samples, distractors match tagged misconceptions, p8 before recap). 18 steps.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/communication-01/**`
 - Done when: same as M3 for lesson 7 (communication-01).
@@ -278,7 +279,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 9 (deploy-01).
 
 ## M12. Lesson 10
-- Status: todo
+- Status: in_progress
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/performance-01/**`
 - Done when: same as M3 for lesson 10 (performance-01). This is the last lesson task and a milestone: after merge run the milestone step with the M5 integration check over all lessons of the course (all build, play to the end in the e2e, every linked source was opened).
@@ -554,7 +555,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the claim "all NULL keys form one bucket" cites a postgresql.org or SQL-standard passage that states it, fetched and confirmed, and the "Unverified" flag on it is removed; if no source states it, the lesson prose does not assert it as sourced fact.
 
 ## F29. Record request order and remote-down output in the example recorder
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `content/frontend-architecture/examples/**`
 - Source: M5 worker and reviewer notes
