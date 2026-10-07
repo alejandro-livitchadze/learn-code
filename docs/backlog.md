@@ -542,7 +542,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `rsbuild.dev` is dropped from the sentence at line 11 (E09 names only `rspack.dev`); the Modern.js "recommended" wording at line 122 says only that the v3 plugin is marked recommended; the section 2b heading carries the registry URL pattern; the Next.js row has a re-check note before lessons mention it; checks pass.
 
 ## F28. Source the NULL-bucket claim in grouping-01
-- Status: in_progress
+- Status: done
+- Note: merged via PR #71 (1131e25); CI green; reviewer APPROVE on efe53cc, no minors. No postgresql.org page states it for GROUP BY; cited as a verified PGlite 0.5.8 / PostgreSQL 18.3 run. Paths widened to samples/null-bucket.sql.
 - Depends on: F21
 - Paths: `content/fullstack/grouping-01/lesson.mdoc`, `content/fullstack/grouping-01/samples/null-bucket.sql`
 - Source: F21 reviewer minor
