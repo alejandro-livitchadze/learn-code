@@ -230,3 +230,9 @@
 ## 2026-10-06 (twenty-ninth run)
 
 - Adopted protocol v5 mid-run (synced to develop from main). Merged: M1 (PR #57), F26 (PR #58), F27 (PR #60), M2 (PR #59), M3 (PR #61), M4 (PR #62), M5 (PR #63); all CI green, fresh reviewer APPROVE on each head commit. M1, M2, M4, M5 each had one polish round; M4 also had a fix round after I noticed the polish put Markdown links into predict/fillBlanks feedback, which render as plain text (the first incremental review had approved it). Added F29 (example recorder follow-up) and M6 to M12 (lessons 4 to 10, M12 is the course milestone). D6 stays `done` (retired). Started 7 workers against `MAX_TASKS_PER_RUN = 6` (my miscount). Integration PR #43 open; milestone M12 not reached. Reviewers: 11.
+
+## 2026-10-06 (thirtieth run)
+
+- Resumed M6, M7, M8; started M9, M10, M11 (6 tasks, at MAX_TASKS_PER_RUN). Merged: M7 (PR #64, APPROVE on 02e795d after a polish round), M8 (PR #65, APPROVE on 0312520 after one fix round: Olha on consecutive steps), M6 (PR #66, APPROVE on d3e3c02, no minors). All CI green. M9 (PR #67) got APPROVE on e3c20ee after a polish round; the next run merged it.
+- Left open: M11 (PR #68): APPROVE on 3770806 with 3 minors (record.ts implicit anys, p8 after recap, p7 misconception id); the polish worker died on the session usage limit before pushing. M10 (PR #69, head 311a29b): the reviewer died on the usage limit, so it has no verdict yet; CI green.
+- Usage: hit the session limit at about 23:20 UTC with 1 worker and 1 reviewer running. This run then overlapped with the next scheduled run, which picked up M9, M12 and F29. Lessons note that several outputs come from scratch variants of examples/ that CI does not re-record (contracts-01, routing-01, deploy-01, styles-01); F29 is the place to fold them into the recorder. Workers: 6 (+3 polish/fix rounds). Reviewers: 9. Integration PR #43 open; milestone M12 not reached.
