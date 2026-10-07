@@ -1,0 +1,10 @@
+// host/rsbuild.config.ts in our scratch variant "loaded-first" (scenarios D and E)
+pluginModuleFederation({
+  name: 'host',
+  shareStrategy: 'loaded-first',
+  remotes: {
+    remote_a: 'remote_a@http://localhost:3001/mf-manifest.json',
+    remote_b: 'remote_b@http://localhost:3002/mf-manifest.json',
+  },
+  shared: { react: reactShare, 'react-dom': reactShare, 'react-dom/': reactShare },
+}),

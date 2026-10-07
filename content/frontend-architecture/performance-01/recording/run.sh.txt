@@ -1,0 +1,8 @@
+#!/bin/sh
+# retry while ports are busy (other workers)
+for i in $(seq 1 60); do
+  out=$(timeout 120 node record.mjs "$@" 2>&1) && { printf "%s\n" "$out"; exit 0; }
+  echo "$out" | grep -q EADDRINUSE || { printf "%s\n" "$out"; exit 1; }
+  sleep 2
+done
+echo "ports busy"; exit 1
