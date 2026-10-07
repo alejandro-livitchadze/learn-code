@@ -555,7 +555,8 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: the claim "all NULL keys form one bucket" cites a postgresql.org or SQL-standard passage that states it, fetched and confirmed, and the "Unverified" flag on it is removed; if no source states it, the lesson prose does not assert it as sourced fact.
 
 ## F29. Record request order and remote-down output in the example recorder
-- Status: in_progress
+- Status: done
+- Note: merged via PR #70 (1f67da7); CI green; reviewer APPROVE on 9635eac, no minors. Hashes recorded as `.[hash]` (they vary by checkout path); host-remote-01 samples quote one build's hashes and paraphrase the RUNTIME-003 text.
 - Depends on: none
 - Paths: `content/frontend-architecture/examples/**`
 - Source: M5 worker and reviewer notes
