@@ -189,7 +189,7 @@ Shadow DOM moves the boundary. The remote's styles must move inside it too, or t
 {% /margin %}
 {% /pitfall %}
 
-{% fillBlanks id="f3" estSeconds=60 template="// remote_b: ship the CSS inside the shadow tree, not in document.head\nimport css from './widget.css?___query___';\n\ncreatePortal(<><style>{css}</style><button>clicked {count}</button></>, shadow);" language="ts" concepts=["shadow-dom-isolation", "style-isolation-options"] %}
+{% fillBlanks id="f3" estSeconds=60 template="// remote_b: ship the CSS inside the shadow tree, not in document.head\nimport css from './widget.css?___query___';\n\ncreatePortal(<><style>{css}</style><button>clicked {count}</button></>, root);" language="ts" concepts=["shadow-dom-isolation", "style-isolation-options"] %}
 {% blank id="query" accepted=["inline"] misconception="isolation-is-free" %}
 With ?inline, Rsbuild gives you the compiled CSS as a string inside the JavaScript bundle and generates no separate CSS file. The style element then puts it inside the shadow root. The cost: the CSS now rides in the JavaScript bundle. Source: Rsbuild, CSS usage.
 {% /blank %}
