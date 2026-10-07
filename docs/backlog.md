@@ -543,7 +543,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 ## F28. Source the NULL-bucket claim in grouping-01
 - Status: in_progress
 - Depends on: F21
-- Paths: `content/fullstack/grouping-01/lesson.mdoc`
+- Paths: `content/fullstack/grouping-01/lesson.mdoc`, `content/fullstack/grouping-01/samples/null-bucket.sql`
 - Source: F21 reviewer minor
 - Done when: a postgresql.org page that states in words that all NULL grouping keys form one group is found and cited, or the claim is cited as a verified sample run; the last "Unverified" flag is removed; checks pass.
 
