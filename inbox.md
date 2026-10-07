@@ -174,4 +174,3 @@
 - All 10 microfrontends lessons are on develop (need-01 to performance-01). Play them and leave notes in inbox.md. They are not on main yet: the course milestone review asked for an e2e that plays every lesson (F30), and the milestone step reruns after F30.
 - Proposal (E09 asks for engine proposals here): performance-01 would teach better with an E07 "meter" that shows requests, bytes and paint rounds per toggle (sharing, preloadRemote, shareStrategy), fed from `content/frontend-architecture/performance-01/recording/results.json`. The lesson uses predict steps for now. Not scheduled.
 - Delete stale remote branches `task/M9`, `task/M10`, `task/M11`, `task/M12`, `task/F28`, `task/F29` (deletes fail from this environment).
-
