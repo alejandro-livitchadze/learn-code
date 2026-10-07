@@ -5,7 +5,7 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 `Paths` lists what a task may change. `root` means repository root files: `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `turbo.json`, `tsconfig*.json`, ESLint and Prettier configs and their ignore files, `.nvmrc`, `.gitignore`. Changing dependencies of any package also changes `pnpm-lock.yaml`, so such tasks list `root`.
 
 ## F30. E2E plays every frontend-architecture lesson to the end
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `apps/web/e2e/**`
 - Source: M12 milestone integration review (Integration PR #43, CHANGES_REQUESTED on ec759b3)
@@ -574,7 +574,7 @@ After P10 and D5 the orchestrator only runs D6 and triage. New platform work nee
 - Done when: `examples/recorder` records, into `recorded/outputs.json`, the per-server request log of a first host load (as used in `host-remote-01/samples/request-log.txt`), the host page with remote_b stopped (the empty page and the RUNTIME-003 console error), and which server serves React's chunks in the shared-react build; `pnpm examples:check` passes; the numbers match the `host-remote-01` samples.
 
 ## F31. Leftovers from the thirty-first run
-- Status: todo
+- Status: in_progress
 - Depends on: none
 - Paths: `content/frontend-architecture/deploy-01/recordings/record.ts`, `content/frontend-architecture/host-remote-01/**`, `content/frontend-architecture/sources.md`
 - Source: M11 incremental review minor; F29 worker report; M12 worker report
