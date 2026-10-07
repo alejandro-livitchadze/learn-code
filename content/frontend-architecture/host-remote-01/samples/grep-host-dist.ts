@@ -4,8 +4,8 @@
 const filesWithText: Record<string, string[]> = {
   'host/dist': [],
   'remote-a/dist': [
-    'static/js/async/__federation_expose_Widget.c2b648506a.js',
-    'static/js/async/j.8d7b1078ff.js',
+    'static/js/async/__federation_expose_Widget.[hash].js',
+    'static/js/async/j.[hash].js',
   ],
   'remote-b/dist': [],
 };
