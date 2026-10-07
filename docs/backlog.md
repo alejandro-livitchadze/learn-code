@@ -281,7 +281,8 @@ Status values: `todo`, `in_progress`, `done`, `blocked`. Only the orchestrator e
 - Done when: same as M3 for lesson 9 (deploy-01).
 
 ## M12. Lesson 10
-- Status: in_progress
+- Status: done
+- Note: merged via PR #72 (642a991); CI green; reviewer APPROVE on a35988e after one fix round (unrecorded preload-initiator claim now backed by Resource Timing data; record script paths; preloadRemote rejection; f2 blank). 18 steps. Milestone step follows.
 - Depends on: M1, M2
 - Paths: `content/frontend-architecture/performance-01/**`
 - Done when: same as M3 for lesson 10 (performance-01). This is the last lesson task and a milestone: after merge run the milestone step with the M5 integration check over all lessons of the course (all build, play to the end in the e2e, every linked source was opened).
