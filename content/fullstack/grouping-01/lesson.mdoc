@@ -4,10 +4,15 @@ courseId: fullstack
 title: "Buckets: GROUP BY without the magic"
 concepts: [group-by-buckets, aggregate-functions, having-vs-where, count-star-vs-column]
 # Sources for every claim about PostgreSQL behavior (the SQL samples carry their own links).
-# Fetched and confirmed 2026-10-06, except the NULL-bucket claim below.
+# Fetched and confirmed 2026-10-06; the NULL-bucket claim is a verified sample run (2026-10-07).
 # - GROUP BY forms one bucket per distinct key and returns one row per bucket:
 #   https://www.postgresql.org/docs/current/sql-select.html#SQL-GROUPBY
-# - Unverified: all NULL keys form one bucket. The fetched pages do not state it in words; no source cited yet.
+# - All NULL keys form one bucket. No postgresql.org page says this in words for GROUP BY (checked 2026-10-07:
+#   sql-select.html#SQL-GROUPBY, queries-table-expressions.html#QUERIES-GROUP; only DISTINCT says "Null values are
+#   considered equal in this comparison" at https://www.postgresql.org/docs/current/queries-select-lists.html#QUERIES-DISTINCT).
+#   Verified sample run instead: samples/null-bucket.sql on seeds/default.sql in PGlite 0.5.8 (PostgreSQL 18.3), the
+#   engine of packages/sql-engine, returned SPRING | 2, VIP | 1, NULL | 5; in the same session
+#   "select (null = null) is null" returned t, so the NULL keys share a bucket although NULL = NULL is unknown.
 # - Aggregate functions (count, sum, min, max, avg) reduce the rows of a bucket to one value;
 #   count(*) counts rows, count(expression) counts rows where the expression is not NULL:
 #   https://www.postgresql.org/docs/current/functions-aggregate.html
