@@ -252,3 +252,7 @@
 
 - Resumed F30 and F31 (both `in_progress`, no PR). Merged F31 (PR #73, APPROVE on b2f3441) and F30 (PR #74, APPROVE on 2e7ece9), CI green. CI had failed first on `prettier --check` for `inbox.md` on develop; I formatted it on develop and merged develop into both branches.
 - Workers: 2. Reviewers: 2. Next: milestone M12 step (integration review of main..develop).
+
+## 2026-10-07 (thirty-third run)
+
+- No tasks started. Reran the milestone M12 step: CI green on develop f1d3a76; integration reviewer APPROVE (all checks pass, frontend-architecture e2e plays 10 of 10 lessons). Merged Integration PR #43 into main (ca3c007). Every roadmap lesson of the frontend-architecture course is now on main. F8 stays `todo` (author only). Workers: 0. Reviewers: 1.
