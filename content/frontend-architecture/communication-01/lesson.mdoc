@@ -59,7 +59,7 @@ concepts: [decoupled-communication, shared-store-coupling, custom-events, url-as
 ---
 
 {% hook id="h1" estSeconds=40 character="bug" concepts=["shared-store-coupling"] %}
-Thursday, 18:10. The Cart team (remote_a) refactors its store: a list of items instead of a bare count. Their tests pass, their deploy is green. Nobody told the Header team (remote_b), whose badge reads that store. I was the one reading it over their shoulder.
+Thursday, 18:10. The Cart team (remote_a) refactors its store: a list of items instead of a bare count. Their tests pass, their deploy is green. Nobody told the Header team (remote_b), whose badge reads that store. The Bug was reading it over their shoulder.
 {% margin %}
 {% stop %}
 The Header team deployed nothing. Can their badge still break?
@@ -253,7 +253,7 @@ No error, no deploy, empty badge. My finest silent work.
 {% /margin %}
 {% /recap %}
 
-{% predict id="p7" estSeconds=50 code="./samples/decision.http" language="http" concepts=["url-as-state", "shared-store-coupling", "custom-events"] %}
+{% predict id="p7" estSeconds=50 question="Which channel fits?" code="./samples/decision.http" language="http" concepts=["url-as-state", "shared-store-coupling", "custom-events"] %}
 {% option output="A shared store exposed by one of the remotes" misconception="shared-store-is-easy" %}
 A store lives in memory: a pasted link and a reload start empty. It also ties the other team to the store's shape, so deploys stop being independent.
 {% /option %}

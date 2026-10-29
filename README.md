@@ -2,6 +2,8 @@
 
 Interactive course for frontend developers moving to fullstack. See `docs/00-context.md`.
 
+To take the courses: `pnpm install`, then `pnpm start` and open http://localhost:3000 in a desktop browser.
+
 Commands: `pnpm install`, `pnpm typecheck`, `pnpm lint`, `pnpm format`, `pnpm test`. CI uses Node.js 26 (`.nvmrc`).
 
 ## End-to-end tests

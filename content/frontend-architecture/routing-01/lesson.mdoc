@@ -166,7 +166,7 @@ That error needs a second router. Here the remote renders no router at all, only
 {% /predict %}
 
 {% explain id="e3" estSeconds=60 concepts=["nested-routing", "shell-ownership"] %}
-Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app, routing included, via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Its router support covers React Router v5 to v7; React Router is at v8 today ([upgrade guide](https://reactrouter.com/upgrading/v7)). Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
+Our variant is one way: the remote exports routes and shares `react-router` with the shell. Module Federation's Bridge is the other: the remote exports a whole app, routing included, via `createBridgeComponent` ([docs](https://module-federation.io/guide/bridge/react/export-app.html)), and the shell passes it a `basename` ([docs](https://module-federation.io/guide/bridge/react/load-app.html)). Bridge supports React Router v5 to v7 only; React Router is at v8 today ([upgrade guide](https://reactrouter.com/upgrading/v7)). Trade-off, our view: shared routes win when teams align router versions; Bridge wins when a remote must keep its own router.
 {% margin %}
 {% gotcha %}
 With Bridge Router on, its docs say: do not share react-router-dom. A routes-only remote needs its router shared.

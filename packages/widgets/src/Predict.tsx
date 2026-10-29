@@ -89,7 +89,7 @@ export function Predict({ step, restored, onComplete, initialTried = [] }: Props
       lead={<span className="w-hand">guess first, then we run it</span>}
       {...(banner === undefined ? {} : { banner })}
     >
-      <p className="w-question">What does this print?</p>
+      <p className="w-question">{step.question ?? 'What does this print?'}</p>
       <Code code={step.code} highlightKey={`${step.id}:code`} label="Code to predict" />
       <fieldset
         className="w-choices"

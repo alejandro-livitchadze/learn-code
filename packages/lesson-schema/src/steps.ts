@@ -88,6 +88,7 @@ export const recallStep = stepBase.extend({
 
 export const predictStep = stepBase.extend({
   kind: z.literal('predict'),
+  question: z.string().min(1).optional(), // replaces "What does this print?" when nothing is printed
   code: z.string(),
   language: codeLanguage,
   options: z
@@ -108,6 +109,7 @@ export const explainStep = stepBase.extend({
   kind: z.literal('explain'),
   body: z.string(), // markdown
   code: z.string().optional(),
+  plain: z.boolean().optional(), // code came from a .txt sample: show it without syntax colours
   annotations: z
     .array(z.object({ line: z.number().int().positive(), text: z.string() }))
     .readonly(),

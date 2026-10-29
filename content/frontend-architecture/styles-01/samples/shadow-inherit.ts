@@ -4,6 +4,8 @@
 // The host's host.css:
 //   main { color: blue; }
 //   button { border: 3px solid green; }
+// The host's App.tsx renders remote_b inside main:
+//   <main> … <RemoteB /> … </main>
 // Recorded from our example project in Chromium, inside remote_b's shadow root
 // (getComputedStyle, colors as red, green and blue channels):
 const recorded = {

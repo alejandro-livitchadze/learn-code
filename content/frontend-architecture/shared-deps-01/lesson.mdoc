@@ -171,7 +171,7 @@ Recorded from our example. Two warnings from the federation runtime and no error
 {% /predict %}
 
 {% explain id="e3" estSeconds=60 code="./samples/warnings.txt" concepts=["required-version", "singleton-sharing"] %}
-This matches the [shared page](https://module-federation.io/configure/shared.html): if the available version "is less than requiredVersion, a warning will be given in the console". [webpack](https://webpack.js.org/plugins/module-federation-plugin/) describes the same options: a singleton keeps one instance "and warns when the chosen version does not satisfy a consumer". Our opinion, a trade-off: a warning keeps the page up when a range is too strict, but nobody sees it unless something reads the console.
+This matches the [shared page](https://module-federation.io/configure/shared.html): if the available version "is less than requiredVersion, a warning will be given in the console". [webpack](https://webpack.js.org/plugins/module-federation-plugin/) describes the same options: a singleton keeps one instance "and warns when the chosen version does not satisfy a consumer". When singleton versions differ, the higher one loads and the lower side is warned. Trade-off, our view: a warning keeps the page up when a range is too strict, but nobody sees it unless something reads the console.
 
 {% annotation line=2 %}
 The text as printed, names included.

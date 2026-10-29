@@ -1,3 +1,4 @@
+// host = the page that loads the parts; remote_a, remote_b = parts built and deployed separately.
 // Copied from content/frontend-architecture/examples/recorded/outputs.json, recording "duplicate-react":
 // remote_b was built with no shared react (MF_SHARE_REACT=off) and the host rendered it.
 const recorded = {

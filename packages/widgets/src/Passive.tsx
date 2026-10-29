@@ -128,7 +128,9 @@ export function Cliffhanger({ step }: StepComponentProps<StepOfKind<'cliffhanger
   return (
     <WidgetFrame kind="cliffhanger">
       <div className="w-cliff">
-        <CliffhangerCard>{renderInline(step.question)}</CliffhangerCard>
+        <CliffhangerCard title={step.nextLessonId === undefined ? 'Course complete' : undefined}>
+          {renderInline(step.question)}
+        </CliffhangerCard>
       </div>
     </WidgetFrame>
   );

@@ -77,7 +77,7 @@ Recorded from our example. Host, remote_a and remote_b each sent an entry file o
 Same React version is not the same file. With nothing in its shared config, remote_b downloaded its own React.
 {% /option %}
 {% option output="+215349 bytes, +1 request" correct=true %}
-Recorded from our example. A second React of about 218 kB came from :3002. And it did not even work: remote_b crashed, as in lesson 4.
+Recorded from our example. A second React (about 218 kB, 215 kB more in total) came from :3002. And it did not even work: remote_b crashed, as in the Two Reacts lesson.
 {% /option %}
 {% option output="+1712 bytes, +0 request" misconception="sharing-and-splitting-are-free" %}
 The Widget code was already counted. The extra weight was a whole second copy of React.
@@ -115,7 +115,7 @@ Only now the Widget files.
 {% /annotation %}
 {% /explain %}
 
-{% fillBlanks id="f1" estSeconds=45 template="// first load of our example, one arrow = one round of waiting\nindex.html -> index.js -> ___file___ -> remote entry files -> React -> Widgets" language="ts" concepts=["load-waterfall"] %}
+{% fillBlanks id="f1" estSeconds=45 template="// first load of our example, one arrow = one round of waiting\n// the blank names the files that say where each remote entry is\nindex.html -> index.js -> ___file___ -> remote entry files -> React -> Widgets" language="ts" concepts=["load-waterfall"] %}
 {% blank id="file" accepted=["mf-manifest.json", "manifests", "mf-manifest", "manifest", "the manifests"] misconception="requests-in-parallel" %}
 The runtime learns where a remote's entry is from its mf-manifest.json, so both manifests came in round 3, before any entry file.
 {% /blank %}

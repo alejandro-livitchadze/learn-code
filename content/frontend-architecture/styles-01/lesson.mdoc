@@ -151,7 +151,7 @@ Isolation out is not isolation in.
 {% /annotation %}
 {% /explain %}
 
-{% fillBlanks id="f2" estSeconds=75 template="// Sketch of remote_b's shadow variant (shortened, not the recorded Widget.tsx)\nconst [root, setRoot] = useState<ShadowRoot | null>(null);\n// a ref callback runs once the div exists; attach only once\nconst attach = (el: HTMLDivElement | null) => {\n  if (el && !el.shadowRoot) setRoot(el.___method___({ mode: 'open' }));\n};\n\n// portal into the shadow root only after it exists\nreturn <div ref={attach}>{root && createPortal(<button>clicked {count}</button>, ___target___)}</div>;" language="ts" concepts=["shadow-dom-isolation"] %}
+{% fillBlanks id="f2" estSeconds=75 template="// Sketch of remote_b's shadow variant (shortened, not the recorded Widget.tsx)\nconst [root, setRoot] = useState<ShadowRoot | null>(null);\n// a ref callback runs once the div exists; attach only once\nconst attach = (el: HTMLDivElement | null) => {\n  if (el && !el.shadowRoot) setRoot(el.___method___({ mode: 'open' }));\n};\n\n// portal into the shadow root only after it exists\nreturn (\n  <div ref={attach}>\n    {root && createPortal(<button>clicked {count}</button>, ___target___)}\n  </div>\n);" language="ts" concepts=["shadow-dom-isolation"] %}
 {% blank id="method" accepted=["attachShadow"] misconception="css-stays-in-its-remote" %}
 attachShadow attaches a shadow DOM tree to the element and returns its ShadowRoot. Without that tree, remote_b's CSS does not stay with remote_b: it is page CSS, as the first run showed. Source: MDN, Element.attachShadow().
 {% /blank %}

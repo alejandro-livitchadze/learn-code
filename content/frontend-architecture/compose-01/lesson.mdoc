@@ -65,7 +65,7 @@ Other places to compose exist; this lesson covers only the server example in the
 {% /margin %}
 {% /explain %}
 
-{% predict id="p2" estSeconds=60 code="./samples/ssi-include.http" language="http" concepts=["composition-techniques"] %}
+{% predict id="p2" estSeconds=60 question="What does the browser receive?" code="./samples/ssi-include.http" language="http" concepts=["composition-techniques"] %}
 {% option output="<h1>Mug</h1><p>Cart: 2 items</p>" correct=true %}
 nginx's SSI module is a filter that processes include commands in responses passing through it, and an include puts the result of another request into the response. The browser gets one assembled page. Source: nginx, ngx_http_ssi_module.
 {% /option %}
@@ -103,7 +103,7 @@ You implement a class, then register it with customElements.define. After that t
 {% /blank %}
 {% /fillBlanks %}
 
-{% predict id="p3" estSeconds=60 code="./samples/iframe.http" language="http" concepts=["composition-techniques", "composition-requirements"] %}
+{% predict id="p3" estSeconds=60 question="What does this tag create?" code="./samples/iframe.http" language="http" concepts=["composition-techniques", "composition-requirements"] %}
 {% option output="A nested browsing context with its own document, which costs extra memory and compute" correct=true %}
 An iframe is a nested browsing context that embeds another document. Each one is a complete document environment, so each needs more memory and other computing resources. Source: MDN, iframe.
 {% /option %}
@@ -177,7 +177,7 @@ Product pages looked empty to the crawler. Excellent. I love a quiet crawler.
 {% /margin %}
 {% /pitfall %}
 
-{% predict id="p6" estSeconds=60 code="./samples/crawler.http" language="http" concepts=["composition-requirements"] %}
+{% predict id="p6" estSeconds=60 question="What does a crawler that skips JavaScript see?" code="./samples/crawler.http" language="http" concepts=["composition-requirements"] %}
 {% option output="Nothing from the parts: the root div is empty until shell.js runs" correct=true %}
 Without JavaScript the response has no product content. Googlebot does render JavaScript, in a queue that can take longer, and Google notes that not all bots can. Source: Google, JavaScript SEO basics.
 {% /option %}

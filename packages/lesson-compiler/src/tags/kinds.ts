@@ -175,12 +175,12 @@ export const KIND_TAGS: Record<string, TagSpec> = {
     }),
   },
   predict: {
-    attributes: { ...common, code: str(true), language: oneOf(LANGUAGES, true) },
+    attributes: { ...common, code: str(true), language: oneOf(LANGUAGES, true), question: str() },
     children: ['option'],
     build: (c) => ({
       ...stepBase(c),
       kind: 'predict',
-      ...pick(c, 'code', 'language'),
+      ...pick(c, 'question', 'code', 'language'),
       options: c.kids('option').map((o) => option(c.child(o), 'output')),
     }),
   },
@@ -202,6 +202,7 @@ export const KIND_TAGS: Record<string, TagSpec> = {
       kind: 'explain',
       body: c.body(),
       ...pick(c, 'code'),
+      ...(String(c.node.attributes['code'] ?? '').endsWith('.txt') ? { plain: true } : {}),
       annotations: c.kids('annotation').map((a) => {
         const ac = c.child(a);
         return { line: ac.attrs['line'], text: ac.body() };

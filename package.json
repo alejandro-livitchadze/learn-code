@@ -6,6 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "start": "pnpm --filter @learn-code/web build && pnpm --filter @learn-code/web start",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "lint": "eslint . && pnpm code-lint",
