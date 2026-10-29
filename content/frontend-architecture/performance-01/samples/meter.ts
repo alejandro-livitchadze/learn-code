@@ -8,7 +8,7 @@ const meter: readonly Row[] = [
   ['C', 'preloadRemote', 13, 587388, 5, 966],
   ['D', "shareStrategy 'loaded-first'", 12, 586417, 5, 732],
 ];
-// B put an error box in remote_b's place (lesson 4), so it is out of the race.
+// B put an error box in remote_b's place (the Two Reacts lesson), so it is out of the race.
 const working = meter.filter(([id]) => id !== 'B');
 let best = working[0];
 for (const row of working) if (best === undefined || row[5] < best[5]) best = row;

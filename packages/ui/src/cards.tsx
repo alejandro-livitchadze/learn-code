@@ -48,10 +48,16 @@ export function ReviewCard({
 }
 
 /** Dark teaser card for the next lesson, slightly rotated. */
-export function Cliffhanger({ children }: { readonly children: ReactNode }) {
+export function Cliffhanger({
+  children,
+  title = 'Next time…',
+}: {
+  readonly children: ReactNode;
+  readonly title?: string | undefined;
+}) {
   return (
     <div className="ui-cliff">
-      <div className="ui-cliff-title">Next time…</div>
+      <div className="ui-cliff-title">{title}</div>
       <p>{children}</p>
     </div>
   );

@@ -44,6 +44,20 @@ describe('compileLesson', () => {
     });
   });
 
+  it('keeps a predict question and marks a .txt explain sample as plain', () => {
+    const src = valid
+      .replace('{% predict id="p1" ', '{% predict id="p1" question="Which rows come back?" ')
+      .replace('code="select 1"', 'code="./samples/note.txt"');
+    const r = compileSource(src, path);
+    if (!r.ok) throw new Error(r.errors.map(formatError).join('\n'));
+    const [, predict, explain] = r.lesson.steps;
+    expect(predict).toMatchObject({ kind: 'predict', question: 'Which rows come back?' });
+    expect(explain).toMatchObject({ kind: 'explain', code: 'orders  -> customers', plain: true });
+    const plainSql = compileLesson(path);
+    if (!plainSql.ok) throw new Error('fixture must compile');
+    expect(plainSql.lesson.steps[2]).not.toHaveProperty('plain');
+  });
+
   it('compiles margin tags into margin items', () => {
     const r = compileLesson(path);
     if (!r.ok) throw new Error(r.errors.map(formatError).join('\n'));

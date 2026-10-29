@@ -13,7 +13,7 @@ interface Block {
 function blocks(step: Step): readonly Block[] {
   switch (step.kind) {
     case 'explain':
-      return step.code === undefined
+      return step.code === undefined || step.plain === true
         ? []
         : [{ key: `${step.id}:code`, code: step.code, lang: 'ts' as const }];
     case 'predict':

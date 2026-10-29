@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <main className="home">
       <h1 className="ui-title">
-        Learn <Highlight>SQL</Highlight> by doing
+        Learn by <Highlight>doing</Highlight>
       </h1>
       <p className="lead">Short, hands-on lessons for frontend developers.</p>
       {courses.map((course) => (
